@@ -135,11 +135,10 @@ class _AuthPageState extends State<AuthPage>
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 75.0),
-                  child: new Image(
-                      width: 250.0,
-                      height: 191.0,
-                      fit: BoxFit.fill,
-                      image: new AssetImage('assets/img/login_logo.png')),
+                  child: Container(
+                    width: 250.0,
+                    height: 191.0,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
