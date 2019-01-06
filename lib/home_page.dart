@@ -25,12 +25,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0; // DataStore().counter;
-  static double _x_small_font_size = 8;
-  static double _small_font_size = 14;
-  static double _meduim_font_size = 17;
-  static double _large_font_size = 24;
-  static double _x_large_font_size = 50;
-  Widget _rate_widget(String rate) {
+  static const double _x_small_font_size = 8;
+  static const double _small_font_size = 14;
+  static const double _medium_font_size = 17;
+  static const double _large_font_size = 24;
+  static const double _x_large_font_size = 50;
+  Widget _rateWidget(String rate) {
     return Padding(
       padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
       child: Container(
@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _trips_card_container() {
+  Widget _tripsCardContainer() {
     return InkWell(
       onTap: () {
         print("helllo");
@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           "A 3 days trip to istanbol and the iseland of preincess ",
                           style: TextStyle(
-                              color: Colors.white, fontSize: _meduim_font_size),
+                              color: Colors.white, fontSize: _medium_font_size),
                           // softWrap: true,
                         ),
                       )
@@ -290,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                _rate_widget("4.5"),
+                                _rateWidget("4.5"),
                                 Text("Mahmot Orhan",
                                     style: TextStyle(
                                         fontSize: _small_font_size,
@@ -354,7 +354,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _card_container_list() {
+  Widget _cardContainerList() {
     return Column(children: <Widget>[
       Container(
         color: Colors.transparent,
@@ -385,7 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ]);
   }
 
-  Widget _trip_card_container_list() {
+  Widget _tripCardContainerList() {
     return Column(
       children: <Widget>[
         Container(
@@ -411,7 +411,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // itemExtent: 10.0,
               // reverse: true, //makes the list appear in descending order
               itemBuilder: (BuildContext context, int index) {
-                return _trips_card_container();
+                return _tripsCardContainer();
               }),
         ),
       ],
@@ -445,7 +445,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  final gradiant_decoration = LinearGradient(
+  final gradientDecoration = LinearGradient(
       colors: [MadarColors.gradientUp, MadarColors.gradientDown],
       begin: const FractionalOffset(0.0, 0.0),
       end: const FractionalOffset(1.0, 1.0),
@@ -455,11 +455,11 @@ class _MyHomePageState extends State<MyHomePage> {
   var myHeight = 300.0;
   var myWidth = 300.0;
   var open = false;
-  var rotate_by_45 = new Matrix4.identity()
+  var rotateBy45 = new Matrix4.identity()
     ..rotateZ(-45 * 3.1415927 / 180)
     ..translate(-75.0, -50.0, 0.0)
     ..scale(1.0);
-  var rotate_by_0 = new Matrix4.identity()
+  var rotateBy_0 = new Matrix4.identity()
     ..rotateZ(0 * 3.1415927 / 180)
     ..translate(0.0, 0.0, 0.0)
     ..scale(2.0);
@@ -468,7 +468,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ..translate(-75.0, -50.0, 0.0)
     ..scale(1.0);
 
-  var border_raduice = BorderRadius.circular(100);
+  var borderRadius = BorderRadius.circular(100);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -488,7 +488,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: AnimatedContainer(
             duration: Duration(seconds: 2),
             decoration: BoxDecoration(
-                borderRadius: border_raduice,
+                borderRadius: borderRadius,
                 gradient: LinearGradient(
                     colors: [MadarColors.gradientUp, MadarColors.gradientDown],
                     begin: const FractionalOffset(0.0, 0.0),
@@ -515,12 +515,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               height: 25,
             ),
-            _trip_card_container_list(),
+            _tripCardContainerList(),
             // Padding(
             //   padding: const EdgeInsets.all(8.0),
             //   child: SizedBox(),
             // ),
-            _card_container_list(),
+            _cardContainerList(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -541,8 +541,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         onPressed: () {
                           print("pressed");
                           if (!open) {
-                            transformation = rotate_by_0;
-                            border_raduice = BorderRadius.circular(0);
+                            transformation = rotateBy_0;
+                            borderRadius = BorderRadius.circular(0);
                             myHeight = MediaQuery.of(context).size.height;
                             myWidth = MediaQuery.of(context).size.width;
                             open = true;
@@ -550,8 +550,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             open = false;
                             myHeight = 300.0;
                             myWidth = 300.0;
-                            transformation = rotate_by_45;
-                            border_raduice = BorderRadius.circular(100);
+                            transformation = rotateBy45;
+                            borderRadius = BorderRadius.circular(100);
                           }
                           setState(() {});
                         },
