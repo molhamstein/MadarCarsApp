@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/auth_page.dart';
+import 'package:madar_booking/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: AuthPage(),
+        home: HomePage(),
       ),
     );
   }
