@@ -271,9 +271,8 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return MainButton(
-            text: 'Submit',
+            text: '',
             onPressed: () {
-              bloc.pushStartLoading;
             },
             width: 150,
             height: 50,
@@ -283,7 +282,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
           return MainButton(
             text: 'Submit',
             onPressed: () {
-//              bloc.pushStopLoading;
+              bloc.pushLockTouchEvent;
             },
             width: 150,
             height: 50,
