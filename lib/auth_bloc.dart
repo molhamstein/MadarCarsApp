@@ -58,6 +58,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validEmail = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
     print("Email: ${validEmail}, Password: ${validPassword}");
+    pushLockTouchEvent;
     
     login('0957465877', 'password').then((response) {
       print(response.token);

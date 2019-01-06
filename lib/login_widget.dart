@@ -190,7 +190,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
             child: TextField(
               focusNode: myFocusNodeEmailLogin,
               controller: loginEmailController,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.phone,
               onChanged: bloc.changePhoneEmail,
               style: TextStyle(
                   fontFamily: "WorkSansSemiBold",
@@ -266,28 +266,21 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
   }
 
   Widget loginBtn() {
-    return StreamBuilder(
+    return StreamBuilder<bool>(
       stream: bloc.submitValid,
+      initialData: false,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return MainButton(
-            text: '',
-            onPressed: () {
-            },
-            width: 150,
-            height: 50,
-            loading: false,
-          );
-        }
-          return MainButton(
-            text: 'Submit',
-            onPressed: () {
-              bloc.pushLockTouchEvent;
-            },
-            width: 150,
-            height: 50,
-            loading: true,
-          );
+        return MainButton(
+          text: 'Submit',
+          onPressed: () {
+            if (!snapshot.data) {
+              showInSnackBar('Provide a valid phone number or password', context);
+            } else bloc.submit();
+          },
+          width: 150,
+          height: 50,
+          loading: snapshot.data,
+        );
       },
     );
   }

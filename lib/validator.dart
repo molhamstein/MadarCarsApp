@@ -3,11 +3,11 @@ import 'dart:async';
 mixin Validators {
 
   final validateEmail =
-      StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
-    if (email.contains('@')) {
-      sink.add(email);
+      StreamTransformer<String, String>.fromHandlers(handleData: (phoneNumber, sink) {
+    if (phoneNumber.length >= 8) {
+      sink.add(phoneNumber);
     } else {
-      sink.addError('Enter a Valid email');
+      sink.addError('Enter a Valid Phone Number');
     }
   });
 
