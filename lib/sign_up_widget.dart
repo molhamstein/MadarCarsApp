@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/feedback.dart';
 
 class SignUpWidget extends StatefulWidget {
-
-
   @override
   SignUpWidgetState createState() {
     return new SignUpWidgetState();
   }
 }
 
-class SignUpWidgetState extends State<SignUpWidget> {
+class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
   final FocusNode myFocusNodePassword = FocusNode();
 
   final FocusNode myFocusNodeEmail = FocusNode();
 
   final FocusNode myFocusNodeName = FocusNode();
 
-  final TextEditingController signupEmailController = new TextEditingController();
+  final TextEditingController signupEmailController =
+      new TextEditingController();
 
-  final TextEditingController signupNameController = new TextEditingController();
+  final TextEditingController signupNameController =
+      new TextEditingController();
 
-  final TextEditingController signupPasswordController = new TextEditingController();
+  final TextEditingController signupPasswordController =
+      new TextEditingController();
 
-  final TextEditingController signupConfirmPasswordController = new TextEditingController();
+  final TextEditingController signupConfirmPasswordController =
+      new TextEditingController();
 
   AuthBloc bloc;
 
@@ -62,7 +66,7 @@ class SignUpWidgetState extends State<SignUpWidget> {
                         height: 1.0,
                         color: Colors.grey[400],
                       ),
-                      emailTextField(),
+                      phoneTextField(),
                       Container(
                         width: 250.0,
                         height: 1.0,
@@ -74,53 +78,12 @@ class SignUpWidgetState extends State<SignUpWidget> {
                         height: 1.0,
                         color: Colors.grey[400],
                       ),
-                      passwordConfirmationTextField(),
+                      isoCodeTextField(),
                     ],
                   ),
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 340.0),
-                decoration: new BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: Colors.redAccent[100],
-                      offset: Offset(1.0, 6.0),
-                      blurRadius: 20.0,
-                    ),
-                    BoxShadow(
-                      color: Colors.indigoAccent[200],
-                      offset: Offset(1.0, 6.0),
-                      blurRadius: 20.0,
-                    ),
-                  ],
-                  gradient: new LinearGradient(
-                      colors: [Colors.redAccent[100], Colors.indigoAccent[200]],
-                      begin: const FractionalOffset(0.2, 0.2),
-                      end: const FractionalOffset(1.0, 1.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
-                child: MaterialButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.redAccent[100],
-
-                  //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 42.0),
-                    child: Text(
-                      "SIGN UP",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25.0,
-                          fontFamily: "WorkSansBold"),
-                    ),
-                  ),
-//                  onPressed: () => showInSnackBar("SignUp button pressed"),
-                ),
-              ),
+              signUpBtn(),
             ],
           ),
         ],
@@ -130,13 +93,14 @@ class SignUpWidgetState extends State<SignUpWidget> {
 
   Widget nameTextField() {
     return Padding(
-      padding: EdgeInsets.only(
-          top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+      padding:
+          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
       child: TextField(
         focusNode: myFocusNodeName,
         controller: signupNameController,
         keyboardType: TextInputType.text,
         textCapitalization: TextCapitalization.words,
+        onChanged: bloc.changeSignUpUserName,
         style: TextStyle(
             fontFamily: "WorkSansSemiBold",
             fontSize: 16.0,
@@ -148,21 +112,21 @@ class SignUpWidgetState extends State<SignUpWidget> {
             color: Colors.black,
           ),
           hintText: "Name",
-          hintStyle: TextStyle(
-              fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+          hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
         ),
       ),
     );
   }
 
-  Widget emailTextField() {
+  Widget phoneTextField() {
     return Padding(
-      padding: EdgeInsets.only(
-          top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+      padding:
+          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
       child: TextField(
         focusNode: myFocusNodeEmail,
         controller: signupEmailController,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.phone,
+        onChanged: bloc.changeSignUpPhone,
         style: TextStyle(
             fontFamily: "WorkSansSemiBold",
             fontSize: 16.0,
@@ -170,29 +134,28 @@ class SignUpWidgetState extends State<SignUpWidget> {
         decoration: InputDecoration(
           border: InputBorder.none,
           icon: Icon(
-            FontAwesomeIcons.envelope,
+            FontAwesomeIcons.mobile,
             color: Colors.black,
           ),
-          hintText: "Email Address",
-          hintStyle: TextStyle(
-              fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+          hintText: "Phone Number",
+          hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
         ),
       ),
     );
   }
-
 
   Widget passwordTextField() {
     return StreamBuilder<bool>(
       stream: bloc.obscureSignUpPasswordStream,
       builder: (context, snapshot) {
         return Padding(
-          padding: EdgeInsets.only(
-              top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+          padding:
+              EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
           child: TextField(
             focusNode: myFocusNodePassword,
             controller: signupPasswordController,
             obscureText: snapshot.data ?? true,
+            onChanged: bloc.changeSignUpPassword,
             style: TextStyle(
                 fontFamily: "WorkSansSemiBold",
                 fontSize: 16.0,
@@ -204,8 +167,8 @@ class SignUpWidgetState extends State<SignUpWidget> {
                 color: Colors.black,
               ),
               hintText: "Password",
-              hintStyle: TextStyle(
-                  fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+              hintStyle:
+                  TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
               suffixIcon: GestureDetector(
                 onTap: () => bloc.pushObscureSignUpPassword,
                 child: Icon(
@@ -221,42 +184,51 @@ class SignUpWidgetState extends State<SignUpWidget> {
     );
   }
 
-
-  Widget passwordConfirmationTextField() {
-    return StreamBuilder<bool>(
-      stream: bloc.obscureSignUpPasswordConfirmationStream,
-      builder: (context, snapshot) {
-        return Padding(
-          padding: EdgeInsets.only(
-              top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-          child: TextField(
-            controller: signupConfirmPasswordController,
-            obscureText: snapshot.data ?? true,
-            style: TextStyle(
-                fontFamily: "WorkSansSemiBold",
-                fontSize: 16.0,
-                color: Colors.black),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              icon: Icon(
-                FontAwesomeIcons.lock,
-                color: Colors.black,
-              ),
-              hintText: "Confirmation",
-              hintStyle: TextStyle(
-                  fontFamily: "WorkSansSemiBold", fontSize: 16.0),
-              suffixIcon: GestureDetector(
-                onTap: () => bloc.pushObscureSignUpPasswordConfirmation,
-                child: Icon(
-                  FontAwesomeIcons.eye,
-                  size: 15.0,
-                  color: Colors.black,
-                ),
-              ),
-            ),
+  Widget isoCodeTextField() {
+    return Padding(
+      padding:
+          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+      child: TextField(
+        controller: signupConfirmPasswordController,
+        onChanged: bloc.changeSignUpIsoCode,
+        style: TextStyle(
+            fontFamily: "WorkSansSemiBold",
+            fontSize: 16.0,
+            color: Colors.black),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(
+            FontAwesomeIcons.locationArrow,
+            color: Colors.black,
           ),
-        );
-      },
+          hintText: "ISO Code",
+          hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+        ),
+      ),
+    );
+  }
+
+  Widget signUpBtn() {
+    return Container(
+      margin: EdgeInsets.only(top: 120),
+      child: StreamBuilder<bool>(
+        stream: bloc.submitValidSignUp,
+        initialData: false,
+        builder: (context, snapshot) {
+          return MainButton(
+            text: 'Submit',
+            onPressed: () {
+              if (!snapshot.hasData || !snapshot.data) {
+                showInSnackBar('Please provide valid information', context);
+              } else
+                bloc.submitSignUp();
+            },
+            width: 150,
+            height: 50,
+            loading: snapshot.data,
+          );
+        },
+      ),
     );
   }
 }
