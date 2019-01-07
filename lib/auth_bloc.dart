@@ -24,9 +24,9 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _submitLoginController = BehaviorSubject<User>();
   final _submitSignUpController = BehaviorSubject<User>();
 
-  final _loadingController = BehaviorSubject<bool>();
+  final _lockTouchEventController = BehaviorSubject<bool>();
 
-  get pushLockTouchEvent => _loadingController.sink.add(true);
+  get pushLockTouchEvent => _lockTouchEventController.sink.add(true);
 
   Function(String) get changeLoginPhone => _phoneLoginController.sink.add;
 
@@ -79,7 +79,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<User> get submitLoginStream => _submitLoginController.stream;
   Stream<User> get submitSignUpStream => _submitLoginController.stream;
 
-  Stream<bool> get lockTouchEventStream => _loadingController.stream;
+  Stream<bool> get lockTouchEventStream => _lockTouchEventController.stream;
 
   submitLogin() {
     final validPhoneNumber = _phoneLoginController.value;
@@ -119,7 +119,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     _obscureSignUpPasswordConfirmation.close();
     _obscureLoginPasswordController.close();
     _submitLoginController.close();
-    _loadingController.close();
+    _lockTouchEventController.close();
     _phoneSignUpController.close();
     _nameSignUpController.close();
     _passwordSignUpController.close();
