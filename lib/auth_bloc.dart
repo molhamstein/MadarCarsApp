@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
@@ -113,29 +112,29 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   }
 
-
-  loginWithFacebook() async {
-    var facebookLogin = new FacebookLogin();
-    var result = await facebookLogin.logInWithReadPermissions(['email']);
-
-    switch (result.status) {
-      case FacebookLoginStatus.loggedIn:
-        print(result.accessToken.token);
-        getFacebookProfile(result.accessToken.token).then((jsonProfile) {
-          print(jsonProfile['name']);
-        }).catchError((e) {
-          print(e);
-        });
-
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        print(result.status);
-        break;
-      case FacebookLoginStatus.error:
-        print(result.errorMessage);
-        break;
-    }
-  }
+//
+//  loginWithFacebook() async {
+//    var facebookLogin = new FacebookLogin();
+//    var result = await facebookLogin.logInWithReadPermissions(['email']);
+//
+//    switch (result.status) {
+//      case FacebookLoginStatus.loggedIn:
+//        print(result.accessToken.token);
+//        getFacebookProfile(result.accessToken.token).then((jsonProfile) {
+//          print(jsonProfile['name']);
+//        }).catchError((e) {
+//          print(e);
+//        });
+//
+//        break;
+//      case FacebookLoginStatus.cancelledByUser:
+//        print(result.status);
+//        break;
+//      case FacebookLoginStatus.error:
+//        print(result.errorMessage);
+//        break;
+//    }
+//  }
 
   dispose() {
     _phoneLoginController.close();

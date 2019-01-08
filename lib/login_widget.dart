@@ -138,7 +138,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, right: 40.0),
                     child: GestureDetector(
-                  onTap: () => bloc.loginWithFacebook(),
+//                  onTap: () => bloc.loginWithFacebook(),
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         decoration: new BoxDecoration(
