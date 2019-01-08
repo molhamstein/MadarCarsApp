@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
@@ -9,6 +10,11 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _phoneLoginController = BehaviorSubject<String>();
   final _passwordLoginController = BehaviorSubject<String>();
 
+  final _phoneSignUpController = BehaviorSubject<String>();
+  final _passwordSignUpController = BehaviorSubject<String>();
+  final _nameSignUpController = BehaviorSubject<String>();
+  final _isoCodeSignUpController = BehaviorSubject<String>();
+
   final _obscureLoginPasswordController =
       BehaviorSubject<bool>(seedValue: true);
 
@@ -17,14 +23,32 @@ class AuthBloc extends BaseBloc with Validators, Network {
       BehaviorSubject<bool>(seedValue: true);
 
   final _submitLoginController = BehaviorSubject<User>();
+  final _submitSignUpController = BehaviorSubject<User>();
 
-  final _loadingController = BehaviorSubject<bool>();
+  final _lockTouchEventController = BehaviorSubject<bool>();
 
-  get pushStartLoading => _loadingController.sink.add(true);
+  get pushLockTouchEvent => _lockTouchEventController.sink.add(true);
 
-  Function(String) get changePhoneEmail => _phoneLoginController.sink.add;
+  Function(String) get changeLoginPhone => _phoneLoginController.sink.add;
 
   Function(String) get changeLoginPassword => _passwordLoginController.sink.add;
+
+  Function(String) get changeSignUpPhone => _phoneSignUpController.sink.add;
+
+  Function(String) get changeSignUpUserName => _nameSignUpController.sink.add;
+
+  Function(String) get changeSignUpPassword => _passwordSignUpController.sink.add;
+
+  Function(String) get changeSignUpIsoCode => _isoCodeSignUpController.sink.add;
+
+  Stream<String> get phoneSignUpStream =>
+      _phoneSignUpController.stream.transform(validatePhone);
+  Stream<String> get nameSignUpStream =>
+      _nameSignUpController.stream.transform(validateName);
+  Stream<String> get passwordSignUpStream =>
+      _passwordSignUpController.stream.transform(validatePassword);
+//  Stream<String> get isoCodeSignUpStream =>
+//      _isoCodeSignUpController.stream.transform(validatePhone);
 
   get pushObscureSignUpPassword =>
       _obscureSignUpPassword.sink.add(!_obscureSignUpPassword.value);
@@ -42,31 +66,75 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<bool> get obscureLoginPasswordStream => _obscureLoginPasswordController.stream;
 
   Stream<String> get phoneLoginStream =>
-      _phoneLoginController.stream.transform(validateEmail);
+      _phoneLoginController.stream.transform(validatePhone);
 
   Stream<String> get passwordLoginStream =>
       _passwordLoginController.stream.transform(validatePassword);
 
-  Stream<bool> get submitValid =>
+  Stream<bool> get submitValidLogin =>
       Observable.combineLatest2(phoneLoginStream, passwordLoginStream, (a, b) => true);
 
+  Stream<bool> get submitValidSignUp =>
+      Observable.combineLatest3(phoneSignUpStream, passwordSignUpStream,nameSignUpStream, (a, b, c) => true);
+
   Stream<User> get submitLoginStream => _submitLoginController.stream;
+  Stream<User> get submitSignUpStream => _submitLoginController.stream;
 
-  Stream<bool> get loadingStream => _loadingController.stream;
+  Stream<bool> get lockTouchEventStream => _lockTouchEventController.stream;
 
-  submit() {
-    final validEmail = _phoneLoginController.value;
+  submitLogin() {
+    final validPhoneNumber = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
-    print("Email: ${validEmail}, Password: ${validPassword}");
+    pushLockTouchEvent;
     
-    login('0957465877', 'password').then((response) {
+    login('0957465877', 'password').then((response) { //TODO: put real values (from controller).
       print(response.token);
-      _submitLoginController.add(response.user);
+      _submitLoginController.sink.add(response.user);
     }).catchError((e) {
       print(e);
-      _submitLoginController.addError(e);
+      _submitLoginController.sink.addError(e);
+    });
+  }
+
+  submitSignUp() {
+    final validUserName = _nameSignUpController.value;
+    final validPhoneNumber = _phoneSignUpController.value;
+    final validPassword = _passwordSignUpController.value;
+    final validIsoCode = _isoCodeSignUpController.value;
+    pushLockTouchEvent;
+
+    signUp(validPhoneNumber, validUserName, validPassword, validIsoCode).then((user) {
+      _submitSignUpController.sink.add(user);
+      print(user.userName);
+    }).catchError((e) {
+      print(e);
+      _submitSignUpController.sink.addError(e);
     });
 
+  }
+
+
+  loginWithFacebook() async {
+    var facebookLogin = new FacebookLogin();
+    var result = await facebookLogin.logInWithReadPermissions(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        print(result.accessToken.token);
+        getFacebookProfile(result.accessToken.token).then((jsonProfile) {
+          print(jsonProfile['name']);
+        }).catchError((e) {
+          print(e);
+        });
+
+        break;
+      case FacebookLoginStatus.cancelledByUser:
+        print(result.status);
+        break;
+      case FacebookLoginStatus.error:
+        print(result.errorMessage);
+        break;
+    }
   }
 
   dispose() {
@@ -76,6 +144,11 @@ class AuthBloc extends BaseBloc with Validators, Network {
     _obscureSignUpPasswordConfirmation.close();
     _obscureLoginPasswordController.close();
     _submitLoginController.close();
-    _loadingController.close();
+    _lockTouchEventController.close();
+    _phoneSignUpController.close();
+    _nameSignUpController.close();
+    _passwordSignUpController.close();
+    _isoCodeSignUpController.close();
+    _submitSignUpController.close();
   }
 }

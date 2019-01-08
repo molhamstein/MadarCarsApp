@@ -30,7 +30,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User>(
+    return StreamBuilder<User>( // for feedbacking the user about the server response.
       stream: bloc.submitLoginStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -138,7 +138,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, right: 40.0),
                     child: GestureDetector(
-//                  onTap: () => showInSnackBar("Facebook button pressed"),
+                  onTap: () => bloc.loginWithFacebook(),
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         decoration: new BoxDecoration(
@@ -190,8 +190,8 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
             child: TextField(
               focusNode: myFocusNodeEmailLogin,
               controller: loginEmailController,
-              keyboardType: TextInputType.emailAddress,
-              onChanged: bloc.changePhoneEmail,
+              keyboardType: TextInputType.phone,
+              onChanged: bloc.changeLoginPhone,
               style: TextStyle(
                   fontFamily: "WorkSansSemiBold",
                   fontSize: 16.0,
@@ -266,29 +266,21 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
   }
 
   Widget loginBtn() {
-    return StreamBuilder(
-      stream: bloc.submitValid,
+    return StreamBuilder<bool>(
+      stream: bloc.submitValidLogin,
+      initialData: false,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return MainButton(
-            text: 'Submit',
-            onPressed: () {
-              bloc.pushStartLoading;
-            },
-            width: 150,
-            height: 50,
-            loading: false,
-          );
-        }
-          return MainButton(
-            text: 'Submit',
-            onPressed: () {
-//              bloc.pushStopLoading;
-            },
-            width: 150,
-            height: 50,
-            loading: true,
-          );
+        return MainButton(
+          text: 'Submit',
+          onPressed: () {
+            if (!snapshot.data) {
+              showInSnackBar('Provide a valid phone number or password', context);
+            } else bloc.submitLogin();
+          },
+          width: 150,
+          height: 50,
+          loading: snapshot.data,
+        );
       },
     );
   }

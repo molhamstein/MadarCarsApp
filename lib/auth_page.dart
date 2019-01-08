@@ -27,7 +27,7 @@ class _AuthPageState extends State<AuthPage>
       child: new Scaffold(
         body: StreamBuilder<bool>(
           initialData: false,
-          stream: bloc.loadingStream,
+          stream: bloc.lockTouchEventStream,
           builder: (context, snapshot) {
             print(snapshot.data);
             return _buildLayout(snapshot.data);
