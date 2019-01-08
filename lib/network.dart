@@ -48,4 +48,18 @@ class Network {
       throw json.decode(response.body);
     }
   }
+
+  Future<dynamic> getFacebookProfile(String token) async {
+    final response = await http.get(
+      "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=" +
+          token,
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      print(json.decode(response.body));
+      throw json.decode(response.body);
+    }
+  }
 }
