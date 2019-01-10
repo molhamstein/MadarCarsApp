@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:madar_booking/after_facebook_auth.dart';
+import 'package:madar_booking/step2_sign_up.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/auth_page.dart';
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: AfterFacebookAuth(),
+        home: AuthPage(),
       ),
     );
   }

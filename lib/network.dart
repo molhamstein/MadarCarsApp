@@ -13,6 +13,7 @@ class Network {
   static final String _baseUrl = 'http://104.217.253.15:3006/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _signUpUrl = _baseUrl + 'users';
+  final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -62,4 +63,46 @@ class Network {
       throw json.decode(response.body);
     }
   }
+
+  Future<User> facebookSignUp(String facebookId, String facebookToken) async {
+    final body = json.encode({
+      'socialId': facebookId,
+      'token': facebookToken,
+    });
+    final response = await http.post(_facebookLoginUrl, body: body, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return User.fromJson(json.decode(response.body)['user']);
+    } else if(response.statusCode == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
+      throw ErrorCodes.NOT_COMPLETED_SN_LOGIN;
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<User> step2FacebookSignUp(String phoneNumber, String isoCode, String facebookId, String facebookToken, String facebookUsername) async {
+    final body = json.encode({
+      'phoneNumber': phoneNumber,
+      'username': facebookUsername,
+      'socialId': facebookId,
+      'token': facebookToken,
+      'ISOCode': isoCode,
+    });
+    final response = await http.post(_facebookLoginUrl, body: body, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return User.fromJson(json.decode(response.body)['user']);
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+}
+
+mixin ErrorCodes {
+
+  static const int NOT_COMPLETED_SN_LOGIN = 450;
+
 }

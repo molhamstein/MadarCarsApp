@@ -1,9 +1,11 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/feedback.dart';
+import 'package:madar_booking/models/user.dart';
 
 class SignUpWidget extends StatefulWidget {
   @override
@@ -41,53 +43,58 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 23.0),
-      child: Column(
-        children: <Widget>[
-          Stack(
-            alignment: Alignment.topCenter,
-            overflow: Overflow.visible,
+    return StreamBuilder<User>(
+      stream: bloc.submitSignUpStream,
+      builder: (context, snapshot) {
+        return Container(
+          padding: EdgeInsets.only(top: 23.0),
+          child: Column(
             children: <Widget>[
-              Card(
-                elevation: 2.0,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Container(
-                  width: 300.0,
-                  height: 360.0,
-                  child: Column(
-                    children: <Widget>[
-                      nameTextField(),
-                      Container(
-                        width: 250.0,
-                        height: 1.0,
-                        color: Colors.grey[400],
+              Stack(
+                alignment: Alignment.topCenter,
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  Card(
+                    elevation: 2.0,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Container(
+                      width: 300.0,
+                      height: 360.0,
+                      child: Column(
+                        children: <Widget>[
+                          nameTextField(),
+                          Container(
+                            width: 250.0,
+                            height: 1.0,
+                            color: Colors.grey[400],
+                          ),
+                          phoneTextField(),
+                          Container(
+                            width: 250.0,
+                            height: 1.0,
+                            color: Colors.grey[400],
+                          ),
+                          passwordTextField(),
+                          Container(
+                            width: 250.0,
+                            height: 1.0,
+                            color: Colors.grey[400],
+                          ),
+                          isoCodePicker(),
+                        ],
                       ),
-                      phoneTextField(),
-                      Container(
-                        width: 250.0,
-                        height: 1.0,
-                        color: Colors.grey[400],
-                      ),
-                      passwordTextField(),
-                      Container(
-                        width: 250.0,
-                        height: 1.0,
-                        color: Colors.grey[400],
-                      ),
-                      isoCodeTextField(),
-                    ],
+                    ),
                   ),
-                ),
+                  signUpBtn(),
+                ],
               ),
-              signUpBtn(),
             ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 
@@ -184,29 +191,18 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
     );
   }
 
-  Widget isoCodeTextField() {
+
+  Widget isoCodePicker() {
     return Padding(
-      padding:
-          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-      child: TextField(
-        controller: signupConfirmPasswordController,
-        onChanged: bloc.changeSignUpIsoCode,
-        style: TextStyle(
-            fontFamily: "WorkSansSemiBold",
-            fontSize: 16.0,
-            color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(
-            FontAwesomeIcons.locationArrow,
-            color: Colors.black,
-          ),
-          hintText: "ISO Code",
-          hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
-        ),
-      ),
+        padding:
+        EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+        child: CountryCodePicker(
+          favorite: ['SY', 'TR'],
+          onChanged: bloc.changeSignUpIsoCode,
+        )
     );
   }
+
 
   Widget signUpBtn() {
     return Container(
