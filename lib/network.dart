@@ -64,7 +64,7 @@ class Network {
     }
   }
 
-  Future<User> facebookSignUp(String facebookId, String facebookToken) async {
+  Future<UserResponse> facebookSignUp(String facebookId, String facebookToken) async {
     final body = json.encode({
       'socialId': facebookId,
       'token': facebookToken,
@@ -72,7 +72,7 @@ class Network {
     final response = await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       print(json.decode(response.body));
-      return User.fromJson(json.decode(response.body)['user']);
+      return UserResponse.fromJson(json.decode(response.body));
     } else if(response.statusCode == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
       throw ErrorCodes.NOT_COMPLETED_SN_LOGIN;
     } else {

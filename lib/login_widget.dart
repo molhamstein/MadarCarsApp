@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
+import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/home_page.dart';
+import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/step2_sign_up.dart';
 import 'feedback.dart';
@@ -22,22 +25,26 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
   TextEditingController loginPasswordController = new TextEditingController();
 
   AuthBloc bloc;
+  AppBloc appBloc;
 
   @override
   void initState() {
     bloc = BlocProvider.of<AuthBloc>(context);
+    appBloc = BlocProvider.of<AppBloc>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User>(
-      // for feedbacking the user about the server response.
+    return StreamBuilder<UserResponse>(
+      // feedback the user about the server response.
       stream: bloc.submitLoginStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          appBloc.saveUser(snapshot.data.user);
+          appBloc.saveToken(snapshot.data.token);
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            showInSnackBar(snapshot.data.userName, context);
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => HomePage()));
           });
         }
         return Container(

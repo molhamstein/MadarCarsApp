@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
@@ -24,7 +25,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _obscureSignUpPasswordConfirmation =
       BehaviorSubject<bool>(seedValue: true);
 
-  final _submitLoginController = BehaviorSubject<User>();
+  final _submitLoginController = BehaviorSubject<UserResponse>();
   final _submitSignUpController = BehaviorSubject<User>();
 
   final _lockTouchEventController = BehaviorSubject<bool>();
@@ -90,7 +91,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
       nameSignUpStream,
       (a, b, c) => true);
 
-  Stream<User> get submitLoginStream => _submitLoginController.stream;
+  Stream<UserResponse> get submitLoginStream => _submitLoginController.stream;
 
   Stream<User> get submitSignUpStream => _submitSignUpController.stream;
 
@@ -104,7 +105,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     login('0957465877', 'password').then((response) {
       //TODO: put real values (from controller).
       print(response.token);
-      _submitLoginController.sink.add(response.user);
+      _submitLoginController.sink.add(response);
     }).catchError((e) {
       print(e);
       _submitLoginController.sink.addError(e);
@@ -142,9 +143,9 @@ class AuthBloc extends BaseBloc with Validators, Network {
         getFacebookProfile(result.accessToken.token).then((jsonProfile) {
           FacebookUser facebookUser =
               FacebookUser.fromJson(jsonProfile, result.accessToken.token);
-          facebookSignUp(facebookUser.id, facebookUser.token).then((user) {
-            print('user name : ' + user.userName);
-            _submitLoginController.sink.add(user);
+          facebookSignUp(facebookUser.id, facebookUser.token).then((userResponse) {
+            print('user name : ' + userResponse.user.userName);
+            _submitLoginController.sink.add(userResponse);
           }).catchError((e) {
             print(e);
             if (e == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {

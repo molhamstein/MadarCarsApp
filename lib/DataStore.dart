@@ -1,46 +1,36 @@
-import 'dart:async';
+import 'package:madar_booking/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DataStore {
-  static Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final SharedPreferences _prefs;
 
-  static SharedPreferences _prefsInstance;
-  static bool _initCalled = false;
-  static final DataStore _singleton = new DataStore._internal();
-  factory DataStore() {
-    return _singleton;
+  DataStore(this._prefs);
+
+  User getUser() {
+    final json = {
+      User.ID: _prefs.get('user_id'),
+      User.USER_NAME: _prefs.get('user_username'),
+      User.PHONE_NUMBER: _prefs.get('user_phone_number'),
+      User.STATUS: _prefs.get('user_status'),
+      User.CREATED_AT: _prefs.get('user_created_at'),
+    };
+    return User.fromJson(json);
   }
 
-  DataStore._internal() {
-    init();
-    print("init");
+  setUser(User user) {
+    print('hahahahahahha' + user.userName);
+    _prefs.setString('user_id', user.id);
+    _prefs.setString('user_username', user.userName);
+    _prefs.setString('user_phone_number', user.phoneNumber);
+    _prefs.setString('user_status', user.status);
+    _prefs.setString('user_created_at', user.createdAt);
+
   }
 
-  static Future<void> init() async {
-    _initCalled = true;
-    _prefsInstance = await _prefs;
-    print("initttt");
+  setUserToken(String accessToken) {
+    _prefs.setString('access_token', accessToken);
   }
 
-  int get counter => getInt('c');
-  set counter(int c) => _prefsInstance.setInt('c', c);
+  bool get isUserLoggedIn => _prefs.getString('access_token').isNotEmpty;
 
-  static int getInt(String key, [int defValue]) {
-    assert(_initCalled,
-        "Prefs.init() must be called first in an initState() preferably!");
-    assert(_prefsInstance != null,
-        "Maybe call Prefs.getIntF(key) instead. SharedPreferences not ready yet!");
-    return _prefsInstance.getInt(key) ?? defValue ?? 0;
-  }
-
-  static Future<int> getIntF(String key, [int defValue]) async {
-    int value;
-    if (_prefsInstance == null) {
-      var instance = await _prefs;
-      value = instance?.getInt(key) ?? defValue ?? 0;
-    } else {
-      value = getInt(key);
-    }
-    return value;
-  }
 }
