@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/bloc_provider.dart';
 import 'madar_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class ProfilePage extends StatelessWidget {
+
   Widget tripInfoCard() {
     return Container(
       // width: 300,
@@ -42,6 +45,7 @@ class ProfilePage extends StatelessWidget {
                     ],
                   ),
                   Container(
+                    margin: EdgeInsets.only(right: 4),
                     // width: 50,
                     // color: Colors.red,
                     child: Column(
@@ -49,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                         AutoSizeText(
                           "12/12\n2018",
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey.shade900),
                           maxLines: 2,
@@ -111,7 +115,7 @@ class ProfilePage extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 AutoSizeText(
-                                                  "Bosra",
+                                                  "Borsa",
                                                   style: TextStyle(
                                                       fontSize: 24,
                                                       fontWeight:
@@ -190,7 +194,7 @@ class ProfilePage extends StatelessWidget {
                                   Container(
                                     // color: Colors.white,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
+                                      padding: const EdgeInsets.all(12.0),
                                       child: Container(
                                         decoration: BoxDecoration(
                                           gradient:
@@ -419,6 +423,7 @@ class ProfilePage extends StatelessWidget {
   var border_raduice = BorderRadius.only(bottomRight: Radius.circular(100));
   @override
   Widget build(BuildContext context) {
+    AppBloc bloc = BlocProvider.of<AppBloc>(context);
     return Scaffold(
         body: Stack(
       children: <Widget>[
@@ -481,7 +486,7 @@ class ProfilePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "Hello Nour!",
+                              bloc.userName,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 24,
