@@ -8,7 +8,6 @@ class AppBloc extends BaseBloc{
   final SharedPreferences _prefs;
   DataStore _dataStore;
 
-
   final _userController = BehaviorSubject<bool>();
 
   AppBloc(this._prefs){
@@ -20,6 +19,7 @@ class AppBloc extends BaseBloc{
   Function(User) get saveUser => _dataStore.setUser;
   Function(String) get saveToken => _dataStore.setUserToken;
 
+  String get userName => _dataStore.getUser().userName; //TODO remove; only for testing
 
   @override
   void dispose() {

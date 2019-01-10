@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/profile_page.dart';
 
 class HomePage extends StatelessWidget {
   // This widget is the root of your application.
@@ -24,12 +27,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  AppBloc appBloc;
+
   int _counter = 0; // DataStore().counter;
   static const double _x_small_font_size = 8;
   static const double _small_font_size = 14;
   static const double _medium_font_size = 17;
   static const double _large_font_size = 24;
   static const double _x_large_font_size = 50;
+
+  @override
+  initState() {
+    appBloc = BlocProvider.of<AppBloc>(context);
+    super.initState();
+  }
+
   Widget _rateWidget(String rate) {
     return Padding(
       padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
@@ -67,23 +79,26 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 10.0, // has the effect of softening the shadow
-                spreadRadius: 2.0, // has the effect of extending the shadow
-                offset: Offset(
-                  5.0, // horizontal, move right 10
-                  5.0, // vertical, move down 10
-                ),
-              )
-            ],
-            color: Colors.transparent,
-            // image: DecorationImage(
-            //   image: ExactAssetImage(''),
-            //   fit: BoxFit.cover,
-            // ),
-          ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 10.0, // has the effect of softening the shadow
+                  spreadRadius: 2.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    5.0, // horizontal, move right 10
+                    5.0, // vertical, move down 10
+                  ),
+                )
+              ],
+              color: Colors.transparent,
+              image: DecorationImage(
+                  image: AssetImage('assets/images/bursa.jpg'),
+                  fit: BoxFit.cover)
+              // image: DecorationImage(
+              //   image: ExactAssetImage(''),
+              //   fit: BoxFit.cover,
+              // ),
+              ),
           width: 185,
           height: 185,
           child: Container(
@@ -193,7 +208,6 @@ class _MyHomePageState extends State<MyHomePage> {
           width: 300,
           // height: 225.0,
           decoration: BoxDecoration(
-            color: Colors.white,
             borderRadius: BorderRadius.circular(5.0),
             boxShadow: [
               BoxShadow(
@@ -204,8 +218,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   5.0, // horizontal, move right 10
                   5.0, // vertical, move down 10
                 ),
-              )
+              ),
             ],
+
           ),
           child: Column(
             children: <Widget>[
@@ -362,7 +377,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "Trending Cars",
+            "Cars",
             style: TextStyle(
                 fontSize: _large_font_size, fontWeight: FontWeight.bold),
             textAlign: TextAlign.start,
@@ -430,11 +445,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         )
       ],
-      color: const Color.fromARGB(255, 255, 255, 255),
+      color: Colors.red,
       // image: DecorationImage(
       //   image: ExactAssetImage('images/image.jpg'),
       //   fit: BoxFit.fill,
       // ),
+      image: DecorationImage(image: AssetImage('assets/images/ford.jpg'), fit: BoxFit.cover),
       borderRadius: BorderRadius.circular(5.0));
 
   void _incrementCounter() async {
@@ -469,6 +485,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ..scale(1.0);
 
   var borderRadius = BorderRadius.circular(100);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -483,93 +500,127 @@ class _MyHomePageState extends State<MyHomePage> {
       //   //     .textTheme
       //   //     .apply(displayColor: Colors.black, bodyColor: Colors.black),
       // ),
-      body: Stack(children: <Widget>[
-        Container(
-          child: AnimatedContainer(
-            duration: Duration(seconds: 2),
-            decoration: BoxDecoration(
-                borderRadius: borderRadius,
-                gradient: LinearGradient(
-                    colors: [MadarColors.gradientUp, MadarColors.gradientDown],
-                    begin: const FractionalOffset(0.0, 0.0),
-                    end: const FractionalOffset(1.0, 1.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp)),
-            height: myHeight,
-            width: myWidth,
-            transform: transformation,
+      body: SingleChildScrollView(
+        child: Stack(children: <Widget>[
+          Container(
+            child: AnimatedContainer(
+              duration: Duration(seconds: 2),
+              decoration: BoxDecoration(
+                  borderRadius: borderRadius,
+                  gradient: LinearGradient(
+                      colors: [
+                        MadarColors.gradientUp,
+                        MadarColors.gradientDown
+                      ],
+                      begin: const FractionalOffset(0.0, 0.0),
+                      end: const FractionalOffset(1.0, 1.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp)),
+              height: myHeight,
+              width: myWidth,
+              transform: transformation,
+            ),
           ),
-        ),
-        Column(
-          // homeScreen content
-          children: <Widget>[
-            Container(
-              height: 50,
-            ),
-            Container(
-                child: Text(
-              "Hello Nour!",
-              style: TextStyle(
-                  fontSize: _large_font_size, fontWeight: FontWeight.bold),
-            )),
-            Container(
-              height: 25,
-            ),
-            _tripCardContainerList(),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: SizedBox(),
-            // ),
-            _cardContainerList(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                    // constraints: BoxConstraints.expand(width: 200),
-                    alignment: Alignment(0, 0),
-                    child: Container(
-                      width: 75,
-                      height: 75,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade900,
-                          borderRadius: BorderRadius.circular(15)),
-                      alignment: Alignment(0, 0),
-                      child: FlatButton(
-                        onPressed: () {
-                          print("pressed");
-                          if (!open) {
-                            transformation = rotateBy_0;
-                            borderRadius = BorderRadius.circular(0);
-                            myHeight = MediaQuery.of(context).size.height;
-                            myWidth = MediaQuery.of(context).size.width;
-                            open = true;
-                          } else {
-                            open = false;
-                            myHeight = 300.0;
-                            myWidth = 300.0;
-                            transformation = rotateBy45;
-                            borderRadius = BorderRadius.circular(100);
-                          }
-                          setState(() {});
-                        },
-                        child: Icon(
-                          Icons.add,
-                          size: 60,
-                          color: Colors.white,
+          Column(
+            // homeScreen content
+            children: <Widget>[
+              Container(
+                height: 50,
+              ),
+              Container(
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 42.0),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Hello ${appBloc.userName}",
+                              style: TextStyle(
+                                  fontSize: _large_font_size,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
-                        padding: EdgeInsets.all(8.0),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.person),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ProfilePage()));
+                        },
+                      ),
+                    ],
+                  )),
+              Container(
+                height: 25,
+              ),
+              _tripCardContainerList(),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: SizedBox(),
+              // ),
+              _cardContainerList(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      // constraints: BoxConstraints.expand(width: 200),
+                      alignment: Alignment(0, 0),
+                      child: Container(
+                        width: 75,
+                        height: 75,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black54,
+                              blurRadius: 10,
+                              offset: Offset(0, 5)
+                            )
+                          ],
+                            color: Colors.grey.shade900,
+                            borderRadius: BorderRadius.circular(15)),
+                        alignment: Alignment(0, 0),
+                        child: FlatButton(
+                          onPressed: () {
+                            print("pressed");
+                            if (!open) {
+                              transformation = rotateBy_0;
+                              borderRadius = BorderRadius.circular(0);
+                              myHeight = MediaQuery.of(context).size.height;
+                              myWidth = MediaQuery.of(context).size.width;
+                              open = true;
+                            } else {
+                              open = false;
+                              myHeight = 300.0;
+                              myWidth = 300.0;
+                              transformation = rotateBy45;
+                              borderRadius = BorderRadius.circular(100);
+                            }
+                            setState(() {});
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 60,
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.all(8.0),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ]),
+                ],
+              )
+            ],
+          ),
+        ]),
+      ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

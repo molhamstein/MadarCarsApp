@@ -31,6 +31,6 @@ class DataStore {
     _prefs.setString('access_token', accessToken);
   }
 
-  bool get isUserLoggedIn => _prefs.getString('access_token').isNotEmpty;
+  bool get isUserLoggedIn => _prefs.getString('access_token') != null;
 
 }

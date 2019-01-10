@@ -121,7 +121,7 @@ class _AuthPageState extends State<AuthPage>
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height >= 775.0
                 ? MediaQuery.of(context).size.height
-                : 775.0,
+                : 800.0,
             decoration: new BoxDecoration(
               gradient: new LinearGradient(
                   colors: [MadarColors.gradientUp, MadarColors.gradientDown],
