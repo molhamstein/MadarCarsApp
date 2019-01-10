@@ -4,6 +4,7 @@ import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/user.dart';
+import 'package:madar_booking/step2_sign_up.dart';
 import 'feedback.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -30,7 +31,8 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User>( // for feedbacking the user about the server response.
+    return StreamBuilder<User>(
+      // for feedbacking the user about the server response.
       stream: bloc.submitLoginStream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -138,18 +140,42 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, right: 40.0),
                     child: GestureDetector(
-//                  onTap: () => bloc.loginWithFacebook(),
-                      child: Container(
-                        padding: const EdgeInsets.all(15.0),
-                        decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                        ),
-                        child: new Icon(
-                          FontAwesomeIcons.facebookF,
-                          color: Color(0xFF0084ff),
-                        ),
-                      ),
+                      onTap: () => bloc.loginWithFacebook(),
+                      child: StreamBuilder<FacebookUser>(
+                          stream: bloc.facebookUserStream,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                showInSnackBar(
+                                    snapshot.error.toString(), context);
+                              });
+                            }
+                            if (snapshot.hasData) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+//                              showInSnackBar(snapshot.data.toString(), context);
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(builder: (context) {
+                                  return Step2SignUp(
+                                    socialId: snapshot.data.id,
+                                    socialToken: snapshot.data.token,
+                                    userName: snapshot.data.name,
+                                  );
+                                }));
+                              });
+                              return CircularProgressIndicator();
+                            }
+                            return Container(
+                              padding: const EdgeInsets.all(15.0),
+                              decoration: new BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: new Icon(
+                                FontAwesomeIcons.facebookF,
+                                color: Color(0xFF0084ff),
+                              ),
+                            );
+                          }),
                     ),
                   ),
                   Padding(
@@ -274,8 +300,10 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
           text: 'Submit',
           onPressed: () {
             if (!snapshot.data) {
-              showInSnackBar('Provide a valid phone number or password', context);
-            } else bloc.submitLogin();
+              showInSnackBar(
+                  'Provide a valid phone number or password', context);
+            } else
+              bloc.submitLogin();
           },
           width: 150,
           height: 50,
