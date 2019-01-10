@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/settings_page.dart';
 import 'madar_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
@@ -461,11 +462,18 @@ class ProfilePage extends StatelessWidget {
                                 color: Colors.white,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.settings,
-                                color: Colors.white,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                                  return SettingsPage();
+                                }));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.settings,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],

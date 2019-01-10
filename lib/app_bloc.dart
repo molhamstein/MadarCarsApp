@@ -21,6 +21,8 @@ class AppBloc extends BaseBloc{
 
   String get userName => _dataStore.getUser().userName; //TODO remove; only for testing
 
+  get logout => _dataStore.logout;
+
   @override
   void dispose() {
     _userController.close();

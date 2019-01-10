@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/main.dart';
 
 class SettingsPage extends StatelessWidget {
   // This widget is the root of your application.
@@ -151,8 +154,13 @@ class _MySettingsPageState extends State<MySettingsPage> {
                             constraints: BoxConstraints.expand(height: 50),
                             child: FlatButton(
                               onPressed: () {
-                                print("logout");
-                              },
+                                BlocProvider.of<AppBloc>(context).logout;
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) => LandingPage(),
+                                    ),
+                                    ModalRoute.withName('/'));                              },
                               child: Text(
                                 'Logout',
                                 style: TextStyle(

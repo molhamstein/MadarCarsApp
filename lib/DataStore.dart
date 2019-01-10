@@ -33,4 +33,6 @@ class DataStore {
 
   bool get isUserLoggedIn => _prefs.getString('access_token') != null;
 
+  get logout => _prefs.clear();
+
 }
