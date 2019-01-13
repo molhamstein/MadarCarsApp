@@ -81,8 +81,8 @@ class MainButtonState extends State<MainButton>
                   widget.text,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25.0,
-                      fontFamily: "WorkSansBold"),
+                      fontSize: 22.0,
+                  fontWeight: FontWeight.w300),
                 ),
               ),
               onPressed: () {

@@ -2,9 +2,12 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
+import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/feedback.dart';
+import 'package:madar_booking/home_page.dart';
+import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 
 class SignUpWidget extends StatefulWidget {
@@ -32,20 +35,28 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
 
   final TextEditingController signupConfirmPasswordController =
       new TextEditingController();
-
+  AppBloc appBloc;
   AuthBloc bloc;
 
   @override
   void initState() {
+    appBloc = BlocProvider.of<AppBloc>(context);
     bloc = BlocProvider.of<AuthBloc>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User>(
+    return StreamBuilder<UserResponse>(
       stream: bloc.submitSignUpStream,
       builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          appBloc.saveUser(snapshot.data.user);
+          appBloc.saveToken(snapshot.data.token);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => HomePage()));
+          });
+        }
         return Container(
           padding: EdgeInsets.only(top: 23.0),
           child: Column(
