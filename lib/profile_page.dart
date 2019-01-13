@@ -12,7 +12,7 @@ class ProfilePage extends StatelessWidget {
       child: Container(
         // width: 300,
         height: 200,
-        // decoration: BoxDecoration(color: Colors.white),
+
         child: Row(
           children: <Widget>[
             // time container
@@ -85,8 +85,12 @@ class ProfilePage extends StatelessWidget {
                           height: 160,
                           //card info container
                           child: Container(
+                            margin: EdgeInsets.only(right: 8.0),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/card-01.png'),
+                                  fit: BoxFit.fill),
                               boxShadow: [MadarColors.shadow],
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(12.5),
@@ -188,8 +192,8 @@ class ProfilePage extends StatelessWidget {
                                 // medile container
                                 Container(
                                   child: Container(
-                                    color: Colors.grey.shade700,
-                                    height: 135,
+                                    color: Colors.grey.shade600,
+                                    height: 115,
                                     width: 1,
                                   ),
                                 ),

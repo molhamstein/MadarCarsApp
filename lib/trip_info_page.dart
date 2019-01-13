@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/invoice_page.dart';
+import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/settings_page.dart';
 import 'madar_colors.dart';
@@ -43,7 +45,7 @@ class TripInfoPageState extends State<TripInfoPage> {
   @override
   void initState() {
     // TODO: implement initState
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       setState(() {
         handleTimeout();
       });
@@ -256,9 +258,12 @@ class TripInfoPageState extends State<TripInfoPage> {
                                           alignment: Alignment(0, -0.5),
                                           child: IconButton(
                                             onPressed: () {
-                                              print("recipet clicled");
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          InvoicePage()));
                                             },
-                                            icon: Icon(Icons.receipt),
+                                            icon: Icon(MyFlutterApp.invoice),
                                           ),
                                         ),
                                       ),
@@ -269,7 +274,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                             onPressed: () {
                                               print("edit clicled");
                                             },
-                                            icon: Icon(Icons.edit),
+                                            icon: Icon(MyFlutterApp.edit_trip),
                                           ),
                                         ),
                                       ),
@@ -406,16 +411,21 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Icon(
-                                                  Icons.calendar_today,
+                                                  MyFlutterApp.cal,
                                                   size: 30,
                                                 ),
-                                                Text("2013",
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors
-                                                            .grey.shade700)),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: Text("2013",
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors
+                                                              .grey.shade700)),
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -433,16 +443,21 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Icon(
-                                                    Icons.calendar_today,
+                                                    MyFlutterApp.gender,
                                                     size: 30,
                                                   ),
-                                                  Text("Manual",
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors
-                                                              .grey.shade700)),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: Text("Femal Driver",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.grey
+                                                                .shade700)),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -461,16 +476,21 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Icon(
-                                                    Icons.calendar_today,
+                                                    MyFlutterApp.seats,
                                                     size: 30,
                                                   ),
-                                                  Text("Sport",
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors
-                                                              .grey.shade700)),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: Text("6 Seats",
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.grey
+                                                                .shade700)),
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -500,7 +520,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:32.0),
+                                  padding: const EdgeInsets.only(top: 32.0),
                                   child: costWidget("220"),
                                 ),
                               ],
