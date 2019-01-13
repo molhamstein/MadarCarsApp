@@ -1,9 +1,8 @@
 import 'dart:async';
 
 mixin Validators {
-
-  final validatePhone =
-      StreamTransformer<String, String>.fromHandlers(handleData: (phoneNumber, sink) {
+  final validatePhone = StreamTransformer<String, String>.fromHandlers(
+      handleData: (phoneNumber, sink) {
     if (phoneNumber.length >= 8) {
       sink.add(phoneNumber);
     } else {

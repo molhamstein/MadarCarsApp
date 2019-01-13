@@ -4,6 +4,7 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/auth_page.dart';
 import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/models/user.dart';
+import 'package:madar_booking/trip_info_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -36,9 +37,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class LandingPage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     AppBloc bloc = BlocProvider.of<AppBloc>(context);
@@ -49,11 +48,13 @@ class LandingPage extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.of(context).pushReplacement(
+                  new MaterialPageRoute(builder: (context) => HomePage()));
             });
           } else {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => AuthPage()));
+              Navigator.of(context).pushReplacement(
+                  new MaterialPageRoute(builder: (context) => AuthPage()));
             });
           }
         }
@@ -65,5 +66,4 @@ class LandingPage extends StatelessWidget {
       },
     );
   }
-  
 }

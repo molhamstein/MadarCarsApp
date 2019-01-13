@@ -44,7 +44,8 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
           appBloc.saveUser(snapshot.data.user);
           appBloc.saveToken(snapshot.data.token);
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => HomePage()));
+            Navigator.of(context).pushReplacement(
+                new MaterialPageRoute(builder: (context) => HomePage()));
           });
         }
         return Container(

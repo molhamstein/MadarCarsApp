@@ -3,6 +3,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/profile_page.dart';
+import 'package:madar_booking/rate_widget.dart';
 
 class HomePage extends StatelessWidget {
   // This widget is the root of your application.
@@ -40,34 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     super.initState();
-  }
-
-  Widget _rateWidget(String rate) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
-      child: Container(
-        width: 50,
-        height: 20,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(12.5),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              rate,
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Icon(
-              Icons.star,
-              size: 20,
-              color: Colors.yellow.shade800,
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _tripsCardContainer() {
@@ -220,7 +193,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ],
-
           ),
           child: Column(
             children: <Widget>[
@@ -305,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                _rateWidget("4.5"),
+                                RateWidget(rate: "4.5",width: 50,height: 20,),
                                 Text("Mahmot Orhan",
                                     style: TextStyle(
                                         fontSize: _small_font_size,
@@ -445,12 +417,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         )
       ],
-      color: Colors.red,
+      
       // image: DecorationImage(
       //   image: ExactAssetImage('images/image.jpg'),
       //   fit: BoxFit.fill,
       // ),
-      image: DecorationImage(image: AssetImage('assets/images/ford.jpg'), fit: BoxFit.cover),
+      image: DecorationImage(
+          image: AssetImage('assets/images/ford.jpg'), fit: BoxFit.cover),
       borderRadius: BorderRadius.circular(5.0));
 
   void _incrementCounter() async {
@@ -577,13 +550,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 75,
                         height: 75,
                         decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black54,
-                              blurRadius: 10,
-                              offset: Offset(0, 5)
-                            )
-                          ],
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black54,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5))
+                            ],
                             color: Colors.grey.shade900,
                             borderRadius: BorderRadius.circular(15)),
                         alignment: Alignment(0, 0),
