@@ -1,5 +1,4 @@
 class User {
-
   static const ID = 'id';
   static const USER_NAME = 'username';
   static const PHONE_NUMBER = 'phoneNumber';
@@ -23,6 +22,4 @@ class User {
       json['createdAt'],
     );
   }
-
 }
-

@@ -277,7 +277,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                RateWidget(rate: "4.5",width: 50,height: 20,),
+                                RateWidget(
+                                  rate: "4.5",
+                                  width: 50,
+                                  height: 20,
+                                ),
                                 Text("Mahmot Orhan",
                                     style: TextStyle(
                                         fontSize: _small_font_size,
@@ -417,7 +421,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         )
       ],
-      
+
       // image: DecorationImage(
       //   image: ExactAssetImage('images/image.jpg'),
       //   fit: BoxFit.fill,
