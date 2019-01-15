@@ -3,6 +3,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/profile_page.dart';
+import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 
 class HomePage extends StatelessWidget {
   // This widget is the root of your application.
@@ -589,21 +590,26 @@ class _MyHomePageState extends State<MyHomePage> {
                         alignment: Alignment(0, 0),
                         child: FlatButton(
                           onPressed: () {
-                            print("pressed");
-                            if (!open) {
-                              transformation = rotateBy_0;
-                              borderRadius = BorderRadius.circular(0);
-                              myHeight = MediaQuery.of(context).size.height;
-                              myWidth = MediaQuery.of(context).size.width;
-                              open = true;
-                            } else {
-                              open = false;
-                              myHeight = 300.0;
-                              myWidth = 300.0;
-                              transformation = rotateBy45;
-                              borderRadius = BorderRadius.circular(100);
-                            }
-                            setState(() {});
+
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => TripPlanningPage())
+                            );
+//                            print("pressed");
+//                            if (!open) {
+//                              transformation = rotateBy_0;
+//                              borderRadius = BorderRadius.circular(0);
+//                              myHeight = MediaQuery.of(context).size.height;
+//                              myWidth = MediaQuery.of(context).size.width;
+//                              open = true;
+//                            } else {
+//                              open = false;
+//                              myHeight = 300.0;
+//                              myWidth = 300.0;
+//                              transformation = rotateBy45;
+//                              borderRadius = BorderRadius.circular(100);
+//                            }
+//                            setState(() {});
                           },
                           child: Icon(
                             Icons.add,

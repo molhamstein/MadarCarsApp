@@ -50,6 +50,12 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
     return StreamBuilder<UserResponse>(
       stream: bloc.submitSignUpStream,
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            showInSnackBar(
+                snapshot.error.toString(), context);
+          });
+        }
         if (snapshot.hasData) {
           appBloc.saveUser(snapshot.data.user);
           appBloc.saveToken(snapshot.data.token);

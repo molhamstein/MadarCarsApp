@@ -2,18 +2,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:madar_booking/models/UserResponse.dart';
+import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/user.dart';
 
 class Network {
   Map<String, String> headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'Authorization': 'BoY7Hx6X3X8hGv7vXUNLw9vLPApUVfDQseObfRs0wmap3v9LeRILZVz6wYolk8ub',
   };
 
   static final String _baseUrl = 'http://104.217.253.15:3006/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _signUpUrl = _baseUrl + 'users';
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
+  final String _locations = _baseUrl + 'locations?filter[include]=subLocations&filter[where][status]=active';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -44,6 +47,8 @@ class Network {
     final response = await http.post(_signUpUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body));
+    } else if(response.statusCode == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
+      throw ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED;
     } else {
       print(response.body);
       throw json.decode(response.body);
@@ -99,10 +104,26 @@ class Network {
     }
   }
 
+
+   Future<LocationsResponse> fetchLocations() async {
+
+    final response = await http.get(_locations, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return LocationsResponse.fromJson(json.decode(response.body));
+
+    }
+      else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
 }
 
 mixin ErrorCodes {
 
   static const int NOT_COMPLETED_SN_LOGIN = 450;
+  static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
 
 }
