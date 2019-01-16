@@ -28,7 +28,6 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-
   AppBloc bloc;
   Key key;
 
@@ -44,41 +43,38 @@ class MyAppState extends State<MyApp> {
     return BlocProvider(
       bloc: bloc,
       child: StreamBuilder<bool>(
-        stream: bloc.logOutStream,
-        initialData: false,
-        builder: (context, snapshot) {
-          print(snapshot.data);
-          if(snapshot.data) {
-            print('adsasdasadsadsads');
+          stream: bloc.logOutStream,
+          initialData: false,
+          builder: (context, snapshot) {
+            print(snapshot.data);
+            if (snapshot.data) {
+              print('adsasdasadsadsads');
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 setState(() {
                   bloc.pushStopLoop;
                   key = UniqueKey();
                 });
               });
-          }
+            }
 
-          return MaterialApp(
-            key: key,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-//            initialRoute: '/',
-//            routes: {
-//              '/': (context) => LandingPage(),
-//            },
-      home: TripPlanningPage(),
-          );
-        }
-      ),
+            return MaterialApp(
+              key: key,
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              initialRoute: '/',
+              routes: {
+                '/': (context) => LandingPage(),
+              },
+              // home: TripPlanningPage(),
+            );
+          }),
     );
   }
 }
 
-
 class LandingPage extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     AppBloc bloc = BlocProvider.of<AppBloc>(context);
@@ -89,11 +85,13 @@ class LandingPage extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.of(context).pushReplacement(
+                  new MaterialPageRoute(builder: (context) => HomePage()));
             });
           } else {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => AuthPage()));
+              Navigator.of(context).pushReplacement(
+                  new MaterialPageRoute(builder: (context) => AuthPage()));
             });
           }
         }
@@ -105,5 +103,4 @@ class LandingPage extends StatelessWidget {
       },
     );
   }
-  
 }
