@@ -65,7 +65,7 @@ class CityRadioTile extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    location.name,
+                    location.nameEn,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,

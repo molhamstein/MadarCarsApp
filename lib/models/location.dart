@@ -1,46 +1,78 @@
-class Location {
-  final String description;
-  final name;
-  final String color1;
-  final String color2;
-  final List<String> subLocationsIds;
+import 'package:madar_booking/models/Image.dart';
 
-  Location(
-    this.description,
-    this.name,
+class Location {
+  String descriptionEn;
+  String descriptionAr;
+  String descriptionTr;
+  String nameEn;
+  String nameAr;
+  String nameTr;
+  String color1;
+  String color2;
+  String status;
+  String createdAt;
+  String id;
+  String mediaId;
+  Media media;
+  List<dynamic> slideMedia;
+
+  Location({
+    this.descriptionEn,
+    this.descriptionAr,
+    this.descriptionTr,
+    this.nameEn,
+    this.nameAr,
+    this.nameTr,
     this.color1,
     this.color2,
-    this.subLocationsIds,
-  );
-  factory Location.fromJson(Map<String, dynamic> json) {
-    final subLocations = json['subLocations'] as List;
+    this.status,
+    this.createdAt,
+    this.id,
+    this.mediaId,
+    this.media,
+    this.slideMedia,
+  });
 
-    return Location(
-      json['descriptionEn'],
-      json['nameEn'],
-      json['color1'],
-      json['color2'],
-      subLocations.map((subLocationJson) => subLocationJson['id'].toString()).toList(),
-    );
-  }
-}
+  factory Location.fromJson(Map<String, dynamic> json) => new Location(
+        descriptionEn:
+            json["descriptionEn"] == null ? null : json["descriptionEn"],
+        descriptionAr:
+            json["descriptionAr"] == null ? null : json["descriptionAr"],
+        descriptionTr:
+            json["descriptionTr"] == null ? null : json["descriptionTr"],
+        nameEn: json["nameEn"] == null ? null : json["nameEn"],
+        nameAr: json["nameAr"] == null ? null : json["nameAr"],
+        nameTr: json["nameTr"] == null ? null : json["nameTr"],
+        color1: json["color1"] == null ? null : json["color1"],
+        color2: json["color2"] == null ? null : json["color2"],
+        status: json["status"] == null ? null : json["status"],
+        createdAt: json["createdAt"] == null ? null : json["createdAt"],
+        id: json["id"] == null ? null : json["id"],
+        mediaId: json["mediaId"] == null ? null : json["mediaId"],
+        media: json["media"] == null ? null : Media.fromJson(json["media"]),
+        slideMedia: json["slideMedia"] == null
+            ? null
+            : new List<dynamic>.from(json["slideMedia"].map((x) => x)),
+      );
 
-class SubLocation {
-  final String name;
-  final String color1;
-  final String color2;
-  final String id;
-
-  SubLocation(this.name, this.color1, this.color2, this.id);
-
-  factory SubLocation.fromJson(Map<String, dynamic> json) {
-    return SubLocation(
-      json['nameEn'],
-      json['color1'],
-      json['color2'],
-      json['id'],
-    );
-  }
+  Map<String, dynamic> toJson() => {
+        "descriptionEn": descriptionEn == null ? null : descriptionEn,
+        "descriptionAr": descriptionAr == null ? null : descriptionAr,
+        "descriptionTr": descriptionTr == null ? null : descriptionTr,
+        "nameEn": nameEn == null ? null : nameEn,
+        "nameAr": nameAr == null ? null : nameAr,
+        "nameTr": nameTr == null ? null : nameTr,
+        "color1": color1 == null ? null : color1,
+        "color2": color2 == null ? null : color2,
+        "status": status == null ? null : status,
+        "createdAt": createdAt == null ? null : createdAt,
+        "id": id == null ? null : id,
+        "mediaId": mediaId == null ? null : mediaId,
+        "media": media == null ? null : media.toJson(),
+        "slideMedia": slideMedia == null
+            ? null
+            : new List<dynamic>.from(slideMedia.map((x) => x)),
+      };
 }
 
 class LocationsResponse {
@@ -49,7 +81,6 @@ class LocationsResponse {
   LocationsResponse(this.locations);
 
   factory LocationsResponse.fromJson(List<dynamic> json) {
-
     return LocationsResponse(
         json.map((jsonLocation) => Location.fromJson(jsonLocation)).toList());
   }

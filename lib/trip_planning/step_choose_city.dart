@@ -12,23 +12,6 @@ class ChooseCityStep extends StatefulWidget {
 
 class ChooseCityStepState extends State<ChooseCityStep> {
   StepOneBloc bloc;
-  final locations = [
-    Location(
-        'Great city with Great views, Awesome City with great views and something is really great is going to happen.',
-        'Ankara',
-        '',
-        '', []),
-    Location(
-        'Such great streets and colorful building, great for tourism and coding around something beautiful if you want something awesome so this city is your place of choice to be in',
-        'Bursa',
-        '',
-        '', []),
-    Location(
-        'What do you care about if you say and see awesome things around. The city is such good and cozy place to be in forever and ever baby.',
-        'Istabul',
-        '',
-        '', []),
-  ];
 
   @override
   void initState() {
@@ -60,85 +43,97 @@ class ChooseCityStepState extends State<ChooseCityStep> {
               ),
             ),
             StreamBuilder<List<Location>>(
-              stream: bloc.locationsStream,
-              builder: (context, locationsSnapshot) {
-                return Stack(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height - 270,
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.all(16),
-                      margin: EdgeInsets.only(right: 24, left: 24),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10)),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 8,
-                          ),
-                        ],
-                      ),
-                      child: locationsSnapshot.hasData ?  StreamBuilder<Location>(
-                          stream: bloc.selectedCitStream,
-                          initialData: locationsSnapshot.data[0],
-                          builder: (context, snapshot) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  snapshot.data.name,
-                                  style: TextStyle(
-                                      color: Colors.black87,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w700),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: Text(
-                                    snapshot.data.description,
-                                    style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }) : Center(child: CircularProgressIndicator(),),
-                    ),
-                    locationsSnapshot.hasData ? Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height / 3),
-                      height: MediaQuery.of(context).size.width / 2,
-                      child: StreamBuilder<int>(
-                              stream: bloc.indexStream,
-                              initialData: 0,
-                              builder: (context, snapshot) {
-                                return ListView.builder(
-                                  padding: EdgeInsets.only(
-                                      right: 32, left: 32, top: 16, bottom: 16),
-                                  itemCount: locationsSnapshot.data.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return CityRadioTile(
-                                      location: locationsSnapshot.data[index],
-                                      selected: index == snapshot.data,
-                                      onTap: (location) {
-                                        bloc.selectLocation(location, index);
-                                      },
-                                    );
-                                  },
-                                );
-                              },
+                stream: bloc.locationsStream,
+                builder: (context, locationsSnapshot) {
+                  return Stack(
+                    children: <Widget>[
+                      Container(
+                        height: MediaQuery.of(context).size.height - 270,
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.all(16),
+                        margin: EdgeInsets.only(right: 24, left: 24),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10)),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 8,
                             ),
-                    ) : Center(child: CircularProgressIndicator(),),
-                  ],
-                );
-              }
-            ),
+                          ],
+                        ),
+                        child: locationsSnapshot.hasData
+                            ? StreamBuilder<Location>(
+                                stream: bloc.selectedCitStream,
+                                initialData: locationsSnapshot.data[0],
+                                builder: (context, snapshot) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        snapshot.data.nameEn,
+                                        style: TextStyle(
+                                            color: Colors.black87,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 16.0),
+                                        child: Text(
+                                          snapshot.data.descriptionEn,
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                })
+                            : Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                      ),
+                      locationsSnapshot.hasData
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  top: MediaQuery.of(context).size.height / 3),
+                              height: MediaQuery.of(context).size.width / 2,
+                              child: StreamBuilder<int>(
+                                stream: bloc.indexStream,
+                                initialData: 0,
+                                builder: (context, snapshot) {
+                                  return ListView.builder(
+                                    padding: EdgeInsets.only(
+                                        right: 32,
+                                        left: 32,
+                                        top: 16,
+                                        bottom: 16),
+                                    itemCount: locationsSnapshot.data.length,
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return CityRadioTile(
+                                        location: locationsSnapshot.data[index],
+                                        selected: index == snapshot.data,
+                                        onTap: (location) {
+                                          bloc.selectLocation(location, index);
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            )
+                          : Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                    ],
+                  );
+                }),
           ],
         ),
       ),
