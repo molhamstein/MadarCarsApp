@@ -24,6 +24,7 @@ class CarCard extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             boxShadow: [MadarColors.shadow],
+            color: Colors.white,
           ),
           child: Column(
             children: <Widget>[
