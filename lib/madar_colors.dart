@@ -8,6 +8,11 @@ class MadarColors {
   static const gradientBtnStart = Color(0xFF3f4547);
   static const gradientBtnEnd = Color(0xFF2d2e31);
 
+  //TEXT
+  static const black = Colors.black87;
+  static const dark_grey = Color(0xFF303030);
+  static const grey = Colors.grey;
+
   static const gradiant_decoration = LinearGradient(
       colors: [MadarColors.gradientUp, MadarColors.gradientDown],
       begin: const FractionalOffset(0.0, 0.0),

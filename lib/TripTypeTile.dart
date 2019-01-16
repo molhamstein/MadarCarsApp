@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class TripTypeTile extends StatefulWidget {
+
+  final IconData iconData;
+  final String title;
+  final Function(bool) onChecked;
+
+  const TripTypeTile({Key key, this.iconData, this.title, this.onChecked}) : super(key: key);
+
+  @override
+  TripTypeTileState createState() {
+    return new TripTypeTileState();
+  }
+}
+
+class TripTypeTileState extends State<TripTypeTile> {
+
+  bool _checked;
+
+  @override
+  void initState() {
+    _checked = false;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 80,
+      margin: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 15,
+          ),
+        ],
+        borderRadius: BorderRadius.circular(15)
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(15),
+          splashColor: Colors.yellow[700],
+          onTap: (){
+            setState(() {
+              _checked = !_checked;
+              widget.onChecked(_checked);
+            });
+          },
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Stack(
+              children: <Widget>[
+                _checked ? Align(alignment: Alignment.topRight, child: Icon(FontAwesomeIcons.solidCheckCircle, color: Colors.yellow[700],)) : Container(),
+                Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(widget.iconData),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 32.0),
+                        child: Text(widget.title, style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

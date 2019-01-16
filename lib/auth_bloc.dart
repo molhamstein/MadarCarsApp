@@ -3,7 +3,6 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/UserResponse.dart';
-import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 import 'validator.dart';
@@ -102,8 +101,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validPassword = _passwordLoginController.value;
     pushLockTouchEvent;
 
-    login('0957465877', 'password').then((response) {
-      //TODO: put real values (from controller).
+    login(validPhoneNumber, validPassword).then((response) {
       print(response.token);
       _submitLoginController.sink.add(response);
     }).catchError((e) {
@@ -128,7 +126,9 @@ class AuthBloc extends BaseBloc with Validators, Network {
         _submitSignUpController.sink.addError(e);
       });
     }).catchError((e) {
-      _submitSignUpController.sink.addError(e);
+      if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
+
+      _submitSignUpController.sink.addError('Phone number or Username are used');
     });
   }
 

@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/madar_fonts.dart';
-import 'package:madar_booking/models/Car.dart';
-import 'package:madar_booking/network.dart';
 import 'package:madar_booking/profile_page.dart';
-import 'package:madar_booking/car_card_widget.dart';
+import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 
 class HomePage extends StatelessWidget {
   // This widget is the root of your application.
@@ -31,24 +28,47 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  static AppBloc appBloc;
-  List<Car> cars = [];
+  AppBloc appBloc;
 
-  static double myHeight;
-  static double myWidth;
-  var open = false;
-  static var rotateBy45;
-  static var rotateBy_0;
-  static var transformation;
+  int _counter = 0; // DataStore().counter;
+  static const double _x_small_font_size = 8;
+  static const double _small_font_size = 14;
+  static const double _medium_font_size = 17;
+  static const double _large_font_size = 24;
+  static const double _x_large_font_size = 50;
 
-  var borderRadius = BorderRadius.circular(200);
-
-  static final token = appBloc.token;
   @override
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
-
     super.initState();
+  }
+
+  Widget _rateWidget(String rate) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
+      child: Container(
+        width: 50,
+        height: 20,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(12.5),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              rate,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Icon(
+              Icons.star,
+              size: 20,
+              color: Colors.yellow.shade800,
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _tripsCardContainer() {
@@ -60,13 +80,26 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-            boxShadow: [MadarColors.shadow],
-            color: Colors.transparent,
-            image: DecorationImage(
-              image: AssetImage('assets/images/bursa.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 10.0, // has the effect of softening the shadow
+                  spreadRadius: 2.0, // has the effect of extending the shadow
+                  offset: Offset(
+                    5.0, // horizontal, move right 10
+                    5.0, // vertical, move down 10
+                  ),
+                )
+              ],
+              color: Colors.transparent,
+              image: DecorationImage(
+                  image: AssetImage('assets/images/bursa.jpg'),
+                  fit: BoxFit.cover)
+              // image: DecorationImage(
+              //   image: ExactAssetImage(''),
+              //   fit: BoxFit.cover,
+              // ),
+              ),
           width: 185,
           height: 185,
           child: Container(
@@ -76,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               children: <Widget>[
                 Row(
+                  // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -86,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           "Istanbol",
                           style: TextStyle(
-                              fontSize: AppFonts.large_font_size,
+                              fontSize: _large_font_size,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
                         ),
@@ -105,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     text: "3",
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: AppFonts.x_large_font_size,
+                                        fontSize: _x_large_font_size,
                                         fontWeight: FontWeight.bold)),
                               ),
                             ],
@@ -124,8 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         text: "Days",
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize:
-                                                AppFonts.x_small_font_size,
+                                            fontSize: _x_small_font_size,
                                             fontWeight: FontWeight.bold)),
                                   ),
                                 ),
@@ -149,8 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Text(
                           "A 3 days trip to istanbol and the iseland of preincess ",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: AppFonts.medium_font_size),
+                              color: Colors.white, fontSize: _medium_font_size),
                           // softWrap: true,
                         ),
                       )
@@ -165,23 +197,180 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _cardContainerList() {
-    return Container(
-      height: 225,
-      child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          itemCount: cars.length,
-          // itemExtent: 10.0,
-          // reverse: true, //makes the list appear in descending order
-          itemBuilder: (BuildContext context, int index) {
-            return CarCard(cars[index]);
-          }),
+  //card Container
+  Widget _cardContainer() {
+    return InkWell(
+      onTap: () {
+        print("helllo");
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: 300,
+          // height: 225.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 10.0, // has the effect of softening the shadow
+                spreadRadius: 2.0, // has the effect of extending the shadow
+                offset: Offset(
+                  5.0, // horizontal, move right 10
+                  5.0, // vertical, move down 10
+                ),
+              ),
+            ],
+
+          ),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Container(
+                  // image container
+                  // height: 175.0,
+                  child: Container(
+                    decoration: containerDecoration,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: ButtonTheme(
+                        minWidth: 50.0,
+                        height: 24.0,
+                        child: RaisedButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          onPressed: () {
+                            print("helllp");
+                          },
+                          textColor: Colors.white,
+                          child: Text(
+                            "Busra",
+                            style: TextStyle(
+                              fontSize: _small_font_size,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          color: Color.fromARGB(255, 36, 36, 36),
+                        ),
+                      ),
+                    ),
+                    alignment: Alignment(-1.0, 1.0),
+                  ),
+                ),
+              ),
+              // info container
+              Expanded(
+                flex: 1,
+                child: Container(
+                  // height: 50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "Ford Mustang",
+                                  style: TextStyle(
+                                      fontSize: _small_font_size,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.25),
+                                ),
+                                Text("2013",
+                                    style: TextStyle(
+                                        fontSize: _small_font_size,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade800))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                _rateWidget("4.5"),
+                                Text("Mahmot Orhan",
+                                    style: TextStyle(
+                                        fontSize: _small_font_size,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade800))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    RichText(
+                                      text: TextSpan(
+                                        text: '110',
+                                        style: TextStyle(
+                                            color: Colors.grey.shade900,
+                                            fontSize: _large_font_size,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: '\$',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey.shade600),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text("/day",
+                                    style: TextStyle(
+                                        fontSize: _small_font_size,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey.shade600))
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _availbleCars() {
+  Widget _cardContainerList() {
     return Column(children: <Widget>[
       Container(
         color: Colors.transparent,
@@ -191,31 +380,23 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Text(
             "Cars",
             style: TextStyle(
-                fontSize: AppFonts.large_font_size,
-                fontWeight: FontWeight.bold),
+                fontSize: _large_font_size, fontWeight: FontWeight.bold),
             textAlign: TextAlign.start,
           ),
         ),
       ),
-      FutureBuilder<List<Car>>(
-        future: Network().getAvailableCars(token),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return Text("There is no connection");
-            case ConnectionState.waiting:
-              return Container(
-                  height: 225,
-                  child: Center(child: CircularProgressIndicator()));
-            default:
-              if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              } else {
-                this.cars = snapshot.data;
-                return _cardContainerList();
-              }
-          }
-        },
+      Container(
+        height: 225,
+        child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            itemCount: 10,
+            // itemExtent: 10.0,
+            // reverse: true, //makes the list appear in descending order
+            itemBuilder: (BuildContext context, int index) {
+              return _cardContainer();
+            }),
       )
     ]);
   }
@@ -231,8 +412,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               "Recomended Trips",
               style: TextStyle(
-                  fontSize: AppFonts.large_font_size,
-                  fontWeight: FontWeight.bold),
+                  fontSize: _large_font_size, fontWeight: FontWeight.bold),
               textAlign: TextAlign.start,
             ),
           ),
@@ -240,37 +420,75 @@ class _MyHomePageState extends State<MyHomePage> {
         Container(
           height: 190,
           child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            itemCount: 10,
-            // itemExtent: 10.0,
-            // reverse: true, //makes the list appear in descending order
-            itemBuilder: (BuildContext context, int index) {
-              return _tripsCardContainer();
-            },
-          ),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemCount: 10,
+              // itemExtent: 10.0,
+              // reverse: true, //makes the list appear in descending order
+              itemBuilder: (BuildContext context, int index) {
+                return _tripsCardContainer();
+              }),
         ),
       ],
     );
   }
 
+  final containerDecoration = new BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey,
+          blurRadius: 20.0, // has the effect of softening the shadow
+          spreadRadius: 5.0, // has the effect of extending the shadow
+          offset: Offset(
+            10.0, // horizontal, move right 10
+            10.0, // vertical, move down 10
+          ),
+        )
+      ],
+      color: Colors.red,
+      // image: DecorationImage(
+      //   image: ExactAssetImage('images/image.jpg'),
+      //   fit: BoxFit.fill,
+      // ),
+      image: DecorationImage(image: AssetImage('assets/images/ford.jpg'), fit: BoxFit.cover),
+      borderRadius: BorderRadius.circular(5.0));
+
+  void _incrementCounter() async {
+    setState(() {
+      _counter++;
+      //  DataStore().setCounter(_counter);
+      print('$_counter');
+    });
+  }
+
+  final gradientDecoration = LinearGradient(
+      colors: [MadarColors.gradientUp, MadarColors.gradientDown],
+      begin: const FractionalOffset(0.0, 0.0),
+      end: const FractionalOffset(1.0, 1.0),
+      stops: [0.0, 1.0],
+      tileMode: TileMode.clamp);
+
+  var myHeight = 300.0;
+  var myWidth = 300.0;
+  var open = false;
+  var rotateBy45 = new Matrix4.identity()
+    ..rotateZ(-45 * 3.1415927 / 180)
+    ..translate(-75.0, -50.0, 0.0)
+    ..scale(1.0);
+  var rotateBy_0 = new Matrix4.identity()
+    ..rotateZ(0 * 3.1415927 / 180)
+    ..translate(0.0, 0.0, 0.0)
+    ..scale(2.0);
+  var transformation = new Matrix4.identity()
+    ..rotateZ(-45 * 3.1415927 / 180)
+    ..translate(-75.0, -50.0, 0.0)
+    ..scale(1.0);
+
+  var borderRadius = BorderRadius.circular(100);
+
   @override
   Widget build(BuildContext context) {
-    // myWidth = MediaQuery.of(context).size.width;
-    // myHeight = MediaQuery.of(context).size.height;
-    // // var third = myHeight / 3;
-    // rotateBy45 = new Matrix4.identity()
-    //   ..rotateZ(-45 * 3.1415927 / 180)
-    //   ..translate(0, -150.0, 0.0);
-
-    // rotateBy_0 = new Matrix4.identity()
-    //   ..rotateZ(0 * 3.1415927 / 180)
-    //   ..translate(0.0, 0.0, 0.0);
-
-    // transformation = new Matrix4.identity()
-    //   ..rotateZ(-45 * 3.1415927 / 180)
-    //   ..translate(0, -(150.0), 0.0);
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(
@@ -289,9 +507,16 @@ class _MyHomePageState extends State<MyHomePage> {
             child: AnimatedContainer(
               duration: Duration(seconds: 2),
               decoration: BoxDecoration(
-                borderRadius: borderRadius,
-                gradient: MadarColors.gradiant_decoration,
-              ),
+                  borderRadius: borderRadius,
+                  gradient: LinearGradient(
+                      colors: [
+                        MadarColors.gradientUp,
+                        MadarColors.gradientDown
+                      ],
+                      begin: const FractionalOffset(0.0, 0.0),
+                      end: const FractionalOffset(1.0, 1.0),
+                      stops: [0.0, 1.0],
+                      tileMode: TileMode.clamp)),
               height: myHeight,
               width: myWidth,
               transform: transformation,
@@ -304,43 +529,42 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 50,
               ),
               Container(
-                padding: EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 42.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Hello ${appBloc.userName}",
-                            style: TextStyle(
-                              fontSize: AppFonts.large_font_size,
-                              fontWeight: FontWeight.bold,
+                  padding: EdgeInsets.all(8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 42.0),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Hello ${appBloc.userName}",
+                              style: TextStyle(
+                                  fontSize: _large_font_size,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.person),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => ProfilePage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
+                      IconButton(
+                        icon: Icon(Icons.person),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ProfilePage()));
+                        },
+                      ),
+                    ],
+                  )),
               Container(
                 height: 25,
               ),
               _tripCardContainerList(),
-              _availbleCars(),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: SizedBox(),
+              // ),
+              _cardContainerList(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -354,23 +578,38 @@ class _MyHomePageState extends State<MyHomePage> {
                         width: 75,
                         height: 75,
                         decoration: BoxDecoration(
-                            boxShadow: [MadarColors.shadow],
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black54,
+                              blurRadius: 10,
+                              offset: Offset(0, 5)
+                            )
+                          ],
                             color: Colors.grey.shade900,
                             borderRadius: BorderRadius.circular(15)),
                         alignment: Alignment(0, 0),
                         child: FlatButton(
                           onPressed: () {
-                            print("pressed");
-                            if (!open) {
-                              transformation = rotateBy_0;
-                              borderRadius = BorderRadius.circular(0);
-                              open = true;
-                            } else {
-                              open = false;
-                              transformation = rotateBy45;
-                              borderRadius = BorderRadius.circular(200);
-                            }
-                            setState(() {});
+
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => TripPlanningPage())
+                            );
+//                            print("pressed");
+//                            if (!open) {
+//                              transformation = rotateBy_0;
+//                              borderRadius = BorderRadius.circular(0);
+//                              myHeight = MediaQuery.of(context).size.height;
+//                              myWidth = MediaQuery.of(context).size.width;
+//                              open = true;
+//                            } else {
+//                              open = false;
+//                              myHeight = 300.0;
+//                              myWidth = 300.0;
+//                              transformation = rotateBy45;
+//                              borderRadius = BorderRadius.circular(100);
+//                            }
+//                            setState(() {});
                           },
                           child: Icon(
                             Icons.add,

@@ -36,7 +36,7 @@ class MainButtonState extends State<MainButton>
     _loginButtonController = new AnimationController(
         duration: widget.duration ?? Duration(milliseconds: 300), vsync: this);
     buttonSqueezeAnimation = new Tween(
-      begin: 220.0,
+      begin: widget.width,
       end: widget.height,
     ).animate(new CurvedAnimation(
         parent: _loginButtonController, curve: new Interval(0.0, 0.250)));
@@ -68,7 +68,7 @@ class MainButtonState extends State<MainButton>
             stops: [0.0, 1.0],
             tileMode: TileMode.clamp),
       ),
-      child: buttonSqueezeAnimation.value > widget.height * 2
+      child: buttonSqueezeAnimation.value > widget.height
           ? MaterialButton(
               highlightColor: Colors.transparent,
               splashColor: Colors.redAccent[100],
@@ -76,7 +76,7 @@ class MainButtonState extends State<MainButton>
               //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 42.0),
+                    vertical: 10.0),
                 child: Text(
                   widget.text,
                   style: TextStyle(

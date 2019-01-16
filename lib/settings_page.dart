@@ -155,12 +155,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
                             child: FlatButton(
                               onPressed: () {
                                 BlocProvider.of<AppBloc>(context).logout;
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) => LandingPage(),
-                                    ),
-                                    ModalRoute.withName('/'));                              },
+                              },
                               child: Text(
                                 'Logout',
                                 style: TextStyle(
