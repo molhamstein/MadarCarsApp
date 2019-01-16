@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class DataStore {
   final SharedPreferences _prefs;
-
   DataStore(this._prefs);
 
   User getUser() {
@@ -24,15 +23,14 @@ class DataStore {
     _prefs.setString('user_phone_number', user.phoneNumber);
     _prefs.setString('user_status', user.status);
     _prefs.setString('user_created_at', user.createdAt);
-
   }
 
   setUserToken(String accessToken) {
     _prefs.setString('access_token', accessToken);
   }
 
+  String get userToken => _prefs.getString('access_token');
   bool get isUserLoggedIn => _prefs.getString('access_token') != null;
 
   get logout => _prefs.clear();
-
 }

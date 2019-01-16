@@ -6,6 +6,7 @@ import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/trip_info_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'DataStore.dart';
 
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
