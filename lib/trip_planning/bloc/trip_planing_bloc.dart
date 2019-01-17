@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/trip.dart';
+import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 
-class TripPlaningBloc extends BaseBloc {
+class TripPlaningBloc extends BaseBloc with Network {
 
-  Trip _trip;
+  Trip trip;
 
   TripPlaningBloc() {
-    _trip = Trip.init();
+    trip = Trip.init();
   }
 
   final _navigationController = BehaviorSubject<Widget>();
@@ -18,17 +21,22 @@ class TripPlaningBloc extends BaseBloc {
   get navigationStream => _navigationController.stream;
   get tripController => _tripController.stream;
 
-  Function(bool) toAirport(to) { _trip.toAirport = to; }
-  Function(bool) fromAirport(from) { _trip.fromAirport = from; }
-  Function(bool) cityTour(cityTour) { _trip.inCity = cityTour; }
+  toAirport(to) { trip.toAirport = to; }
+  fromAirport(from) { trip.fromAirport = from; }
+  cityTour(cityTour) { trip.inCity = cityTour; }
+  startDateChanged(startDate) { trip.startDate = startDate; }
+  endDateChanged(endDate) { trip.endDate = endDate; }
+  cityId(Location location) { trip.location = location; }
+  tripCar(Car car) { trip.car = car; }
 
 
   //TODO: change!
-  get isToAirport => _trip.toAirport;
-  get isFromAirport => _trip.fromAirport;
-  get isCityTour => _trip.inCity;
+  get isToAirport => trip.toAirport;
+  get isFromAirport => trip.fromAirport;
+  get isCityTour => trip.inCity;
 
 
+  bool get isLocationIdNull => trip.location == null;
 
   @override
   void dispose() {

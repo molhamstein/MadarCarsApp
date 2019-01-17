@@ -322,11 +322,7 @@ class InvoicePageState extends State<InvoicePage> {
                                                     const EdgeInsets.all(16.0),
                                                 child: Container(
                                                   alignment: Alignment(1, 0),
-                                                  child: RateWidget(
-                                                    "4.5",
-                                                    60,
-                                                    30,
-                                                  ),
+                                                  child: RateWidget("4.5"),
                                                 ),
                                               ),
                                             ),

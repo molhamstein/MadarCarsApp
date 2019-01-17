@@ -141,6 +141,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
       case FacebookLoginStatus.loggedIn:
         print(result.accessToken.token);
         getFacebookProfile(result.accessToken.token).then((jsonProfile) {
+          print(jsonProfile);
           FacebookUser facebookUser =
               FacebookUser.fromJson(jsonProfile, result.accessToken.token);
           facebookSignUp(facebookUser.id, facebookUser.token)

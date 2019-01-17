@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // itemExtent: 10.0,
           // reverse: true, //makes the list appear in descending order
           itemBuilder: (BuildContext context, int index) {
-            return CarCard(cars[index]);
+            return CarCard(car: cars[index]);
           }),
     );
   }
@@ -169,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         FutureBuilder<List<TripModel>>(
-          future: Network().getPredifinedTrips(),
+          future: Network().getPredifinedTrips(appBloc.token),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:

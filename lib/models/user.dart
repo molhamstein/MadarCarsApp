@@ -2,7 +2,7 @@ import 'Country.dart';
 
 class User {
   static const ID = 'id';
-  static const USER_NAME = 'name';
+  static const USER_NAME = 'username';
   static const PHONE_NUMBER = 'phoneNumber';
   static const STATUS = 'status';
   static const CREATED_AT = 'createdAt';

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 class DatePicker extends StatefulWidget {
   final double size;
   final Function(DateTime) onDateChanged;
-  final Function(TimeOfDay) onTimeChanged;
   final bool withTimePicker;
   final String title;
 
@@ -14,7 +13,6 @@ class DatePicker extends StatefulWidget {
       this.size = 50,
       @required this.onDateChanged,
       this.withTimePicker = false,
-      @required this.onTimeChanged,
       this.title = 'Date'})
       : super(key: key);
 
@@ -111,11 +109,16 @@ class DatePickerState extends State<DatePicker> {
     if (time != null && time != _selectedTime) timeChanged = true;
 
     if (dateChanged || timeChanged) {
+
+      DateTime selectedDate = date;
+      if(dateChanged && timeChanged) {
+        selectedDate = DateTime(date.year, date.month, date.day, time.hour);
+      }
+
       setState(() {
         _selectedDate = date;
-        widget.onDateChanged(date);
+        widget.onDateChanged(selectedDate);
         _selectedTime = time;
-        widget.onTimeChanged(time);
       });
     }
   }

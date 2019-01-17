@@ -13,7 +13,6 @@ class ProfilePage extends StatelessWidget {
       child: Container(
         // width: 300,
         height: 200,
-
         child: Row(
           children: <Widget>[
             // time container

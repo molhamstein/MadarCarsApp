@@ -6,14 +6,13 @@ import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/location.dart';
+import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
 
 class Network {
   Map<String, String> headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'Authorization':
-        'BoY7Hx6X3X8hGv7vXUNLw9vLPApUVfDQseObfRs0wmap3v9LeRILZVz6wYolk8ub',
   };
 
   static final String _baseUrl = 'http://104.217.253.15:3006/api/';
@@ -22,6 +21,9 @@ class Network {
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
   final String _locations = _baseUrl +
       'locations?filter[include]=subLocations&filter[where][status]=active';
+  final String _avaiableCars = _baseUrl + 'cars/getAvailable';
+  final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
+
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
   final String _predifindTripsUrl = _baseUrl + 'predefinedTrips';
@@ -48,7 +50,7 @@ class Network {
       'phoneNumber': phoneNumber,
       'username': userName,
       'password': password,
-      'ISOCode': isoCode
+      'ISOCode': isoCode.toUpperCase()
     });
     final response = await http.post(_signUpUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
@@ -99,10 +101,10 @@ class Network {
       String facebookId, String facebookToken, String facebookUsername) async {
     final body = json.encode({
       'phoneNumber': phoneNumber,
-      'username': facebookUsername,
+      'name': facebookUsername,
       'socialId': facebookId,
       'token': facebookToken,
-      'ISOCode': isoCode,
+      'ISOCode': isoCode.toUpperCase(),
     });
     final response =
         await http.post(_facebookLoginUrl, body: body, headers: headers);
@@ -115,11 +117,68 @@ class Network {
     }
   }
 
-  Future<LocationsResponse> fetchLocations() async {
+  Future<LocationsResponse> fetchLocations(String token) async {
+    headers['Authorization'] = token;
+    print(headers.toString());
     final response = await http.get(_locations, headers: headers);
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return LocationsResponse.fromJson(json.decode(response.body));
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<List<Car>> fetchAvailableCars(String token, Trip trip) async {
+    headers['Authorization'] = token;
+
+    String dates = '';
+    if (trip.keys.keys.toList().length == 2)
+      dates =
+          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip.keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
+    else
+      dates =
+          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
+
+    final url = _avaiableCars +
+        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
+
+    print(url);
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return (json.decode(response.body) as List)
+          .map((jsonCar) => Car.fromJson(jsonCar))
+          .toList();
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<List<Car>> fetchSubLocations(String token, Trip trip) async {
+    headers['Authorization'] = token;
+
+    var filter = {
+      "where": {
+        "and": [
+          {"carId": trip.car.id},
+          {
+            "subLocationId": {"inq": trip.location.subLocationsIds}
+          }
+        ]
+      }
+    };
+
+    final url = _carSubLocations + json.encode(filter);
+    print(url);
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return (json.decode(response.body) as List)
+          .map((jsonCar) => Car.fromJson(jsonCar))
+          .toList();
     } else {
       print(response.body);
       throw json.decode(response.body);
@@ -143,7 +202,8 @@ class Network {
   }
 
   // get predefined Trips
-  Future<List<TripModel>> getPredifinedTrips() async {
+  Future<List<TripModel>> getPredifinedTrips(String token) async {
+    headers['Authorization'] = token;
     final response = await http.get(
       _predifindTripsUrl,
       headers: headers,
