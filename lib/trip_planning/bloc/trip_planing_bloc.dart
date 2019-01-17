@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
@@ -25,7 +26,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   cityTour(cityTour) { trip.inCity = cityTour; }
   startDateChanged(startDate) { trip.startDate = startDate; }
   endDateChanged(endDate) { trip.endDate = endDate; }
-  cityId(String id) { trip.locationId = id; }
+  cityId(Location location) { trip.location = location; }
   tripCar(Car car) { trip.car = car; }
 
 
@@ -35,7 +36,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   get isCityTour => trip.inCity;
 
 
-  bool get isLocationIdNull => trip.locationId == null;
+  bool get isLocationIdNull => trip.location == null;
 
   @override
   void dispose() {

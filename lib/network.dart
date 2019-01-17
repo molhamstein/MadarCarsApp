@@ -20,6 +20,7 @@ class Network {
   final String _locations = _baseUrl +
       'locations?filter[include]=subLocations&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
+  final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
@@ -136,8 +137,27 @@ class Network {
     else dates = '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
 
       final url = _avaiableCars +
-          '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.locationId}';
+          '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
+    print(url);
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return (json.decode(response.body) as List).map((jsonCar) => Car.fromJson(jsonCar)).toList();
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+
+    Future<List<Car>> fetchSubLocations(String token, Trip trip) async {
+
+    headers['Authorization'] = token;
+
+    var filter = { "where": { "and": [{ "carId": trip.car.id }, { "subLocationId": { "inq": trip.location.subLocationsIds } }] } };
+
+    final url = _carSubLocations + json.encode(filter);
     print(url);
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {

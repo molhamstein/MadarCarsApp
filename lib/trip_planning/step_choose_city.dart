@@ -51,7 +51,7 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                 stream: bloc.locationsStream,
                 builder: (context, locationsSnapshot) {
                   if (locationsSnapshot.hasData && planingBloc.isLocationIdNull)
-                    planingBloc.cityId(locationsSnapshot.data[0].id); // initial location (pre selected)
+                    planingBloc.cityId(locationsSnapshot.data[0]); // initial location (pre selected)
 
                   return Stack(
                     children: <Widget>[
@@ -129,7 +129,7 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                                         selected: index == snapshot.data,
                                         onTap: (location) {
                                           bloc.selectLocation(location, index);
-                                          planingBloc.cityId(location.id);
+                                          planingBloc.cityId(location);
                                         },
                                       );
                                     },

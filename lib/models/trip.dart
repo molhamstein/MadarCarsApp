@@ -1,10 +1,11 @@
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/location.dart';
 
 class Trip {
   bool fromAirport;
   bool toAirport;
   bool inCity;
-  String locationId;
+  Location location;
   DateTime startDate;
   DateTime endDate;
   Car car;
@@ -13,7 +14,7 @@ class Trip {
     this.fromAirport,
     this.toAirport,
     this.inCity,
-    this.locationId,
+    this.location,
     this.startDate,
     this.endDate,
     this.car,

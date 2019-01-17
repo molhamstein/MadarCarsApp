@@ -35,7 +35,7 @@ class ChooseCarBloc extends BaseBloc with Network {
 
     }).catchError((e) {
 
-
+print(e);
 
     });
     
