@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class RateWidget extends StatelessWidget {
-  String rate = "";
-  double height = 20;
-  double width = 50;
-  RateWidget({this.rate, this.width, this.height});
+  final String rate;
+  final double height;
+  final double width;
+
+  RateWidget(this.rate, this.width, this.height);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Padding(
       padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
       child: Container(
@@ -26,7 +26,7 @@ class RateWidget extends StatelessWidget {
             ),
             Icon(
               Icons.star,
-              size: 20,
+              size: height,
               color: Colors.yellow.shade800,
             )
           ],

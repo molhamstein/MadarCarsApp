@@ -26,8 +26,8 @@ class TripInfoPageState extends State<TripInfoPage> {
   var ms = const Duration(milliseconds: 1);
 
   var scaleByOne = new Matrix4.identity()..translate(0.0, 0.0);
-  var scaleByZero = new Matrix4.identity()..translate(0.0, 1000.0);
-  var transformation = new Matrix4.identity()..translate(0.0, 1000.0);
+  var scaleByZero = new Matrix4.identity()..translate(0.0, 500.0);
+  var transformation = new Matrix4.identity()..translate(0.0, 500.0);
 
   startTimeout([int milliseconds]) {
     var duration = milliseconds == null ? timeout : ms * milliseconds;
@@ -45,7 +45,7 @@ class TripInfoPageState extends State<TripInfoPage> {
   @override
   void initState() {
     // TODO: implement initState
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         handleTimeout();
       });
@@ -323,9 +323,9 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                 child: Container(
                                                   alignment: Alignment(1, 0),
                                                   child: RateWidget(
-                                                    rate: "4.5",
-                                                    width: 60,
-                                                    height: 30,
+                                                    "4.5",
+                                                    60,
+                                                    30,
                                                   ),
                                                 ),
                                               ),
@@ -532,6 +532,23 @@ class TripInfoPageState extends State<TripInfoPage> {
                   ),
                 )
               ],
+            ),
+          ),
+          new Positioned(
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              actions: <Widget>[],
             ),
           ),
         ],

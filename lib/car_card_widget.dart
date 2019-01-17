@@ -24,7 +24,7 @@ class CarCard extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             boxShadow: [MadarColors.shadow],
-            color: Colors.white,
+            // color: Colors.white,
           ),
           child: Column(
             children: <Widget>[
@@ -35,11 +35,12 @@ class CarCard extends StatelessWidget {
                   // height: 175.0,
                   child: Container(
                     decoration: BoxDecoration(
-                        boxShadow: [MadarColors.shadow],
-                        image: DecorationImage(
-                            image: NetworkImage(car.media.thumb),
-                            fit: BoxFit.cover),
-                        borderRadius: BorderRadius.circular(5.0)),
+                      // boxShadow: [MadarColors.shadow],
+                      image: DecorationImage(
+                          image: NetworkImage(car.media.thumb),
+                          fit: BoxFit.cover),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ButtonTheme(
@@ -123,9 +124,9 @@ class CarCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 RateWidget(
-                                  rate: '${car.rate}',
-                                  width: 50,
-                                  height: 20,
+                                  '${car.rate}',
+                                  50,
+                                  20,
                                 ),
                                 Text(car.driver.firstName,
                                     style: TextStyle(

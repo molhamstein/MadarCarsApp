@@ -10,6 +10,7 @@ class Location {
   String color1;
   String color2;
   String status;
+  int sublocationCount;
   String createdAt;
   String id;
   String mediaId;
@@ -26,6 +27,7 @@ class Location {
     this.color1,
     this.color2,
     this.status,
+    this.sublocationCount,
     this.createdAt,
     this.id,
     this.mediaId,
@@ -46,6 +48,8 @@ class Location {
         color1: json["color1"] == null ? null : json["color1"],
         color2: json["color2"] == null ? null : json["color2"],
         status: json["status"] == null ? null : json["status"],
+        sublocationCount:
+            json["sublocationCount"] == null ? null : json["sublocationCount"],
         createdAt: json["createdAt"] == null ? null : json["createdAt"],
         id: json["id"] == null ? null : json["id"],
         mediaId: json["mediaId"] == null ? null : json["mediaId"],
@@ -65,6 +69,7 @@ class Location {
         "color1": color1 == null ? null : color1,
         "color2": color2 == null ? null : color2,
         "status": status == null ? null : status,
+        "sublocationCount": sublocationCount == null ? null : sublocationCount,
         "createdAt": createdAt == null ? null : createdAt,
         "id": id == null ? null : id,
         "mediaId": mediaId == null ? null : mediaId,

@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/MyTrip.dart';
+import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/user.dart';
@@ -22,6 +24,8 @@ class Network {
       'locations?filter[include]=subLocations&filter[where][status]=active';
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
+  final String _predifindTripsUrl = _baseUrl + 'predefinedTrips';
+  final String _myTripsUrl = _baseUrl + 'trips/getMyTrip';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -130,8 +134,37 @@ class Network {
       headers: headers,
     );
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
+      //  print(json.decode(response.body));
       return carFromJson(response.body);
+    } else {
+      // print(json.decode(response.body));
+      throw json.decode(response.body);
+    }
+  }
+
+  // get predefined Trips
+  Future<List<TripModel>> getPredifinedTrips() async {
+    final response = await http.get(
+      _predifindTripsUrl,
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return tripFromJson(response.body);
+    } else {
+      print(json.decode(response.body));
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<List<MyTrip>> getMyTrips() async {
+    final response = await http.get(
+      _myTripsUrl,
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return myTripFromJson(response.body);
     } else {
       print(json.decode(response.body));
       throw json.decode(response.body);

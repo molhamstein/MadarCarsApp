@@ -127,8 +127,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
       });
     }).catchError((e) {
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
-
-      _submitSignUpController.sink.addError('Phone number or Username are used');
+        _submitSignUpController.sink
+            .addError('Phone number or Username are used');
     });
   }
 
@@ -143,7 +143,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
         getFacebookProfile(result.accessToken.token).then((jsonProfile) {
           FacebookUser facebookUser =
               FacebookUser.fromJson(jsonProfile, result.accessToken.token);
-          facebookSignUp(facebookUser.id, facebookUser.token).then((userResponse) {
+          facebookSignUp(facebookUser.id, facebookUser.token)
+              .then((userResponse) {
             print('user name : ' + userResponse.user.userName);
             _submitLoginController.sink.add(userResponse);
           }).catchError((e) {

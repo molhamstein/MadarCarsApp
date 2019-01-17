@@ -5,6 +5,7 @@ import 'package:madar_booking/settings_page.dart';
 import 'package:madar_booking/trip_info_page.dart';
 import 'madar_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'my_flutter_app_icons.dart';
 
 class ProfilePage extends StatelessWidget {
   Widget tripInfoCard() {
@@ -424,184 +425,137 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  var myHeight = 250.0;
-  var myWidth = 1000.0;
-  var open = false;
-  var rotate_by_45 = new Matrix4.identity()
-    // ..rotateZ(45 * 3.1415927 / 180)
-    ..translate(75.0, 50.0, 0.0)
+  final double myHeight = 250.0;
+  final double myWidth = 1000.0;
+  final bool open = false;
+  final Matrix4 rotateBy45 = new Matrix4.identity()
+    ..rotateZ(-45 * 3.1415927 / 180)
+    ..translate(-75.0, -50.0, 0.0)
     ..scale(1.0);
-  var rotate_by_0 = new Matrix4.identity()
+  final Matrix4 rotateBy0 = new Matrix4.identity()
     ..rotateZ(0 * 3.1415927 / 180)
     ..translate(0.0, 0.0, 0.0)
     ..scale(2.0);
-  var transformation = new Matrix4.identity()
-    ..rotateZ(15 * 3.1415927 / 180)
-    ..translate(0.0, -150.0, 0.0)
+  final Matrix4 transformation = new Matrix4.identity()
+    ..rotateZ(-45 * 3.1415927 / 180)
+    ..translate(-75.0, -50.0, 0.0)
     ..scale(1.0);
+  final borderRaduice = BorderRadius.only(bottomRight: Radius.circular(100));
 
-  var border_raduice = BorderRadius.only(bottomRight: Radius.circular(100));
   @override
   Widget build(BuildContext context) {
     AppBloc bloc = BlocProvider.of<AppBloc>(context);
     return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        Container(
-          child: AnimatedContainer(
-            duration: Duration(seconds: 2),
-            decoration: BoxDecoration(
-                borderRadius: border_raduice,
-                gradient: MadarColors.gradiant_decoration),
-            height: myHeight,
-            width: myWidth,
-            transform: transformation,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            child: AnimatedContainer(
+              duration: Duration(seconds: 2),
+              decoration: BoxDecoration(
+                  borderRadius: borderRaduice,
+                  gradient: MadarColors.gradiant_decoration),
+              height: myHeight,
+              width: myWidth,
+              transform: transformation,
+            ),
           ),
-        ),
-        Container(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 250,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SafeArea(
-                      child: Container(
-                        height: 50,
-                        // color: Colors.red,
+          Container(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 250,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      SafeArea(
+                        child: Container(
+                          height: 50,
+                        ),
+                      ),
+                      Container(
+                        // color: Colors.blue,
+                        height: 122.0,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                              ),
+                              padding: const EdgeInsets.only(left: 25.0),
+                              child: profileImage(),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) {
-                                  return SettingsPage();
-                                }));
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.settings,
-                                  color: Colors.white,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                bloc.userName,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Container(
-                      // color: Colors.blue,
-                      height: 122.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 25.0),
-                            child: profileImage(),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              bloc.userName,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                // color: Colors.red,
-                constraints: BoxConstraints.expand(height: 30.0),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Your bookings",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
+                Container(
+                  // color: Colors.red,
+                  constraints: BoxConstraints.expand(height: 30.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Your bookings",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                // color: Colors.blue,
-                // constraints: BoxConstraints.expand(
-                //     height: MediaQuery.of(context).size.height - 250),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: tripInfoCardList(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: tripInfoCardList(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    ));
+          new Positioned(
+              top: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: AppBar(
+                elevation: 0.0,
+                backgroundColor: Colors.transparent,
+                actions: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      MyFlutterApp.edit_profile,
+                      color: Colors.white,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MySettingsPage()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        MyFlutterApp.settings,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ))
+        ],
+      ),
+    );
   }
 }
-/**
- * 
- * new Stack(
-          children: <Widget>[
-            new Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: new Card(
-                margin: new EdgeInsets.all(20.0),
-                child: new Container(
-                  width: double.infinity,
-                  height: 200.0,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            new Positioned(
-              top: 0.0,
-              bottom: 0.0,
-              left: 35.0,
-              child: new Container(
-                height: double.infinity,
-                width: 1.0,
-                color: Colors.blue,
-              ),
-            ),
-            new Positioned(
-              top: 100.0,
-              left: 15.0,
-              child: new Container(
-                height: 40.0,
-                width: 40.0,
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                child: new Container(
-                  margin: new EdgeInsets.all(5.0),
-                  height: 30.0,
-                  width: 30.0,
-                  decoration: new BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.red),
-                ),
-              ),
-            )
-          ],
-        );
- */

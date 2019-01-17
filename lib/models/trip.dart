@@ -1,5 +1,4 @@
 class Trip {
-
   bool fromAirport;
   bool toAirport;
   bool inCity;
@@ -12,5 +11,4 @@ class Trip {
     toAirport = false;
     inCity = false;
   }
-
 }
