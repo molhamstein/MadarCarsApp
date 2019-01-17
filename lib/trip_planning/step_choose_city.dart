@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/city_radio_tile.dart';
 import 'package:madar_booking/models/location.dart';
-import 'package:madar_booking/trip_planning/bloc/step_one_bloc.dart';
+import 'package:madar_booking/trip_planning/bloc/choose_city_bloc.dart';
+import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
 class ChooseCityStep extends StatefulWidget {
   @override
@@ -11,11 +14,13 @@ class ChooseCityStep extends StatefulWidget {
 }
 
 class ChooseCityStepState extends State<ChooseCityStep> {
-  StepOneBloc bloc;
+  ChooseCityBloc bloc;
+  TripPlaningBloc planingBloc;
 
   @override
   void initState() {
-    bloc = StepOneBloc();
+    planingBloc = BlocProvider.of<TripPlaningBloc>(context);
+    bloc = ChooseCityBloc(BlocProvider.of<AppBloc>(context).token);
     bloc.pushLocations;
     super.initState();
   }
@@ -45,6 +50,9 @@ class ChooseCityStepState extends State<ChooseCityStep> {
             StreamBuilder<List<Location>>(
                 stream: bloc.locationsStream,
                 builder: (context, locationsSnapshot) {
+                  if (locationsSnapshot.hasData && planingBloc.isLocationIdNull)
+                    planingBloc.cityId(locationsSnapshot.data[0].id); // initial location (pre selected)
+
                   return Stack(
                     children: <Widget>[
                       Container(
@@ -121,6 +129,7 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                                         selected: index == snapshot.data,
                                         onTap: (location) {
                                           bloc.selectLocation(location, index);
+                                          planingBloc.cityId(location.id);
                                         },
                                       );
                                     },

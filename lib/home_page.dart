@@ -177,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // itemExtent: 10.0,
           // reverse: true, //makes the list appear in descending order
           itemBuilder: (BuildContext context, int index) {
-            return CarCard(cars[index]);
+            return CarCard(car: cars[index]);
           }),
     );
   }

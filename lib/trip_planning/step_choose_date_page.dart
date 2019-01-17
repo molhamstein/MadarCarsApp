@@ -86,12 +86,7 @@ class StepChooseDatePage extends StatelessWidget {
     return DatePicker(
       title: 'Start Date',
       withTimePicker: fromAirport,
-      onTimeChanged: (time) {
-        time.toString();
-      },
-      onDateChanged: (date) {
-        print(date.toIso8601String());
-      },
+      onDateChanged: bloc.startDateChanged,
     );
   }
 
@@ -99,12 +94,7 @@ class StepChooseDatePage extends StatelessWidget {
     return DatePicker(
       title: 'End Date',
       withTimePicker: toAirport,
-      onTimeChanged: (time) {
-        time.toString();
-      },
-      onDateChanged: (date) {
-        print(date.toIso8601String());
-      },
+      onDateChanged: bloc.endDateChanged,
     );
   }
 

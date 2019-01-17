@@ -18,10 +18,10 @@ class TripPlanningPage extends StatefulWidget {
 
 class TripPlanningPageState extends State<TripPlanningPage> {
   final steps = [
-    StepChooseCar(),
     ChooseCityStep(),
     TripTypeStep(),
     StepChooseDatePage(),
+    StepChooseCar(),
   ];
 
   int index;
