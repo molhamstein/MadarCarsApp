@@ -151,22 +151,22 @@ class Network {
   }
 
 
-    Future<List<Car>> fetchSubLocations(String token, Trip trip) async {
+    Future<List<SubLocation>> fetchSubLocations(String token, Trip trip) async {
 
     headers['Authorization'] = token;
 
     var filter = { "where": { "and": [{ "carId": trip.car.id }, { "subLocationId": { "inq": trip.location.subLocationsIds } }] } };
-
-    final url = _carSubLocations + json.encode(filter);
-    print(url);
-    final response = await http.get(url, headers: headers);
-    if (response.statusCode == 200) {
-      print(json.decode(response.body));
-      return (json.decode(response.body) as List).map((jsonCar) => Car.fromJson(jsonCar)).toList();
-    } else {
-      print(response.body);
-      throw json.decode(response.body);
-    }
+//
+//    final url = _carSubLocations + json.encode(filter);
+//    print(url);
+//    final response = await http.get(url, headers: headers);
+//    if (response.statusCode == 200) {
+//      print(json.decode(response.body));
+//      return (json.decode(response.body) as List).map((jsonCar) => Car.fromJson(jsonCar)).toList();
+//    } else {
+//      print(response.body);
+//      throw json.decode(response.body);
+//    }
   }
 
   // get avalible cars in home page

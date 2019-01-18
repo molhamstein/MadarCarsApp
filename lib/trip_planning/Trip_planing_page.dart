@@ -5,6 +5,7 @@ import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/step_choose_city.dart';
 import 'package:madar_booking/trip_planning/step_choose_date_page.dart';
+import 'package:madar_booking/trip_planning/step_choose_sub_city.dart';
 import 'package:madar_booking/trip_planning/step_chosse_car.dart';
 import 'package:madar_booking/trip_planning/step_trip_type.dart';
 
@@ -22,6 +23,7 @@ class TripPlanningPageState extends State<TripPlanningPage> {
     TripTypeStep(),
     StepChooseDatePage(),
     StepChooseCar(),
+    StepChooseSubCity(),
   ];
 
   int index;
