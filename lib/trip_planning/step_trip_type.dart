@@ -30,16 +30,19 @@ class TripTypeStep extends StatelessWidget {
               title: 'Pickup from Airport',
               iconData: FontAwesomeIcons.planeArrival,
               onChecked: bloc.fromAirport,
+              checked: bloc.trip.fromAirport,
             ),
             TripTypeTile(
               title: 'Rent a car for city tour',
               iconData: FontAwesomeIcons.car,
               onChecked: bloc.cityTour,
+              checked: bloc.trip.inCity,
             ),
             TripTypeTile(
               title: 'Pickup back to Airport',
               iconData: FontAwesomeIcons.planeDeparture,
               onChecked: bloc.toAirport,
+              checked: bloc.trip.toAirport,
             ),
             Padding(
               padding: const EdgeInsets.all(48.0),

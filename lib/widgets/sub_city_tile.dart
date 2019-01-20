@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/location.dart';
+import 'package:madar_booking/models/sub_location_response.dart';
+import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
 class SubCityTile extends StatefulWidget {
-  final Location location;
-  final Function(int) onCounterChanged;
+  final SubLocationResponse subLocationResponse;
+  final Function(String, int, int) onCounterChanged;
 
-  const SubCityTile({Key key, this.location, @required this.onCounterChanged}) : super(key: key);
+  const SubCityTile(
+      {Key key,
+      @required this.subLocationResponse,
+      @required this.onCounterChanged})
+      : super(key: key);
 
   @override
   SubCityTileState createState() {
@@ -17,9 +25,11 @@ class SubCityTile extends StatefulWidget {
 
 class SubCityTileState extends State<SubCityTile> {
   int _counter;
+  TripPlaningBloc bloc;
 
   @override
   void initState() {
+    bloc = BlocProvider.of<TripPlaningBloc>(context);
     _counter = 0;
     super.initState();
   }
@@ -33,7 +43,7 @@ class SubCityTileState extends State<SubCityTile> {
       decoration: BoxDecoration(
         gradient: MadarColors.gradiant_decoration,
         image: DecorationImage(
-          image: AssetImage('assets/images/bursa.jpg'),
+          image: NetworkImage(widget.subLocationResponse.subLocation.media.url),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
               Colors.white.withOpacity(0.15), BlendMode.dstATop),
@@ -58,7 +68,7 @@ class SubCityTileState extends State<SubCityTile> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Istanbul',
+                    widget.subLocationResponse.subLocation.nameEn,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -76,7 +86,14 @@ class SubCityTileState extends State<SubCityTile> {
                         borderRadius: BorderRadius.circular(15),
                         onTap: () {
                           setState(() {
-                            if (_counter > 0) _counter--;
+                            if (_counter > 0) {
+                              _counter--;
+                              widget.onCounterChanged(
+                                  widget.subLocationResponse.subLocation.id,
+                                  _counter,
+                                  widget.subLocationResponse.cost);
+                              bloc.pushEstimationCost;
+                            }
                           });
                         },
                         child: Padding(
@@ -112,10 +129,18 @@ class SubCityTileState extends State<SubCityTile> {
                       InkWell(
                         borderRadius: BorderRadius.circular(15),
                         onTap: () {
-                          setState(() {
-                            _counter++;
-                            widget.onCounterChanged(_counter);
-                          });
+                          setState(
+                            () {
+                              if (!bloc.trip.isMaxDuration()) {
+                                _counter++;
+                                widget.onCounterChanged(
+                                    widget.subLocationResponse.subLocation.id,
+                                    _counter,
+                                    widget.subLocationResponse.cost);
+                                bloc.pushEstimationCost;
+                              }
+                            },
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -152,7 +177,7 @@ class SubCityTileState extends State<SubCityTile> {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0),
                     child: Text(
-                      '150',
+                      widget.subLocationResponse.cost.toString(),
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

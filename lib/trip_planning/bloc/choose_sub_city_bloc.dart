@@ -1,6 +1,9 @@
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ChooseSubCityBloc extends BaseBloc with Network{
 
@@ -9,16 +12,27 @@ class ChooseSubCityBloc extends BaseBloc with Network{
 
   ChooseSubCityBloc(this._trip, this.token);
 
+  final _subLocationsController = BehaviorSubject<List<SubLocationResponse>>();
+  
+  get pushSubLocations => _fetchSubLocations();
 
-  _fetchSubLoctaion() {
+  get subLocationsStream => _subLocationsController.stream;
 
-    fetchSubLocations(token, _trip).then(onValue)
+  _fetchSubLocations() {
+
+    fetchSubLocations(token, _trip).then((subLocations) {
+      
+      _subLocationsController.sink.add(subLocations);
+      
+    }).catchError((e) {
+      
+    });
 
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    _subLocationsController.close();
   }
 
 }

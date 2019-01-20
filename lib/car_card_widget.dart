@@ -110,8 +110,7 @@ class CarCard extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.all(4.0),
                                     child: Text(
-                                        DateFormat.y().format(
-                                            DateTime.parse(car.productionDate)),
+                                        car.productionDate.toString(),
                                         style: TextStyle(
                                             fontSize: AppFonts.small_font_size,
                                             fontWeight: FontWeight.bold,

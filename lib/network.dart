@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/location.dart';
+import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
 
@@ -32,7 +33,6 @@ class Network {
     });
     final response = await http.post(_loginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       return UserResponse.fromJson(json.decode(response.body));
     } else {
       print(response.body);
@@ -83,7 +83,6 @@ class Network {
     final response =
         await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       return UserResponse.fromJson(json.decode(response.body));
     } else if (response.statusCode == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
       throw ErrorCodes.NOT_COMPLETED_SN_LOGIN;
@@ -105,7 +104,6 @@ class Network {
     final response =
         await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       return User.fromJson(json.decode(response.body)['user']);
     } else {
       print(response.body);
@@ -115,10 +113,8 @@ class Network {
 
   Future<LocationsResponse> fetchLocations(String token) async {
     headers['Authorization'] = token;
-    print(headers.toString());
     final response = await http.get(_locations, headers: headers);
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       return LocationsResponse.fromJson(json.decode(response.body));
     } else {
       print(response.body);
@@ -139,10 +135,8 @@ class Network {
       final url = _avaiableCars +
           '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
-    print(url);
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       return (json.decode(response.body) as List).map((jsonCar) => Car.fromJson(jsonCar)).toList();
     } else {
       print(response.body);
@@ -151,22 +145,22 @@ class Network {
   }
 
 
-    Future<List<SubLocation>> fetchSubLocations(String token, Trip trip) async {
+    Future<List<SubLocationResponse>> fetchSubLocations(String token, Trip trip) async {
 
     headers['Authorization'] = token;
 
     var filter = { "where": { "and": [{ "carId": trip.car.id }, { "subLocationId": { "inq": trip.location.subLocationsIds } }] } };
-//
-//    final url = _carSubLocations + json.encode(filter);
-//    print(url);
-//    final response = await http.get(url, headers: headers);
-//    if (response.statusCode == 200) {
-//      print(json.decode(response.body));
-//      return (json.decode(response.body) as List).map((jsonCar) => Car.fromJson(jsonCar)).toList();
-//    } else {
-//      print(response.body);
-//      throw json.decode(response.body);
-//    }
+
+    final url = _carSubLocations + json.encode(filter);
+    print(url);
+    final response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return (json.decode(response.body) as List).map((jsonSubLocation) => SubLocationResponse.fromJson(jsonSubLocation)).toList();
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
   }
 
   // get avalible cars in home page
@@ -177,7 +171,6 @@ class Network {
       headers: headers,
     );
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
       return carFromJson(response.body);
     } else {
       print(json.decode(response.body));

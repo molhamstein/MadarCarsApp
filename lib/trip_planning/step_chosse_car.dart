@@ -23,7 +23,8 @@ class StepChooseCarState extends State<StepChooseCar> {
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
-    bloc = ChooseCarBloc(planingBloc.trip, BlocProvider.of<AppBloc>(context).token);
+    bloc = ChooseCarBloc(
+        planingBloc.trip, BlocProvider.of<AppBloc>(context).token);
     bloc.pushCars;
     super.initState();
   }
@@ -41,7 +42,8 @@ class StepChooseCarState extends State<StepChooseCar> {
           StreamBuilder<List<Car>>(
               stream: bloc.carsStream,
               builder: (context, carsSnapshot) {
-                if(carsSnapshot.hasData) planingBloc.tripCar(carsSnapshot.data[0]);
+                if (carsSnapshot.hasData)
+                  planingBloc.tripCar(carsSnapshot.data[0]);
                 return Stack(
                   children: <Widget>[
                     Container(
@@ -61,7 +63,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                           ),
                         ],
                       ),
-                      child: carsSnapshot.hasData
+                      child: carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
                           ? StreamBuilder<Car>(
                               stream: bloc.selectedCarStream,
                               initialData: carsSnapshot.data[0],
@@ -95,7 +97,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                                               MainAxisAlignment.end,
                                           children: <Widget>[
                                             Text(
-                                              '${planingBloc.trip.carEstimationPrice(carSnapshot.data.pricePerDay, carSnapshot.data.priceOneWay, carSnapshot.data.priceTowWay)}',
+                                              '${planingBloc.trip.estimationPrice()}',
                                               style: TextStyle(
                                                   color: Colors.grey[800],
                                                   fontSize: 60,
@@ -182,7 +184,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                                                     top: 8.0),
                                                 child: Text(
                                                     carSnapshot
-                                                        .data.productionDate.substring(0, 4),
+                                                        .data.productionDate.toString(),
                                                     style: infoLabelStyle),
                                               ),
                                             ],
@@ -237,7 +239,9 @@ class StepChooseCarState extends State<StepChooseCar> {
                             initialData: 0,
                             builder: (context, indexSnapshot) {
                               return Container(
-                                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.2),
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height /
+                                        2.2),
                                 height: MediaQuery.of(context).size.width / 2,
                                 child: ListView.builder(
                                   itemBuilder: (context, index) {
@@ -245,7 +249,8 @@ class StepChooseCarState extends State<StepChooseCar> {
                                       car: carsSnapshot.data[index],
                                       onTap: (car) {
                                         bloc.selectCar(car, index);
-                                        planingBloc.tripCar(carsSnapshot.data[index]);
+                                        planingBloc
+                                            .tripCar(carsSnapshot.data[index]);
                                       },
                                       selected: index == indexSnapshot.data,
                                     );
@@ -254,7 +259,8 @@ class StepChooseCarState extends State<StepChooseCar> {
                                   itemCount: carsSnapshot.data.length,
                                 ),
                               );
-                            })
+                            },
+                          )
                         : CircularProgressIndicator(),
                   ],
                 );

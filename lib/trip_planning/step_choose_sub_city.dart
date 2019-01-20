@@ -1,7 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/sub_location_response.dart';
+import 'package:madar_booking/trip_planning/bloc/choose_sub_city_bloc.dart';
+import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/widgets/sub_city_tile.dart';
 
-class StepChooseSubCity extends StatelessWidget {
+class StepChooseSubCity extends StatefulWidget {
+
+  @override
+  StepChooseSubCityState createState() {
+    return new StepChooseSubCityState();
+  }
+}
+
+class StepChooseSubCityState extends State<StepChooseSubCity> {
+
+  ChooseSubCityBloc bloc;
+  TripPlaningBloc planingBloc;
+
+  @override
+  void initState() {
+    planingBloc = BlocProvider.of<TripPlaningBloc>(context);
+    bloc = ChooseSubCityBloc(planingBloc.trip, BlocProvider.of<AppBloc>(context).token);
+    bloc.pushSubLocations;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -55,12 +80,18 @@ class StepChooseSubCity extends StatelessWidget {
                       mainAxisAlignment:
                       MainAxisAlignment.end,
                       children: <Widget>[
-                        Text(
-                          '250',
-                          style: TextStyle(
-                              color: Colors.grey[800],
-                              fontSize: 60,
-                              fontWeight: FontWeight.w700),
+                        StreamBuilder<int>(
+                          stream: planingBloc.estimationStream,
+                          initialData: planingBloc.trip.estimationPrice(),
+                          builder: (context, snapshot) {
+                            return Text(
+                              snapshot.data.toString(),
+                              style: TextStyle(
+                                  color: Colors.grey[800],
+                                  fontSize: 60,
+                                  fontWeight: FontWeight.w700),
+                            );
+                          }
                         ),
                         Text(
                           '\$',
@@ -79,21 +110,29 @@ class StepChooseSubCity extends StatelessWidget {
                   child: Text('You can also extend your trip to the following cities.', style: TextStyle(color: Colors.grey[700], fontSize: 20, fontWeight: FontWeight.w600),),
                 ),
 
-                Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: Center(
-                    child: Wrap(
-                      spacing: 16,
-                      runSpacing: 16,
-                      children: <Widget>[
-                        SubCityTile(onCounterChanged: (c){},),
-                        SubCityTile(onCounterChanged: (c){},),
-                        SubCityTile(onCounterChanged: (c){},),
-                      ],
-                    ),
-                  ),
-                )
-
+                StreamBuilder<List<SubLocationResponse>>(
+                  stream: bloc.subLocationsStream,
+                  initialData: [],
+                  builder: (context, snapshot) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 40.0),
+                      child: Center(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.start,
+                                spacing: 16,
+                                runSpacing: 16,
+                                children: snapshot.data.map((subLocationResponse) => SubCityTile(onCounterChanged: planingBloc.addSubLocation, subLocationResponse: subLocationResponse,)).toList()
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

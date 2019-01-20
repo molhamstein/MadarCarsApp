@@ -27,7 +27,7 @@ class Car {
   int pricePerDay;
   int priceOneWay;
   int priceTowWay;
-  String productionDate;
+  int productionDate;
   String engineType;
   String type;
   bool isAirportCar;

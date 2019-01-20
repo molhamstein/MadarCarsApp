@@ -9,6 +9,7 @@ class Trip {
   DateTime startDate;
   DateTime endDate;
   Car car;
+  List<TripSubLocation> _tripSubLocations;
 
   Trip({
     this.fromAirport,
@@ -28,7 +29,29 @@ class Trip {
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     endDate = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 23);
+    _tripSubLocations = [];
   }
+
+
+  addSubLocation(String id, int duration, int cost) {
+    int allSubLocationDuration = 0;
+    _tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    if(allSubLocationDuration <= tripDuration()) {
+      int index;
+      if ((index =
+          _tripSubLocations.indexWhere((location) => location.subLocationId ==
+              id)) == -1) {
+
+        _tripSubLocations.add(
+            TripSubLocation(subLocationId: id, duration: duration, cost: cost));
+      } else {
+        _tripSubLocations[index].subLocationId = id;
+        _tripSubLocations[index].duration = duration;
+        _tripSubLocations[index].cost = cost;
+      }
+    }
+  }
+
 
   Map<String, dynamic> get keys {
     Map<String, dynamic> dates = {};
@@ -50,21 +73,54 @@ class Trip {
     return dates;
   }
 
-  int carEstimationPrice(int pricePerDay, priceOneWay, priceTwoWay) {
+  int estimationPrice() {
     int cost = 0;
     if (inCity)
       cost +=
-          ((endDate.difference(startDate).inHours / 24).ceil()) * pricePerDay;
+          (tripDuration() - subLocationDuration()) * car.pricePerDay;
     if (toAirport && !fromAirport) {
-      cost += priceOneWay;
+      cost += car.priceOneWay;
     }
     if (fromAirport && !toAirport) {
-      cost += priceOneWay;
+      cost += car.priceOneWay;
     }
     if (fromAirport && toAirport) {
-      cost += priceTwoWay;
+      cost += car.priceTowWay;
     }
-
+    
+    _tripSubLocations.forEach((location) => cost += (location.duration * location.cost));
+    
     return cost;
   }
+
+  int tripDuration() {
+    return ((endDate.difference(startDate).inHours / 24).ceil());
+  }
+
+  int subLocationDuration() {
+    int allSubLocationDuration = 0;
+    _tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    return allSubLocationDuration;
+  }
+
+  bool isMaxDuration() {
+
+    int allSubLocationDuration = 0;
+    _tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    return allSubLocationDuration == tripDuration();
+
+  }
+
+}
+
+
+class TripSubLocation {
+
+  String subLocationId;
+  int duration;
+  int cost;
+
+  TripSubLocation({this.subLocationId, this.duration, this.cost});
+
+
 }

@@ -6,8 +6,9 @@ class TripTypeTile extends StatefulWidget {
   final IconData iconData;
   final String title;
   final Function(bool) onChecked;
+  final bool checked;
 
-  const TripTypeTile({Key key, this.iconData, this.title, this.onChecked}) : super(key: key);
+  const TripTypeTile({Key key, this.iconData, this.title, this.onChecked, this.checked = false}) : super(key: key);
 
   @override
   TripTypeTileState createState() {
@@ -21,7 +22,7 @@ class TripTypeTileState extends State<TripTypeTile> {
 
   @override
   void initState() {
-    _checked = false;
+    _checked = widget.checked;
     super.initState();
   }
 
