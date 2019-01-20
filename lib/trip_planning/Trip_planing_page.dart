@@ -24,6 +24,7 @@ class TripPlanningPageState extends State<TripPlanningPage> {
     StepChooseDatePage(),
     StepChooseCar(),
     StepChooseSubCity(),
+    FinalStep(),
   ];
 
 
@@ -74,13 +75,19 @@ class TripPlanningPageState extends State<TripPlanningPage> {
                 padding: const EdgeInsets.only(right: 16.0, bottom: 40),
                 child: Align(
                   alignment: Alignment.bottomRight,
-                  child: MainButton(
-                    width: 150,
-                    height: 50,
-                    text: 'Next',
-                    onPressed: () {
-                      bloc.navForward;
-                    },
+                  child: StreamBuilder<String>(
+                    stream: bloc.changeTextStream,
+                    initialData: 'Next',
+                    builder: (context, snapshot) {
+                      return MainButton(
+                        width: 150,
+                        height: 50,
+                        text: snapshot.data,
+                        onPressed: () {
+                          bloc.navForward;
+                        },
+                      );
+                    }
                   ),
                 ),
               ),

@@ -24,6 +24,7 @@ class Network {
       'locations?filter[include]=subLocations&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
   final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
+  final String _trip = _baseUrl + 'trip';
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
@@ -167,6 +168,36 @@ class Network {
           .toList();
     } else {
       print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+
+  Future postTrip(Trip trip, String token) async {
+    headers['Authorization'] = token;
+    var body = {
+      "fromAirport": trip.fromAirport,
+      "fromAirportDate": trip.startDate,
+      "toAirportDate": trip.endDate,
+      "toAirport": trip.toAirport,
+      "startInCityDate": trip.startDate,
+      "endInCityDate": trip.endDate,
+      "inCity": trip.inCity,
+      "carId": trip.car.id,
+      "locationId": trip.location.id,
+      "tripSublocations": trip.tripSubLocations.map((location) {
+        return {
+          'sublocationId': location.subLocationId,
+          'duration': location.duration,
+        };
+      }).toList(),
+    };
+
+    final response = await http.post(_trip, headers: headers, body: body);
+    if(response.statusCode == 200) {
+      print(json.decode(response.body));
+    }
+    else {
       throw json.decode(response.body);
     }
   }

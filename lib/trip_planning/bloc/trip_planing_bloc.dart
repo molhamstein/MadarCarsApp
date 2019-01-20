@@ -18,6 +18,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _navigationController = BehaviorSubject<int>();
   final _tripController = BehaviorSubject<Trip>();
   final _estimationCostController = BehaviorSubject<int>();
+  final _mainButtonTextController = BehaviorSubject<String>();
 
   get navigationStream => _navigationController.stream;
 
@@ -27,11 +28,21 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get navBackward => _navigationController.sink.add(--index);
 
+  get changeTextStream => _mainButtonTextController.stream;
+
+  changeButtonText(String text) => _mainButtonTextController.sink.add(text);
+
   get navForward {
-    if (index == 3 && trip.inCity) {
-//      _navigationController.sink.add(++index);
+    if (index == 2 && !trip.inCity) {
+      _navigationController.sink.add(++index);
+      changeButtonText('Done');
+    } else if (index == 3) {
+      changeButtonText('Done');
+      _navigationController.sink.add(++index);
     }
-    else _navigationController.sink.add(++index);
+    else{
+      _navigationController.sink.add(++index);
+    }
   }
 
   toAirport(to) {
@@ -81,5 +92,6 @@ class TripPlaningBloc extends BaseBloc with Network {
     _navigationController.close();
     _tripController.close();
     _estimationCostController.close();
+    _mainButtonTextController.close();
   }
 }
