@@ -184,7 +184,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                                                 child: Text(
                                                     carSnapshot
                                                         .data.productionDate
-                                                        .substring(0, 4),
+                                                        .toString(),
                                                     style: infoLabelStyle),
                                               ),
                                             ],

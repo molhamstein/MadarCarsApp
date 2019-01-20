@@ -42,7 +42,7 @@ class CarCard extends StatelessWidget {
                         // height: 175.0,
                         child: Container(
                           decoration: BoxDecoration(
-                              boxShadow: [MadarColors.shadow],
+                              //     boxShadow: [MadarColors.shadow],
                               image: DecorationImage(
                                   image: NetworkImage(car.media.thumb),
                                   fit: BoxFit.cover),
@@ -109,9 +109,7 @@ class CarCard extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.all(4.0),
                                         child: Text(
-                                            DateFormat.y().format(
-                                                DateTime.parse(
-                                                    car.productionDate)),
+                                            car.productionDate.toString(),
                                             style: TextStyle(
                                                 fontSize:
                                                     AppFonts.small_font_size,

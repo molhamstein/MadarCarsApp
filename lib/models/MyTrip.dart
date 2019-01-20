@@ -26,9 +26,12 @@ class MyTrip {
   int pricePerDay;
   int priceOneWay;
   int priceTowWay;
+  int daysInCity;
   String fromAirportDate;
   bool fromAirport;
+  String toAirportDate;
   bool toAirport;
+  String startInCityDate;
   String endInCityDate;
   bool inCity;
   bool hasOuterBill;
@@ -51,9 +54,12 @@ class MyTrip {
     this.pricePerDay,
     this.priceOneWay,
     this.priceTowWay,
+    this.daysInCity,
     this.fromAirportDate,
     this.fromAirport,
+    this.toAirportDate,
     this.toAirport,
+    this.startInCityDate,
     this.endInCityDate,
     this.inCity,
     this.hasOuterBill,
@@ -77,10 +83,15 @@ class MyTrip {
         pricePerDay: json["pricePerDay"] == null ? null : json["pricePerDay"],
         priceOneWay: json["priceOneWay"] == null ? null : json["priceOneWay"],
         priceTowWay: json["priceTowWay"] == null ? null : json["priceTowWay"],
+        daysInCity: json["daysInCity"] == null ? null : json["daysInCity"],
         fromAirportDate:
             json["fromAirportDate"] == null ? null : json["fromAirportDate"],
         fromAirport: json["fromAirport"] == null ? null : json["fromAirport"],
+        toAirportDate:
+            json["toAirportDate"] == null ? null : json["toAirportDate"],
         toAirport: json["toAirport"] == null ? null : json["toAirport"],
+        startInCityDate:
+            json["startInCityDate"] == null ? null : json["startInCityDate"],
         endInCityDate:
             json["endInCityDate"] == null ? null : json["endInCityDate"],
         inCity: json["inCity"] == null ? null : json["inCity"],
@@ -111,9 +122,12 @@ class MyTrip {
         "pricePerDay": pricePerDay == null ? null : pricePerDay,
         "priceOneWay": priceOneWay == null ? null : priceOneWay,
         "priceTowWay": priceTowWay == null ? null : priceTowWay,
+        "daysInCity": daysInCity == null ? null : daysInCity,
         "fromAirportDate": fromAirportDate == null ? null : fromAirportDate,
         "fromAirport": fromAirport == null ? null : fromAirport,
+        "toAirportDate": toAirportDate == null ? null : toAirportDate,
         "toAirport": toAirport == null ? null : toAirport,
+        "startInCityDate": startInCityDate == null ? null : startInCityDate,
         "endInCityDate": endInCityDate == null ? null : endInCityDate,
         "inCity": inCity == null ? null : inCity,
         "hasOuterBill": hasOuterBill == null ? null : hasOuterBill,
@@ -131,18 +145,4 @@ class MyTrip {
             : new List<dynamic>.from(tripSublocations.map((x) => x.toJson())),
         "driver": driver == null ? null : driver.toJson(),
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
 }
