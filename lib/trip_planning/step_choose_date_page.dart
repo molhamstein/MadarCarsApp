@@ -87,6 +87,7 @@ class StepChooseDatePage extends StatelessWidget {
       title: 'Start Date',
       withTimePicker: fromAirport,
       onDateChanged: bloc.startDateChanged,
+      date: bloc.trip.startDate,
     );
   }
 
@@ -95,7 +96,7 @@ class StepChooseDatePage extends StatelessWidget {
       title: 'End Date',
       withTimePicker: toAirport,
       onDateChanged: bloc.endDateChanged,
+      date: bloc.trip.endDate,
     );
   }
-
 }

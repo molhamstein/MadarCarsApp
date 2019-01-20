@@ -7,34 +7,72 @@ import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TripPlaningBloc extends BaseBloc with Network {
-
   Trip trip;
+  int index;
 
   TripPlaningBloc() {
     trip = Trip.init();
+    index = 0;
   }
 
-  final _navigationController = BehaviorSubject<Widget>();
+  final _navigationController = BehaviorSubject<int>();
   final _tripController = BehaviorSubject<Trip>();
-
+  final _estimationCostController = BehaviorSubject<int>();
 
   get navigationStream => _navigationController.stream;
+
   get tripController => _tripController.stream;
 
-  toAirport(to) { trip.toAirport = to; }
-  fromAirport(from) { trip.fromAirport = from; }
-  cityTour(cityTour) { trip.inCity = cityTour; }
-  startDateChanged(startDate) { trip.startDate = startDate; }
-  endDateChanged(endDate) { trip.endDate = endDate; }
-  cityId(Location location) { trip.location = location; }
-  tripCar(Car car) { trip.car = car; }
+  get estimationStream => _estimationCostController.stream;
 
+  get navBackward => _navigationController.sink.add(--index);
+
+  get navForward {
+    if (index == 3 && trip.inCity) {
+//      _navigationController.sink.add(++index);
+    }
+    else _navigationController.sink.add(++index);
+  }
+
+  toAirport(to) {
+    trip.toAirport = to;
+  }
+
+  fromAirport(from) {
+    trip.fromAirport = from;
+  }
+
+  cityTour(cityTour) {
+    trip.inCity = cityTour;
+  }
+
+  startDateChanged(startDate) {
+    trip.startDate = startDate;
+  }
+
+  endDateChanged(endDate) {
+    trip.endDate = endDate;
+  }
+
+  cityId(Location location) {
+    trip.location = location;
+  }
+
+  tripCar(Car car) {
+    trip.car = car;
+  }
+
+  Function(String, int, int) get addSubLocation => trip.addSubLocation;
+
+  get pushEstimationCost =>
+      _estimationCostController.sink.add(trip.estimationPrice());
 
   //TODO: change!
   get isToAirport => trip.toAirport;
-  get isFromAirport => trip.fromAirport;
-  get isCityTour => trip.inCity;
 
+  get isFromAirport => trip.fromAirport;
+
+  get isCityTour => trip.inCity;
 
   bool get isLocationIdNull => trip.location == null;
 
@@ -42,6 +80,6 @@ class TripPlaningBloc extends BaseBloc with Network {
   void dispose() {
     _navigationController.close();
     _tripController.close();
+    _estimationCostController.close();
   }
-
 }

@@ -63,7 +63,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                           ),
                         ],
                       ),
-                      child: carsSnapshot.hasData
+                      child: carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
                           ? StreamBuilder<Car>(
                               stream: bloc.selectedCarStream,
                               initialData: carsSnapshot.data[0],
@@ -97,7 +97,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                                               MainAxisAlignment.end,
                                           children: <Widget>[
                                             Text(
-                                              '${planingBloc.trip.carEstimationPrice(carSnapshot.data.pricePerDay, carSnapshot.data.priceOneWay, carSnapshot.data.priceTowWay)}',
+                                              '${planingBloc.trip.estimationPrice()}',
                                               style: TextStyle(
                                                   color: Colors.grey[800],
                                                   fontSize: 60,
