@@ -42,7 +42,7 @@ class CarCard extends StatelessWidget {
                         // height: 175.0,
                         child: Container(
                           decoration: BoxDecoration(
-                              boxShadow: [MadarColors.shadow],
+                              //     boxShadow: [MadarColors.shadow],
                               image: DecorationImage(
                                   image: NetworkImage(car.media.thumb),
                                   fit: BoxFit.cover),

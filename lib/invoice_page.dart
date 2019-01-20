@@ -3,83 +3,39 @@ import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/invoice_page.dart';
+import 'package:madar_booking/models/Invoice.dart';
+import 'package:madar_booking/models/MyTrip.dart';
+import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
+import 'package:madar_booking/profile_bloc.dart';
 import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/settings_page.dart';
 import 'madar_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'madar_fonts.dart';
 
 class InvoicePage extends StatefulWidget {
+  final MyTrip trip;
+  InvoicePage({Key key, this.title, this.trip}) : super(key: key);
+  final String title;
+
   @override
-  InvoicePageState createState() => InvoicePageState();
+  _InvoicePageState createState() => _InvoicePageState(trip);
 }
 
-class InvoicePageState extends State<InvoicePage> {
-  // animated widget height
-  double containerWidgetHeight = 200;
-
-  var languages = ["Turkish", "English", "Arabic"];
-  var cities = ["Istanbul", "Bursa", "Ankara"];
-  var days = ["2 days", "1 day", "1 day"];
-// timer for animated widget
-  var timeout = const Duration(seconds: 3);
-  var ms = const Duration(milliseconds: 1);
-
-  var scaleByOne = new Matrix4.identity()..translate(0.0, 0.0);
-  var scaleByZero = new Matrix4.identity()..translate(0.0, 500.0);
-  var transformation = new Matrix4.identity()..translate(0.0, 500.0);
-
-  startTimeout([int milliseconds]) {
-    var duration = milliseconds == null ? timeout : ms * milliseconds;
-    return new Timer(duration, handleTimeout);
-  }
-
-  void handleTimeout() {
-    // callback function
-    print("time out");
-    // containerWidgetHeight = 200;
-    transformation = scaleByOne;
-    setState(() {});
-  }
+class _InvoicePageState extends State<InvoicePage> {
+  ProfileBloc profileBloc;
+  static AppBloc appBloc;
+  static final token = appBloc.token;
+  final MyTrip trip;
+  _InvoicePageState(this.trip);
 
   @override
-  void initState() {
-    // TODO: implement initState
-    Future.delayed(const Duration(milliseconds: 100), () {
-      setState(() {
-        handleTimeout();
-      });
-    });
+  initState() {
+    appBloc = BlocProvider.of<AppBloc>(context);
+    profileBloc = ProfileBloc(token);
+    profileBloc.invoice(trip.id);
     super.initState();
-  }
-
-  Widget citiesListRow(String city, String days) {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Theme.of(context).dividerColor))),
-      height: 60,
-      child: InkWell(
-        onTap: () {
-          print("pressed");
-        },
-        child: Row(
-          children: <Widget>[
-            Text(
-              city,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-            ),
-            Expanded(
-              child: Container(),
-            ),
-            Text(
-              days,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget costWidget(String cost) {
@@ -91,7 +47,7 @@ class InvoicePageState extends State<InvoicePage> {
               // estim cost container
               child: Container(
                 alignment: Alignment(0, 0),
-                child: Text("Estim Cost",
+                child: Text("Total Cost",
                     style:
                         TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ),
@@ -148,405 +104,253 @@ class InvoicePageState extends State<InvoicePage> {
         ));
   }
 
+  getInvoice() {
+    return StreamBuilder<Invoice>(
+      stream: profileBloc.invoiceStream,
+      builder: (context, snapshot) {
+        print(snapshot.data);
+        if (snapshot.hasData) {
+          return Table(
+            children: snapshot.data.bills
+                .map(
+                  (bill) => TableRow(
+                        children: [
+                          Text('${bill.titleEn}'),
+                          Text('${bill.pricePerUnit}'),
+                          Text('${bill.quantity}'),
+                          Text('${bill.totalPrice}'),
+                        ],
+                      ),
+                )
+                .toList(),
+          );
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    AppBloc bloc = BlocProvider.of<AppBloc>(context);
-    return Scaffold(
-      body: Stack(
+    return BlocProvider(
+      bloc: profileBloc,
+      child: Stack(
         children: <Widget>[
-          Container(
-            child: Column(
-              children: <Widget>[
-                Expanded(
+          Column(
+            children: <Widget>[
+              Container(
+                color: Colors.grey.shade200,
+                height: 190,
+              ),
+              Expanded(
+                child: Container(color: Colors.grey.shade200),
+              ),
+            ],
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Container(
+              child: Column(
+                children: <Widget>[
+                  Expanded(
                     flex: 1,
                     child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/ford.jpg'),
-                          fit: BoxFit.cover,
-                        ),
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              child: Center(
+                                child: Text(
+                                  "Invoice",
+                                  style: TextStyle(
+                                      fontSize: AppFonts.large_font_size,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                child: ListTile(
+                                  title: Text(
+                                    "Mercides E16",
+                                    style: TextStyle(
+                                        fontSize: AppFonts.large_font_size,
+                                        color: Colors.grey.shade800,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  subtitle: Text(
+                                    "Istanbul",
+                                    style: TextStyle(
+                                        fontSize: AppFonts.medium_font_size,
+                                        color: Colors.grey.shade600,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              )),
+                        ],
                       ),
-                    )),
-                // gradiant Container
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: MadarColors.gradiant_decoration,
-                      ),
-                    )),
-              ],
-            ),
-          ),
-          // content container
-          Container(
-            child: Column(
-              children: <Widget>[
-                // padding container
-                Container(
-                  height: (MediaQuery.of(context).size.height * 0.35) - 50.0,
-                ),
-
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    // content container
-                    child: AnimatedContainer(
-                      duration: Duration(seconds: 1),
-                      transform: transformation,
+                    ),
+                  ),
+                  Expanded(
+                      flex: 2,
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [MadarColors.shadow],
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(15.0),
-                                topRight: Radius.circular(15.0))),
-                        child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Container(
+                            width: 350,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/invoice-01.png'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                  height: 75.0,
                                   child: Row(
                                     children: <Widget>[
-                                      Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                "Start Date",
-                                                style: TextStyle(
+                                      Expanded(
+                                        child: Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 16.0),
+                                            child: ListTile(
+                                              title: Text("Date",
+                                                  style: TextStyle(
+                                                    fontSize: AppFonts
+                                                        .medium_font_size,
                                                     color: Colors.grey.shade600,
-                                                    fontSize: 17),
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                              subtitle: Text(
+                                                "12/12/2018",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      AppFonts.large_font_size,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
-                                              Text(
-                                                "12/04/2018",
-                                                style: TextStyle(
-                                                    color: Colors.grey.shade900,
-                                                    fontSize: 17),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                "End Date",
-                                                style: TextStyle(
-                                                    color: Colors.grey.shade600,
-                                                    fontSize: 17),
-                                              ),
-                                              Text(
-                                                "12/04/2018",
-                                                style: TextStyle(
-                                                    color: Colors.grey.shade900,
-                                                    fontSize: 17),
-                                              )
-                                            ],
+                                            ),
                                           ),
                                         ),
                                       ),
                                       Expanded(
                                         child: Container(
-                                          alignment: Alignment(0, -0.5),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          InvoicePage()));
-                                            },
-                                            icon: Icon(MyFlutterApp.invoice),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment(0, -0.5),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              print("edit clicled");
-                                            },
-                                            icon: Icon(MyFlutterApp.edit_trip),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 16.0),
+                                            child: ListTile(
+                                              title: Text("Invoice",
+                                                  style: TextStyle(
+                                                    fontSize: AppFonts
+                                                        .medium_font_size,
+                                                    color: Colors.grey.shade600,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                              subtitle: Text(
+                                                "Qtqtfaqc23",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      AppFonts.large_font_size,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Container(
+                                Expanded(
+                                    child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(16.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    "Ford Mustang",
-                                                    style: TextStyle(
-                                                        fontSize: 28,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Text(
-                                                    "Mahmout orhan",
-                                                    style: TextStyle(
-                                                        fontSize: 22,
-                                                        color: Colors
-                                                            .grey.shade700),
-                                                  ),
-                                                ],
+                                        child: Table(
+                                          columnWidths: {
+                                            1: FractionColumnWidth(.2),
+                                            2: FractionColumnWidth(.2),
+                                            3: FractionColumnWidth(.2),
+                                            4: FractionColumnWidth(.2)
+                                          },
+                                          children: [
+                                            TableRow(children: [
+                                              Text(
+                                                "item",
+                                                style: TextStyle(
+                                                    fontSize: AppFonts
+                                                        .small_font_size,
+                                                    color: Colors.grey.shade400,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
-                                            ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(16.0),
-                                                child: Container(
-                                                  alignment: Alignment(1, 0),
-                                                  child: RateWidget("4.5"),
-                                                ),
+                                              Text(
+                                                "Price",
+                                                style: TextStyle(
+                                                    fontSize: AppFonts
+                                                        .small_font_size,
+                                                    color: Colors.grey.shade400,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               ),
-                                            ),
+                                              Text(
+                                                "Quantity",
+                                                style: TextStyle(
+                                                    fontSize: AppFonts
+                                                        .small_font_size,
+                                                    color: Colors.grey.shade400,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Text(
+                                                "subtotal",
+                                                style: TextStyle(
+                                                    fontSize: AppFonts
+                                                        .small_font_size,
+                                                    color: Colors.grey.shade400,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ]),
                                           ],
                                         ),
                                       ),
                                       Container(
-                                        height: 40,
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 16.0),
-                                          child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              shrinkWrap: true,
-                                              physics:
-                                                  const ClampingScrollPhysics(),
-                                              itemCount: languages.length,
-                                              // itemExtent: 10.0,
-                                              // reverse: true, //makes the list appear in descending order
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                var lang = languages[index];
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 8.0),
-                                                  child: Container(
-                                                      alignment:
-                                                          Alignment(0, 0),
-                                                      padding: EdgeInsets.only(
-                                                          left: 10.0,
-                                                          right: 10.0),
-                                                      decoration: BoxDecoration(
-                                                        color: MadarColors
-                                                            .gradientDown,
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(20.0),
-                                                        ),
-                                                      ),
-                                                      child: Container(
-                                                        child: Text(
-                                                          lang,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      )),
-                                                );
-                                              }),
-                                        ),
+                                        child: getInvoice(),
                                       ),
                                     ],
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 32.0),
-                                  child: Container(
-                                    height: 100,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Expanded(
-                                            child: Container(
-                                          child: InkWell(
-                                            onTap: () {
-                                              print("pressed icon button");
-                                            },
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Icon(
-                                                  MyFlutterApp.cal,
-                                                  size: 30,
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 8.0),
-                                                  child: Text("2013",
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors
-                                                              .grey.shade700)),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )),
-                                        Expanded(
-                                          child: Container(
-                                            child: InkWell(
-                                              onTap: () {
-                                                print("pressed icon button");
-                                              },
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Icon(
-                                                    MyFlutterApp.gender,
-                                                    size: 30,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 8.0),
-                                                    child: Text("Femal Driver",
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.grey
-                                                                .shade700)),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            child: InkWell(
-                                              onTap: () {
-                                                print("pressed icon button");
-                                              },
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Icon(
-                                                    MyFlutterApp.seats,
-                                                    size: 30,
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 8.0),
-                                                    child: Text("6 Seats",
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.grey
-                                                                .shade700)),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                )),
+                                Container(
+                                  height: 100,
+                                  margin: EdgeInsets.only(
+                                      left: 16.0, right: 16.0, top: 8.0),
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Container(
-                                  // height: 100,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        physics: const ClampingScrollPhysics(),
-                                        itemCount: cities.length,
-                                        // itemExtent: 10.0,
-                                        // reverse: true, //makes the list appear in descending order
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          var lang = languages[index];
-                                          return citiesListRow(
-                                              cities[index], days[index]);
-                                        }),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 32.0),
-                                  child: costWidget("220"),
+                                  child: costWidget("210"),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          new Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: AppBar(
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black,
-                ),
-                onPressed: () => Navigator.pop(context),
+                      )),
+                ],
               ),
-              elevation: 0.0,
-              backgroundColor: Colors.transparent,
-              actions: <Widget>[],
             ),
-          ),
+            appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
+          )
         ],
       ),
     );

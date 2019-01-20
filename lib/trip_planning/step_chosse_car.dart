@@ -143,7 +143,11 @@ class StepChooseCarState extends State<StepChooseCar> {
                                         ),
                                         RateWidget(
                                           carSnapshot.data.rate.toString(),
+<<<<<<< HEAD
                                         ),
+=======
+                                        )
+>>>>>>> origin/master
                                       ],
                                     ),
                                     Container(
@@ -183,7 +187,8 @@ class StepChooseCarState extends State<StepChooseCar> {
                                                     top: 8.0),
                                                 child: Text(
                                                     carSnapshot
-                                                        .data.productionDate.toString(),
+                                                        .data.productionDate
+                                                        .toString(),
                                                     style: infoLabelStyle),
                                               ),
                                             ],
@@ -258,8 +263,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                                   itemCount: carsSnapshot.data.length,
                                 ),
                               );
-                            },
-                          )
+                            })
                         : CircularProgressIndicator(),
                   ],
                 );

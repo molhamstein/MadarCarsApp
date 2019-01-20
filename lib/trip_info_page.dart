@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/invoice_page.dart';
+import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/settings_page.dart';
@@ -10,14 +12,17 @@ import 'madar_colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class TripInfoPage extends StatefulWidget {
+  final MyTrip trip;
+  TripInfoPage(this.trip);
   @override
-  TripInfoPageState createState() => TripInfoPageState();
+  TripInfoPageState createState() => TripInfoPageState(trip);
 }
 
 class TripInfoPageState extends State<TripInfoPage> {
+  final MyTrip trip;
+  TripInfoPageState(this.trip);
   // animated widget height
   double containerWidgetHeight = 200;
-
   var languages = ["Turkish", "English", "Arabic"];
   var cities = ["Istanbul", "Bursa", "Ankara"];
   var days = ["2 days", "1 day", "1 day"];
@@ -162,7 +167,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage('assets/images/ford.jpg'),
+                          image: NetworkImage(trip.car.media.url),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -223,7 +228,9 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                "12/04/2018",
+                                                DateFormat.yMd().format(
+                                                    DateTime.parse(
+                                                        trip.fromAirportDate)),
                                                 style: TextStyle(
                                                     color: Colors.grey.shade900,
                                                     fontSize: 17),
@@ -244,7 +251,9 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                "12/04/2018",
+                                                DateFormat.yMd().format(
+                                                    DateTime.parse(
+                                                        trip.endInCityDate)),
                                                 style: TextStyle(
                                                     color: Colors.grey.shade900,
                                                     fontSize: 17),
@@ -300,14 +309,14 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    "Ford Mustang",
+                                                    trip.car.name,
                                                     style: TextStyle(
                                                         fontSize: 28,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
                                                   Text(
-                                                    "Mahmout orhan",
+                                                    '${trip.driver.firstName} ${trip.driver.lastName}',
                                                     style: TextStyle(
                                                         fontSize: 22,
                                                         color: Colors
@@ -322,7 +331,8 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     const EdgeInsets.all(16.0),
                                                 child: Container(
                                                   alignment: Alignment(1, 0),
-                                                  child: RateWidget("4.5"),
+                                                  child: RateWidget(
+                                                      '${trip.car.rate}'),
                                                 ),
                                               ),
                                             ),
@@ -339,13 +349,15 @@ class TripInfoPageState extends State<TripInfoPage> {
                                               shrinkWrap: true,
                                               physics:
                                                   const ClampingScrollPhysics(),
-                                              itemCount: languages.length,
+                                              itemCount: trip
+                                                  .driver.driverLangs.length,
                                               // itemExtent: 10.0,
                                               // reverse: true, //makes the list appear in descending order
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
-                                                var lang = languages[index];
+                                                var lang = trip
+                                                    .driver.driverLangs[index];
                                                 return Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -366,7 +378,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                       ),
                                                       child: Container(
                                                         child: Text(
-                                                          lang,
+                                                          lang.language.name,
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: TextStyle(
@@ -414,7 +426,10 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                   padding:
                                                       const EdgeInsets.only(
                                                           top: 8.0),
-                                                  child: Text("2013",
+                                                  child: Text(
+                                                      trip
+                                                              .car
+                                                              .productionDate.toString(),
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
@@ -446,7 +461,8 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     padding:
                                                         const EdgeInsets.only(
                                                             top: 8.0),
-                                                    child: Text("Femal Driver",
+                                                    child: Text(
+                                                        "${trip.driver.gender} Driver",
                                                         style: TextStyle(
                                                             fontSize: 18,
                                                             fontWeight:
@@ -479,7 +495,8 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     padding:
                                                         const EdgeInsets.only(
                                                             top: 8.0),
-                                                    child: Text("6 Seats",
+                                                    child: Text(
+                                                        "${trip.car.numOfSeat} Seats",
                                                         style: TextStyle(
                                                             fontSize: 18,
                                                             fontWeight:
@@ -504,20 +521,22 @@ class TripInfoPageState extends State<TripInfoPage> {
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
                                         physics: const ClampingScrollPhysics(),
-                                        itemCount: cities.length,
+                                        itemCount: trip.tripSublocations.length,
                                         // itemExtent: 10.0,
                                         // reverse: true, //makes the list appear in descending order
                                         itemBuilder:
                                             (BuildContext context, int index) {
-                                          var lang = languages[index];
+                                          var location =
+                                              trip.tripSublocations[index];
                                           return citiesListRow(
-                                              cities[index], days[index]);
+                                              location.subLocation.nameEn,
+                                              '${location.duration}');
                                         }),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 32.0),
-                                  child: costWidget("220"),
+                                  child: costWidget("${trip.cost}"),
                                 ),
                               ],
                             ),

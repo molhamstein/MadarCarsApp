@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
@@ -30,6 +31,7 @@ class Network {
   final String _carsUrL = _baseUrl + 'cars';
   final String _predifindTripsUrl = _baseUrl + 'predefinedTrips';
   final String _myTripsUrl = _baseUrl + 'trips/getMyTrip';
+  final String _invoiceUrl = _baseUrl + 'outerBills/getouterBill/';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -233,7 +235,8 @@ class Network {
     }
   }
 
-  Future<List<MyTrip>> getMyTrips() async {
+  Future<List<MyTrip>> getMyTrips(token) async {
+    headers['Authorization'] = token;
     final response = await http.get(
       _myTripsUrl,
       headers: headers,
@@ -241,6 +244,21 @@ class Network {
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return myTripFromJson(response.body);
+    } else {
+      print(json.decode(response.body));
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<Invoice> getInvoice(String token, String tripId) async {
+    headers['Authorization'] = token;
+    final response = await http.get(
+      _invoiceUrl + tripId,
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return invoiceFromJson(response.body);
     } else {
       print(json.decode(response.body));
       throw json.decode(response.body);

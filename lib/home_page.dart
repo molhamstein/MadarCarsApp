@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/home_bloc.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/madar_fonts.dart';
 import 'package:madar_booking/models/Car.dart';
@@ -35,24 +36,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static AppBloc appBloc;
+  static HomeBloc homeBloc;
   List<Car> cars = [];
   List<TripModel> trips = [];
-
-  var myHeight = 300.0;
-  var myWidth = 300.0;
-  var open = false;
-  var rotateBy45 = new Matrix4.identity()
-    ..rotateZ(-45 * 3.1415927 / 180)
-    ..translate(-75.0, -50.0, 0.0)
-    ..scale(1.0);
-  var rotateBy_0 = new Matrix4.identity()
-    ..rotateZ(0 * 3.1415927 / 180)
-    ..translate(0.0, 0.0, 0.0)
-    ..scale(2.0);
-  var transformation = new Matrix4.identity()
-    ..rotateZ(-45 * 3.1415927 / 180)
-    ..translate(-75.0, -50.0, 0.0)
-    ..scale(1.0);
 
   // myWidth = MediaQuery.of(context).size.width;
   // myHeight = MediaQuery.of(context).size.height;
@@ -69,12 +55,13 @@ class _MyHomePageState extends State<MyHomePage> {
   //   ..rotateZ(-45 * 3.1415927 / 180)
   //   ..translate(0, -(150.0), 0.0);
 
-  var borderRadius = BorderRadius.circular(100);
-
   static final token = appBloc.token;
   @override
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
+    homeBloc = HomeBloc(token);
+    homeBloc.predifindTrips();
+    homeBloc.getCars();
     super.initState();
   }
 
@@ -110,9 +97,31 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      FutureBuilder<List<Car>>(
-        future: Network().getAvailableCars(token),
+      // FutureBuilder<List<Car>>(
+      //   future: Network().getAvailableCars(token),
+      //   builder: (context, snapshot) {
+      //     switch (snapshot.connectionState) {
+      //       case ConnectionState.none:
+      //         return Text("There is no connection");
+      //       case ConnectionState.waiting:
+      //         return Container(
+      //             height: 225,
+      //             child: Center(child: CircularProgressIndicator()));
+      //       default:
+      //         if (snapshot.hasError) {
+      //           return Text("Error: ${snapshot.error}");
+      //         } else {
+      //           this.cars = snapshot.data;
+      //           return _cardContainerList();
+      //         }
+      //     }
+      //   },
+      // ),
+      StreamBuilder<List<Car>>(
+        initialData: [],
+        stream: homeBloc.availableCarsStream,
         builder: (context, snapshot) {
+          print(snapshot.data);
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               return Text("There is no connection");
@@ -129,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }
           }
         },
-      )
+      ),
     ]);
   }
 
@@ -168,9 +177,32 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        FutureBuilder<List<TripModel>>(
-          future: Network().getPredifinedTrips(appBloc.token),
+        // FutureBuilder<List<TripModel>>(
+        //   future: Network().getPredifinedTrips(appBloc.token),
+        //   builder: (context, snapshot) {
+        //     switch (snapshot.connectionState) {
+        //       case ConnectionState.none:
+        //         return Text("There is no connection");
+        //       case ConnectionState.waiting:
+        //         return Container(
+        //             height: 190,
+        //             child: Center(child: CircularProgressIndicator()));
+        //       default:
+        //         if (snapshot.hasError) {
+        //           return Text("Error: ${snapshot.error}");
+        //         } else {
+        //           this.trips = snapshot.data;
+        //           return _tripCardContainerList();
+        //         }
+        //     }
+        //   },
+        // )
+
+        StreamBuilder<List<TripModel>>(
+          initialData: [],
+          stream: homeBloc.predefindTripsStream,
           builder: (context, snapshot) {
+            print(snapshot.data);
             switch (snapshot.connectionState) {
               case ConnectionState.none:
                 return Text("There is no connection");
@@ -187,102 +219,78 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
             }
           },
-        )
+        ),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    myWidth = MediaQuery.of(context).size.width;
-    myHeight = 300;
-    return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(
-      //     "Hello ${appBloc.userName}",
-      //     style: TextStyle(color: Colors.black, fontSize: 24),
-      //   ),
-      //   elevation: 0.0,
-      //   backgroundColor: Colors.transparent,
-      //   actions: <Widget>[
-      //     IconButton(
-      //       icon: Icon(Icons.person),
-      //       onPressed: () {
-      //         Navigator.of(context).push(
-      //           MaterialPageRoute(
-      //             builder: (context) => ProfilePage(),
-      //           ),
-      //         );
-      //       },
-      //       color: Colors.black,
-      //     ),
-      //   ],
-      //   // textTheme: Theme.of(context)
-      //   //     .textTheme
-      //   //     .apply(displayColor: Colors.black, bodyColor: Colors.black),
-      // ),
-      body: Stack(children: <Widget>[
-        Container(
-          child: AnimatedContainer(
-            duration: Duration(seconds: 2),
-            decoration: BoxDecoration(
-              borderRadius: borderRadius,
-              gradient: MadarColors.gradiant_decoration,
+    var myWidth = MediaQuery.of(context).size.width * 1.15;
+    var myHeight = myWidth;
+    //   myHeight = MediaQuery.of(context).size.height;
+    // myWidth = MediaQuery.of(context).size.width;
+    var open = false;
+    var rotateBy45 = new Matrix4.identity()
+      ..rotateZ(-45 * 3.1415927 / 180)
+      ..translate(-100.0, -100.0, 0.0)
+      ..scale(1.0);
+    var rotateBy_0 = new Matrix4.identity()
+      ..rotateZ(0 * 3.1415927 / 180)
+      ..translate(0.0, 0.0, 0.0)
+      ..scale(2.0);
+    var transformation = new Matrix4.identity()
+      // ..translate((myWidth * 0.40), -50.0, 0.0)
+      // ..rotateZ(-323 * 3.1415927 / 180)
+      ..scale(1.0);
+
+    var borderRadius = BorderRadius.circular(myWidth * 0.25);
+
+    return BlocProvider(
+      bloc: homeBloc,
+      child: Scaffold(
+        // appBar: AppBar(
+        //   title: Text(
+        //     "Hello ${appBloc.userName}",
+        //     style: TextStyle(color: Colors.black, fontSize: 24),
+        //   ),
+        //   elevation: 0.0,
+        //   backgroundColor: Colors.transparent,
+        //   actions: <Widget>[
+        //     IconButton(
+        //       icon: Icon(Icons.person),
+        //       onPressed: () {
+        //         Navigator.of(context).push(
+        //           MaterialPageRoute(
+        //             builder: (context) => ProfilePage(),
+        //           ),
+        //         );
+        //       },
+        //       color: Colors.black,
+        //     ),
+        //   ],
+        //   // textTheme: Theme.of(context)
+        //   //     .textTheme
+        //   //     .apply(displayColor: Colors.black, bodyColor: Colors.black),
+        // ),
+        body: Stack(children: <Widget>[
+          Container(
+            child: AnimatedContainer(
+              duration: Duration(seconds: 2),
+              decoration: BoxDecoration(
+                borderRadius: borderRadius,
+                gradient: MadarColors.gradiant_decoration,
+              ),
+              height: myHeight,
+              width: myWidth,
+              transform: transformation,
             ),
-            height: myHeight,
-            width: myWidth,
-            transform: transformation,
           ),
-        ),
-        Column(
-          // homeScreen content
-          children: <Widget>[
-            // Container(
-            //   height: 50,
-            // ),
-            // Container(
-            //   padding: EdgeInsets.all(8),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: <Widget>[
-            //       Expanded(
-            //         child: Padding(
-            //           padding: const EdgeInsets.only(left: 42.0),
-            //           child: Align(
-            //             alignment: Alignment.center,
-            //             child: Text(
-            //               "Hello ${appBloc.userName}",
-            //               style: TextStyle(
-            //                 fontSize: AppFonts.large_font_size,
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //       IconButton(
-            //         icon: Icon(Icons.person),
-            //         onPressed: () {
-            //           Navigator.of(context).push(
-            //             MaterialPageRoute(
-            //               builder: (context) => ProfilePage(),
-            //             ),
-            //           );
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            Container(
-              color: Colors.transparent,
-              height: 125,
-            ),
-            predefiedTrips(),
-            _availbleCars(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+          SingleChildScrollView(
+            child: Column(
+              // homeScreen content
               children: <Widget>[
+<<<<<<< HEAD
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -318,57 +326,142 @@ class _MyHomePageState extends State<MyHomePage> {
                               Icons.add,
                               size: 60,
                               color: Colors.white,
+=======
+                // Container(
+                //   height: 50,
+                // ),
+                // Container(
+                //   padding: EdgeInsets.all(8),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: <Widget>[
+                //       Expanded(
+                //         child: Padding(
+                //           padding: const EdgeInsets.only(left: 42.0),
+                //           child: Align(
+                //             alignment: Alignment.center,
+                //             child: Text(
+                //               "Hello ${appBloc.userName}",
+                //               style: TextStyle(
+                //                 fontSize: AppFonts.large_font_size,
+                //                 fontWeight: FontWeight.bold,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //       IconButton(
+                //         icon: Icon(Icons.person),
+                //         onPressed: () {
+                //           Navigator.of(context).push(
+                //             MaterialPageRoute(
+                //               builder: (context) => ProfilePage(),
+                //             ),
+                //           );
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Container(
+                  color: Colors.transparent,
+                  height: 125,
+                ),
+                predefiedTrips(),
+                _availbleCars(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            // constraints: BoxConstraints.expand(width: 200),
+                            alignment: Alignment(0, 0),
+                            child: Container(
+                              width: 75,
+                              height: 75,
+                              decoration: BoxDecoration(
+                                  boxShadow: [MadarColors.shadow],
+                                  color: Colors.grey.shade900,
+                                  borderRadius: BorderRadius.circular(15)),
+                              alignment: Alignment(0, 0),
+                              child: FlatButton(
+                                onPressed: () {
+                                  print("clicked");
+                                  if (!open) {
+                                    transformation = rotateBy_0;
+                                    open = true;
+                                  } else {
+                                    transformation = rotateBy45;
+                                    open = false;
+                                  }
+                                  setState(() {});
+                                  // Navigator.of(context)
+                                  //     .push(MaterialPageRoute(builder: (context) {
+                                  //   return TripPlanningPage();
+                                  // }));
+                                },
+                                child: Icon(
+                                  Icons.add,
+                                  size: 60,
+                                  color: Colors.white,
+                                ),
+                                padding: EdgeInsets.all(8.0),
+                              ),
+>>>>>>> origin/master
                             ),
-                            padding: EdgeInsets.all(8.0),
                           ),
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text("Plan a Trip",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 17,
+                                )),
+                          )
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Plan a Trip",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                            )),
-                      )
-                    ],
-                  ),
-                ),
+                    ),
+                  ],
+                )
               ],
-            )
-          ],
-        ),
-        new Positioned(
-            top: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: AppBar(
-              title: Text(
-                "Hello ${appBloc.userName}",
-                style: TextStyle(color: Colors.black, fontSize: 24),
-              ),
-              elevation: 0.0,
+            ),
+          ),
+          new Positioned(
+              top: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: AppBar(
+                title: Text(
+                  "Hello ${appBloc.userName}",
+                  style: TextStyle(color: Colors.black, fontSize: 24),
+                ),
+                elevation: 0.0,
 
-              backgroundColor: Colors.transparent,
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.person),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ProfilePage(),
-                      ),
-                    );
-                  },
-                  color: Colors.black,
-                ),
-              ],
-              // textTheme: Theme.of(context)
-              //     .textTheme
-              //     .apply(displayColor: Colors.black, bodyColor: Colors.black),
-            )),
-      ]),
-      // This trailing comma makes auto-formatting nicer for build methods.
+                backgroundColor: Colors.transparent,
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.person),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(),
+                        ),
+                      );
+                    },
+                    color: Colors.black,
+                  ),
+                ],
+                // textTheme: Theme.of(context)
+                //     .textTheme
+                //     .apply(displayColor: Colors.black, bodyColor: Colors.black),
+              )),
+        ]),
+        // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
