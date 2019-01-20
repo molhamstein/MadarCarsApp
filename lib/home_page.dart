@@ -249,30 +249,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return BlocProvider(
       bloc: homeBloc,
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: Text(
-        //     "Hello ${appBloc.userName}",
-        //     style: TextStyle(color: Colors.black, fontSize: 24),
-        //   ),
-        //   elevation: 0.0,
-        //   backgroundColor: Colors.transparent,
-        //   actions: <Widget>[
-        //     IconButton(
-        //       icon: Icon(Icons.person),
-        //       onPressed: () {
-        //         Navigator.of(context).push(
-        //           MaterialPageRoute(
-        //             builder: (context) => ProfilePage(),
-        //           ),
-        //         );
-        //       },
-        //       color: Colors.black,
-        //     ),
-        //   ],
-        //   // textTheme: Theme.of(context)
-        //   //     .textTheme
-        //   //     .apply(displayColor: Colors.black, bodyColor: Colors.black),
-        // ),
         body: Stack(children: <Widget>[
           Container(
             child: AnimatedContainer(
