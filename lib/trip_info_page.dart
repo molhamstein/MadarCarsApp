@@ -270,7 +270,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          InvoicePage()));
+                                                          InvoicePage(trip: trip,)));
                                             },
                                             icon: Icon(MyFlutterApp.invoice),
                                           ),

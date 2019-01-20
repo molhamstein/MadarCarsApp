@@ -111,6 +111,12 @@ class _InvoicePageState extends State<InvoicePage> {
         print(snapshot.data);
         if (snapshot.hasData) {
           return Table(
+            columnWidths: {
+              1: FractionColumnWidth(.2),
+              2: FractionColumnWidth(.2),
+              3: FractionColumnWidth(.2),
+              4: FractionColumnWidth(.2)
+            },
             children: snapshot.data.bills
                 .map(
                   (bill) => TableRow(
