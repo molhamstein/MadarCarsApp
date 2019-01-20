@@ -309,10 +309,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 open = false;
                               }
                               setState(() {});
-                              // Navigator.of(context)
-                              //     .push(MaterialPageRoute(builder: (context) {
-                              //   return TripPlanningPage();
-                              // }));
+                               Navigator.of(context)
+                                   .push(MaterialPageRoute(builder: (context) {
+                                 return TripPlanningPage();
+                               }));
                             },
                             child: Icon(
                               Icons.add,

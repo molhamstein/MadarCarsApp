@@ -142,9 +142,8 @@ class StepChooseCarState extends State<StepChooseCar> {
                                           ],
                                         ),
                                         RateWidget(
-                                          rate:
-                                              carSnapshot.data.rate.toString(),
-                                        )
+                                          carSnapshot.data.rate.toString(),
+                                        ),
                                       ],
                                     ),
                                     Container(
