@@ -26,9 +26,7 @@ class AppBloc extends BaseBloc {
   Function(String) get saveToken => _dataStore.setUserToken;
 
   String get userName =>
-      _dataStore
-          .getUser()
-          .userName; //TODO remove; only for testing
+      _dataStore.getUser().userName; //TODO remove; only for testing
   String get token => _dataStore.userToken;
 
   get logout {
@@ -36,7 +34,8 @@ class AppBloc extends BaseBloc {
     _logOutController.sink.add(true);
   }
 
-  get pushStopLoop { // TODO change!
+  get pushStopLoop {
+    // TODO change!
     _logOutController.sink.add(false);
   }
 
@@ -45,5 +44,4 @@ class AppBloc extends BaseBloc {
     _userController.close();
     _logOutController.close();
   }
-
 }

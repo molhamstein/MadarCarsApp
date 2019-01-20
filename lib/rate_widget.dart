@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RateWidget extends StatelessWidget {
-  String rate = "";
-  double height = 20;
-  double width = 50;
-  RateWidget({this.rate, this.width, this.height});
+  final String rate;
+
+  RateWidget(this.rate);
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Padding(
       padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
       child: Container(

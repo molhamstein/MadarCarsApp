@@ -22,11 +22,41 @@ class MadarColors {
 
   static const shadow = BoxShadow(
     color: Colors.grey,
-    blurRadius: 10.0, // has the effect of softening the shadow
-    spreadRadius: 5.0, // has the effect of extending the shadow
+    blurRadius: 5.0, // has the effect of softening the shadow
+    spreadRadius: 2.0, // has the effect of extending the shadow
     offset: Offset(
-      5.0, // horizontal, move right 10
-      5.0, // vertical, move down 10
+      2.0, // horizontal, move right 10
+      2.0, // vertical, move down 10
     ),
   );
+
+  static LinearGradient gradiantFromColors(String color1, String color2) {
+    return LinearGradient(
+        colors: [Color(hexToInt(color1)), Color(hexToInt(color2))],
+        begin: const FractionalOffset(0.0, 0.0),
+        end: const FractionalOffset(1.0, 1.0),
+        stops: [0.0, 1.0],
+        tileMode: TileMode.clamp);
+  }
+
+  static int hexToInt(String hex) {
+    int val = 0;
+    hex = 'FF' + hex;
+    int len = hex.length;
+    for (int i = 0; i < len; i++) {
+      int hexDigit = hex.codeUnitAt(i);
+      if (hexDigit >= 48 && hexDigit <= 57) {
+        val += (hexDigit - 48) * (1 << (4 * (len - 1 - i)));
+      } else if (hexDigit >= 65 && hexDigit <= 70) {
+        // A..F
+        val += (hexDigit - 55) * (1 << (4 * (len - 1 - i)));
+      } else if (hexDigit >= 97 && hexDigit <= 102) {
+        // a..f
+        val += (hexDigit - 87) * (1 << (4 * (len - 1 - i)));
+      } else {
+        throw new FormatException("Invalid hexadecimal value");
+      }
+    }
+    return val;
+  }
 }
