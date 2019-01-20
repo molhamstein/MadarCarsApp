@@ -37,11 +37,11 @@ class Location {
 
   factory Location.fromJson(Map<String, dynamic> json) => new Location(
       descriptionEn:
-          json["descriptionEn"] == null ? null : json["descriptionEn"],
+      json["descriptionEn"] == null ? null : json["descriptionEn"],
       descriptionAr:
-          json["descriptionAr"] == null ? null : json["descriptionAr"],
+      json["descriptionAr"] == null ? null : json["descriptionAr"],
       descriptionTr:
-          json["descriptionTr"] == null ? null : json["descriptionTr"],
+      json["descriptionTr"] == null ? null : json["descriptionTr"],
       nameEn: json["nameEn"] == null ? null : json["nameEn"],
       nameAr: json["nameAr"] == null ? null : json["nameAr"],
       nameTr: json["nameTr"] == null ? null : json["nameTr"],
@@ -58,27 +58,27 @@ class Location {
       subLocationsIds: json['subLocations'] == null
           ? null
           : (json['subLocations'] as List)
-              .map((jsonSubLocation) => jsonSubLocation['id'].toString())
-              .toList());
+          .map((jsonSubLocation) => jsonSubLocation['id'].toString())
+          .toList());
 
   Map<String, dynamic> toJson() => {
-        "descriptionEn": descriptionEn == null ? null : descriptionEn,
-        "descriptionAr": descriptionAr == null ? null : descriptionAr,
-        "descriptionTr": descriptionTr == null ? null : descriptionTr,
-        "nameEn": nameEn == null ? null : nameEn,
-        "nameAr": nameAr == null ? null : nameAr,
-        "nameTr": nameTr == null ? null : nameTr,
-        "color1": color1 == null ? null : color1,
-        "color2": color2 == null ? null : color2,
-        "status": status == null ? null : status,
-        "createdAt": createdAt == null ? null : createdAt,
-        "id": id == null ? null : id,
-        "mediaId": mediaId == null ? null : mediaId,
-        "media": media == null ? null : media.toJson(),
-        "slideMedia": slideMedia == null
-            ? null
-            : new List<dynamic>.from(slideMedia.map((x) => x)),
-      };
+    "descriptionEn": descriptionEn == null ? null : descriptionEn,
+    "descriptionAr": descriptionAr == null ? null : descriptionAr,
+    "descriptionTr": descriptionTr == null ? null : descriptionTr,
+    "nameEn": nameEn == null ? null : nameEn,
+    "nameAr": nameAr == null ? null : nameAr,
+    "nameTr": nameTr == null ? null : nameTr,
+    "color1": color1 == null ? null : color1,
+    "color2": color2 == null ? null : color2,
+    "status": status == null ? null : status,
+    "createdAt": createdAt == null ? null : createdAt,
+    "id": id == null ? null : id,
+    "mediaId": mediaId == null ? null : mediaId,
+    "media": media == null ? null : media.toJson(),
+    "slideMedia": slideMedia == null
+        ? null
+        : new List<dynamic>.from(slideMedia.map((x) => x)),
+  };
 }
 
 class LocationsResponse {
