@@ -17,9 +17,9 @@ class DataStore {
   }
 
   setUser(User user) {
-    print('hahahahahahha' + user.userName);
+    print('hahahahahahha' + user.name);
     _prefs.setString('user_id', user.id);
-    _prefs.setString('user_username', user.userName);
+    _prefs.setString('user_username', user.name);
     _prefs.setString('user_phone_number', user.phoneNumber);
     _prefs.setString('user_status', user.status);
     _prefs.setString('user_created_at', user.createdAt);

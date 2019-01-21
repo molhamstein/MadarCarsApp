@@ -31,7 +31,7 @@ class FacebookBloc extends BaseBloc with Validators, Network{
     final validPhoneNumber = _phoneController.value;
     final validIsoCode = _isoCodeController.value.code;
     step2FacebookSignUp(validPhoneNumber, validIsoCode, socialId, socialToken, userName).then((user) {
-      print(user.userName);
+      print(user.name);
     }).catchError((e) {
       print(e);
     });

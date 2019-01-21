@@ -266,43 +266,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               // homeScreen content
               children: <Widget>[
-<<<<<<< HEAD
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        // constraints: BoxConstraints.expand(width: 200),
-                        alignment: Alignment(0, 0),
-                        child: Container(
-                          width: 75,
-                          height: 75,
-                          decoration: BoxDecoration(
-                              boxShadow: [MadarColors.shadow],
-                              color: Colors.grey.shade900,
-                              borderRadius: BorderRadius.circular(15)),
-                          alignment: Alignment(0, 0),
-                          child: FlatButton(
-                            onPressed: () {
-                              print("clicked");
-                              if (!open) {
-                                transformation = rotateBy_0;
-                                open = true;
-                              } else {
-                                transformation = rotateBy45;
-                                open = false;
-                              }
-                              setState(() {});
-                               Navigator.of(context)
-                                   .push(MaterialPageRoute(builder: (context) {
-                                 return TripPlanningPage();
-                               }));
-                            },
-                            child: Icon(
-                              Icons.add,
-                              size: 60,
-                              color: Colors.white,
-=======
                 // Container(
                 //   height: 50,
                 // ),
@@ -375,10 +338,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     open = false;
                                   }
                                   setState(() {});
-                                  // Navigator.of(context)
-                                  //     .push(MaterialPageRoute(builder: (context) {
-                                  //   return TripPlanningPage();
-                                  // }));
+                                   Navigator.of(context)
+                                       .push(MaterialPageRoute(builder: (context) {
+                                     return TripPlanningPage();
+                                   }));
                                 },
                                 child: Icon(
                                   Icons.add,
@@ -387,7 +350,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                                 padding: EdgeInsets.all(8.0),
                               ),
->>>>>>> origin/master
                             ),
                           ),
                           Padding(

@@ -17,7 +17,8 @@ class Network {
     'Accept': 'application/json',
   };
 
-  static final String _baseUrl = 'http://104.217.253.15:3006/api/';
+//  static final String _baseUrl = 'http://104.217.253.15:3006/api/';
+  static final String _baseUrl = 'http://104.248.192.42:3000/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _signUpUrl = _baseUrl + 'users';
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
@@ -25,7 +26,7 @@ class Network {
       'locations?filter[include]=subLocations&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
   final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
-  final String _trip = _baseUrl + 'trip';
+  final String _trip = _baseUrl + 'trips';
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
@@ -81,15 +82,16 @@ class Network {
     }
   }
 
-  Future<UserResponse> facebookSignUp(
-      String facebookId, String facebookToken) async {
+  Future<UserResponse> facebookSignUp(String facebookId,
+      String facebookToken) async {
     final body = json.encode({
       'socialId': facebookId,
       'token': facebookToken,
     });
     final response =
-        await http.post(_facebookLoginUrl, body: body, headers: headers);
+    await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
+      print('seeex' + json.decode(response.body).toString());
       return UserResponse.fromJson(json.decode(response.body));
     } else if (response.statusCode == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
       throw ErrorCodes.NOT_COMPLETED_SN_LOGIN;
@@ -109,7 +111,7 @@ class Network {
       'ISOCode': isoCode.toUpperCase(),
     });
     final response =
-        await http.post(_facebookLoginUrl, body: body, headers: headers);
+    await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body)['user']);
     } else {
@@ -133,15 +135,20 @@ class Network {
     headers['Authorization'] = token;
 
     String dates = '';
-    if (trip.keys.keys.toList().length == 2)
+    if (trip.keys.keys
+        .toList()
+        .length == 2)
       dates =
-          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip.keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
+      '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip
+          .keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
     else
       dates =
-          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
+      '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
 
     final url = _avaiableCars +
-        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
+        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip
+            .toAirport},"inCity":${trip
+            .inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
@@ -155,10 +162,18 @@ class Network {
     }
   }
 
-  Future<List<SubLocationResponse>> fetchSubLocations(String token, Trip trip) async {
+  Future<List<SubLocationResponse>> fetchSubLocations(String token,
+      Trip trip) async {
     headers['Authorization'] = token;
 
-    var filter = { "where": { "and": [{ "carId": trip.car.id }, { "subLocationId": { "inq": trip.location.subLocationsIds } }] } };
+    var filter = {
+      "where": {
+        "and": [
+          { "carId": trip.car.id},
+          { "subLocationId": { "inq": trip.location.subLocationsIds}}
+        ]
+      }
+    };
 
     final url = _carSubLocations + json.encode(filter);
     print(url);
@@ -166,7 +181,8 @@ class Network {
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return (json.decode(response.body) as List)
-          .map((jsonSubLocation) => SubLocationResponse.fromJson(jsonSubLocation))
+          .map((jsonSubLocation) =>
+          SubLocationResponse.fromJson(jsonSubLocation))
           .toList();
     } else {
       print(response.body);
@@ -175,28 +191,42 @@ class Network {
   }
 
 
-  Future postTrip(Trip trip, String token) async {
+  Future postTrip(Trip trip, String token, String userId) async {
     headers['Authorization'] = token;
-    var body = {
-      "fromAirport": trip.fromAirport,
-      "fromAirportDate": trip.startDate,
-      "toAirportDate": trip.endDate,
-      "toAirport": trip.toAirport,
-      "startInCityDate": trip.startDate,
-      "endInCityDate": trip.endDate,
-      "inCity": trip.inCity,
-      "carId": trip.car.id,
+//    headers.remove('Content-Type');
+    final Map<String, dynamic> body = {
       "locationId": trip.location.id,
-      "tripSublocations": trip.tripSubLocations.map((location) {
-        return {
-          'sublocationId': location.subLocationId,
-          'duration': location.duration,
-        };
-      }).toList(),
+      "fromAirport": trip.fromAirport,
+      "toAirport": trip.toAirport,
+      "inCity": trip.inCity,
+      "fromAirportDate": trip.startDate.toString(),
+      "toAirportDate": trip.endDate.toString(),
+      "startInCityDate": trip.startDate.toString(),
+      "endInCityDate": trip.endDate.toString(),
+      "driverId": trip.car.driverId,
+      "pricePerDay": trip.car.pricePerDay,
+      "priceOneWay": trip.car.priceOneWay,
+      "priceTowWay": trip.car.priceTowWay,
+      "carId": trip.car.id,
+//      "tripSublocations": trip.tripSubLocations.map((location) {
+//        return {
+//          "sublocationId": location.subLocationId,
+//          "duration": location.duration,
+//        };
+//      }).toList(),
+      "cost": trip.estimationPrice(),
+      "daysInCity": trip.tripDuration(),
+      "type": "city",
+      "hasOuterBill": "false",
+      "status": "pending",
+      "ownerId": userId,
     };
 
-    final response = await http.post(_trip, headers: headers, body: body);
-    if(response.statusCode == 200) {
+    print(json.encode(body));
+
+    final response = await http.post(
+        _trip, headers: headers, body: json.encode(body));
+    if (response.statusCode == 200) {
       print(json.decode(response.body));
     }
     else {

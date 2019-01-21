@@ -146,7 +146,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
               FacebookUser.fromJson(jsonProfile, result.accessToken.token);
           facebookSignUp(facebookUser.id, facebookUser.token)
               .then((userResponse) {
-            print('user name : ' + userResponse.user.userName);
+            print('user name : ' + userResponse.user.name);
             _submitLoginController.sink.add(userResponse);
           }).catchError((e) {
             print(e);

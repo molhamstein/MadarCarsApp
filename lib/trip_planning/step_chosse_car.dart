@@ -8,6 +8,7 @@ import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_car_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/widgets/language_tag.dart';
+import 'package:shimmer/shimmer.dart';
 
 class StepChooseCar extends StatefulWidget {
   @override
@@ -63,7 +64,8 @@ class StepChooseCarState extends State<StepChooseCar> {
                           ),
                         ],
                       ),
-                      child: carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
+                      child: carsSnapshot.hasData &&
+                              carsSnapshot.data.isNotEmpty
                           ? StreamBuilder<Car>(
                               stream: bloc.selectedCarStream,
                               initialData: carsSnapshot.data[0],
@@ -143,11 +145,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                                         ),
                                         RateWidget(
                                           carSnapshot.data.rate.toString(),
-<<<<<<< HEAD
                                         ),
-=======
-                                        )
->>>>>>> origin/master
                                       ],
                                     ),
                                     Container(
@@ -235,7 +233,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                                   ],
                                 );
                               })
-                          : CircularProgressIndicator(),
+                          : _topShimmer(),
                     ),
                     carsSnapshot.hasData
                         ? StreamBuilder<int>(
@@ -272,4 +270,178 @@ class StepChooseCarState extends State<StepChooseCar> {
       ),
     );
   }
+
+
+  _topShimmer() {
+    Shimmer.fromColors(
+      baseColor: Colors.grey[300],
+      highlightColor: Colors.grey[200],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            crossAxisAlignment:
+            CrossAxisAlignment.end,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    bottom: 8.0),
+                child: Container(
+                  height: 16,
+                  width: 30,
+                  color: Colors.grey[300],
+                )
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                mainAxisAlignment:
+                MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    height: 60,
+                      width: 40,
+                    color: Colors.grey[300],
+                  ),
+                  Text(
+                    '\$',
+                    style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+          ),
+          Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: 24,
+                    width: 40,
+                    color: Colors.grey[300],
+                  ),
+                  Container(
+                    height: 18,
+                    width: 80,
+                    color: Colors.grey[300],
+                  ),
+                ],
+              ),
+              Container(
+                height: 16,
+                width: 24,
+                color: Colors.grey[300],
+              ),
+            ],
+          ),
+          Container(
+            height: 15,
+          ),
+          Wrap(
+            spacing: 4,
+            children: [
+              Container(
+                height: 20,
+                width: 40,
+                color: Colors.grey[300],
+              ),
+              Container(
+                height: 20,
+                width: 40,
+                color: Colors.grey[300],
+              ),
+              Container(
+                height: 20,
+                width: 40,
+                color: Colors.grey[300],
+              ),
+            ]
+          ),
+          Container(
+            height: 40,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                      height: 28,
+                      width: 28,
+                      color: Colors.grey[300],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0),
+                      child: Container(
+                        height: 16,
+                        width: 40,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 28,
+                        width: 28,
+                        color: Colors.grey[300],
+                      ),
+                      Padding(
+                        padding:
+                        const EdgeInsets.only(
+                            top: 8.0),
+                        child: Container(
+                          height: 16,
+                          width: 40,
+                          color: Colors.grey[300],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      height: 28,
+                      width: 28,
+                      color: Colors.grey[300],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 8.0),
+                      child: Container(
+                        height: 16,
+                        width: 40,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+
+  }
+
 }

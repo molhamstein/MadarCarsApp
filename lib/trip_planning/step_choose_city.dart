@@ -5,6 +5,7 @@ import 'package:madar_booking/city_radio_tile.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_city_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ChooseCityStep extends StatefulWidget {
   @override
@@ -51,7 +52,8 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                 stream: bloc.locationsStream,
                 builder: (context, locationsSnapshot) {
                   if (locationsSnapshot.hasData && planingBloc.isLocationIdNull)
-                    planingBloc.cityId(locationsSnapshot.data[0]); // initial location (pre selected)
+                    planingBloc.cityId(locationsSnapshot
+                        .data[0]); // initial location (pre selected)
 
                   return Stack(
                     children: <Widget>[
@@ -102,9 +104,7 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                                     ],
                                   );
                                 })
-                            : Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                            : _titleShimmer(),
                       ),
                       locationsSnapshot.hasData
                           ? Container(
@@ -137,14 +137,62 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                                 },
                               ),
                             )
-                          : Center(
-                              child: CircularProgressIndicator(),
-                            ),
+                          : _tilesShimmer(),
                     ],
                   );
                 }),
           ],
         ),
+      ),
+    );
+  }
+
+  _titleShimmer() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300],
+      highlightColor: Colors.grey[200],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width / 3,
+            height: 22,
+            color: Colors.grey[300],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width / 2,
+              height: 16,
+              color: Colors.grey[300],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _tilesShimmer() {
+    return Container(
+      margin: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 3),
+      height: MediaQuery.of(context).size.width / 2,
+      child: ListView.builder(
+        padding: EdgeInsets.only(right: 32, left: 32, top: 16, bottom: 16),
+        itemCount: 3,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300],
+            highlightColor: Colors.grey[200],
+            child: Container(
+              margin: EdgeInsets.all(8),
+              width: MediaQuery.of(context).size.width / 2.5,
+              height: MediaQuery.of(context).size.width / 2.5,
+              color: Colors.grey[300],
+            ),
+          );
+        },
       ),
     );
   }

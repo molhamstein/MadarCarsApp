@@ -9,10 +9,16 @@ import 'package:rxdart/rxdart.dart';
 class TripPlaningBloc extends BaseBloc with Network {
   Trip trip;
   int index;
+  bool done;
+  String token;
+  String userId;
 
-  TripPlaningBloc() {
+  TripPlaningBloc(String token, String userId) {
     trip = Trip.init();
     index = 0;
+    done = false;
+    this.token = token;
+    this.userId = userId;
   }
 
   final _navigationController = BehaviorSubject<int>();
@@ -33,15 +39,24 @@ class TripPlaningBloc extends BaseBloc with Network {
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
   get navForward {
-    if (index == 2 && !trip.inCity) {
-      _navigationController.sink.add(++index);
-      changeButtonText('Done');
-    } else if (index == 3) {
-      changeButtonText('Done');
+    if(index == 5){
+      _navigationController.sink.add(index);
+    }
+    else {
       _navigationController.sink.add(++index);
     }
-    else{
-      _navigationController.sink.add(++index);
+    done = false;
+    if(index == 5) done = true;
+    if (trip.inCity) {
+      if(index == 4) {
+        changeButtonText('Done');
+      }
+    }
+    else {
+      if(index == 3) {
+        changeButtonText('Done');
+        index = 5;
+      }
     }
   }
 
@@ -86,6 +101,15 @@ class TripPlaningBloc extends BaseBloc with Network {
   get isCityTour => trip.inCity;
 
   bool get isLocationIdNull => trip.location == null;
+
+
+  submitTrip() {
+    postTrip(trip, token, userId).then((d) {
+      print(d);
+    }).catchError((e) {
+      print(e);
+    });
+  }
 
   @override
   void dispose() {
