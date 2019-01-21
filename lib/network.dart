@@ -208,12 +208,12 @@ class Network {
       "priceOneWay": trip.car.priceOneWay,
       "priceTowWay": trip.car.priceTowWay,
       "carId": trip.car.id,
-//      "tripSublocations": trip.tripSubLocations.map((location) {
-//        return {
-//          "sublocationId": location.subLocationId,
-//          "duration": location.duration,
-//        };
-//      }).toList(),
+      "tripSublocations": trip.tripSubLocations.map((location) {
+        return {
+          "sublocationId": location.subLocationId,
+          "duration": location.duration,
+        };
+      }).toList(),
       "cost": trip.estimationPrice(),
       "daysInCity": trip.tripDuration(),
       "type": "city",
