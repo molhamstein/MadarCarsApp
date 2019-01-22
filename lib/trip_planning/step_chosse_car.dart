@@ -43,7 +43,7 @@ class StepChooseCarState extends State<StepChooseCar> {
           StreamBuilder<List<Car>>(
               stream: bloc.carsStream,
               builder: (context, carsSnapshot) {
-                if (carsSnapshot.hasData)
+                if (carsSnapshot.hasData && carsSnapshot.data.isNotEmpty)
                   planingBloc.tripCar(carsSnapshot.data[0]);
                 return Stack(
                   children: <Widget>[
@@ -235,7 +235,7 @@ class StepChooseCarState extends State<StepChooseCar> {
                               })
                           : _topShimmer(),
                     ),
-                    carsSnapshot.hasData
+                    carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
                         ? StreamBuilder<int>(
                             stream: bloc.indexStream,
                             initialData: 0,
@@ -273,173 +273,169 @@ class StepChooseCarState extends State<StepChooseCar> {
 
 
   _topShimmer() {
-    Shimmer.fromColors(
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[200],
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            crossAxisAlignment:
-            CrossAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 8.0),
-                child: Container(
-                  height: 16,
-                  width: 30,
-                  color: Colors.grey[300],
-                )
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
-                mainAxisAlignment:
-                MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: 60,
-                      width: 40,
-                    color: Colors.grey[300],
-                  ),
-                  Text(
-                    '\$',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.all(20),
-          ),
-          Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    height: 24,
-                    width: 40,
-                    color: Colors.grey[300],
-                  ),
-                  Container(
-                    height: 18,
-                    width: 80,
-                    color: Colors.grey[300],
-                  ),
-                ],
-              ),
-              Container(
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment:
+          MainAxisAlignment.spaceBetween,
+          crossAxisAlignment:
+          CrossAxisAlignment.end,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: 8.0),
+              child: Container(
                 height: 16,
-                width: 24,
+                width: 30,
                 color: Colors.grey[300],
-              ),
-            ],
-          ),
-          Container(
-            height: 15,
-          ),
-          Wrap(
-            spacing: 4,
-            children: [
-              Container(
-                height: 20,
-                width: 40,
-                color: Colors.grey[300],
-              ),
-              Container(
-                height: 20,
-                width: 40,
-                color: Colors.grey[300],
-              ),
-              Container(
-                height: 20,
-                width: 40,
-                color: Colors.grey[300],
-              ),
-            ]
-          ),
-          Container(
-            height: 40,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
+              )
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              mainAxisAlignment:
+              MainAxisAlignment.end,
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      height: 28,
-                      width: 28,
-                      color: Colors.grey[300],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0),
-                      child: Container(
-                        height: 16,
-                        width: 40,
-                        color: Colors.grey[300],
-                      ),
-                    ),
-                  ],
+                Container(
+                  height: 60,
+                    width: 40,
+                  color: Colors.grey[300],
                 ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 28,
-                        width: 28,
-                        color: Colors.grey[300],
-                      ),
-                      Padding(
-                        padding:
-                        const EdgeInsets.only(
-                            top: 8.0),
-                        child: Container(
-                          height: 16,
-                          width: 40,
-                          color: Colors.grey[300],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      height: 28,
-                      width: 28,
-                      color: Colors.grey[300],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0),
-                      child: Container(
-                        height: 16,
-                        width: 40,
-                        color: Colors.grey[300],
-                      ),
-                    ),
-                  ],
+                Text(
+                  '\$',
+                  style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
                 ),
               ],
             ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.all(20),
+        ),
+        Row(
+          mainAxisAlignment:
+          MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: 24,
+                  width: 40,
+                  color: Colors.grey[300],
+                ),
+                Container(
+                  height: 18,
+                  width: 80,
+                  color: Colors.grey[300],
+                ),
+              ],
+            ),
+            Container(
+              height: 16,
+              width: 24,
+              color: Colors.grey[300],
+            ),
+          ],
+        ),
+        Container(
+          height: 15,
+        ),
+        Wrap(
+          spacing: 4,
+          children: [
+            Container(
+              height: 20,
+              width: 40,
+              color: Colors.grey[300],
+            ),
+            Container(
+              height: 20,
+              width: 40,
+              color: Colors.grey[300],
+            ),
+            Container(
+              height: 20,
+              width: 40,
+              color: Colors.grey[300],
+            ),
+          ]
+        ),
+        Container(
+          height: 40,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Container(
+                    height: 28,
+                    width: 28,
+                    color: Colors.grey[300],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8.0),
+                    child: Container(
+                      height: 16,
+                      width: 40,
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 28,
+                      width: 28,
+                      color: Colors.grey[300],
+                    ),
+                    Padding(
+                      padding:
+                      const EdgeInsets.only(
+                          top: 8.0),
+                      child: Container(
+                        height: 16,
+                        width: 40,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                children: <Widget>[
+                  Container(
+                    height: 28,
+                    width: 28,
+                    color: Colors.grey[300],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8.0),
+                    child: Container(
+                      height: 16,
+                      width: 40,
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
 
   }

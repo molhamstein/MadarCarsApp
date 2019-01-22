@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
@@ -12,6 +14,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   bool done;
   String token;
   String userId;
+  bool showFeedback;
 
   TripPlaningBloc(String token, String userId) {
     trip = Trip.init();
@@ -19,12 +22,15 @@ class TripPlaningBloc extends BaseBloc with Network {
     done = false;
     this.token = token;
     this.userId = userId;
+    showFeedback = false;
   }
 
   final _navigationController = BehaviorSubject<int>();
   final _tripController = BehaviorSubject<Trip>();
   final _estimationCostController = BehaviorSubject<int>();
   final _mainButtonTextController = BehaviorSubject<String>();
+  final _loadingController = BehaviorSubject<bool>();
+  final _feedbackController = PublishSubject<String>();
 
   get navigationStream => _navigationController.stream;
 
@@ -32,31 +38,80 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get estimationStream => _estimationCostController.stream;
 
-  get navBackward => _navigationController.sink.add(--index);
-
   get changeTextStream => _mainButtonTextController.stream;
+
+  get loadingStream => _loadingController.stream;
+
+  get feedbackStream => _feedbackController.stream;
 
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
+  pushLoading(bool load) => _loadingController.sink.add(load);
+
+  get navBackward {
+    if (!trip.inCity) {
+      if (index == 5) index = 3;
+      _navigationController.sink.add(--index);
+    } else {
+      _navigationController.sink.add(--index);
+    }
+    if (index == 0 || index == 1 || index == 2) {
+      done = false;
+      pushLoading(false);
+      changeButtonText('Next');
+    }
+  }
+
   get navForward {
-    if(index == 5){
-      _navigationController.sink.add(index);
-    }
-    else {
-      _navigationController.sink.add(++index);
-    }
-    done = false;
-    if(index == 5) done = true;
-    if (trip.inCity) {
-      if(index == 4) {
-        changeButtonText('Done');
+    if (_shouldNav()) {
+      if (index == 5) {
+        _navigationController.sink.add(index);
+      } else {
+        _navigationController.sink.add(++index);
       }
-    }
-    else {
-      if(index == 3) {
-        changeButtonText('Done');
-        index = 5;
+      done = false;
+      if (index == 4) done = true;
+      if (trip.inCity) {
+        if (index == 4) {
+          pushLoading(true);
+          changeButtonText('Done');
+        }
+      } else {
+        if (index == 3) {
+          changeButtonText('Done');
+          pushLoading(true);
+          done = true;
+          index = 4;
+        }
       }
+    } else {
+      _feedbackController.sink.addError('Please fill the missing data');
+    }
+    if (index == 0 || index == 1 || index == 2) {
+      done = false;
+      pushLoading(false);
+      changeButtonText('Next');
+    }
+  }
+
+  _shouldNav() {
+    if (index == 0) {
+      if (trip.location != null) {
+        return true;
+      }
+      return false;
+    } else if (index == 1) {
+      if (!trip.toAirport && !trip.fromAirport && !trip.inCity) {
+        return false;
+      }
+      return true;
+    } else if (index == 3) {
+      if (trip.car != null) {
+        return true;
+      }
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -102,12 +157,21 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   bool get isLocationIdNull => trip.location == null;
 
-
   submitTrip() {
+    showFeedback = true;
     postTrip(trip, token, userId).then((d) {
+      _loadingController.sink.add(false);
+      _feedbackController.sink.add(d);
+      navForward;
       print(d);
     }).catchError((e) {
+      _loadingController.sink.add(false);
+      Future.delayed(Duration(milliseconds: 10)).then((s) {
+        if ((index == 3 && !trip.inCity) || index == 4)
+          _loadingController.sink.add(true);
+      });
       print(e);
+      _feedbackController.addError(e.toString());
     });
   }
 
@@ -117,5 +181,7 @@ class TripPlaningBloc extends BaseBloc with Network {
     _tripController.close();
     _estimationCostController.close();
     _mainButtonTextController.close();
+    _loadingController.close();
+    _feedbackController.close();
   }
 }

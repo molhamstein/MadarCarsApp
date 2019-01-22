@@ -191,7 +191,7 @@ class Network {
   }
 
 
-  Future postTrip(Trip trip, String token, String userId) async {
+  Future<String> postTrip(Trip trip, String token, String userId) async {
     headers['Authorization'] = token;
 //    headers.remove('Content-Type');
     final Map<String, dynamic> body = {
@@ -228,6 +228,10 @@ class Network {
         _trip, headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       print(json.decode(response.body));
+      return 'Your Trip has been Added succefully!';
+    }
+    else if(response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
+      throw Exception('The car you requested is not available.');
     }
     else {
       throw json.decode(response.body);
@@ -299,4 +303,5 @@ class Network {
 mixin ErrorCodes {
   static const int NOT_COMPLETED_SN_LOGIN = 450;
   static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
+  static const int CAR_NOT_AVAILABLE = 457;
 }
