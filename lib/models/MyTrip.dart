@@ -3,6 +3,8 @@
 //     final myTrip = myTripFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
 import 'TripsSublocation.dart';
 import 'Car.dart';
 import 'user.dart';
@@ -145,4 +147,43 @@ class MyTrip {
             : new List<dynamic>.from(tripSublocations.map((x) => x.toJson())),
         "driver": driver == null ? null : driver.toJson(),
       };
+
+  bool isActive() {
+    // var date = DateTime.now();
+    // var startDate = DateTime.parse(trip.fromAirportDate);
+    // var endDate = DateTime.parse(trip.endInCityDate);
+    return status != "finished";
+  }
+
+  String startDate() {
+    if (fromAirport) {
+      return DateFormat.yMd().format(DateTime.parse(fromAirportDate));
+    }
+    if (inCity) {
+      return DateFormat.yMd().format(DateTime.parse(startInCityDate));
+    }
+    return DateFormat.yMd().format(DateTime.parse(toAirportDate));
+  }
+
+  String endDate() {
+    if (toAirport) {
+      return DateFormat.yMd().format(DateTime.parse(toAirportDate));
+    }
+    return DateFormat.yMd().format(DateTime.parse(endInCityDate));
+  }
+
+  bool isShowEndDate() {
+    if (fromAirport == false && inCity == false) {
+      return false;
+    }
+    return true;
+  }
+
+  int totlaDuration() {
+    int res = 0;
+    tripSublocations.forEach((f) {
+      res += f.duration;
+    });
+    return res;
+  }
 }

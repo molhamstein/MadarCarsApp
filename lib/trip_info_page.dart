@@ -265,26 +265,36 @@ class TripInfoPageState extends State<TripInfoPage> {
                                       Expanded(
                                         child: Container(
                                           alignment: Alignment(0, -0.5),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          InvoicePage(trip: trip,)));
-                                            },
-                                            icon: Icon(MyFlutterApp.invoice),
-                                          ),
+                                          child: trip.hasOuterBill
+                                              ? IconButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    InvoicePage(
+                                                                      trip:
+                                                                          trip,
+                                                                    )));
+                                                  },
+                                                  icon: Icon(
+                                                      MyFlutterApp.invoice),
+                                                )
+                                              : null,
                                         ),
                                       ),
                                       Expanded(
                                         child: Container(
                                           alignment: Alignment(0, -0.5),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              print("edit clicled");
-                                            },
-                                            icon: Icon(MyFlutterApp.edit_trip),
-                                          ),
+                                          child: trip.isActive()
+                                              ? IconButton(
+                                                  onPressed: () {
+                                                    print("edit clicled");
+                                                  },
+                                                  icon: Icon(
+                                                      MyFlutterApp.edit_trip),
+                                                )
+                                              : null,
                                         ),
                                       ),
                                     ],
@@ -427,9 +437,8 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                       const EdgeInsets.only(
                                                           top: 8.0),
                                                   child: Text(
-                                                      trip
-                                                              .car
-                                                              .productionDate.toString(),
+                                                      trip.car.productionDate
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:

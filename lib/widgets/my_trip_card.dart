@@ -9,27 +9,6 @@ class MyTripCard extends StatelessWidget {
   final MyTrip trip;
   MyTripCard(this.trip);
 
-  String startDate = "2018";
-  String endDate = "2019";
-
-  setDates() {}
-
-//"finished"
-  bool isActive() {
-    // var date = DateTime.now();
-    // var startDate = DateTime.parse(trip.fromAirportDate);
-    // var endDate = DateTime.parse(trip.endInCityDate);
-    return trip.status != "finished";
-  }
-
-  int totlaDuration() {
-    int res = 0;
-    trip.tripSublocations.forEach((f) {
-      res += f.duration;
-    });
-    return res;
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -58,12 +37,12 @@ class MyTripCard extends StatelessWidget {
                           width: 25,
                           height: 25,
                           decoration: BoxDecoration(
-                            color: isActive()
+                            color: trip.isActive()
                                 ? Colors.yellow.shade800
                                 : Colors.grey.shade800,
                             borderRadius: BorderRadius.circular(12.5),
                           ),
-                          child: isActive()
+                          child: trip.isActive()
                               ? Icon(
                                   Icons.check,
                                   color: Colors.white,
@@ -88,7 +67,7 @@ class MyTripCard extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           AutoSizeText(
-                            "${DateFormat.Md().format(DateTime.parse(trip.fromAirportDate))}\n${DateFormat.y().format(DateTime.parse(trip.fromAirportDate))}",
+                            "${DateFormat.Md().format(DateTime.parse(trip.startDate()))}\n${DateFormat.y().format(DateTime.parse(trip.startDate()))}",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -207,7 +186,7 @@ class MyTripCard extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: AutoSizeText(
-                                                      "${totlaDuration()} Days",
+                                                      "${trip.totlaDuration()} Days",
                                                       style: TextStyle(
                                                         fontSize: 14,
                                                         fontWeight:
@@ -324,7 +303,7 @@ class MyTripCard extends StatelessWidget {
                                                             maxLines: 1,
                                                           ),
                                                           AutoSizeText(
-                                                            startDate,
+                                                            trip.startDate(),
                                                             style: TextStyle(
                                                                 fontSize: 12,
                                                                 fontWeight:
@@ -366,7 +345,7 @@ class MyTripCard extends StatelessWidget {
                                                           ),
                                                           Container(
                                                             child: AutoSizeText(
-                                                              endDate,
+                                                              trip.endDate(),
                                                               style: TextStyle(
                                                                   fontSize: 12,
                                                                   fontWeight:
