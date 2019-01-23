@@ -17,8 +17,8 @@ class Network {
     'Accept': 'application/json',
   };
 
-//  static final String _baseUrl = 'http://104.217.253.15:3006/api/';
-  static final String _baseUrl = 'http://104.248.192.42:3000/api/';
+  static final String _baseUrl = 'http://104.217.253.15:3006/api/';
+//  static final String _baseUrl = 'https://www.jawlatcom.com:3000/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _signUpUrl = _baseUrl + 'users';
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
@@ -42,7 +42,11 @@ class Network {
     final response = await http.post(_loginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       return UserResponse.fromJson(json.decode(response.body));
-    } else {
+    }
+    else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+      throw 'Phone number or password are wrong';
+    }
+    else {
       print(response.body);
       throw json.decode(response.body);
     }
@@ -58,9 +62,11 @@ class Network {
     });
     final response = await http.post(_signUpUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
+      print(json.decode(response.body));
       return User.fromJson(json.decode(response.body));
     } else if (response.statusCode ==
         ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
+      print(json.decode(response.body));
       throw ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED;
     } else {
       print(response.body);
@@ -301,6 +307,7 @@ class Network {
 }
 
 mixin ErrorCodes {
+  static const int LOGIN_FAILED = 401;
   static const int NOT_COMPLETED_SN_LOGIN = 450;
   static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
   static const int CAR_NOT_AVAILABLE = 457;

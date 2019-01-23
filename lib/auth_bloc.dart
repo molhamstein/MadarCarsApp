@@ -8,6 +8,13 @@ import 'package:rxdart/rxdart.dart';
 import 'validator.dart';
 
 class AuthBloc extends BaseBloc with Validators, Network {
+
+  bool shouldShowFeedBack;
+
+  Authbloc(){
+    shouldShowFeedBack = true;
+  }
+
   final _phoneLoginController = BehaviorSubject<String>();
   final _passwordLoginController = BehaviorSubject<String>();
 
@@ -16,6 +23,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _nameSignUpController = BehaviorSubject<String>();
   final _isoCodeSignUpController = BehaviorSubject<CountryCode>();
   final _facebookLoginController = BehaviorSubject<FacebookUser>();
+  final _loadingController = BehaviorSubject<bool>();
 
   final _obscureLoginPasswordController =
       BehaviorSubject<bool>(seedValue: true);
@@ -24,7 +32,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _obscureSignUpPasswordConfirmation =
       BehaviorSubject<bool>(seedValue: true);
 
-  final _submitLoginController = BehaviorSubject<UserResponse>();
+  final _submitLoginController = PublishSubject<UserResponse>();
   final _submitSignUpController = BehaviorSubject<UserResponse>();
 
   final _lockTouchEventController = BehaviorSubject<bool>();
@@ -33,6 +41,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
       _facebookLoginController.stream;
 
   get pushLockTouchEvent => _lockTouchEventController.sink.add(true);
+  get pushUnlockTouchEvent => _lockTouchEventController.sink.add(false);
 
   Function(String) get changeLoginPhone => _phoneLoginController.sink.add;
 
@@ -96,7 +105,14 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   Stream<bool> get lockTouchEventStream => _lockTouchEventController.stream;
 
+  Stream<bool> get loadingStream => _loadingController.stream;
+
+  get startLoading => _loadingController.sink.add(true);
+  get stopLoading => _loadingController.sink.add(false);
+
+
   submitLogin() {
+
     final validPhoneNumber = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
     pushLockTouchEvent;
@@ -104,9 +120,17 @@ class AuthBloc extends BaseBloc with Validators, Network {
     login(validPhoneNumber, validPassword).then((response) {
       print(response.token);
       _submitLoginController.sink.add(response);
+      stopLoading;
     }).catchError((e) {
+      shouldShowFeedBack = true;
       print(e);
+      pushUnlockTouchEvent;
       _submitLoginController.sink.addError(e);
+      stopLoading;
+      Future.delayed(Duration(milliseconds: 4)).then((_) {
+        startLoading;
+      });
+
     });
   }
 
@@ -185,6 +209,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     _isoCodeSignUpController.close();
     _submitSignUpController.close();
     _facebookLoginController.close();
+    _loadingController.close();
   }
 }
 

@@ -138,6 +138,11 @@ class _AuthPageState extends State<AuthPage>
                   child: Container(
                     width: 250.0,
                     height: 191.0,
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 50,
+                      height: 50,
+                    ),
                   ),
                 ),
                 Padding(
