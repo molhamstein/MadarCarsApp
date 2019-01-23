@@ -85,6 +85,7 @@ class TripPlaningBloc extends BaseBloc with Network {
         }
       }
     } else {
+      showFeedback = true;
       _feedbackController.sink.addError('Please fill the missing data');
     }
     if (index == 0 || index == 1 || index == 2) {

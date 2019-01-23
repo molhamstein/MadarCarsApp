@@ -4,14 +4,49 @@ import 'package:madar_booking/date_picker.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/vertical_devider.dart';
 
-class StepChooseDatePage extends StatelessWidget {
+class StepChooseDatePage extends StatefulWidget {
 
 
+  @override
+  StepChooseDatePageState createState() {
+    return new StepChooseDatePageState();
+  }
+}
+
+class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProviderStateMixin{
   bool fromAirport;
+
   bool toAirport;
+
   bool cityTour;
 
   TripPlaningBloc bloc;
+  AnimationController _controller;
+  Animation<Offset> _offsetFloat;
+
+  @override
+  void initState() {
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+
+    final CurvedAnimation curvedAnimation = CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
+
+    _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200), end: Offset.zero)
+        .animate(curvedAnimation);
+
+    _offsetFloat.addListener((){
+      setState((){});
+    });
+
+    _controller.forward();
+
+
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,50 +60,57 @@ class StepChooseDatePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 60, right: 24, left: 24),
-            height: MediaQuery
-                .of(context)
-                .size
-                .height - 250,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
-            padding: EdgeInsets.only(right: 16, left: 16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 8,
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 120, top: 60),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text('Select below the dates when you need the car',
-                    style: TextStyle(fontSize: 16,
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w700),),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: _layout(),
+          AnimatedBuilder(
+            animation: _offsetFloat,
+            builder: (context, widget) {
+              return Transform.translate(
+                offset: _offsetFloat.value,
+                child: Container(
+                  margin: EdgeInsets.only(top: 60, right: 24, left: 24),
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height - 250,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  padding: EdgeInsets.only(right: 16, left: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 8,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 120, top: 60),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text('Select below the dates when you need the car',
+                          style: TextStyle(fontSize: 16,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w700),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: _layout(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
     );
   }
-
 
   List<Widget> _layout() {
     if (cityTour || (fromAirport && toAirport)) {
