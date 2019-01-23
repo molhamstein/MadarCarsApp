@@ -21,6 +21,7 @@ class Network {
   };
 
   static final String _baseUrl = 'http://104.217.253.15:3006/api/';
+//  static final String _baseUrl = 'https://www.jawlatcom.com:3000/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _signUpUrl = _baseUrl + 'users';
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
@@ -28,6 +29,7 @@ class Network {
       'locations?filter[include]=subLocations&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
   final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
+  final String _trip = _baseUrl + 'trips';
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
@@ -44,7 +46,11 @@ class Network {
     final response = await http.post(_loginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       return UserResponse.fromJson(json.decode(response.body));
-    } else {
+    }
+    else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+      throw 'Phone number or password are wrong';
+    }
+    else {
       print(response.body);
       throw json.decode(response.body);
     }
@@ -60,9 +66,11 @@ class Network {
     });
     final response = await http.post(_signUpUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
+      print(json.decode(response.body));
       return User.fromJson(json.decode(response.body));
     } else if (response.statusCode ==
         ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
+      print(json.decode(response.body));
       throw ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED;
     } else {
       print(response.body);
@@ -84,15 +92,16 @@ class Network {
     }
   }
 
-  Future<UserResponse> facebookSignUp(
-      String facebookId, String facebookToken) async {
+  Future<UserResponse> facebookSignUp(String facebookId,
+      String facebookToken) async {
     final body = json.encode({
       'socialId': facebookId,
       'token': facebookToken,
     });
     final response =
-        await http.post(_facebookLoginUrl, body: body, headers: headers);
+    await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
+      print('seeex' + json.decode(response.body).toString());
       return UserResponse.fromJson(json.decode(response.body));
     } else if (response.statusCode == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
       throw ErrorCodes.NOT_COMPLETED_SN_LOGIN;
@@ -112,7 +121,7 @@ class Network {
       'ISOCode': isoCode.toUpperCase(),
     });
     final response =
-        await http.post(_facebookLoginUrl, body: body, headers: headers);
+    await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body)['user']);
     } else {
@@ -136,15 +145,20 @@ class Network {
     headers['Authorization'] = token;
 
     String dates = '';
-    if (trip.keys.keys.toList().length == 2)
+    if (trip.keys.keys
+        .toList()
+        .length == 2)
       dates =
-          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip.keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
+      '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip
+          .keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
     else
       dates =
-          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
+      '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
 
     final url = _avaiableCars +
-        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
+        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip
+            .toAirport},"inCity":${trip
+            .inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
@@ -158,17 +172,15 @@ class Network {
     }
   }
 
-  Future<List<SubLocationResponse>> fetchSubLocations(
-      String token, Trip trip) async {
+  Future<List<SubLocationResponse>> fetchSubLocations(String token,
+      Trip trip) async {
     headers['Authorization'] = token;
 
     var filter = {
       "where": {
         "and": [
-          {"carId": trip.car.id},
-          {
-            "subLocationId": {"inq": trip.location.subLocationsIds}
-          }
+          { "carId": trip.car.id},
+          { "subLocationId": { "inq": trip.location.subLocationsIds}}
         ]
       }
     };
@@ -180,10 +192,58 @@ class Network {
       print(json.decode(response.body));
       return (json.decode(response.body) as List)
           .map((jsonSubLocation) =>
-              SubLocationResponse.fromJson(jsonSubLocation))
+          SubLocationResponse.fromJson(jsonSubLocation))
           .toList();
     } else {
       print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+
+  Future<String> postTrip(Trip trip, String token, String userId) async {
+    headers['Authorization'] = token;
+//    headers.remove('Content-Type');
+    final Map<String, dynamic> body = {
+      "locationId": trip.location.id,
+      "fromAirport": trip.fromAirport,
+      "toAirport": trip.toAirport,
+      "inCity": trip.inCity,
+      "fromAirportDate": trip.startDate.toString(),
+      "toAirportDate": trip.endDate.toString(),
+      "startInCityDate": trip.startDate.toString(),
+      "endInCityDate": trip.endDate.toString(),
+      "driverId": trip.car.driverId,
+      "pricePerDay": trip.car.pricePerDay,
+      "priceOneWay": trip.car.priceOneWay,
+      "priceTowWay": trip.car.priceTowWay,
+      "carId": trip.car.id,
+      "tripSublocations": trip.tripSubLocations.map((location) {
+        return {
+          "sublocationId": location.subLocationId,
+          "duration": location.duration,
+        };
+      }).toList(),
+      "cost": trip.estimationPrice(),
+      "daysInCity": trip.tripDuration(),
+      "type": "city",
+      "hasOuterBill": "false",
+      "status": "pending",
+      "ownerId": userId,
+    };
+
+    print(json.encode(body));
+
+    final response = await http.post(
+        _trip, headers: headers, body: json.encode(body));
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return 'Your Trip has been Added succefully!';
+    }
+    else if(response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
+      throw Exception('The car you requested is not available.');
+    }
+    else {
       throw json.decode(response.body);
     }
   }
@@ -286,6 +346,8 @@ class Network {
 }
 
 mixin ErrorCodes {
+  static const int LOGIN_FAILED = 401;
   static const int NOT_COMPLETED_SN_LOGIN = 450;
   static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
+  static const int CAR_NOT_AVAILABLE = 457;
 }

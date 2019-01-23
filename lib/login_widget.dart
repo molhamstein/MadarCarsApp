@@ -48,6 +48,14 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                 new MaterialPageRoute(builder: (context) => HomePage()));
           });
         }
+
+        if (snapshot.hasError && bloc.shouldShowFeedBack) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            showInSnackBar(snapshot.error, context, color: Colors.redAccent);
+            bloc.shouldShowFeedBack = false;
+          });
+        }
+
         return Container(
           padding: EdgeInsets.only(top: 23.0),
           child: Column(
@@ -304,19 +312,25 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
       stream: bloc.submitValidLogin,
       initialData: false,
       builder: (context, snapshot) {
-        return MainButton(
-          text: 'Submit',
-          onPressed: () {
-            if (!snapshot.data) {
-              showInSnackBar(
-                  'Provide a valid phone number or password', context);
-            } else
-              bloc.submitLogin();
-          },
-          width: 150,
-          height: 50,
-          loading: snapshot.data,
-        );
+        return StreamBuilder<bool>(
+            stream: bloc.loadingStream,
+            initialData: true,
+            builder: (context, loadingSnapshot) {
+              return MainButton(
+                text: 'Submit',
+                onPressed: () {
+                  if (!snapshot.data) {
+                    showInSnackBar(
+                        'Provide a valid phone number or password', context, color: Colors.redAccent);
+                  } else
+                    bloc.submitLogin();
+                },
+                width: 150,
+                height: 50,
+                loading: (snapshot.data == null ? false : snapshot.data) &&
+                    loadingSnapshot.data,
+              );
+            });
       },
     );
   }

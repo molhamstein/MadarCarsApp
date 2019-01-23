@@ -12,7 +12,7 @@ class User {
   bool registrationCompleted;
   String createdAt;
   String typeLogIn;
-  String userName;
+  String name;
   String id;
   String isoCode;
   Country country;
@@ -23,7 +23,7 @@ class User {
     this.registrationCompleted,
     this.createdAt,
     this.typeLogIn,
-    this.userName,
+    this.name,
     this.id,
     this.isoCode,
     this.country,
@@ -37,7 +37,7 @@ class User {
             : json["registrationCompleted"],
         createdAt: json["createdAt"] == null ? null : json["createdAt"],
         typeLogIn: json["typeLogIn"] == null ? null : json["typeLogIn"],
-        userName: json["username"] == null ? null : json["username"],
+        name: json["name"] == null ? null : json["name"],
         id: json["id"] == null ? null : json["id"],
         isoCode: json["ISOCode"] == null ? null : json["ISOCode"],
         country:
@@ -51,7 +51,7 @@ class User {
             registrationCompleted == null ? null : registrationCompleted,
         "createdAt": createdAt == null ? null : createdAt,
         "typeLogIn": typeLogIn == null ? null : typeLogIn,
-        "username": userName == null ? null : userName,
+        "name": name == null ? null : name,
         "id": id == null ? null : id,
         "ISOCode": isoCode == null ? null : isoCode,
         "country": country == null ? null : country.toJson(),

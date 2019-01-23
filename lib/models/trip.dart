@@ -9,7 +9,7 @@ class Trip {
   DateTime startDate;
   DateTime endDate;
   Car car;
-  List<TripSubLocation> _tripSubLocations;
+  List<TripSubLocation> tripSubLocations;
 
   Trip({
     this.fromAirport,
@@ -29,25 +29,25 @@ class Trip {
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     endDate = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 23);
-    _tripSubLocations = [];
+    tripSubLocations = [];
   }
 
 
   addSubLocation(String id, int duration, int cost) {
     int allSubLocationDuration = 0;
-    _tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
     if(allSubLocationDuration <= tripDuration()) {
       int index;
       if ((index =
-          _tripSubLocations.indexWhere((location) => location.subLocationId ==
+          tripSubLocations.indexWhere((location) => location.subLocationId ==
               id)) == -1) {
 
-        _tripSubLocations.add(
+        tripSubLocations.add(
             TripSubLocation(subLocationId: id, duration: duration, cost: cost));
       } else {
-        _tripSubLocations[index].subLocationId = id;
-        _tripSubLocations[index].duration = duration;
-        _tripSubLocations[index].cost = cost;
+        tripSubLocations[index].subLocationId = id;
+        tripSubLocations[index].duration = duration;
+        tripSubLocations[index].cost = cost;
       }
     }
   }
@@ -88,7 +88,7 @@ class Trip {
       cost += car.priceTowWay;
     }
     
-    _tripSubLocations.forEach((location) => cost += (location.duration * location.cost));
+    tripSubLocations.forEach((location) => cost += (location.duration * location.cost));
     
     return cost;
   }
@@ -99,14 +99,14 @@ class Trip {
 
   int subLocationDuration() {
     int allSubLocationDuration = 0;
-    _tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
     return allSubLocationDuration;
   }
 
   bool isMaxDuration() {
 
     int allSubLocationDuration = 0;
-    _tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
     return allSubLocationDuration == tripDuration();
 
   }

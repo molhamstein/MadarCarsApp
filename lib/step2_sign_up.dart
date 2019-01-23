@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
+import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/facebook_bloc.dart';
+import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/user.dart';
 import 'feedback.dart';
@@ -39,10 +42,11 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
     return StreamBuilder<User>(
       stream: bloc.userStream,
       builder: (context, snapshot) {
-        if(snapshot.hasData)
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-//          showInSnackBar(snapshot.data.userName, context);
-        });
+        if(snapshot.hasData) {
+          BlocProvider.of<AppBloc>(context).saveUser(snapshot.data);
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
+        }
+
         if(snapshot.hasError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             showInSnackBar(snapshot.error.toString(), context);
@@ -69,6 +73,11 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
+                  Center(
+                    child: Text('One last thing. Please fill you phone number and country', style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600
+                    ),),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(top: 75.0),
                     child: Container(

@@ -26,8 +26,9 @@ class AppBloc extends BaseBloc {
   Function(String) get saveToken => _dataStore.setUserToken;
 
   String get userName =>
-      _dataStore.getUser().userName; //TODO remove; only for testing
+      _dataStore.getUser().name; //TODO remove; only for testing
   String get token => _dataStore.userToken;
+  String get userId => _dataStore.getUser().id;
 
   get logout {
     _dataStore.logout;
