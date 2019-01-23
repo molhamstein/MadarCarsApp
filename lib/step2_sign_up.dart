@@ -183,6 +183,7 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
           EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
       child: CountryCodePicker(
         favorite: ['SY', 'TR'],
+        initialSelection: 'SY',
         onChanged: bloc.changeIsoCode,
       )
     );

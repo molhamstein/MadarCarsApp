@@ -59,7 +59,7 @@ class Network {
       String isoCode) async {
     final body = json.encode({
       'phoneNumber': phoneNumber,
-      'username': userName,
+      'name': userName,
       'password': password,
       'ISOCode': isoCode.toUpperCase()
     });
