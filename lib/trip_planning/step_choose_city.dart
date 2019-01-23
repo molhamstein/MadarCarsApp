@@ -14,15 +14,35 @@ class ChooseCityStep extends StatefulWidget {
   }
 }
 
-class ChooseCityStepState extends State<ChooseCityStep> {
+class ChooseCityStepState extends State<ChooseCityStep> with TickerProviderStateMixin {
   ChooseCityBloc bloc;
   TripPlaningBloc planingBloc;
+  AnimationController _controller;
+  Animation<Offset> _offsetFloat;
 
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
     bloc = ChooseCityBloc(BlocProvider.of<AppBloc>(context).token);
     bloc.pushLocations;
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+
+    final CurvedAnimation curvedAnimation = CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
+
+    _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200), end: Offset.zero)
+        .animate(curvedAnimation);
+
+    _offsetFloat.addListener((){
+      setState((){});
+    });
+
+    _controller.forward();
+
+
     super.initState();
   }
 
@@ -55,59 +75,64 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                     planingBloc.cityId(locationsSnapshot
                         .data[0]); // initial location (pre selected)
 
-                  return Stack(
-                    children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).size.height - 270,
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.all(16),
-                        margin: EdgeInsets.only(right: 24, left: 24),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10)),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: locationsSnapshot.hasData
-                            ? StreamBuilder<Location>(
-                                stream: bloc.selectedCitStream,
-                                initialData: locationsSnapshot.data[0],
-                                builder: (context, snapshot) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        snapshot.data.nameEn,
-                                        style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 16.0),
-                                        child: Text(
-                                          snapshot.data.descriptionEn,
+                  return AnimatedBuilder(
+                    animation: _offsetFloat,
+                    builder: (context, widget) {
+                      return Transform.translate(
+                        offset: _offsetFloat.value,
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              height: MediaQuery.of(context).size.height - 270,
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.all(16),
+                              margin: EdgeInsets.only(right: 24, left: 24),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    topLeft: Radius.circular(10)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 8,
+                                  ),
+                                ],
+                              ),
+                              child: locationsSnapshot.hasData
+                                  ? StreamBuilder<Location>(
+                                  stream: bloc.selectedCitStream,
+                                  initialData: locationsSnapshot.data[0],
+                                  builder: (context, snapshot) {
+                                    return Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          snapshot.data.nameEn,
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 16,
+                                              color: Colors.black87,
+                                              fontSize: 22,
                                               fontWeight: FontWeight.w700),
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                })
-                            : _titleShimmer(),
-                      ),
-                      locationsSnapshot.hasData
-                          ? Container(
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.only(top: 16.0),
+                                          child: Text(
+                                            snapshot.data.descriptionEn,
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  })
+                                  : _titleShimmer(),
+                            ),
+                            locationsSnapshot.hasData
+                                ? Container(
                               margin: EdgeInsets.only(
                                   top: MediaQuery.of(context).size.height / 3),
                               height: MediaQuery.of(context).size.width / 2,
@@ -137,8 +162,11 @@ class ChooseCityStepState extends State<ChooseCityStep> {
                                 },
                               ),
                             )
-                          : _tilesShimmer(),
-                    ],
+                                : _tilesShimmer(),
+                          ],
+                        ),
+                      );
+                    }
                   );
                 }),
           ],
@@ -195,5 +223,12 @@ class ChooseCityStepState extends State<ChooseCityStep> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 }
