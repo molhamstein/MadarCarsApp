@@ -250,16 +250,19 @@ class _MyHomePageState extends State<MyHomePage> {
       bloc: homeBloc,
       child: Scaffold(
         body: Stack(children: <Widget>[
-          Container(
-            child: AnimatedContainer(
-              duration: Duration(seconds: 2),
-              decoration: BoxDecoration(
-                borderRadius: borderRadius,
-                gradient: MadarColors.gradiant_decoration,
+          Hero(
+            tag: "header_container",
+            child: Container(
+              child: AnimatedContainer(
+                duration: Duration(seconds: 2),
+                decoration: BoxDecoration(
+                  borderRadius: borderRadius,
+                  gradient: MadarColors.gradiant_decoration,
+                ),
+                height: myHeight,
+                width: myWidth,
+                transform: transformation,
               ),
-              height: myHeight,
-              width: myWidth,
-              transform: transformation,
             ),
           ),
           SingleChildScrollView(
@@ -338,10 +341,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     open = false;
                                   }
                                   setState(() {});
-                                   Navigator.of(context)
-                                       .push(MaterialPageRoute(builder: (context) {
-                                     return TripPlanningPage();
-                                   }));
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return TripPlanningPage();
+                                  }));
                                 },
                                 child: Icon(
                                   Icons.add,
