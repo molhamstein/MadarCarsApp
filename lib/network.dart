@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/Invoice.dart';
@@ -10,6 +12,7 @@ import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
+import 'package:path/path.dart';
 
 class Network {
   Map<String, String> headers = {
@@ -31,6 +34,7 @@ class Network {
   final String _predifindTripsUrl = _baseUrl + 'predefinedTrips';
   final String _myTripsUrl = _baseUrl + 'trips/getMyTrip';
   final String _invoiceUrl = _baseUrl + 'outerBills/getouterBill/';
+  final String _meUrl = _baseUrl + 'users/me';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -154,10 +158,20 @@ class Network {
     }
   }
 
-  Future<List<SubLocationResponse>> fetchSubLocations(String token, Trip trip) async {
+  Future<List<SubLocationResponse>> fetchSubLocations(
+      String token, Trip trip) async {
     headers['Authorization'] = token;
 
-    var filter = { "where": { "and": [{ "carId": trip.car.id }, { "subLocationId": { "inq": trip.location.subLocationsIds } }] } };
+    var filter = {
+      "where": {
+        "and": [
+          {"carId": trip.car.id},
+          {
+            "subLocationId": {"inq": trip.location.subLocationsIds}
+          }
+        ]
+      }
+    };
 
     final url = _carSubLocations + json.encode(filter);
     print(url);
@@ -165,7 +179,8 @@ class Network {
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return (json.decode(response.body) as List)
-          .map((jsonSubLocation) => SubLocationResponse.fromJson(jsonSubLocation))
+          .map((jsonSubLocation) =>
+              SubLocationResponse.fromJson(jsonSubLocation))
           .toList();
     } else {
       print(response.body);
@@ -232,6 +247,41 @@ class Network {
       print(json.decode(response.body));
       throw json.decode(response.body);
     }
+  }
+
+  Future<User> getUserProfile(String token) async {
+    headers['Authorization'] = token;
+    final response = await http.get(
+      _meUrl,
+      headers: headers,
+    );
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return User.fromJson(json.decode(response.body));
+    } else {
+      print(json.decode(response.body));
+      throw json.decode(response.body);
+    }
+  }
+
+  // upload image
+  Upload(File imageFile) async {
+    var stream =
+        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+
+    var uri = Uri.parse(_baseUrl);
+
+    var request = new http.MultipartRequest("POST", uri);
+    var multipartFile = new http.MultipartFile('file', stream, length,
+        filename: basename(imageFile.path));
+    //contentType: new MediaType('image', 'png'));
+    request.files.add(multipartFile);
+    var response = await request.send();
+    print(response.statusCode);
+    response.stream.transform(utf8.decoder).listen((value) {
+      print(value);
+    });
   }
 }
 

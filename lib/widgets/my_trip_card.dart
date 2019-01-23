@@ -303,7 +303,7 @@ class MyTripCard extends StatelessWidget {
                                                             maxLines: 1,
                                                           ),
                                                           AutoSizeText(
-                                                            trip.startDate(),
+                                                            trip.startDateFromated(),
                                                             style: TextStyle(
                                                                 fontSize: 12,
                                                                 fontWeight:
@@ -345,7 +345,7 @@ class MyTripCard extends StatelessWidget {
                                                           ),
                                                           Container(
                                                             child: AutoSizeText(
-                                                              trip.endDate(),
+                                                              trip.endDateFormated(),
                                                               style: TextStyle(
                                                                   fontSize: 12,
                                                                   fontWeight:

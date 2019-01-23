@@ -130,6 +130,8 @@ class _InvoicePageState extends State<InvoicePage> {
                 )
                 .toList(),
           );
+        } else {
+          return Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -203,14 +205,15 @@ class _InvoicePageState extends State<InvoicePage> {
                       flex: 2,
                       child: Container(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(0.0),
                           child: Container(
                             width: 350,
                             decoration: BoxDecoration(
+                              color: Colors.red,
                               image: DecorationImage(
                                 image:
                                     AssetImage('assets/images/invoice-01.png'),
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                               ),
                             ),
                             child: Column(

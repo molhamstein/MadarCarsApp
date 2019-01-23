@@ -49,7 +49,6 @@ class TripInfoPageState extends State<TripInfoPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         handleTimeout();
@@ -61,8 +60,10 @@ class TripInfoPageState extends State<TripInfoPage> {
   Widget citiesListRow(String city, String days) {
     return Container(
       decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: Theme.of(context).dividerColor))),
+        border: Border(
+          bottom: BorderSide(color: Theme.of(context).dividerColor),
+        ),
+      ),
       height: 60,
       child: InkWell(
         onTap: () {
@@ -96,9 +97,10 @@ class TripInfoPageState extends State<TripInfoPage> {
               // estim cost container
               child: Container(
                 alignment: Alignment(0, 0),
-                child: Text("Estim Cost",
-                    style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                child: Text(
+                  "Estim Cost",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             Expanded(
@@ -228,9 +230,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                DateFormat.yMd().format(
-                                                    DateTime.parse(
-                                                        trip.fromAirportDate)),
+                                                trip.startDateFromated(),
                                                 style: TextStyle(
                                                     color: Colors.grey.shade900,
                                                     fontSize: 17),
@@ -251,9 +251,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     fontSize: 17),
                                               ),
                                               Text(
-                                                DateFormat.yMd().format(
-                                                    DateTime.parse(
-                                                        trip.endInCityDate)),
+                                                trip.endDateFormated(),
                                                 style: TextStyle(
                                                     color: Colors.grey.shade900,
                                                     fontSize: 17),

@@ -157,19 +157,27 @@ class MyTrip {
 
   String startDate() {
     if (fromAirport) {
-      return DateFormat.yMd().format(DateTime.parse(fromAirportDate));
+      return fromAirportDate;
     }
     if (inCity) {
-      return DateFormat.yMd().format(DateTime.parse(startInCityDate));
+      return startInCityDate;
     }
-    return DateFormat.yMd().format(DateTime.parse(toAirportDate));
+    return toAirportDate;
+  }
+
+  String startDateFromated() {
+    return DateFormat.yMd().format(DateTime.parse(startDate()));
   }
 
   String endDate() {
     if (toAirport) {
-      return DateFormat.yMd().format(DateTime.parse(toAirportDate));
+      return toAirportDate;
     }
-    return DateFormat.yMd().format(DateTime.parse(endInCityDate));
+    return endInCityDate;
+  }
+
+  String endDateFormated() {
+    return DateFormat.yMd().format(DateTime.parse(endDate()));
   }
 
   bool isShowEndDate() {

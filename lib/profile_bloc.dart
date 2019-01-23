@@ -1,6 +1,7 @@
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/MyTrip.dart';
+import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -17,6 +18,10 @@ class ProfileBloc extends BaseBloc with Network {
   final _invoiceController = BehaviorSubject<Invoice>();
   Function(Invoice) get insertInvoice => _invoiceController.sink.add;
   Stream<Invoice> get invoiceStream => _invoiceController.stream;
+
+  final _userController = BehaviorSubject<User>();
+  Function(User) get insertuser => _userController.sink.add;
+  Stream<User> get userStream => _userController.stream;
 
   myTrips() {
     getMyTrips(token).then((response) {
@@ -38,9 +43,20 @@ class ProfileBloc extends BaseBloc with Network {
     });
   }
 
+  getMe() {
+    getUserProfile(token).then((response) {
+      print(response);
+      _userController.sink.add(response);
+    }).catchError((e) {
+      print(e);
+      _userController.sink.addError(e);
+    });
+  }
+
   @override
   void dispose() {
     _myTripsController.close();
     _invoiceController.close();
+    _userController.close();
   }
 }

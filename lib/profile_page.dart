@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/edit_profile_page.dart';
 import 'package:madar_booking/profile_bloc.dart';
 import 'package:madar_booking/settings_page.dart';
 import 'package:madar_booking/trip_info_page.dart';
@@ -204,11 +205,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 elevation: 0.0,
                 backgroundColor: Colors.transparent,
                 actions: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      MyFlutterApp.edit_profile,
-                      color: Colors.white,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => EditProfilePage()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        MyFlutterApp.edit_profile,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   GestureDetector(
