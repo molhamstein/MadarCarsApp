@@ -44,10 +44,11 @@ class EditProfileWidgetState extends State<EditProfileWidget>
       new TextEditingController();
   AppBloc appBloc;
   AuthBloc bloc;
-
-  final _imageController = BehaviorSubject<ImageProvider>();
-  Function(ImageProvider) get insertuserImage => _imageController.sink.add;
-  Stream<ImageProvider> get userImageStream => _imageController.stream;
+  String userId;
+  String token;
+  final _imageController = BehaviorSubject<String>();
+  Function(String) get insertuserImage => _imageController.sink.add;
+  Stream<String> get userImageStream => _imageController.stream;
 
   File _image;
 
@@ -70,7 +71,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
 
     setState(() {
       _image = image;
-      insertuserImage(FileImage(_image));
+      insertuserImage(_image.path);
     });
   }
 
@@ -79,6 +80,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
 
     setState(() {
       _image = image;
+      insertuserImage(_image.path);
     });
   }
 
@@ -86,13 +88,17 @@ class EditProfileWidgetState extends State<EditProfileWidget>
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     bloc = BlocProvider.of<AuthBloc>(context);
+    userId = appBloc.userId;
+    token = appBloc.token;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UserResponse>(
-        stream: bloc.submitSignUpStream,
+    signupNameController.text = appBloc.userName;
+    signupEmailController.text = appBloc.phone;
+    return StreamBuilder<User>(
+        stream: bloc.submitUpdteUserStream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -100,79 +106,75 @@ class EditProfileWidgetState extends State<EditProfileWidget>
             });
           }
           if (snapshot.hasData) {
-            appBloc.saveUser(snapshot.data.user);
-            appBloc.saveToken(snapshot.data.token);
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(
-                  new MaterialPageRoute(builder: (context) => HomePage()));
-            });
+            appBloc.saveUser(snapshot.data);
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   Navigator.of(context).pushReplacement(
+            //       new MaterialPageRoute(builder: (context) => HomePage()));
+            // });
+            showInSnackBar('information updated succsesfully !', context);
           }
-          return Container(
-            // color: Colors.red,
-            child: Container(
-              padding: EdgeInsets.only(top: 23.0),
-              child: Column(
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Stack(
+                alignment: Alignment.topCenter,
+                overflow: Overflow.visible,
                 children: <Widget>[
-                  Stack(
-                    alignment: Alignment.topCenter,
-                    overflow: Overflow.visible,
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(top: 60.0),
-                        height: 330.0,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [MadarColors.shadow],
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                      ),
-                      Container(
-                        // RoundedRectangleBorder(
-                        //   borderRadius: BorderRadius.circular(8.0),
-                        // ),
-                        child: Column(
-                          children: <Widget>[
-                            profileImage(),
-                            Container(
-                              width: 300.0,
-                              height: 360.0,
-                              child: Column(
-                                children: <Widget>[
-                                  nameTextField(),
-                                  Container(
-                                    width: 250.0,
-                                    height: 1.0,
-                                    color: Colors.grey[400],
-                                  ),
-                                  phoneTextField(),
-                                  Container(
-                                    width: 250.0,
-                                    height: 1.0,
-                                    color: Colors.grey[400],
-                                  ),
-                                  // passwordTextField(),
-                                  // Container(
-                                  //   width: 250.0,
-                                  //   height: 1.0,
-                                  //   color: Colors.grey[400],
-                                  // ),
-                                  isoCodePicker(),
-                                ],
+                  Container(
+                    margin: EdgeInsets.only(top: 60.0),
+                    height: 330.0,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [MadarColors.shadow],
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  Container(
+                    // RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(8.0),
+                    // ),
+                    child: Column(
+                      children: <Widget>[
+                        profileImage(),
+                        Container(
+                          width: 300.0,
+                          height: 360.0,
+                          child: Column(
+                            children: <Widget>[
+                              nameTextField(),
+                              Container(
+                                width: 250.0,
+                                height: 1.0,
+                                color: Colors.grey[400],
                               ),
-                            ),
-                          ],
+                              phoneTextField(),
+                              Container(
+                                width: 250.0,
+                                height: 1.0,
+                                color: Colors.grey[400],
+                              ),
+                              // passwordTextField(),
+                              // Container(
+                              //   width: 250.0,
+                              //   height: 1.0,
+                              //   color: Colors.grey[400],
+                              // ),
+                              isoCodePicker(),
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 28.0),
-                        child: signUpBtn(),
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 28.0),
+                    child: signUpBtn(),
                   ),
                 ],
               ),
-            ),
+            ],
           );
         });
   }
@@ -205,12 +207,12 @@ class EditProfileWidgetState extends State<EditProfileWidget>
   }
 
   Widget profileImage() {
-    return StreamBuilder<ImageProvider>(
+    return StreamBuilder<String>(
         stream: userImageStream,
-        initialData: AssetImage('assets/images/profileImg.png'),
+        // initialData: 'assets/images/profileImg.png',
         builder: (context, snapshoot) {
           if (snapshoot.hasData) {
-            InkWell(
+            return InkWell(
               onTap: () {
                 print("pressed");
                 showDemoActionSheet(
@@ -251,15 +253,59 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   border: Border.all(width: 5, color: Colors.white),
                   borderRadius: BorderRadius.circular(60),
                   image: DecorationImage(
-                    image: snapshoot.data,
+                    image: AssetImage(snapshoot.data),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             );
           } else {
-            return Image(
-              image: AssetImage('assets/image/progileImg.png'),
+            return InkWell(
+              onTap: () {
+                print("pressed");
+                showDemoActionSheet(
+                  context: context,
+                  child: CupertinoActionSheet(
+                      title: const Text('Choose Source'),
+                      message: const Text(
+                          'Please select the From where you want to choose image'),
+                      actions: <Widget>[
+                        CupertinoActionSheetAction(
+                          child: Container(child: Text('Camera')),
+                          onPressed: () {
+                            getImageFromCamera();
+                          },
+                        ),
+                        CupertinoActionSheetAction(
+                          child: Container(child: Text('Gallery')),
+                          onPressed: () {
+                            getImageFromGallery();
+                          },
+                        )
+                      ],
+                      cancelButton: CupertinoActionSheetAction(
+                        child: const Text('Cancel'),
+                        isDefaultAction: false,
+                        onPressed: () {
+                          // Navigator.pop(context, 'Cancel');
+                        },
+                      )),
+                );
+              },
+              child: Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  // color: Colors.red,
+                  boxShadow: [MadarColors.shadow],
+                  border: Border.all(width: 5, color: Colors.white),
+                  borderRadius: BorderRadius.circular(60),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/profileImg.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
             );
           }
         });
@@ -345,7 +391,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     return Container(
       margin: EdgeInsets.only(top: 120),
       child: StreamBuilder<bool>(
-        stream: bloc.submitValidSignUp,
+        stream: bloc.submitValidEditUser,
         initialData: false,
         builder: (context, snapshot) {
           return MainButton(
@@ -354,7 +400,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
               if (!snapshot.hasData || !snapshot.data) {
                 showInSnackBar('Please provide valid information', context);
               } else
-                bloc.submitSignUp();
+                bloc.submitUpdateUser(userId, token);
             },
             width: 150,
             height: 50,
@@ -363,5 +409,11 @@ class EditProfileWidgetState extends State<EditProfileWidget>
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _imageController.close();
+    super.dispose();
   }
 }

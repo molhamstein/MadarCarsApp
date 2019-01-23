@@ -2,9 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+//0xFF9078f7
+//0xFFedbacb
 class MadarColors {
   static const gradientUp = Color(0xFFedbacb);
-  static const gradientDown = Color(0xFF9078f7);
+  static const gradientDown = Color(0xFFad1f60);
   static const gradientBtnStart = Color(0xFF3f4547);
   static const gradientBtnEnd = Color(0xFF2d2e31);
 
@@ -21,12 +23,12 @@ class MadarColors {
       tileMode: TileMode.clamp);
 
   static const shadow = BoxShadow(
-    color: Colors.grey,
-    blurRadius: 5.0, // has the effect of softening the shadow
-    spreadRadius: 2.0, // has the effect of extending the shadow
+    color: Color(0x77000000),
+    blurRadius: 15.0, // has the effect of softening the shadow
+    spreadRadius: 5.0, // has the effect of extending the shadow
     offset: Offset(
-      2.0, // horizontal, move right 10
-      2.0, // vertical, move down 10
+      0.0, // horizontal, move right 10
+      5.0, // vertical, move down 10
     ),
   );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/MainButton.dart';
+import 'package:madar_booking/animated_header.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madar_colors.dart';
@@ -40,25 +41,6 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-    var myWidth = MediaQuery.of(context).size.width * 1.15;
-    var myHeight = myWidth;
-    //   myHeight = MediaQuery.of(context).size.height;
-    // myWidth = MediaQuery.of(context).size.width;
-    var open = false;
-    var rotateBy45 = new Matrix4.identity()
-      ..rotateZ(-45 * 3.1415927 / 180)
-      ..translate(-100.0, -100.0, 0.0)
-      ..scale(1.0);
-    var rotateBy_0 = new Matrix4.identity()
-      ..rotateZ(0 * 3.1415927 / 180)
-      ..translate(0.0, 0.0, 0.0)
-      ..scale(2.0);
-    var transformation = new Matrix4.identity()
-      // ..translate((myWidth * 0.40), -50.0, 0.0)
-      // ..rotateZ(-323 * 3.1415927 / 180)
-      ..scale(1.0);
-
-    var borderRadius = BorderRadius.circular(myWidth * 0.25);
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(
@@ -91,26 +73,17 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                     }
                     return Stack(
                       children: <Widget>[
-                        Hero(
-                          tag: "header_container",
-                          child: Container(
-                            child: AnimatedContainer(
-                              duration: Duration(seconds: 2),
-                              decoration: BoxDecoration(
-                                borderRadius: borderRadius,
-                                gradient: MadarColors.gradiant_decoration,
-                              ),
-                              height: myHeight,
-                              width: myWidth,
-                              transform: transformation,
-                            ),
-                          ),
-                        ),
+                        // Hero(
+                        //   tag: "header_container",
+                        //   child: AnimatedHeader(
+                        //     isAnimate: true,
+                        //   ),
+                        // ),
                         Container(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width,
-                          // decoration: BoxDecoration(
-                          //     gradient: MadarColors.gradiant_decoration),
+                          decoration: BoxDecoration(
+                              gradient: MadarColors.gradiant_decoration),
                           child: StreamBuilder<int>(
                               stream: bloc.navigationStream,
                               initialData: 0,

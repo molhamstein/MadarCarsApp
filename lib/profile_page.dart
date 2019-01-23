@@ -3,6 +3,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/edit_profile_page.dart';
 import 'package:madar_booking/profile_bloc.dart';
+import 'package:madar_booking/profile_header.dart';
 import 'package:madar_booking/settings_page.dart';
 import 'package:madar_booking/trip_info_page.dart';
 import 'madar_colors.dart';
@@ -121,17 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            Container(
-              child: AnimatedContainer(
-                duration: Duration(seconds: 2),
-                decoration: BoxDecoration(
-                    borderRadius: borderRaduice,
-                    gradient: MadarColors.gradiant_decoration),
-                height: myHeight,
-                width: myWidth,
-                transform: transformation,
-              ),
-            ),
+            ProfileHeader(),
             Container(
               child: Column(
                 children: <Widget>[

@@ -37,98 +37,98 @@ class _MySettingsPageState extends State<MySettingsPage> {
                             padding:
                                 const EdgeInsets.only(top: 40.0, bottom: 40.0),
                             child: Text(
-                              "Some Slogan about Madar",
+                              "JAWLATCOM",
                               style: TextStyle(
                                   fontSize: 17, color: Colors.grey.shade700),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 32.0, right: 32.0),
-                          child: Container(
-                            height: 180,
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Theme.of(context)
-                                                  .dividerColor))),
-                                  height: 60,
-                                  child: InkWell(
-                                    onTap: () {
-                                      print("pressed");
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "Contact us",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Icon(Icons.chevron_right)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Theme.of(context)
-                                                  .dividerColor))),
-                                  height: 60,
-                                  child: InkWell(
-                                    onTap: () {
-                                      print("pressed");
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "Privacy Policy",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Icon(Icons.chevron_right)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom: BorderSide(
-                                              color: Theme.of(context)
-                                                  .dividerColor))),
-                                  height: 60,
-                                  child: InkWell(
-                                    onTap: () {
-                                      print("pressed");
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "Push Notifications",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Icon(Icons.chevron_right)
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                        // Padding(
+                        //   padding:
+                        //       const EdgeInsets.only(left: 32.0, right: 32.0),
+                        //   child: Container(
+                        //     height: 180,
+                        //     child: Column(
+                        //       children: <Widget>[
+                        //         Container(
+                        //           decoration: BoxDecoration(
+                        //               border: Border(
+                        //                   bottom: BorderSide(
+                        //                       color: Theme.of(context)
+                        //                           .dividerColor))),
+                        //           height: 60,
+                        //           child: InkWell(
+                        //             onTap: () {
+                        //               print("pressed");
+                        //             },
+                        //             child: Row(
+                        //               children: <Widget>[
+                        //                 Text(
+                        //                   "Contact us",
+                        //                   style: TextStyle(fontSize: 17),
+                        //                 ),
+                        //                 Expanded(
+                        //                   child: Container(),
+                        //                 ),
+                        //                 Icon(Icons.chevron_right)
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //         Container(
+                        //           decoration: BoxDecoration(
+                        //               border: Border(
+                        //                   bottom: BorderSide(
+                        //                       color: Theme.of(context)
+                        //                           .dividerColor))),
+                        //           height: 60,
+                        //           child: InkWell(
+                        //             onTap: () {
+                        //               print("pressed");
+                        //             },
+                        //             child: Row(
+                        //               children: <Widget>[
+                        //                 Text(
+                        //                   "Privacy Policy",
+                        //                   style: TextStyle(fontSize: 17),
+                        //                 ),
+                        //                 Expanded(
+                        //                   child: Container(),
+                        //                 ),
+                        //                 Icon(Icons.chevron_right)
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ),
+                        //         Container(
+                        //           decoration: BoxDecoration(
+                        //               border: Border(
+                        //                   bottom: BorderSide(
+                        //                       color: Theme.of(context)
+                        //                           .dividerColor))),
+                        //           height: 60,
+                        //           child: InkWell(
+                        //             onTap: () {
+                        //               print("pressed");
+                        //             },
+                        //             child: Row(
+                        //               children: <Widget>[
+                        //                 Text(
+                        //                   "Push Notifications",
+                        //                   style: TextStyle(fontSize: 17),
+                        //                 ),
+                        //                 Expanded(
+                        //                   child: Container(),
+                        //                 ),
+                        //                 Icon(Icons.chevron_right)
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

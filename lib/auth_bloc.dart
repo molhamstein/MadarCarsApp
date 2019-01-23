@@ -3,15 +3,15 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/UserResponse.dart';
+import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 import 'validator.dart';
 
 class AuthBloc extends BaseBloc with Validators, Network {
-
   bool shouldShowFeedBack;
 
-  Authbloc(){
+  Authbloc() {
     shouldShowFeedBack = true;
   }
 
@@ -34,6 +34,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   final _submitLoginController = PublishSubject<UserResponse>();
   final _submitSignUpController = BehaviorSubject<UserResponse>();
+  final _submitUpdateUserController = BehaviorSubject<User>();
 
   final _lockTouchEventController = BehaviorSubject<bool>();
 
@@ -98,10 +99,13 @@ class AuthBloc extends BaseBloc with Validators, Network {
       passwordSignUpStream,
       nameSignUpStream,
       (a, b, c) => true);
-
+  Stream<bool> get submitValidEditUser => Observable.combineLatest2(
+      phoneSignUpStream, nameSignUpStream, (a, b) => true);
+// _submitUpdateUserController
   Stream<UserResponse> get submitLoginStream => _submitLoginController.stream;
 
   Stream<UserResponse> get submitSignUpStream => _submitSignUpController.stream;
+  Stream<User> get submitUpdteUserStream => _submitUpdateUserController.stream;
 
   Stream<bool> get lockTouchEventStream => _lockTouchEventController.stream;
 
@@ -110,9 +114,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   get startLoading => _loadingController.sink.add(true);
   get stopLoading => _loadingController.sink.add(false);
 
-
   submitLogin() {
-
     final validPhoneNumber = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
     pushLockTouchEvent;
@@ -130,7 +132,6 @@ class AuthBloc extends BaseBloc with Validators, Network {
       Future.delayed(Duration(milliseconds: 4)).then((_) {
         startLoading;
       });
-
     });
   }
 
@@ -152,6 +153,27 @@ class AuthBloc extends BaseBloc with Validators, Network {
     }).catchError((e) {
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
         _submitSignUpController.sink
+            .addError('Phone number or Username are used');
+    });
+  }
+
+  submitUpdateUser(userId, token) {
+    final validUserName = _nameSignUpController.value;
+    final validPhoneNumber = _phoneSignUpController.value;
+    final validIsoCode = _isoCodeSignUpController.value.code;
+    pushLockTouchEvent;
+
+    updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token)
+        .then((user) {
+      // login(validPhoneNumber, validPassword).then((response) {
+      _submitUpdateUserController.sink.add(user);
+      // }).catchError((e) {
+      //   print(e);
+      //   _submitSignUpController.sink.addError(e);
+      // });
+    }).catchError((e) {
+      if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
+        _submitUpdateUserController.sink
             .addError('Phone number or Username are used');
     });
   }

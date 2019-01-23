@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/animated_header.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_bloc.dart';
@@ -39,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static HomeBloc homeBloc;
   List<Car> cars = [];
   List<TripModel> trips = [];
-
+  bool flag = false;
   // myWidth = MediaQuery.of(context).size.width;
   // myHeight = MediaQuery.of(context).size.height;
   // var third = myHeight / 3;
@@ -97,26 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
-      // FutureBuilder<List<Car>>(
-      //   future: Network().getAvailableCars(token),
-      //   builder: (context, snapshot) {
-      //     switch (snapshot.connectionState) {
-      //       case ConnectionState.none:
-      //         return Text("There is no connection");
-      //       case ConnectionState.waiting:
-      //         return Container(
-      //             height: 225,
-      //             child: Center(child: CircularProgressIndicator()));
-      //       default:
-      //         if (snapshot.hasError) {
-      //           return Text("Error: ${snapshot.error}");
-      //         } else {
-      //           this.cars = snapshot.data;
-      //           return _cardContainerList();
-      //         }
-      //     }
-      //   },
-      // ),
       StreamBuilder<List<Car>>(
         initialData: [],
         stream: homeBloc.availableCarsStream,
@@ -128,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
             case ConnectionState.waiting:
               return Container(
                   height: 225,
+                  color: Colors.transparent,
                   child: Center(child: CircularProgressIndicator()));
             default:
               if (snapshot.hasError) {
@@ -226,43 +208,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var myWidth = MediaQuery.of(context).size.width * 1.15;
-    var myHeight = myWidth;
-    //   myHeight = MediaQuery.of(context).size.height;
-    // myWidth = MediaQuery.of(context).size.width;
-    var open = false;
-    var rotateBy45 = new Matrix4.identity()
-      ..rotateZ(-45 * 3.1415927 / 180)
-      ..translate(-100.0, -100.0, 0.0)
-      ..scale(1.0);
-    var rotateBy_0 = new Matrix4.identity()
-      ..rotateZ(0 * 3.1415927 / 180)
-      ..translate(0.0, 0.0, 0.0)
-      ..scale(2.0);
-    var transformation = new Matrix4.identity()
-      // ..translate((myWidth * 0.40), -50.0, 0.0)
-      // ..rotateZ(-323 * 3.1415927 / 180)
-      ..scale(1.0);
-
-    var borderRadius = BorderRadius.circular(myWidth * 0.25);
-
     return BlocProvider(
       bloc: homeBloc,
       child: Scaffold(
         body: Stack(children: <Widget>[
           Hero(
             tag: "header_container",
-            child: Container(
-              child: AnimatedContainer(
-                duration: Duration(seconds: 2),
-                decoration: BoxDecoration(
-                  borderRadius: borderRadius,
-                  gradient: MadarColors.gradiant_decoration,
-                ),
-                height: myHeight,
-                width: myWidth,
-                transform: transformation,
-              ),
+            child: AnimatedHeader(
+              isAnimate: flag,
             ),
           ),
           SingleChildScrollView(
@@ -333,14 +286,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: FlatButton(
                                 onPressed: () {
                                   print("clicked");
-                                  if (!open) {
-                                    transformation = rotateBy_0;
-                                    open = true;
-                                  } else {
-                                    transformation = rotateBy45;
-                                    open = false;
-                                  }
-                                  setState(() {});
+                                  setState(() {
+                                    flag = !flag;
+                                  });
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                     return TripPlanningPage();

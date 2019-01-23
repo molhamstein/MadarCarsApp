@@ -25,15 +25,30 @@ class _EditProfilePageState extends State<EditProfilePage>
   Widget build(BuildContext context) {
     return BlocProvider(
       bloc: bloc,
-      child: new Scaffold(
-        body: StreamBuilder<bool>(
-          initialData: false,
-          stream: bloc.lockTouchEventStream,
-          builder: (context, snapshot) {
-            print(snapshot.data);
-            return _buildLayout(snapshot.data);
-          },
-        ),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            decoration: new BoxDecoration(
+              gradient: MadarColors.gradiant_decoration,
+            ),
+          ),
+          Scaffold(
+            appBar: AppBar(
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              title: Text('Edit Profile'),
+            ),
+            backgroundColor: Colors.transparent,
+            body: StreamBuilder<bool>(
+              initialData: false,
+              stream: bloc.lockTouchEventStream,
+              builder: (context, snapshot) {
+                print(snapshot.data);
+                return _buildLayout(snapshot.data);
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -121,65 +136,12 @@ class _EditProfilePageState extends State<EditProfilePage>
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height >= 775.0
-                  ? MediaQuery.of(context).size.height
-                  : 800.0,
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                    colors: [
-                      MadarColors.gradientUp,
-                      MadarColors.gradientDown
-                    ],
-                    begin: const FractionalOffset(0.0, 0.0),
-                    end: const FractionalOffset(1.0, 1.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
+              height: MediaQuery.of(context).size.height,
               child: Column(
-                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  // Padding(
-                  //   padding: EdgeInsets.only(top: 75.0),
-                  //   child: Container(
-                  //     width: 250.0,
-                  //     height: 191.0,
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: EdgeInsets.only(top: 20.0),
-                  //   child: _buildMenuBar(context),
-                  // ),
-                  Expanded(
-                    flex: 2,
-                    child: PageView(
-                      controller: _pageController,
-                      onPageChanged: (i) {
-                        if (i == 0) {
-                          setState(() {
-                            right = Colors.white;
-                            left = Colors.black;
-                          });
-                        } else if (i == 1) {
-                          setState(() {
-                            right = Colors.black;
-                            left = Colors.white;
-                          });
-                        }
-                      },
-                      children: <Widget>[
-                        // new ConstrainedBox(
-                        //   constraints: const BoxConstraints.expand(),
-                        //   child: LoginWidget(),
-                        // ),
-                        new ConstrainedBox(
-                          constraints: const BoxConstraints.expand(),
-                          child: EditProfileWidget(),
-                        ),
-                      ],
-                    ),
-                  ),
+                  Expanded(flex: 2, child: EditProfileWidget()),
                 ],
               ),
             ),

@@ -10,10 +10,12 @@ class RateWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
       child: Container(
+        width: 70,
+        height: 30,
         padding: EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(12.5),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

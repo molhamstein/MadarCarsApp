@@ -28,6 +28,7 @@ class CarCard extends StatelessWidget {
               Container(
                 width: width,
                 // height: 225.0,
+
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0),
                   boxShadow: [MadarColors.shadow],
@@ -38,41 +39,37 @@ class CarCard extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Container(
-                        // image container
-                        // height: 175.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              //     boxShadow: [MadarColors.shadow],
-                              image: DecorationImage(
-                                  image: NetworkImage(car.media.thumb),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(5.0)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: ButtonTheme(
-                              minWidth: 50.0,
-                              height: 24.0,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                ),
-                                onPressed: () {
-                                  print("helllp");
-                                },
-                                textColor: Colors.white,
-                                child: Text(
-                                  car.location.nameEn,
-                                  style: TextStyle(
-                                    fontSize: AppFonts.small_font_size,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                color: Color.fromARGB(255, 36, 36, 36),
+                        decoration: BoxDecoration(
+                            //     boxShadow: [MadarColors.shadow],
+                            image: DecorationImage(
+                                image: NetworkImage(car.media.thumb),
+                                fit: BoxFit.cover),
+                            borderRadius: BorderRadius.circular(5.0)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: ButtonTheme(
+                            minWidth: 50.0,
+                            height: 24.0,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
                               ),
+                              onPressed: () {
+                                print("helllp");
+                              },
+                              textColor: Colors.white,
+                              child: Text(
+                                car.location.nameEn,
+                                style: TextStyle(
+                                  fontSize: AppFonts.small_font_size,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              color: Color.fromARGB(255, 36, 36, 36),
                             ),
                           ),
-                          alignment: Alignment(-1.0, 1.0),
                         ),
+                        alignment: Alignment(-1.0, 1.0),
                       ),
                     ),
                     // info container
@@ -87,7 +84,7 @@ class CarCard extends StatelessWidget {
                             Expanded(
                               flex: 2,
                               child: Container(
-                                decoration: BoxDecoration(color: Colors.white),
+                                //  decoration: BoxDecoration(color: Colors.white),
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Column(
@@ -147,7 +144,7 @@ class CarCard extends StatelessWidget {
                             Expanded(
                               flex: 2,
                               child: Container(
-                                decoration: BoxDecoration(color: Colors.white),
+                                // decoration: BoxDecoration(color: Colors.white),
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Column(
@@ -205,16 +202,11 @@ class CarCard extends StatelessWidget {
                         alignment: Alignment.topRight,
                         child: Container(
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.yellow[700], width: 1),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 10,
-                                    color: Colors.black38,
-                                  )
-                                ]),
+                              border: Border.all(
+                                  color: Colors.yellow[700], width: 1),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                             child: Icon(
                               FontAwesomeIcons.solidCheckCircle,
                               color: Colors.yellow[700],

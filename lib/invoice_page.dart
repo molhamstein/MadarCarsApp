@@ -8,6 +8,7 @@ import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/profile_bloc.dart';
+import 'package:madar_booking/profile_header.dart';
 import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/settings_page.dart';
 import 'madar_colors.dart';
@@ -121,10 +122,42 @@ class _InvoicePageState extends State<InvoicePage> {
                 .map(
                   (bill) => TableRow(
                         children: [
-                          Text('${bill.titleEn}'),
-                          Text('${bill.pricePerUnit}'),
-                          Text('${bill.quantity}'),
-                          Text('${bill.totalPrice}'),
+                          Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                '${bill.titleEn}',
+                                style: TextStyle(
+                                    fontSize: AppFonts.medium_font_size,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                '${bill.pricePerUnit}',
+                                style: TextStyle(
+                                    fontSize: AppFonts.medium_font_size,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                '${bill.quantity}',
+                                style: TextStyle(
+                                    fontSize: AppFonts.medium_font_size,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )),
+                          Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                '${bill.totalPrice}',
+                                style: TextStyle(
+                                    fontSize: AppFonts.medium_font_size,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )),
                         ],
                       ),
                 )
@@ -154,6 +187,7 @@ class _InvoicePageState extends State<InvoicePage> {
               ),
             ],
           ),
+          //  ProfileHeader(),
           Scaffold(
             backgroundColor: Colors.transparent,
             body: Container(
@@ -208,14 +242,14 @@ class _InvoicePageState extends State<InvoicePage> {
                           padding: const EdgeInsets.all(0.0),
                           child: Container(
                             width: 350,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              image: DecorationImage(
-                                image:
-                                    AssetImage('assets/images/invoice-01.png'),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            // decoration: BoxDecoration(
+                            //   color: Colors.red,
+                            //   image: DecorationImage(
+                            //     image:
+                            //         AssetImage('assets/images/invoice-01.png'),
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            // ),
                             child: Column(
                               children: <Widget>[
                                 Container(
@@ -358,7 +392,18 @@ class _InvoicePageState extends State<InvoicePage> {
                 ],
               ),
             ),
-            appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              actions: <Widget>[],
+            ),
           )
         ],
       ),

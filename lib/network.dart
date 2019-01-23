@@ -37,6 +37,7 @@ class Network {
   final String _myTripsUrl = _baseUrl + 'trips/getMyTrip';
   final String _invoiceUrl = _baseUrl + 'outerBills/getouterBill/';
   final String _meUrl = _baseUrl + 'users/me';
+  final String _userUrl = _baseUrl + 'users/';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -46,11 +47,9 @@ class Network {
     final response = await http.post(_loginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       return UserResponse.fromJson(json.decode(response.body));
-    }
-    else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       throw 'Phone number or password are wrong';
-    }
-    else {
+    } else {
       print(response.body);
       throw json.decode(response.body);
     }
@@ -78,6 +77,29 @@ class Network {
     }
   }
 
+  Future<User> updateUser(String userId, String phoneNumber, String userName,
+      String isoCode, String token) async {
+    headers['Authorization'] = token;
+    final body = json.encode({
+      'phoneNumber': phoneNumber,
+      'name': userName,
+      'ISOCode': isoCode.toUpperCase()
+    });
+    final response =
+        await http.put(_userUrl + userId, body: body, headers: headers);
+    if (response.statusCode == 200) {
+      print(json.decode(response.body));
+      return User.fromJson(json.decode(response.body));
+    } else if (response.statusCode ==
+        ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
+      print(json.decode(response.body));
+      throw ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED;
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
   Future<dynamic> getFacebookProfile(String token) async {
     final response = await http.get(
       "https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=" +
@@ -92,14 +114,14 @@ class Network {
     }
   }
 
-  Future<UserResponse> facebookSignUp(String facebookId,
-      String facebookToken) async {
+  Future<UserResponse> facebookSignUp(
+      String facebookId, String facebookToken) async {
     final body = json.encode({
       'socialId': facebookId,
       'token': facebookToken,
     });
     final response =
-    await http.post(_facebookLoginUrl, body: body, headers: headers);
+        await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       print('seeex' + json.decode(response.body).toString());
       return UserResponse.fromJson(json.decode(response.body));
@@ -121,7 +143,7 @@ class Network {
       'ISOCode': isoCode.toUpperCase(),
     });
     final response =
-    await http.post(_facebookLoginUrl, body: body, headers: headers);
+        await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
       return User.fromJson(json.decode(response.body)['user']);
     } else {
@@ -145,20 +167,15 @@ class Network {
     headers['Authorization'] = token;
 
     String dates = '';
-    if (trip.keys.keys
-        .toList()
-        .length == 2)
+    if (trip.keys.keys.toList().length == 2)
       dates =
-      '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip
-          .keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
+          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip.keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
     else
       dates =
-      '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
+          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
 
     final url = _avaiableCars +
-        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip
-            .toAirport},"inCity":${trip
-            .inCity}}&dates=${dates}&locationId=${trip.location.id}';
+        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
@@ -172,15 +189,17 @@ class Network {
     }
   }
 
-  Future<List<SubLocationResponse>> fetchSubLocations(String token,
-      Trip trip) async {
+  Future<List<SubLocationResponse>> fetchSubLocations(
+      String token, Trip trip) async {
     headers['Authorization'] = token;
 
     var filter = {
       "where": {
         "and": [
-          { "carId": trip.car.id},
-          { "subLocationId": { "inq": trip.location.subLocationsIds}}
+          {"carId": trip.car.id},
+          {
+            "subLocationId": {"inq": trip.location.subLocationsIds}
+          }
         ]
       }
     };
@@ -192,14 +211,13 @@ class Network {
       print(json.decode(response.body));
       return (json.decode(response.body) as List)
           .map((jsonSubLocation) =>
-          SubLocationResponse.fromJson(jsonSubLocation))
+              SubLocationResponse.fromJson(jsonSubLocation))
           .toList();
     } else {
       print(response.body);
       throw json.decode(response.body);
     }
   }
-
 
   Future<String> postTrip(Trip trip, String token, String userId) async {
     headers['Authorization'] = token;
@@ -234,16 +252,14 @@ class Network {
 
     print(json.encode(body));
 
-    final response = await http.post(
-        _trip, headers: headers, body: json.encode(body));
+    final response =
+        await http.post(_trip, headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return 'Your Trip has been Added succefully!';
-    }
-    else if(response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
+    } else if (response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
       throw Exception('The car you requested is not available.');
-    }
-    else {
+    } else {
       throw json.decode(response.body);
     }
   }
