@@ -241,10 +241,11 @@ class Network {
       "priceOneWay": trip.car.priceOneWay,
       "priceTowWay": trip.car.priceTowWay,
       "carId": trip.car.id,
-      "tripSublocations": trip.tripSubLocations.map((location) {
+      "tripSublocations": trip.tripSubLocations.map((carSubLocation) {
         return {
-          "sublocationId": location.subLocationId,
-          "duration": location.duration,
+          "sublocationId": carSubLocation.id,
+          "duration": carSubLocation.duration,
+          "cost": carSubLocation.cost == null ? 0: carSubLocation.cost,
         };
       }).toList(),
       "cost": trip.estimationPrice(),
@@ -263,7 +264,7 @@ class Network {
       print(json.decode(response.body));
       return 'trip_added_successfully';
     } else if (response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
-      throw Exception('error_car_not_available');
+      throw 'error_car_not_available';
     } else {
       throw json.decode(response.body);
     }

@@ -124,4 +124,6 @@ class TripModel {
             : new List<dynamic>.from(
                 predefinedTripsSublocations.map((x) => x.toJson())),
       };
+
+
 }

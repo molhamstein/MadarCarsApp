@@ -1,4 +1,5 @@
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/TripsSublocation.dart';
 import 'package:madar_booking/models/location.dart';
 
 class Trip {
@@ -9,7 +10,8 @@ class Trip {
   DateTime startDate;
   DateTime endDate;
   Car car;
-  List<TripSubLocation> tripSubLocations;
+  List<TripSublocation> tripSubLocations;
+  int duration;
 
   Trip({
     this.fromAirport,
@@ -39,13 +41,13 @@ class Trip {
     if(allSubLocationDuration <= tripDuration()) {
       int index;
       if ((index =
-          tripSubLocations.indexWhere((location) => location.subLocationId ==
+          tripSubLocations.indexWhere((location) => location.id ==
               id)) == -1) {
 
         tripSubLocations.add(
-            TripSubLocation(subLocationId: id, duration: duration, cost: cost));
+            TripSublocation(id: id, duration: duration, cost: cost));
       } else {
-        tripSubLocations[index].subLocationId = id;
+        tripSubLocations[index].id = id;
         tripSubLocations[index].duration = duration;
         tripSubLocations[index].cost = cost;
       }
@@ -75,9 +77,12 @@ class Trip {
 
   int estimationPrice() {
     int cost = 0;
-    if (inCity)
+    print('cost init' + cost.toString());
+    if (inCity) {
       cost +=
           (tripDuration() - subLocationDuration()) * car.pricePerDay;
+      print('cost city' + cost.toString());
+    }
     if (toAirport && !fromAirport) {
       cost += car.priceOneWay;
     }
@@ -87,9 +92,11 @@ class Trip {
     if (fromAirport && toAirport) {
       cost += car.priceTowWay;
     }
-    
-    tripSubLocations.forEach((location) => cost += (location.duration * location.cost));
-    
+
+
+    tripSubLocations.forEach((location) {
+      cost += (location.duration * (location.cost == null ? 0 : location.cost));
+    });
     return cost;
   }
 
@@ -99,7 +106,7 @@ class Trip {
 
   int subLocationDuration() {
     int allSubLocationDuration = 0;
-    tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    tripSubLocations.forEach((subLocation) { allSubLocationDuration += subLocation.duration; print(subLocation.duration); });
     return allSubLocationDuration;
   }
 
@@ -110,17 +117,5 @@ class Trip {
     return allSubLocationDuration == tripDuration();
 
   }
-
-}
-
-
-class TripSubLocation {
-
-  String subLocationId;
-  int duration;
-  int cost;
-
-  TripSubLocation({this.subLocationId, this.duration, this.cost});
-
 
 }

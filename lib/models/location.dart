@@ -99,6 +99,12 @@ class Location {
     return descriptionAr;
   }
 
+  @override
+  String toString() {
+    return 'Location{subLocationsIds: $subLocationsIds}';
+  }
+
+
 }
 
 class LocationsResponse {

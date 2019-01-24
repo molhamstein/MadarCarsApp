@@ -15,7 +15,6 @@ import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 
 class HomePage extends StatelessWidget {
-
   static const String route = 'home_page';
 
   // This widget is the root of your application.
@@ -41,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Car> cars = [];
   List<TripModel> trips = [];
   bool flag = false;
+
   // myWidth = MediaQuery.of(context).size.width;
   // myHeight = MediaQuery.of(context).size.height;
   // var third = myHeight / 3;
@@ -57,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   //   ..translate(0, -(150.0), 0.0);
 
   static final token = appBloc.token;
+
   @override
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
@@ -135,7 +136,21 @@ class _MyHomePageState extends State<MyHomePage> {
         // itemExtent: 10.0,
         // reverse: true, //makes the list appear in descending order
         itemBuilder: (BuildContext context, int index) {
-          return TripCard(trips[index]);
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TripPlanningPage(
+                          tripModel: trips[index],
+                        ),
+                  ),
+                );
+              },
+              child: TripCard(trips[index]),
+            ),
+          );
         },
       ),
     );

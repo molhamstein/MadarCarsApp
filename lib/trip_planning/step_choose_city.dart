@@ -72,7 +72,7 @@ class ChooseCityStepState extends State<ChooseCityStep> with TickerProviderState
             StreamBuilder<List<Location>>(
                 stream: bloc.locationsStream,
                 builder: (context, locationsSnapshot) {
-                  if (locationsSnapshot.hasData && planingBloc.isLocationIdNull)
+                  if (locationsSnapshot.hasData && (planingBloc.isLocationIdNull || planingBloc.trip.location.subLocationsIds == null))
                     planingBloc.cityId(locationsSnapshot
                         .data[0]); // initial location (pre selected)
 
