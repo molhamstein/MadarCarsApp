@@ -39,7 +39,15 @@
   "choose_date" : "Choose Date",
   "choose_car" : "Choose Car",
   "extend_your_trip" : "Extend your trip",
-  "step_one_title" : "What city are you planing to visit?"
+  "step_one_title" : "What city are you planing to visit?",
+  "step_two_title" : "Tell us what you need",
+  "step_three_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_four_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_five_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "pickup_from_airport" : "Pickup from Airport",
+  "rent_car_for_city_tour" : "Rent a car for city tour",
+  "pickup_to_airport" : "pickup back to Airport",
+  "trip_planing_question" : "Don't know how to plan a trip and need help?"
 
 
 

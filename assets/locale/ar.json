@@ -39,7 +39,16 @@
   "choose_date" : "اختر تاريخ",
   "choose_car" : "اختر سيارة",
   "extend_your_trip" : "مزيد",
-  "step_one_title" : "ما هي المدينة التي تخطط لزيارتها؟"
+  "step_one_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_two_title" : "اخبرنا ماذا تريد",
+  "step_three_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_four_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_five_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "pickup_from_airport" : "توصيل من المطار",
+  "rent_car_for_city_tour" : "رحلة في المدينة",
+  "pickup_to_airport" : "توصيل الى المطار",
+  "trip_planing_question" : "لا تعرف كيف تخطط رحلتك؟"
+
 
 
 
