@@ -15,6 +15,8 @@ class Location {
   String mediaId;
   Media media;
   List<dynamic> slideMedia;
+  List<String> subLocationsIds;
+
 
   Location({
     this.descriptionEn,
@@ -31,6 +33,8 @@ class Location {
     this.mediaId,
     this.media,
     this.slideMedia,
+    this.subLocationsIds,
+
   });
 
   factory Location.fromJson(Map<String, dynamic> json) => new Location(
@@ -53,7 +57,11 @@ class Location {
         slideMedia: json["slideMedia"] == null
             ? null
             : new List<dynamic>.from(json["slideMedia"].map((x) => x)),
-      );
+      subLocationsIds: json['subLocations'] == null
+          ? null
+          : (json['subLocations'] as List)
+          .map((jsonSubLocation) => jsonSubLocation['id'].toString())
+          .toList());
 
   Map<String, dynamic> toJson() => {
         "descriptionEn": descriptionEn == null ? null : descriptionEn,
@@ -73,4 +81,14 @@ class Location {
             ? null
             : new List<dynamic>.from(slideMedia.map((x) => x)),
       };
+}
+class LocationsResponse {
+  final List<Location> locations;
+
+  LocationsResponse(this.locations);
+
+  factory LocationsResponse.fromJson(List<dynamic> json) {
+    return LocationsResponse(
+        json.map((jsonLocation) => Location.fromJson(jsonLocation)).toList());
+  }
 }
