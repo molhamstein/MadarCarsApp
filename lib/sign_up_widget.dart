@@ -7,6 +7,7 @@ import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/feedback.dart';
 import 'package:madar_booking/home_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 
@@ -37,6 +38,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
       new TextEditingController();
   AppBloc appBloc;
   AuthBloc bloc;
+
 
   @override
   void initState() {

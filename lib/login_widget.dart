@@ -27,7 +27,6 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
 
   AuthBloc bloc;
   AppBloc appBloc;
-  Function(String) translate;
 
   @override
   void initState() {
@@ -38,7 +37,6 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-    translate = MadarLocalizations.of(context).trans;
 
     return StreamBuilder<UserResponse>(
       // feedback the user about the server response.
@@ -98,7 +96,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                 child: FlatButton(
                     onPressed: () {},
                     child: Text(
-                      translate('forgot_password'),
+                      MadarLocalizations.of(context).trans('forgot_password'),
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: Colors.white,
@@ -129,7 +127,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                     Padding(
                       padding: EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Text(
-                        translate('or'),
+                        MadarLocalizations.of(context).trans('or'),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.0,
@@ -250,7 +248,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   color: Colors.black,
                   size: 22.0,
                 ),
-                hintText: translate('phone_number'),
+                hintText: MadarLocalizations.of(context).trans('phone_number'),
                 hintStyle:
                     TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
               ),
@@ -290,7 +288,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                       color: Colors.black,
                     ),
                     errorText: passwordSnapshot.error,
-                    hintText: translate('password'),
+                    hintText: MadarLocalizations.of(context).trans('password'),
                     hintStyle: TextStyle(
                         fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                     suffixIcon: GestureDetector(
@@ -321,7 +319,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
             initialData: true,
             builder: (context, loadingSnapshot) {
               return MainButton(
-                text: translate('submit'),
+                text: MadarLocalizations.of(context).trans('submit'),
                 onPressed: () {
                   if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                     showInSnackBar(
