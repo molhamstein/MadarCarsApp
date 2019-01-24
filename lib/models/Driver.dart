@@ -1,6 +1,6 @@
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/DriverLang.dart';
-import 'package:madar_booking/models/Image.dart';
+import 'package:madar_booking/models/media.dart';
 
 enum Type { IMAGE }
 

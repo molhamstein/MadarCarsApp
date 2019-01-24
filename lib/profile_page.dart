@@ -90,7 +90,9 @@ class _ProfilePageState extends State<ProfilePage> {
         border: Border.all(width: 5, color: Colors.white),
         borderRadius: BorderRadius.circular(50),
         image: DecorationImage(
-          image: AssetImage('assets/images/profileImg.png'),
+          image: appBloc.userImage != null
+              ? NetworkImage(appBloc.userImage)
+              : null,
           fit: BoxFit.cover,
         ),
       ),

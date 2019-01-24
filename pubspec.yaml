@@ -26,7 +26,7 @@ dependencies:
   intl: ^0.15.7
   image_picker: ^0.4.12+1
   shimmer: ^1.0.0
-
+  dio:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -97,6 +97,8 @@ class EditProfileWidgetState extends State<EditProfileWidget>
   Widget build(BuildContext context) {
     signupNameController.text = appBloc.userName;
     signupEmailController.text = appBloc.phone;
+    bloc.changeSignUpUserName(appBloc.userName);
+    bloc.changeLoginPhone(appBloc.phone);
     return StreamBuilder<User>(
         stream: bloc.submitUpdteUserStream,
         builder: (context, snapshot) {
@@ -301,7 +303,9 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   border: Border.all(width: 5, color: Colors.white),
                   borderRadius: BorderRadius.circular(60),
                   image: DecorationImage(
-                    image: AssetImage('assets/images/profileImg.png'),
+                    image: appBloc.userImage != null
+                        ? NetworkImage(appBloc.userImage)
+                        : AssetImage('assets/images/profileImg.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -400,7 +404,8 @@ class EditProfileWidgetState extends State<EditProfileWidget>
               if (!snapshot.hasData || !snapshot.data) {
                 showInSnackBar('Please provide valid information', context);
               } else
-                bloc.submitUpdateUser(userId, token);
+                bloc.updateImage(_image, token, userId);
+              //bloc.submitUpdateUser(userId, token);
             },
             width: 150,
             height: 50,

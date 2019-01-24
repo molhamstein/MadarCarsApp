@@ -29,7 +29,7 @@ class AppBloc extends BaseBloc {
       _dataStore.getUser().name; //TODO remove; only for testing
   String get token => _dataStore.userToken;
   String get userId => _dataStore.getUser().id;
-
+  String get userImage => _dataStore.userImage;
   get logout {
     _dataStore.logout;
     _logOutController.sink.add(true);

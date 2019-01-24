@@ -5,7 +5,7 @@
 import 'dart:convert';
 import 'package:madar_booking/models/Brand.dart';
 import 'package:madar_booking/models/Driver.dart';
-import 'package:madar_booking/models/Image.dart';
+import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/Location.dart';
 
 List<Car> carFromJson(String str) {
