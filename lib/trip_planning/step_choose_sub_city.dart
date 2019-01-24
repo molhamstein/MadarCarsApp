@@ -107,8 +107,8 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(top: 30, right: 32),
-                  child: Text(MadarLocalizations.of(context).trans('step_five_title'), style: TextStyle(color: Colors.grey[700], fontSize: 20, fontWeight: FontWeight.w600, height: 0.8),),
+                  padding: const EdgeInsets.only(top: 30, right: 32, left: 32),
+                  child: Text(MadarLocalizations.of(context).trans('step_five_title'), style: TextStyle(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w600, height: 0.8),),
                 ),
 
                 StreamBuilder<List<SubLocationResponse>>(

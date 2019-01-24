@@ -55,7 +55,16 @@
   "male" : "Male",
   "female" : "Female",
   "trip_created_successfully" : "Your car will be waiting for you",
-  "days" : "days"
+  "days" : "days",
+  "error_fill_missing" : "Please fill the missing data",
+  "error_end_date_before_start_date" : "End date is before start date",
+  "trip_added_successfully" : "Your Trip has been Added succefully!",
+  "error_car_not_available" : "The car you requested is not available",
+  "error_provide_valid_info" : "Please provide valid information",
+  "error_valid_phone_number" : "Enter a Valid Phone Number",
+  "error_valid_password" : "Enter a Valid password",
+  "error_valid_name" : "Enter a valid name",
+  "error_wrong_credentials" : "Phone number or password are wrong"
 
 
 

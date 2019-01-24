@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 
 mixin UserFeedback {
@@ -8,7 +9,7 @@ mixin UserFeedback {
     Scaffold.of(context)?.removeCurrentSnackBar();
     Scaffold.of(context).showSnackBar(new SnackBar(
       content: new Text(
-        value,
+        MadarLocalizations.of(context).trans(value),
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Colors.white,

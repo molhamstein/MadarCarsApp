@@ -237,7 +237,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
                   onPressed: () {
                     if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                       showInSnackBar(
-                          'Please provide valid information', context);
+                          'error_provide_valid_info', context);
                     bloc.shouldShowFeedBack = false;
                     } else
                       bloc.submitSignUp();

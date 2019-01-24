@@ -242,7 +242,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   color: Colors.black),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                errorText: snapshot.error,
+                errorText: MadarLocalizations.of(context).trans(snapshot.error),
                 icon: Icon(
                   FontAwesomeIcons.mobile,
                   color: Colors.black,
@@ -287,7 +287,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                       size: 22.0,
                       color: Colors.black,
                     ),
-                    errorText: passwordSnapshot.error,
+                    errorText: MadarLocalizations.of(context).trans(passwordSnapshot.error),
                     hintText: MadarLocalizations.of(context).trans('password'),
                     hintStyle: TextStyle(
                         fontFamily: "WorkSansSemiBold", fontSize: 17.0),
@@ -323,7 +323,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                 onPressed: () {
                   if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                     showInSnackBar(
-                        'Provide a valid phone number or password', context, color: Colors.redAccent);
+                        'error_provide_valid_info', context, color: Colors.redAccent);
                     bloc.shouldShowFeedBack = false;
                   } else
                     bloc.submitLogin();

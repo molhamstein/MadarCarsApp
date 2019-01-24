@@ -52,7 +52,7 @@ class Network {
     if (response.statusCode == 200) {
       return UserResponse.fromJson(json.decode(response.body));
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
-      throw 'Phone number or password are wrong';
+      throw 'error_wrong_credentials';
     } else {
       print(response.body);
       throw json.decode(response.body);
@@ -261,9 +261,9 @@ class Network {
         await http.post(_trip, headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       print(json.decode(response.body));
-      return 'Your Trip has been Added succefully!';
+      return 'trip_added_successfully';
     } else if (response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
-      throw Exception('The car you requested is not available.');
+      throw Exception('error_car_not_available');
     } else {
       throw json.decode(response.body);
     }
