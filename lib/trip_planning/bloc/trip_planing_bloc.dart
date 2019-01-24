@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';
@@ -16,8 +17,17 @@ class TripPlaningBloc extends BaseBloc with Network {
   String userId;
   bool showFeedback;
 
-  TripPlaningBloc(String token, String userId) {
-    trip = Trip.init();
+  TripPlaningBloc(String token, String userId, {TripModel tripModel}) {
+    if (tripModel == null) trip = Trip.init();
+    else {
+      List<String> subLocations = [];
+      tripModel.predefinedTripsSublocations.map((s) => subLocations.add(s.id));
+      trip = Trip.init();
+      trip.inCity = true;
+      trip.tripSubLocations = tripModel.predefinedTripsSublocations;
+      trip.location = tripModel.location;
+      trip.duration = tripModel.duration;
+    }
     index = 0;
     done = false;
     this.token = token;
@@ -51,6 +61,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   get navBackward {
     if (!trip.inCity) {
       if (index == 5) index = 3;
+      if (index == 4) index = 2;
       _navigationController.sink.add(--index);
     } else {
       _navigationController.sink.add(--index);
@@ -93,7 +104,6 @@ class TripPlaningBloc extends BaseBloc with Network {
   }
 
   _shouldNav() {
-
     if (index == 0) {
       if (trip.location != null) {
         return true;
@@ -110,19 +120,16 @@ class TripPlaningBloc extends BaseBloc with Network {
       showFeedback = true;
       _feedbackController.sink.addError('error_end_date_before_start_date');
       return false;
-    }
-
-    else if (index == 3) {
+    } else if (index == 3) {
       if (trip.car != null) {
         return true;
-      }
-      else {
+      } else {
         showFeedback = true;
         _feedbackController.sink.addError('error_fill_missing');
       }
-    return false;
-  } else {
-    return true;
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -138,7 +145,10 @@ class TripPlaningBloc extends BaseBloc with Network {
     trip.inCity = cityTour;
   }
 
-  startDateChanged(startDate) {
+  startDateChanged(DateTime startDate) {
+    if(trip.duration != null) {
+      trip.endDate.add(Duration(days: trip.duration));
+    }
     trip.startDate = startDate;
   }
 
@@ -148,6 +158,7 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   cityId(Location location) {
     trip.location = location;
+    print(location.toString());
   }
 
   tripCar(Car car) {

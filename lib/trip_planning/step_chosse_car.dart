@@ -5,6 +5,7 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/car_card_widget.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_car_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
@@ -134,7 +135,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                     MainAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${planingBloc.trip.estimationPrice()}',
+                                                    planingBloc.trip.estimationPrice().toString(),
                                                     style: TextStyle(
                                                         color: Colors.grey[800],
                                                         fontSize: 60,
@@ -221,7 +222,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 Column(
                                                   children: <Widget>[
                                                     Icon(
-                                                      FontAwesomeIcons.calendar,
+                                                      MyFlutterApp.cal,
                                                       size: 28,
                                                       color: Colors.grey[800],
                                                     ),
@@ -242,8 +243,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                   child: Column(
                                                     children: <Widget>[
                                                       Icon(
-                                                        FontAwesomeIcons
-                                                            .transgender,
+                                                        MyFlutterApp.gender,
                                                         size: 28,
                                                         color: Colors.grey[800],
                                                       ),
@@ -268,7 +268,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 Column(
                                                   children: <Widget>[
                                                     Icon(
-                                                      FontAwesomeIcons.chair,
+                                                      MyFlutterApp.seats,
                                                       size: 28,
                                                       color: Colors.grey[800],
                                                     ),

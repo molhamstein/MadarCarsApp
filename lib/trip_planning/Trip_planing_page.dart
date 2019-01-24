@@ -5,6 +5,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/final_step.dart';
 import 'package:madar_booking/trip_planning/step_choose_city.dart';
@@ -15,6 +16,10 @@ import 'package:madar_booking/trip_planning/step_trip_type.dart';
 import 'package:madar_booking/feedback.dart';
 
 class TripPlanningPage extends StatefulWidget {
+  final TripModel tripModel;
+
+  const TripPlanningPage({Key key, this.tripModel}) : super(key: key);
+
   @override
   TripPlanningPageState createState() {
     return new TripPlanningPageState();
@@ -35,8 +40,11 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
 
   @override
   void initState() {
-    bloc = TripPlaningBloc(BlocProvider.of<AppBloc>(context).token,
-        BlocProvider.of<AppBloc>(context).userId);
+    bloc = TripPlaningBloc(
+      BlocProvider.of<AppBloc>(context).token,
+      BlocProvider.of<AppBloc>(context).userId,
+      tripModel: widget.tripModel,
+    );
     super.initState();
   }
 
@@ -45,14 +53,14 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(
-        onWillPop: () {
+        onWillPop: () async {
           if (bloc.index == 0) {
-            //Navigator.of(context).pop(true);
-            return Future<bool>.value(true);
-          } else
-//            Navigator.of(context).pop(false);
+            Navigator.of(context).pop();
+            return false;
+          } else {
             bloc.navBackward;
-          return Future<bool>.value(false);
+            return false;
+          }
         },
         child: StreamBuilder<bool>(
             stream: bloc.loadingStream,

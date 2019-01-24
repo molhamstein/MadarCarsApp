@@ -10,21 +10,20 @@ class TripCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        print("helllo");
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-            boxShadow: [MadarColors.shadow],
-            color: Colors.transparent,
-            image: DecorationImage(
-              image: NetworkImage(trip.media.thumb),
-              fit: BoxFit.cover,
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [MadarColors.shadow],
+          color: Colors.transparent,
+          image: DecorationImage(
+            image: NetworkImage(trip.media.thumb),
+            fit: BoxFit.cover,
           ),
+        ),
+        width: 185,
+        height: 185,
+        child: Container(
           width: 185,
           height: 185,
           child: Container(
@@ -52,11 +51,27 @@ class TripCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        children: <Widget>[
-                          Column(
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            RichText(
+                              text: TextSpan(
+                                  text: '${trip.duration}',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: AppFonts.x_large_font_size,
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[

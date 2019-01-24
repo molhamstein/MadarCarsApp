@@ -59,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   static final token = appBloc.token;
+
   @override
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
@@ -162,7 +163,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         // itemExtent: 10.0,
         // reverse: true, //makes the list appear in descending order
         itemBuilder: (BuildContext context, int index) {
-          return TripCard(trips[index]);
+          return Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TripPlanningPage(
+                          tripModel: trips[index],
+                        ),
+                  ),
+                );
+              },
+              child: TripCard(trips[index]),
+            ),
+          );
         },
       ),
     );
