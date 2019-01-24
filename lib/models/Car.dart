@@ -8,6 +8,7 @@ import 'package:madar_booking/models/Brand.dart';
 import 'package:madar_booking/models/Driver.dart';
 import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/Location.dart';
+import 'package:madar_booking/models/media.dart';
 
 List<Car> carFromJson(String str) {
   final jsonData = json.decode(str);
