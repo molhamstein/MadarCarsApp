@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/madar_fonts.dart';
 import 'package:madar_booking/models/TripModel.dart';
+import 'app_text_style.dart';
 
 class TripCard extends StatelessWidget {
   final TripModel trip;
@@ -43,13 +44,11 @@ class TripCard extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
+                        padding: const EdgeInsets.only(
+                            left: 8.0, right: 8.0, top: 8.0),
                         child: Text(
                           trip.titleEn,
-                          style: TextStyle(
-                              fontSize: AppFonts.large_font_size,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                          style: AppTextStyle.largeTextStyleWhite,
                         ),
                       ),
                     ),
@@ -64,10 +63,7 @@ class TripCard extends StatelessWidget {
                               RichText(
                                 text: TextSpan(
                                     text: '${trip.duration}',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: AppFonts.x_large_font_size,
-                                        fontWeight: FontWeight.bold)),
+                                    style: AppTextStyle.xLaragTextStyleWhite),
                               ),
                             ],
                           ),
@@ -83,11 +79,8 @@ class TripCard extends StatelessWidget {
                                     textAlign: TextAlign.left,
                                     text: TextSpan(
                                         text: "Days",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize:
-                                                AppFonts.x_small_font_size,
-                                            fontWeight: FontWeight.bold)),
+                                        style:
+                                            AppTextStyle.xSmallTextStyleWhite),
                                   ),
                                 ),
                               ],
@@ -109,9 +102,7 @@ class TripCard extends StatelessWidget {
                         // width: 150,
                         child: Text(
                           trip.descriptionEn,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: AppFonts.medium_font_size),
+                          style: AppTextStyle.meduimTextStyleWhite,
                           // softWrap: true,
                         ),
                       )

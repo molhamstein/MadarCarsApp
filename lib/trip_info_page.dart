@@ -199,7 +199,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     // content container
                     child: AnimatedContainer(
-                      duration: Duration(seconds: 1),
+                      duration: Duration(milliseconds: 300),
                       transform: transformation,
                       child: Container(
                         decoration: BoxDecoration(

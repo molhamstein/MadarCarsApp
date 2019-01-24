@@ -15,7 +15,6 @@ import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 
 class HomePage extends StatelessWidget {
-
   static const String route = 'home_page';
 
   // This widget is the root of your application.
@@ -35,26 +34,29 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   static AppBloc appBloc;
   static HomeBloc homeBloc;
   List<Car> cars = [];
   List<TripModel> trips = [];
+  AnimationController _controller;
+  Animation<Offset> _offsetFloat;
+
   bool flag = false;
-  // myWidth = MediaQuery.of(context).size.width;
-  // myHeight = MediaQuery.of(context).size.height;
-  // var third = myHeight / 3;
-  // rotateBy45 = new Matrix4.identity()
-  //   ..rotateZ(-45 * 3.1415927 / 180)
-  //   ..translate(0, -150.0, 0.0);
 
-  // rotateBy_0 = new Matrix4.identity()
-  //   ..rotateZ(0 * 3.1415927 / 180)
-  //   ..translate(0.0, 0.0, 0.0);
+  Matrix4 carsTransformation;
+  Matrix4 predefinedTripTransformation;
 
-  // transformation = new Matrix4.identity()
-  //   ..rotateZ(-45 * 3.1415927 / 180)
-  //   ..translate(0, -(150.0), 0.0);
+  hideContainers() {
+    carsTransformation = new Matrix4.identity()..translate(0.0, -600.0, 0.0);
+    predefinedTripTransformation = Matrix4.identity()
+      ..translate(0.0, 600.0, 0.0);
+  }
+
+  showContainers() {
+    carsTransformation = new Matrix4.identity()..translate(0.0, 0.0, 0.0);
+    predefinedTripTransformation = Matrix4.identity()..translate(0.0, 0.0, 0.0);
+  }
 
   static final token = appBloc.token;
   @override
@@ -63,6 +65,24 @@ class _MyHomePageState extends State<MyHomePage> {
     homeBloc = HomeBloc(token);
     homeBloc.predifindTrips();
     homeBloc.getCars();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+
+    final CurvedAnimation curvedAnimation =
+        CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
+
+    _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200.0), end: Offset.zero)
+        .animate(curvedAnimation);
+
+    _offsetFloat.addListener(() {
+      setState(() {});
+    });
+
+    _controller.forward();
+
     super.initState();
   }
 
@@ -83,44 +103,51 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _availbleCars() {
-    return Column(children: <Widget>[
-      Container(
-        color: Colors.transparent,
-        constraints: BoxConstraints.expand(height: 50),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Cars",
-            style: TextStyle(
-                fontSize: AppFonts.large_font_size,
-                fontWeight: FontWeight.bold),
-            textAlign: TextAlign.start,
-          ),
-        ),
-      ),
-      StreamBuilder<List<Car>>(
-        initialData: [],
-        stream: homeBloc.availableCarsStream,
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return Text("There is no connection");
-            case ConnectionState.waiting:
-              return Container(
-                  height: 225,
-                  color: Colors.transparent,
-                  child: Center(child: CircularProgressIndicator()));
-            default:
-              if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              } else {
-                this.cars = snapshot.data;
-                return _cardContainerList();
-              }
-          }
-        },
-      ),
-    ]);
+    return AnimatedBuilder(
+        animation: _offsetFloat,
+        builder: (context, widget) {
+          return Transform.translate(
+            offset: _offsetFloat.value,
+            child: Column(children: <Widget>[
+              Container(
+                color: Colors.transparent,
+                constraints: BoxConstraints.expand(height: 50),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "Cars",
+                    style: TextStyle(
+                        fontSize: AppFonts.large_font_size,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+              ),
+              StreamBuilder<List<Car>>(
+                initialData: [],
+                stream: homeBloc.availableCarsStream,
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Text("There is no connection");
+                    case ConnectionState.waiting:
+                      return Container(
+                          height: 225,
+                          color: Colors.transparent,
+                          child: Center(child: CircularProgressIndicator()));
+                    default:
+                      if (snapshot.hasError) {
+                        return Text("Error: ${snapshot.error}");
+                      } else {
+                        this.cars = snapshot.data;
+                        return _cardContainerList();
+                      }
+                  }
+                },
+              ),
+            ]),
+          );
+        });
   }
 
   Widget _tripCardContainerList() {
@@ -142,44 +169,48 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget predefiedTrips() {
-    return Column(
-      children: <Widget>[
-        Container(
-          color: Colors.transparent,
-          constraints: BoxConstraints.expand(height: 50),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Recomended Trips",
-              style: TextStyle(
-                  fontSize: AppFonts.large_font_size,
-                  fontWeight: FontWeight.bold),
-              textAlign: TextAlign.start,
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 300),
+      transform: predefinedTripTransformation,
+      child: Column(
+        children: <Widget>[
+          Container(
+            color: Colors.transparent,
+            constraints: BoxConstraints.expand(height: 50),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Recomended Trips",
+                style: TextStyle(
+                    fontSize: AppFonts.large_font_size,
+                    fontWeight: FontWeight.bold),
+                textAlign: TextAlign.start,
+              ),
             ),
           ),
-        ),
-        StreamBuilder<List<TripModel>>(
-          initialData: [],
-          stream: homeBloc.predefindTripsStream,
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return Text("There is no connection");
-              case ConnectionState.waiting:
-                return Container(
-                    height: 190,
-                    child: Center(child: CircularProgressIndicator()));
-              default:
-                if (snapshot.hasError) {
-                  return Text("Error: ${snapshot.error}");
-                } else {
-                  this.trips = snapshot.data;
-                  return _tripCardContainerList();
-                }
-            }
-          },
-        ),
-      ],
+          StreamBuilder<List<TripModel>>(
+            initialData: [],
+            stream: homeBloc.predefindTripsStream,
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return Text("There is no connection");
+                case ConnectionState.waiting:
+                  return Container(
+                      height: 190,
+                      child: Center(child: CircularProgressIndicator()));
+                default:
+                  if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  } else {
+                    this.trips = snapshot.data;
+                    return _tripCardContainerList();
+                  }
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -190,11 +221,8 @@ class _MyHomePageState extends State<MyHomePage> {
       bloc: homeBloc,
       child: Scaffold(
         body: Stack(children: <Widget>[
-          Hero(
-            tag: "header_container",
-            child: AnimatedHeader(
-              isAnimate: flag,
-            ),
+          AnimatedHeader(
+            isAnimate: flag,
           ),
           SingleChildScrollView(
             child: Column(
@@ -227,9 +255,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               alignment: Alignment(0, 0),
                               child: FlatButton(
                                 onPressed: () {
-                                  setState(() {
-                                    flag = !flag;
-                                  });
+                                  // setState(() {
+                                  //   flag = !flag;
+                                  //   if (flag) {
+                                  //     showContainers();
+                                  //   } else {
+                                  //     hideContainers();
+                                  //   }
+                                  // });
                                   Navigator.of(context).push(
                                       MaterialPageRoute(builder: (context) {
                                     return TripPlanningPage();
@@ -293,5 +326,12 @@ class _MyHomePageState extends State<MyHomePage> {
         // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
   }
 }

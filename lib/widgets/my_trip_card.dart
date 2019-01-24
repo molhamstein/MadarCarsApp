@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/trip_info_page.dart';
@@ -66,13 +67,13 @@ class MyTripCard extends StatelessWidget {
                       // color: Colors.red,
                       child: Column(
                         children: <Widget>[
-                          AutoSizeText(
-                            "${DateFormat.Md().format(DateTime.parse(trip.startDate()))}\n${DateFormat.y().format(DateTime.parse(trip.startDate()))}",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey.shade900),
-                            maxLines: 2,
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: AutoSizeText(
+                              "${DateFormat.Md().format(DateTime.parse(trip.startDate()))}\n${DateFormat.y().format(DateTime.parse(trip.startDate()))}",
+                              style: AppTextStyle.smallTextStyleBlack,
+                              maxLines: 2,
+                            ),
                           )
                         ],
                       ),
@@ -134,24 +135,27 @@ class MyTripCard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                  AutoSizeText(
-                                                    trip.location.nameEn,
-                                                    style: TextStyle(
-                                                        fontSize: 24,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors
-                                                            .grey.shade800),
-                                                    maxLines: 1,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: AutoSizeText(
+                                                      trip.location.nameEn,
+                                                      style: AppTextStyle
+                                                          .largeTextStyleBlack,
+                                                      maxLines: 1,
+                                                    ),
                                                   ),
-                                                  AutoSizeText(
-                                                    "Picked From Airport",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.grey),
-                                                    maxLines: 2,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: AutoSizeText(
+                                                      "Picked From Airport",
+                                                      style: AppTextStyle
+                                                          .smallTextStylegrey,
+                                                      maxLines: 2,
+                                                    ),
                                                   )
                                                 ],
                                               ),
@@ -171,15 +175,16 @@ class MyTripCard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                  AutoSizeText(
-                                                    "Duration",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors
-                                                            .grey.shade800),
-                                                    maxLines: 1,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: AutoSizeText(
+                                                      "Duration",
+                                                      style: AppTextStyle
+                                                          .largeTextStyleBlack,
+                                                      maxLines: 1,
+                                                    ),
                                                   ),
                                                   Padding(
                                                     padding:
@@ -187,12 +192,8 @@ class MyTripCard extends StatelessWidget {
                                                             top: 8.0),
                                                     child: AutoSizeText(
                                                       "${trip.totlaDuration()} Days",
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.grey,
-                                                      ),
+                                                      style: AppTextStyle
+                                                          .smallTextStylegrey,
                                                       maxLines: 1,
                                                     ),
                                                   )
@@ -244,25 +245,27 @@ class MyTripCard extends StatelessWidget {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: <Widget>[
-                                                      AutoSizeText(
-                                                        trip.car.name,
-                                                        style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.white),
-                                                        maxLines: 1,
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 8.0),
+                                                        child: AutoSizeText(
+                                                          trip.car.name,
+                                                          style: AppTextStyle
+                                                              .normalTextStyleWhite,
+                                                          maxLines: 1,
+                                                        ),
                                                       ),
-                                                      AutoSizeText(
-                                                        '${trip.driver.firstName} ${trip.driver.lastName}',
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.white),
-                                                        maxLines: 1,
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 8.0),
+                                                        child: AutoSizeText(
+                                                          '${trip.driver.firstName} ${trip.driver.lastName}',
+                                                          style: AppTextStyle
+                                                              .smallTextStyleWhite,
+                                                          maxLines: 1,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -290,28 +293,29 @@ class MyTripCard extends StatelessWidget {
                                                             MainAxisAlignment
                                                                 .center,
                                                         children: <Widget>[
-                                                          AutoSizeText(
-                                                            "From",
-                                                            style: TextStyle(
-                                                              fontSize: 17,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: Colors.grey
-                                                                  .shade800,
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 8.0),
+                                                            child: AutoSizeText(
+                                                              "From",
+                                                              style: AppTextStyle
+                                                                  .meduimTextStyleBlack,
+                                                              maxLines: 1,
                                                             ),
-                                                            maxLines: 1,
                                                           ),
-                                                          AutoSizeText(
-                                                            trip.startDateFromated(),
-                                                            style: TextStyle(
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                color: Colors
-                                                                    .white),
-                                                            maxLines: 1,
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    top: 8.0),
+                                                            child: AutoSizeText(
+                                                              trip.startDateFromated(),
+                                                              style: AppTextStyle
+                                                                  .xSmallTextStyleWhite,
+                                                              maxLines: 1,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -330,30 +334,33 @@ class MyTripCard extends StatelessWidget {
                                                                 .center,
                                                         children: <Widget>[
                                                           Container(
-                                                            child: AutoSizeText(
-                                                              "To",
-                                                              style: TextStyle(
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .grey
-                                                                      .shade800),
-                                                              maxLines: 1,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 8.0),
+                                                              child:
+                                                                  AutoSizeText(
+                                                                "To",
+                                                                style: AppTextStyle
+                                                                    .meduimTextStyleBlack,
+                                                                maxLines: 1,
+                                                              ),
                                                             ),
                                                           ),
                                                           Container(
-                                                            child: AutoSizeText(
-                                                              trip.endDateFormated(),
-                                                              style: TextStyle(
-                                                                  fontSize: 12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                      .white),
-                                                              maxLines: 1,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 8.0),
+                                                              child:
+                                                                  AutoSizeText(
+                                                                trip.endDateFormated(),
+                                                                style: AppTextStyle
+                                                                    .xSmallTextStyleWhite,
+                                                                maxLines: 1,
+                                                              ),
                                                             ),
                                                           ),
                                                         ],

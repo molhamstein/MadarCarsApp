@@ -12,6 +12,7 @@ class MadarColors {
 
   //TEXT
   static const black = Colors.black87;
+  static const white = Colors.white;
   static const dark_grey = Color(0xFF303030);
   static const grey = Colors.grey;
 
