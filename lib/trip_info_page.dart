@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/invoice_page.dart';
 import 'package:madar_booking/models/MyTrip.dart';
@@ -73,14 +74,14 @@ class TripInfoPageState extends State<TripInfoPage> {
           children: <Widget>[
             Text(
               city,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              style: AppTextStyle.meduimTextStyleBlack,
             ),
             Expanded(
               child: Container(),
             ),
             Text(
               days,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              style: AppTextStyle.meduimTextStyleBlack,
             ),
           ],
         ),
@@ -99,7 +100,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                 alignment: Alignment(0, 0),
                 child: Text(
                   "Estim Cost",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: AppTextStyle.largeTextStyleBlack,
                 ),
               ),
             ),
@@ -114,14 +115,14 @@ class TripInfoPageState extends State<TripInfoPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        RichText(
-                          textAlign: TextAlign.end,
-                          text: TextSpan(
-                              text: cost,
-                              style: TextStyle(
-                                  color: Colors.grey.shade800,
-                                  fontSize: 65,
-                                  fontWeight: FontWeight.bold)),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 32.0),
+                          child: RichText(
+                              textAlign: TextAlign.end,
+                              text: TextSpan(
+                                text: cost,
+                                style: AppTextStyle.xLaragTextStyleBlack,
+                              )),
                         ),
                       ],
                     ),
@@ -131,19 +132,15 @@ class TripInfoPageState extends State<TripInfoPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            alignment: Alignment(0, -1),
-                            height: 75,
-                            width: 20,
-                            child: RichText(
-                              textAlign: TextAlign.left,
-                              text: TextSpan(
-                                  text: "\$",
-                                  style: TextStyle(
-                                      color: Colors.grey.shade900,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                          ),
+                              alignment: Alignment(0, -1),
+                              height: 75,
+                              width: 20,
+                              child: RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(
+                                    text: "\$",
+                                    style: AppTextStyle.smallTextStyleBlack),
+                              )),
                         ],
                       ),
                     ),
@@ -223,17 +220,23 @@ class TripInfoPageState extends State<TripInfoPage> {
                                           padding: const EdgeInsets.all(16.0),
                                           child: Column(
                                             children: <Widget>[
-                                              Text(
-                                                "Start Date",
-                                                style: TextStyle(
-                                                    color: Colors.grey.shade600,
-                                                    fontSize: 17),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
+                                                child: Text(
+                                                  "Start Date",
+                                                  style: AppTextStyle
+                                                      .meduimTextStylegrey,
+                                                ),
                                               ),
-                                              Text(
-                                                trip.startDateFromated(),
-                                                style: TextStyle(
-                                                    color: Colors.grey.shade900,
-                                                    fontSize: 17),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 4.0),
+                                                child: Text(
+                                                  trip.startDateFromated(),
+                                                  style: AppTextStyle
+                                                      .meduimTextStylegrey,
+                                                ),
                                               )
                                             ],
                                           ),
@@ -244,17 +247,23 @@ class TripInfoPageState extends State<TripInfoPage> {
                                           padding: const EdgeInsets.all(16.0),
                                           child: Column(
                                             children: <Widget>[
-                                              Text(
-                                                "End Date",
-                                                style: TextStyle(
-                                                    color: Colors.grey.shade600,
-                                                    fontSize: 17),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 8.0),
+                                                child: Text(
+                                                  "End Date",
+                                                  style: AppTextStyle
+                                                      .meduimTextStylegrey,
+                                                ),
                                               ),
-                                              Text(
-                                                trip.endDateFormated(),
-                                                style: TextStyle(
-                                                    color: Colors.grey.shade900,
-                                                    fontSize: 17),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 4.0),
+                                                child: Text(
+                                                  trip.endDateFormated(),
+                                                  style: AppTextStyle
+                                                      .meduimTextStylegrey,
+                                                ),
                                               )
                                             ],
                                           ),
@@ -316,19 +325,25 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                  Text(
-                                                    trip.car.name,
-                                                    style: TextStyle(
-                                                        fontSize: 28,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: Text(
+                                                      trip.car.name,
+                                                      style: AppTextStyle
+                                                          .largeTextStyleBlack,
+                                                    ),
                                                   ),
-                                                  Text(
-                                                    '${trip.driver.firstName} ${trip.driver.lastName}',
-                                                    style: TextStyle(
-                                                        fontSize: 22,
-                                                        color: Colors
-                                                            .grey.shade700),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: Text(
+                                                      '${trip.driver.firstName} ${trip.driver.lastName}',
+                                                      style: AppTextStyle
+                                                          .normalTextStylegrey,
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -385,15 +400,17 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                         ),
                                                       ),
                                                       child: Container(
-                                                        child: Text(
-                                                          lang.language.name,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: TextStyle(
-                                                            fontSize: 17,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.white,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 4.0),
+                                                          child: Text(
+                                                            lang.language.name,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: AppTextStyle
+                                                                .meduimTextStyleWhite,
                                                           ),
                                                         ),
                                                       )),
