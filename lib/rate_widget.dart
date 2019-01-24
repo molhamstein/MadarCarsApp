@@ -22,10 +22,10 @@ class RateWidget extends StatelessWidget {
           children: <Widget>[
             Text(
               rate,
-              style: TextStyle(fontWeight: FontWeight.w800),
+              style: TextStyle(fontWeight: FontWeight.w800, height: 0.8),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 4.0),
+              padding: const EdgeInsets.only(left: 4.0, right: 4),
               child: Icon(
                 FontAwesomeIcons.solidStar,
                 size: 16,

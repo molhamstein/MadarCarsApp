@@ -3,6 +3,7 @@ import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/animated_header.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/final_step.dart';
@@ -114,12 +115,12 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                 ),
                 floatingActionButton: StreamBuilder<String>(
                   stream: bloc.changeTextStream,
-                  initialData: 'Next',
+                  initialData: 'next',
                   builder: (context, snapshot) {
                     return MainButton(
                       width: 150,
                       height: 50,
-                      text: snapshot.data,
+                      text: MadarLocalizations.of(context).trans(snapshot.data),
                       loading: loadingSnapshot.data,
                       onPressed: () {
                         if (bloc.index == 5) {
@@ -140,15 +141,15 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
 
   title(i) {
     if (i == 0) {
-      return 'Choose City';
+      return MadarLocalizations.of(context).trans('choose_city');
     } else if (i == 1) {
-      return 'Choose Type';
+      return MadarLocalizations.of(context).trans('choose_type');
     } else if (i == 2) {
-      return 'Choose Date';
+      return MadarLocalizations.of(context).trans('choose_date');
     } else if (i == 3) {
-      return 'Choose Car';
+      return MadarLocalizations.of(context).trans('choose_car');
     } else if (i == 4) {
-      return 'Extend your trip';
+      return MadarLocalizations.of(context).trans('extend_your_trip');
     } else {
       return '';
     }

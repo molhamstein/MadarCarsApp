@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/indicator_painter.dart';
 import 'package:madar_booking/login_widget.dart';
@@ -60,40 +61,43 @@ class _AuthPageState extends State<AuthPage>
       ),
       child: CustomPaint(
         painter: TabIndicationPainter(pageController: _pageController),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Expanded(
-              child: FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: _onSignInButtonPress,
-                child: Text(
-                  "Existing",
-                  style: TextStyle(
-                    color: left,
-                    fontSize: 16.0,
-                    fontFamily: "WorkSansSemiBold",
+        child: Directionality(
+          textDirection: TextDirection.ltr,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: _onSignInButtonPress,
+                  child: Text(
+                    MadarLocalizations.of(context).trans('existing'),
+                    style: TextStyle(
+                      color: left,
+                      fontSize: 16.0,
+                      fontFamily: "WorkSansSemiBold",
+                    ),
                   ),
                 ),
               ),
-            ),
-            //Container(height: 33.0, width: 1.0, color: Colors.white),
-            Expanded(
-              child: FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: _onSignUpButtonPress,
-                child: Text(
-                  "New",
-                  style: TextStyle(
-                      color: right,
-                      fontSize: 16.0,
-                      fontFamily: "WorkSansSemiBold"),
+              //Container(height: 33.0, width: 1.0, color: Colors.white),
+              Expanded(
+                child: FlatButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onPressed: _onSignUpButtonPress,
+                  child: Text(
+                    MadarLocalizations.of(context).trans('new'),
+                    style: TextStyle(
+                        color: right,
+                        fontSize: 16.0,
+                        fontFamily: "WorkSansSemiBold"),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

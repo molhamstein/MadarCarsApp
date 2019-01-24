@@ -82,7 +82,7 @@ class MainButtonState extends State<MainButton>
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
-                  fontWeight: FontWeight.w300),
+                  fontWeight: FontWeight.w500, height: 0.5),
                 ),
               ),
               onPressed: () {

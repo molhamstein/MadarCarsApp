@@ -58,7 +58,7 @@ class TripPlaningBloc extends BaseBloc with Network {
     if (index == 0 || index == 1 || index == 2) {
       done = false;
       pushLoading(false);
-      changeButtonText('Next');
+      changeButtonText('next');
     }
   }
 
@@ -74,11 +74,11 @@ class TripPlaningBloc extends BaseBloc with Network {
       if (trip.inCity) {
         if (index == 4) {
           pushLoading(true);
-          changeButtonText('Done');
+          changeButtonText('done');
         }
       } else {
         if (index == 3) {
-          changeButtonText('Done');
+          changeButtonText('done');
           pushLoading(true);
           done = true;
           index = 4;
@@ -91,7 +91,7 @@ class TripPlaningBloc extends BaseBloc with Network {
     if (index == 0 || index == 1 || index == 2) {
       done = false;
       pushLoading(false);
-      changeButtonText('Next');
+      changeButtonText('next');
     }
   }
 

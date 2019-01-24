@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 
 class FinalStep extends StatelessWidget {
 
@@ -7,7 +8,7 @@ class FinalStep extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Center(
-        child: Text('Your car will be waiting for you'),
+        child: Text(MadarLocalizations.of(context).trans('trip_created_successfully')),
       ),
     );
   }

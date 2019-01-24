@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/car_card_widget.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_car_bloc.dart';
@@ -17,7 +18,8 @@ class StepChooseCar extends StatefulWidget {
   }
 }
 
-class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMixin {
+class StepChooseCarState extends State<StepChooseCar>
+    with TickerProviderStateMixin {
   ChooseCarBloc bloc;
   TripPlaningBloc planingBloc;
   AnimationController _controller;
@@ -35,19 +37,17 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
       duration: const Duration(seconds: 2),
     );
 
-    final CurvedAnimation curvedAnimation = CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
+    final CurvedAnimation curvedAnimation =
+        CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
 
     _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200), end: Offset.zero)
         .animate(curvedAnimation);
 
-    _offsetFloat.addListener((){
-      setState((){});
+    _offsetFloat.addListener(() {
+      setState(() {});
     });
 
     _controller.forward();
-
-
-
 
     super.initState();
   }
@@ -55,7 +55,10 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     final TextStyle infoLabelStyle = TextStyle(
-        color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w700);
+        color: Colors.grey[700],
+        fontSize: 18,
+        fontWeight: FontWeight.w700,
+        height: 0.8);
     return Material(
       color: Colors.transparent,
       child: Column(
@@ -78,7 +81,8 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
                             margin: EdgeInsets.only(right: 24, left: 24),
                             height: MediaQuery.of(context).size.height - 120,
                             width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(right: 16, left: 16, top: 16),
+                            padding:
+                                EdgeInsets.only(right: 16, left: 16, top: 16),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(10),
@@ -92,203 +96,237 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
                               ],
                             ),
                             child: carsSnapshot.hasData &&
-                                carsSnapshot.data.isNotEmpty
+                                    carsSnapshot.data.isNotEmpty
                                 ? StreamBuilder<Car>(
-                                stream: bloc.selectedCarStream,
-                                initialData: carsSnapshot.data[0],
-                                builder: (context, carSnapshot) {
-                                  return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    stream: bloc.selectedCarStream,
+                                    initialData: carsSnapshot.data[0],
+                                    builder: (context, carSnapshot) {
+                                      return Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.end,
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8.0),
-                                            child: Text(
-                                              'Estim Cost',
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ),
                                           Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              Text(
-                                                '${planingBloc.trip.estimationPrice()}',
-                                                style: TextStyle(
-                                                    color: Colors.grey[800],
-                                                    fontSize: 60,
-                                                    fontWeight: FontWeight.w700),
-                                              ),
-                                              Text(
-                                                '\$',
-                                                style: TextStyle(
-                                                    color: Colors.grey[800],
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.w700),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(20),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Column(
+                                                MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.end,
                                             children: <Widget>[
-                                              Text(
-                                                carSnapshot.data.name,
-                                                style: TextStyle(
-                                                    fontSize: 24,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.grey[800]),
-                                              ),
-                                              Text(
-                                                carSnapshot.data.driver.username,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.grey[600]),
-                                              ),
-                                            ],
-                                          ),
-                                          RateWidget(
-                                            carSnapshot.data.rate.toString(),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        height: 15,
-                                      ),
-                                      Wrap(
-                                        spacing: 4,
-                                        children:
-                                        carSnapshot.data.driver.driverLangs
-                                            .map((language) => LanguageTag(
-                                          text: Text(
-                                            language.language.name,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight:
-                                                FontWeight.w700),
-                                          ),
-                                        ))
-                                            .toList(),
-                                      ),
-                                      Container(
-                                        height: 40,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Column(
-                                              children: <Widget>[
-                                                Icon(
-                                                  FontAwesomeIcons.calendar,
-                                                  size: 28,
-                                                  color: Colors.grey[800],
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 8.0),
+                                                child: Text(
+                                                  MadarLocalizations.of(context)
+                                                      .trans('estim_cost'),
+                                                  style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      height: 0.5),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 8.0),
-                                                  child: Text(
-                                                      carSnapshot
-                                                          .data.productionDate
-                                                          .toString(),
-                                                      style: infoLabelStyle),
-                                                ),
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: Column(
+                                              ),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
                                                 children: <Widget>[
-                                                  Icon(
-                                                    FontAwesomeIcons.transgender,
-                                                    size: 28,
-                                                    color: Colors.grey[800],
+                                                  Text(
+                                                    '${planingBloc.trip.estimationPrice()}',
+                                                    style: TextStyle(
+                                                        color: Colors.grey[800],
+                                                        fontSize: 60,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        height: 0.5),
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                    const EdgeInsets.only(
-                                                        top: 8.0),
-                                                    child: Text(
-                                                        carSnapshot
-                                                            .data.driver.gender,
-                                                        style: infoLabelStyle),
+                                                  Text(
+                                                    '\$',
+                                                    style: TextStyle(
+                                                        color: Colors.grey[800],
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w700),
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                            Column(
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.all(20),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    carSnapshot.data.name,
+                                                    style: TextStyle(
+                                                        fontSize: 24,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.grey[800],
+                                                        height: 0.5),
+                                                  ),
+                                                  Text(
+                                                    carSnapshot
+                                                        .data.driver.username,
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: Colors.grey[600],
+                                                        height: 0.5),
+                                                  ),
+                                                ],
+                                              ),
+                                              RateWidget(
+                                                carSnapshot.data.rate
+                                                    .toString(),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            height: 15,
+                                          ),
+                                          Wrap(
+                                            spacing: 4,
+                                            children: carSnapshot
+                                                .data.driver.driverLangs
+                                                .map((language) => LanguageTag(
+                                                      text: Text(
+                                                        language.language.name,
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            height: 0.8),
+                                                      ),
+                                                    ))
+                                                .toList(),
+                                          ),
+                                          Container(
+                                            height: 40,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
                                               children: <Widget>[
-                                                Icon(
-                                                  FontAwesomeIcons.chair,
-                                                  size: 28,
-                                                  color: Colors.grey[800],
+                                                Column(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      FontAwesomeIcons.calendar,
+                                                      size: 28,
+                                                      color: Colors.grey[800],
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 8.0),
+                                                      child: Text(
+                                                          carSnapshot.data
+                                                              .productionDate
+                                                              .toString(),
+                                                          style:
+                                                              infoLabelStyle),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 8.0),
-                                                  child: Text(
-                                                      '${carSnapshot.data.numOfSeat.toString()} Seats',
-                                                      style: infoLabelStyle),
+                                                Expanded(
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        FontAwesomeIcons
+                                                            .transgender,
+                                                        size: 28,
+                                                        color: Colors.grey[800],
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(top: 8.0),
+                                                        child: Text(
+                                                            MadarLocalizations
+                                                                    .of(context)
+                                                                .trans(
+                                                                    carSnapshot
+                                                                        .data
+                                                                        .driver
+                                                                        .gender),
+                                                            style:
+                                                                infoLabelStyle),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Column(
+                                                  children: <Widget>[
+                                                    Icon(
+                                                      FontAwesomeIcons.chair,
+                                                      size: 28,
+                                                      color: Colors.grey[800],
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 8.0),
+                                                      child: Text(
+                                                          '${carSnapshot.data.numOfSeat.toString()} ' +
+                                                              MadarLocalizations
+                                                                      .of(
+                                                                          context)
+                                                                  .trans(
+                                                                      'seats'),
+                                                          style:
+                                                              infoLabelStyle),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                })
+                                          ),
+                                        ],
+                                      );
+                                    })
                                 : _topShimmer(),
                           ),
                           carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
                               ? StreamBuilder<int>(
-                              stream: bloc.indexStream,
-                              initialData: 0,
-                              builder: (context, indexSnapshot) {
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                      top: MediaQuery.of(context).size.height /
-                                          2.2),
-                                  height: MediaQuery.of(context).size.width / 2,
-                                  child: ListView.builder(
-                                    itemBuilder: (context, index) {
-                                      return CarCard(
-                                        car: carsSnapshot.data[index],
-                                        onTap: (car) {
-                                          bloc.selectCar(car, index);
-                                          planingBloc
-                                              .tripCar(carsSnapshot.data[index]);
+                                  stream: bloc.indexStream,
+                                  initialData: 0,
+                                  builder: (context, indexSnapshot) {
+                                    return Container(
+                                      margin: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              2.2),
+                                      height:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: ListView.builder(
+                                        itemBuilder: (context, index) {
+                                          return CarCard(
+                                            car: carsSnapshot.data[index],
+                                            onTap: (car) {
+                                              bloc.selectCar(car, index);
+                                              planingBloc.tripCar(
+                                                  carsSnapshot.data[index]);
+                                            },
+                                            selected:
+                                                index == indexSnapshot.data,
+                                          );
                                         },
-                                        selected: index == indexSnapshot.data,
-                                      );
-                                    },
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: carsSnapshot.data.length,
-                                  ),
-                                );
-                              })
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: carsSnapshot.data.length,
+                                      ),
+                                    );
+                                  })
                               : _listShimmer(),
                         ],
                       ),
@@ -301,7 +339,6 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
     );
   }
 
-
   _topShimmer() {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300],
@@ -311,30 +348,24 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
         children: <Widget>[
           Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            crossAxisAlignment:
-            CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(
-                    bottom: 8.0),
-                child: Container(
-                  height: 16,
-                  width: 30,
-                  color: Colors.grey[300],
-                )
-              ),
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Container(
+                    height: 16,
+                    width: 30,
+                    color: Colors.grey[300],
+                  )),
               Row(
                 mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
-                mainAxisAlignment:
-                MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Container(
                     height: 60,
-                      width: 40,
+                    width: 40,
                     color: Colors.grey[300],
                   ),
                   Text(
@@ -352,12 +383,10 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
             padding: EdgeInsets.all(20),
           ),
           Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
-                crossAxisAlignment:
-                CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
                     height: 24,
@@ -381,26 +410,23 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
           Container(
             height: 30,
           ),
-          Wrap(
-            spacing: 4,
-            children: [
-              Container(
-                height: 20,
-                width: 40,
-                color: Colors.grey[300],
-              ),
-              Container(
-                height: 20,
-                width: 40,
-                color: Colors.grey[300],
-              ),
-              Container(
-                height: 20,
-                width: 40,
-                color: Colors.grey[300],
-              ),
-            ]
-          ),
+          Wrap(spacing: 4, children: [
+            Container(
+              height: 20,
+              width: 40,
+              color: Colors.grey[300],
+            ),
+            Container(
+              height: 20,
+              width: 40,
+              color: Colors.grey[300],
+            ),
+            Container(
+              height: 20,
+              width: 40,
+              color: Colors.grey[300],
+            ),
+          ]),
           Container(
             height: 40,
           ),
@@ -416,8 +442,7 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
                       color: Colors.grey[300],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
                         height: 16,
                         width: 40,
@@ -435,9 +460,7 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
                         color: Colors.grey[300],
                       ),
                       Padding(
-                        padding:
-                        const EdgeInsets.only(
-                            top: 8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Container(
                           height: 16,
                           width: 40,
@@ -455,8 +478,7 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
                       color: Colors.grey[300],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
                         height: 16,
                         width: 40,
@@ -471,14 +493,11 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
         ],
       ),
     );
-
   }
 
   _listShimmer() {
     return Container(
-      margin: EdgeInsets.only(
-          top: MediaQuery.of(context).size.height /
-              2.2),
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.2),
       height: MediaQuery.of(context).size.width / 2,
       child: ListView.builder(
         itemBuilder: (context, index) {
@@ -501,5 +520,4 @@ class StepChooseCarState extends State<StepChooseCar> with TickerProviderStateMi
       ),
     );
   }
-
 }

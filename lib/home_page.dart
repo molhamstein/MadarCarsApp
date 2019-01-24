@@ -3,6 +3,7 @@ import 'package:madar_booking/animated_header.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_bloc.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/madar_fonts.dart';
 import 'package:madar_booking/models/Car.dart';
@@ -14,15 +15,14 @@ import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 
 class HomePage extends StatelessWidget {
+
+  static const String route = 'home_page';
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    return Material(
+      child: MyHomePage(),
     );
   }
 }
@@ -102,7 +102,6 @@ class _MyHomePageState extends State<MyHomePage> {
         initialData: [],
         stream: homeBloc.availableCarsStream,
         builder: (context, snapshot) {
-          print(snapshot.data);
           switch (snapshot.connectionState) {
             case ConnectionState.none:
               return Text("There is no connection");
@@ -163,7 +162,6 @@ class _MyHomePageState extends State<MyHomePage> {
           initialData: [],
           stream: homeBloc.predefindTripsStream,
           builder: (context, snapshot) {
-            print(snapshot.data);
             switch (snapshot.connectionState) {
               case ConnectionState.none:
                 return Text("There is no connection");
@@ -187,6 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(MadarLocalizations.of(context).locale.languageCode);
     return BlocProvider(
       bloc: homeBloc,
       child: Scaffold(
@@ -228,7 +227,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               alignment: Alignment(0, 0),
                               child: FlatButton(
                                 onPressed: () {
-                                  print("clicked");
                                   setState(() {
                                     flag = !flag;
                                   });

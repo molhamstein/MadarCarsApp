@@ -7,6 +7,7 @@ import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/feedback.dart';
 import 'package:madar_booking/home_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 
@@ -38,6 +39,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
   AppBloc appBloc;
   AuthBloc bloc;
 
+
   @override
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
@@ -48,71 +50,71 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<UserResponse>(
-      stream: bloc.submitSignUpStream,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            showInSnackBar(
-                snapshot.error.toString(), context);
-          });
-        }
-        if (snapshot.hasData) {
-          appBloc.saveUser(snapshot.data.user);
-          appBloc.saveToken(snapshot.data.token);
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (context) => HomePage()));
-          });
-        }
-        return Container(
-          padding: EdgeInsets.only(top: 23.0),
-          child: Column(
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.topCenter,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Card(
-                    elevation: 2.0,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Container(
-                      width: 300.0,
-                      height: 360.0,
-                      child: Column(
-                        children: <Widget>[
-                          nameTextField(),
-                          Container(
-                            width: 250.0,
-                            height: 1.0,
-                            color: Colors.grey[400],
-                          ),
-                          phoneTextField(),
-                          Container(
-                            width: 250.0,
-                            height: 1.0,
-                            color: Colors.grey[400],
-                          ),
-                          passwordTextField(),
-                          Container(
-                            width: 250.0,
-                            height: 1.0,
-                            color: Colors.grey[400],
-                          ),
-                          isoCodePicker(),
-                        ],
+        stream: bloc.submitSignUpStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError  && bloc.shouldShowFeedBack) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showInSnackBar(snapshot.error.toString(), context);
+            });
+          bloc.shouldShowFeedBack = false;
+          }
+          if (snapshot.hasData) {
+            appBloc.saveUser(snapshot.data.user);
+            appBloc.saveToken(snapshot.data.token);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pushReplacement(
+                  new MaterialPageRoute(builder: (context) => HomePage()));
+            });
+          }
+          return Container(
+            padding: EdgeInsets.only(top: 23.0),
+            child: Column(
+              children: <Widget>[
+                Stack(
+                  alignment: Alignment.topCenter,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Card(
+                      elevation: 2.0,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Container(
+                        width: 300.0,
+                        height: 360.0,
+                        child: Column(
+                          children: <Widget>[
+                            nameTextField(),
+                            Container(
+                              width: 250.0,
+                              height: 1.0,
+                              color: Colors.grey[400],
+                            ),
+                            phoneTextField(),
+                            Container(
+                              width: 250.0,
+                              height: 1.0,
+                              color: Colors.grey[400],
+                            ),
+                            passwordTextField(),
+                            Container(
+                              width: 250.0,
+                              height: 1.0,
+                              color: Colors.grey[400],
+                            ),
+                            isoCodePicker(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  signUpBtn(),
-                ],
-              ),
-            ],
-          ),
-        );
-      }
-    );
+                    signUpBtn(),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   Widget nameTextField() {
@@ -135,7 +137,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
             FontAwesomeIcons.user,
             color: Colors.black,
           ),
-          hintText: "Name",
+          hintText: MadarLocalizations.of(context).trans('name'),
           hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
         ),
       ),
@@ -161,7 +163,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
             FontAwesomeIcons.mobile,
             color: Colors.black,
           ),
-          hintText: "Phone Number",
+          hintText: MadarLocalizations.of(context).trans('phone_number'),
           hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
         ),
       ),
@@ -190,7 +192,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
                 FontAwesomeIcons.lock,
                 color: Colors.black,
               ),
-              hintText: "Password",
+              hintText: MadarLocalizations.of(context).trans('password'),
               hintStyle:
                   TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
               suffixIcon: GestureDetector(
@@ -208,19 +210,16 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
     );
   }
 
-
   Widget isoCodePicker() {
     return Padding(
         padding:
-        EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+            EdgeInsets.only(top: 6.0, bottom: 20.0, left: 25.0, right: 25.0),
         child: CountryCodePicker(
           favorite: ['SY', 'TR'],
           initialSelection: 'SY',
           onChanged: bloc.changeSignUpIsoCode,
-        )
-    );
+        ));
   }
-
 
   Widget signUpBtn() {
     return Container(
@@ -229,18 +228,26 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
         stream: bloc.submitValidSignUp,
         initialData: false,
         builder: (context, snapshot) {
-          return MainButton(
-            text: 'Submit',
-            onPressed: () {
-              if (!snapshot.hasData || !snapshot.data) {
-                showInSnackBar('Please provide valid information', context);
-              } else
-                bloc.submitSignUp();
-            },
-            width: 150,
-            height: 50,
-            loading: snapshot.data,
-          );
+          return StreamBuilder<bool>(
+              stream: bloc.loadingStream,
+              initialData: true,
+              builder: (context, loadingSnapshot) {
+                return MainButton(
+                  text: MadarLocalizations.of(context).trans('submit'),
+                  onPressed: () {
+                    if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
+                      showInSnackBar(
+                          'Please provide valid information', context);
+                    bloc.shouldShowFeedBack = false;
+                    } else
+                      bloc.submitSignUp();
+                  },
+                  width: 150,
+                  height: 50,
+                  loading: (snapshot.data == null ? false : snapshot.data) &&
+                      loadingSnapshot.data,
+                );
+              });
         },
       ),
     );

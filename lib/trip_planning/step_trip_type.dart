@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/TripTypeTile.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
 class TripTypeStep extends StatefulWidget {
@@ -56,7 +57,7 @@ class TripTypeStepState extends State<TripTypeStep> with TickerProviderStateMixi
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Tell us what do you need',
+                    MadarLocalizations.of(context).trans('step_two_title'),
                     style: TextStyle(
                         color: Colors.black87, fontWeight: FontWeight.w700, fontSize: 16),
                   ),
@@ -65,7 +66,7 @@ class TripTypeStepState extends State<TripTypeStep> with TickerProviderStateMixi
                 Transform.translate(
                   offset: _offsetFloat.value,
                   child: TripTypeTile(
-                    title: 'Pickup from Airport',
+                    title: MadarLocalizations.of(context).trans('pickup_from_airport'),
                     iconData: FontAwesomeIcons.planeArrival,
                     onChecked: bloc.fromAirport,
                     checked: bloc.trip.fromAirport,
@@ -74,7 +75,7 @@ class TripTypeStepState extends State<TripTypeStep> with TickerProviderStateMixi
                 Transform.translate(
                   offset: _offsetFloat.value * 1.2,
                   child: TripTypeTile(
-                    title: 'Rent a car for city tour',
+                    title: MadarLocalizations.of(context).trans('rent_car_for_city_tour'),
                     iconData: FontAwesomeIcons.car,
                     onChecked: bloc.cityTour,
                     checked: bloc.trip.inCity,
@@ -83,7 +84,7 @@ class TripTypeStepState extends State<TripTypeStep> with TickerProviderStateMixi
                 Transform.translate(
                   offset: _offsetFloat.value * 1.4,
                   child: TripTypeTile(
-                    title: 'Pickup back to Airport',
+                    title: MadarLocalizations.of(context).trans('pickup_to_airport'),
                     iconData: FontAwesomeIcons.planeDeparture,
                     onChecked: bloc.toAirport,
                     checked: bloc.trip.toAirport,
@@ -92,7 +93,7 @@ class TripTypeStepState extends State<TripTypeStep> with TickerProviderStateMixi
                 Padding(
                   padding: const EdgeInsets.all(48.0),
                   child: Text(
-                    'Don\'t know how to plan a trip and need help?',
+                    MadarLocalizations.of(context).trans('trip_planing_question'),
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16),
                     textAlign: TextAlign.center,

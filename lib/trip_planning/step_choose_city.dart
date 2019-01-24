@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/city_radio_tile.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_city_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
@@ -60,7 +61,7 @@ class ChooseCityStepState extends State<ChooseCityStep> with TickerProviderState
             Padding(
               padding: const EdgeInsets.only(bottom: 32.0, left: 60, right: 60),
               child: Text(
-                'What city are you planing to visit?',
+                MadarLocalizations.of(context).trans('step_one_title'),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Colors.black87,
@@ -109,7 +110,7 @@ class ChooseCityStepState extends State<ChooseCityStep> with TickerProviderState
                                       CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          snapshot.data.nameEn,
+                                          snapshot.data.name(MadarLocalizations.of(context).locale),
                                           style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 22,
@@ -119,7 +120,7 @@ class ChooseCityStepState extends State<ChooseCityStep> with TickerProviderState
                                           padding:
                                           const EdgeInsets.only(top: 16.0),
                                           child: Text(
-                                            snapshot.data.descriptionEn,
+                                            snapshot.data.description(MadarLocalizations.of(context).locale),
                                             style: TextStyle(
                                                 color: Colors.black54,
                                                 fontSize: 16,

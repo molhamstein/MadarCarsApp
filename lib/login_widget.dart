@@ -5,6 +5,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/step2_sign_up.dart';
@@ -36,6 +37,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
+
     return StreamBuilder<UserResponse>(
       // feedback the user about the server response.
       stream: bloc.submitLoginStream,
@@ -94,7 +96,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                 child: FlatButton(
                     onPressed: () {},
                     child: Text(
-                      "Forgot Password?",
+                      MadarLocalizations.of(context).trans('forgot_password'),
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: Colors.white,
@@ -125,7 +127,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                     Padding(
                       padding: EdgeInsets.only(left: 15.0, right: 15.0),
                       child: Text(
-                        "Or",
+                        MadarLocalizations.of(context).trans('or'),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.0,
@@ -154,7 +156,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 10.0, right: 40.0),
+                    padding: EdgeInsets.only(top: 10.0, right: 40.0, left: 40),
                     child: GestureDetector(
                       onTap: () => bloc.loginWithFacebook(),
                       child: StreamBuilder<FacebookUser>(
@@ -195,7 +197,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10.0),
+                    padding: EdgeInsets.only(top: 10.0, left: 40, right: 40.0,),
                     child: GestureDetector(
 //                  onTap: () => showInSnackBar("Google button pressed"),
                       child: Container(
@@ -246,7 +248,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   color: Colors.black,
                   size: 22.0,
                 ),
-                hintText: "Phone Number",
+                hintText: MadarLocalizations.of(context).trans('phone_number'),
                 hintStyle:
                     TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
               ),
@@ -286,7 +288,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                       color: Colors.black,
                     ),
                     errorText: passwordSnapshot.error,
-                    hintText: "Password",
+                    hintText: MadarLocalizations.of(context).trans('password'),
                     hintStyle: TextStyle(
                         fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                     suffixIcon: GestureDetector(
@@ -317,11 +319,12 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
             initialData: true,
             builder: (context, loadingSnapshot) {
               return MainButton(
-                text: 'Submit',
+                text: MadarLocalizations.of(context).trans('submit'),
                 onPressed: () {
-                  if (!snapshot.data) {
+                  if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                     showInSnackBar(
                         'Provide a valid phone number or password', context, color: Colors.redAccent);
+                    bloc.shouldShowFeedBack = false;
                   } else
                     bloc.submitLogin();
                 },
