@@ -3,10 +3,10 @@ import 'dart:async';
 mixin Validators {
   final validatePhone = StreamTransformer<String, String>.fromHandlers(
       handleData: (phoneNumber, sink) {
-    if (phoneNumber.length >= 8) {
+    if (phoneNumber.length >= 10 && (phoneNumber.startsWith('00') || phoneNumber.startsWith('+'))) {
       sink.add(phoneNumber);
     } else {
-      sink.addError('Enter a Valid Phone Number');
+      sink.addError('Enter a Valid Phone Number (ex: 00963... or +963...)');
     }
   });
 
