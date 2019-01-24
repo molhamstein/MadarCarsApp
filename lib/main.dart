@@ -73,7 +73,7 @@ class MyAppState extends State<MyApp> {
                   (Locale locale, Iterable<Locale> supportedLocales) {
                 for (Locale supportedLocale in supportedLocales) {
                   if (locale != null) if (supportedLocale.languageCode ==
-                      locale.languageCode ||
+                          locale.languageCode ||
                       supportedLocale.countryCode == locale.countryCode) {
                     print(supportedLocale);
                     return supportedLocale;
@@ -89,6 +89,7 @@ class MyAppState extends State<MyApp> {
               initialRoute: '/',
               routes: {
                 '/': (context) => LandingPage(),
+                HomePage.route: (context) => HomePage(),
               },
               // home: TripPlanningPage(),
             );
@@ -108,8 +109,7 @@ class LandingPage extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(
-                  new MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.of(context).pushReplacementNamed(HomePage.route);
             });
           } else {
             WidgetsBinding.instance.addPostFrameCallback((_) {
