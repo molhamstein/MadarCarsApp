@@ -43,7 +43,7 @@
   "step_two_title" : "Tell us what you need",
   "step_three_title" : "Select below the dates when you need the car",
   "step_four_title" : "ما هي المدينة التي تخطط لزيارتها؟",
-  "step_five_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_five_title" : "You can also extend your trip to the following cities.",
   "pickup_from_airport" : "Pickup from Airport",
   "rent_car_for_city_tour" : "Rent a car for city tour",
   "pickup_to_airport" : "pickup back to Airport",
@@ -54,7 +54,9 @@
   "seats" : "Seats",
   "male" : "Male",
   "female" : "Female",
-  "trip_created_successfully" : "Your car will be waiting for you"
+  "trip_created_successfully" : "Your car will be waiting for you",
+  "days" : "days"
+
 
 
 }

@@ -42,8 +42,7 @@
   "step_one_title" : "ما هي المدينة التي تخطط لزيارتها؟",
   "step_two_title" : "اخبرنا ماذا تريد",
   "step_three_title" : "اختر المدة التي تريد فيها السيارة",
-  "step_four_title" : "ما هي المدينة التي تخطط لزيارتها؟",
-  "step_five_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_five_title" : "تسطيع ايضا تمديد رحلتك في المدن التالية",
   "pickup_from_airport" : "توصيل من المطار",
   "rent_car_for_city_tour" : "رحلة في المدينة",
   "pickup_to_airport" : "توصيل الى المطار",
@@ -54,7 +53,9 @@
   "seats" : "مقاعد",
   "male" : "ذكر",
   "female" : "انثى",
-  "trip_created_successfully" : "سيارتك ستكون بانتظارك!"
+  "trip_created_successfully" : "سيارتك ستكون بانتظارك!",
+  "days" : "ايام"
+
 
 
 
