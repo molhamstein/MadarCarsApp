@@ -84,10 +84,7 @@ class TripPlaningBloc extends BaseBloc with Network {
           index = 4;
         }
       }
-    } else {
-      showFeedback = true;
-      _feedbackController.sink.addError('Please fill the missing data');
-    }
+    } else {}
     if (index == 0 || index == 1 || index == 2) {
       done = false;
       pushLoading(false);
@@ -96,6 +93,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   }
 
   _shouldNav() {
+
     if (index == 0) {
       if (trip.location != null) {
         return true;
@@ -103,16 +101,28 @@ class TripPlaningBloc extends BaseBloc with Network {
       return false;
     } else if (index == 1) {
       if (!trip.toAirport && !trip.fromAirport && !trip.inCity) {
+        showFeedback = true;
+        _feedbackController.sink.addError('error_fill_missing');
         return false;
       }
       return true;
-    } else if (index == 3) {
+    } else if (trip.endDate.isBefore(trip.startDate)) {
+      showFeedback = true;
+      _feedbackController.sink.addError('error_end_date_before_start_date');
+      return false;
+    }
+
+    else if (index == 3) {
       if (trip.car != null) {
         return true;
       }
-      return false;
-    } else {
-      return true;
+      else {
+        showFeedback = true;
+        _feedbackController.sink.addError('error_fill_missing');
+      }
+    return false;
+  } else {
+    return true;
     }
   }
 

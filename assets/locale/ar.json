@@ -42,8 +42,7 @@
   "step_one_title" : "ما هي المدينة التي تخطط لزيارتها؟",
   "step_two_title" : "اخبرنا ماذا تريد",
   "step_three_title" : "اختر المدة التي تريد فيها السيارة",
-  "step_four_title" : "ما هي المدينة التي تخطط لزيارتها؟",
-  "step_five_title" : "ما هي المدينة التي تخطط لزيارتها؟",
+  "step_five_title" : "تسطيع ايضا تمديد رحلتك في المدن التالية",
   "pickup_from_airport" : "توصيل من المطار",
   "rent_car_for_city_tour" : "رحلة في المدينة",
   "pickup_to_airport" : "توصيل الى المطار",
@@ -54,7 +53,19 @@
   "seats" : "مقاعد",
   "male" : "ذكر",
   "female" : "انثى",
-  "trip_created_successfully" : "سيارتك ستكون بانتظارك!"
+  "trip_created_successfully" : "سيارتك ستكون بانتظارك!",
+  "days" : "ايام",
+  "error_fill_missing" : "يرجى استيفاء المعلومات المطلوبة",
+  "error_end_date_before_start_date" : "تاريخ الانتهاء قبل تاريخ البداية",
+  "trip_added_successfully" : "تم اضافة الرحلة بنجاح!",
+  "error_car_not_available" : "السيارة التي قمت باختيارها غير متوفرة",
+  "error_provide_valid_info" : "يرجى ادخال معلومات صحيحة",
+  "error_valid_phone_number" : "رقم الهاتف غير صحيح",
+  "error_valid_password" : "على الاقل ٦ احرف",
+  "error_valid_name" : "ادخل اسم حقيقي",
+  "error_wrong_credentials" : "كلمة السر او رقم الهاتف غير صحيح"
+
+
 
 
 

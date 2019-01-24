@@ -4,6 +4,7 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/auth_page.dart';
 import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
+import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 import 'package:madar_booking/trip_planning/step_choose_city.dart';
@@ -84,7 +85,7 @@ class MyAppState extends State<MyApp> {
                 return supportedLocales.first;
               },
               title: 'Flutter Demo',
-              theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'cairo'),
+              theme: ThemeData(primaryColor: MadarColors.gradientDown, fontFamily: 'cairo'),
               initialRoute: '/',
               routes: {
                 '/': (context) => LandingPage(),

@@ -3,6 +3,7 @@
 //     final car = carFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ui';
 import 'package:madar_booking/models/Brand.dart';
 import 'package:madar_booking/models/Driver.dart';
 import 'package:madar_booking/models/media.dart';
@@ -251,6 +252,14 @@ class SubLocation {
         "media": media == null ? null : media.toJson(),
         "location": location == null ? null : location.toJson(),
       };
+
+
+  String name(Locale locale) {
+    if(locale.languageCode == 'en') {
+      return nameEn;
+    } return nameAr;
+   }
+
 }
 
 class EnumValues<T> {

@@ -120,7 +120,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                       .trans('estim_cost'),
                                                   style: TextStyle(
                                                       color: Colors.black87,
-                                                      fontSize: 24,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       height: 0.5),

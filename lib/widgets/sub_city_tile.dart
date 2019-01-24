@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/location.dart';
@@ -68,7 +69,7 @@ class SubCityTileState extends State<SubCityTile> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    widget.subLocationResponse.subLocation.nameEn,
+                    widget.subLocationResponse.subLocation.name(MadarLocalizations.of(context).locale),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -119,7 +120,7 @@ class SubCityTileState extends State<SubCityTile> {
                             padding:
                                 const EdgeInsets.only(left: 4.0, bottom: 10),
                             child: Text(
-                              'days',
+                              MadarLocalizations.of(context).trans('days'),
                               style:
                                   TextStyle(color: Colors.white, fontSize: 12),
                             ),
@@ -161,38 +162,22 @@ class SubCityTileState extends State<SubCityTile> {
             alignment: Alignment.centerRight,
             child: Container(
               margin: EdgeInsets.only(left: 8, right: 8, top: 12),
-              padding: EdgeInsets.only(left: 12, right: 12, top: 3, bottom: 3),
+              padding: EdgeInsets.only(left: 12, right: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.grey[800],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    FontAwesomeIcons.plus,
-                    size: 10,
-                    color: Colors.white,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 4.0),
-                    child: Text(
-                      widget.subLocationResponse.cost.toString(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      '\$',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    '${widget.subLocationResponse.cost.toString()} \$',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16, height: 0.7),
                   ),
                 ],
               ),

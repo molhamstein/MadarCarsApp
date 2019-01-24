@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_sub_city_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
@@ -66,10 +67,10 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                       padding: const EdgeInsets.only(
                           bottom: 8.0),
                       child: Text(
-                        'Estim Cost',
+                        MadarLocalizations.of(context).trans('estim_cost'),
                         style: TextStyle(
                             color: Colors.black87,
-                            fontSize: 24,
+                            fontSize: 18,
                             fontWeight: FontWeight.w700),
                       ),
                     ),
@@ -89,7 +90,7 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                               style: TextStyle(
                                   color: Colors.grey[800],
                                   fontSize: 60,
-                                  fontWeight: FontWeight.w700),
+                                  fontWeight: FontWeight.w700, height: 0.5),
                             );
                           }
                         ),
@@ -106,8 +107,8 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.only(top: 30, right: 32),
-                  child: Text('You can also extend your trip to the following cities.', style: TextStyle(color: Colors.grey[700], fontSize: 20, fontWeight: FontWeight.w600),),
+                  padding: const EdgeInsets.only(top: 30, right: 32, left: 32),
+                  child: Text(MadarLocalizations.of(context).trans('step_five_title'), style: TextStyle(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w600, height: 0.8),),
                 ),
 
                 StreamBuilder<List<SubLocationResponse>>(
