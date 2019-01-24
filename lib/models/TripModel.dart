@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 import 'location.dart';
-import 'Image.dart';
+import 'media.dart';
 import 'TripsSublocation.dart';
 
 List<TripModel> tripFromJson(String str) {

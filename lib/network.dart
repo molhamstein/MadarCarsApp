@@ -3,16 +3,19 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:async/async.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/location.dart';
+import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:path/path.dart';
+import 'package:dio/dio.dart';
 
 class Network {
   Map<String, String> headers = {
@@ -20,8 +23,8 @@ class Network {
     'Accept': 'application/json',
   };
 
-  static final String _baseUrl = 'http://104.217.253.15:3006/api/';
-//  static final String _baseUrl = 'https://www.jawlatcom.com:3000/api/';
+  // static final String _baseUrl = 'http://104.217.253.15:3006/api/';
+  static final String _baseUrl = 'https://www.jawlatcom.com/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _signUpUrl = _baseUrl + 'users';
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
@@ -38,6 +41,7 @@ class Network {
   final String _invoiceUrl = _baseUrl + 'outerBills/getouterBill/';
   final String _meUrl = _baseUrl + 'users/me';
   final String _userUrl = _baseUrl + 'users/';
+  final String _uploadMediaUrl = _baseUrl + 'uploadFiles/image/upload';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -78,12 +82,13 @@ class Network {
   }
 
   Future<User> updateUser(String userId, String phoneNumber, String userName,
-      String isoCode, String token) async {
+      String isoCode, String token, String imageId) async {
     headers['Authorization'] = token;
     final body = json.encode({
       'phoneNumber': phoneNumber,
       'name': userName,
-      'ISOCode': isoCode.toUpperCase()
+      'ISOCode': isoCode.toUpperCase(),
+      'mediaId': imageId
     });
     final response =
         await http.put(_userUrl + userId, body: body, headers: headers);
@@ -341,25 +346,69 @@ class Network {
   }
 
   // upload image
-  Upload(File imageFile) async {
-    var stream =
-        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    var length = await imageFile.length();
+  Future<Media> upload(File imageFile, token) async {
+    headers['Authorization'] = token;
+    // var stream =
+    //     new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    // var length = await imageFile.length();
 
-    var uri = Uri.parse(_baseUrl);
+    // var uri = Uri.parse(_uploadMediaUrl);
 
-    var request = new http.MultipartRequest("POST", uri);
-    var multipartFile = new http.MultipartFile('file', stream, length,
-        filename: basename(imageFile.path));
-    //contentType: new MediaType('image', 'png'));
-    request.files.add(multipartFile);
-    var response = await request.send();
-    print(response.statusCode);
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });
+    // var request = new http.MultipartRequest("POST", uri);
+    // print(imageFile.path);
+    // var multipartFile = new http.MultipartFile('file', stream, length,
+    //     filename: basename(imageFile.path),
+    //     contentType: new MediaType('image', 'jpeg'));
+    // request.headers.addAll(headers);
+    // //contentType: new MediaType('image', 'png'));
+    // request.files.add(multipartFile);
+    // var response = await request.send();
+    // await request.send().then((response) {
+    //   if (response.statusCode == 200) {
+    //     print(response);
+    //     return Media.fromJson(json.decode(response.toString()));
+    //   } else {
+    //     print(json.decode(response.toString()));
+    //     throw json.decode(response.toString());
+    //   }
+    // });
+    // print(response.statusCode);
+
+    // response.stream.transform(utf8.decoder).listen((value) {
+    //   print(value);
+    //   var medias = mediasFromJson(json.decode(value));
+    //   return medias[0];
+    // });
+
+    Dio dio = new Dio();
+    FormData formdata = new FormData(); // just like JS
+    formdata.add(
+        "file", new UploadFileInfo(imageFile, basename(imageFile.path)));
+    var response = await dio
+        .post(_uploadMediaUrl,
+            data: formdata,
+            options: Options(
+                method: 'POST',
+                responseType: ResponseType.JSON,
+                headers: headers // or ResponseType.JSON
+                ))
+        //.then((response) => print(response.data))
+        .catchError((error) => print(error));
+    if (response.statusCode == 200) {
+      print(json.decode(response.data));
+      return Media.fromJson(json.decode(response.data));
+    } else {
+      print(json.decode(response.data));
+      throw json.decode(response.data);
+    }
   }
 }
+//     print(response.statusCode);
+//     response.stream.transform(utf8.decoder).listen((value) {
+//       print(value);
+//       var medias = mediasFromJson(json.decode(value));
+//       return medias[0];
+//     });
 
 mixin ErrorCodes {
   static const int LOGIN_FAILED = 401;

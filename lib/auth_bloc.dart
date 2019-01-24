@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
@@ -35,6 +37,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _submitLoginController = PublishSubject<UserResponse>();
   final _submitSignUpController = BehaviorSubject<UserResponse>();
   final _submitUpdateUserController = BehaviorSubject<User>();
+  final _uploadMediaContoller = BehaviorSubject<Media>();
 
   final _lockTouchEventController = BehaviorSubject<bool>();
 
@@ -174,14 +177,26 @@ class AuthBloc extends BaseBloc with Validators, Network {
     });
   }
 
-  submitUpdateUser(userId, token) {
+  updateImage(File image, token, userId) {
+    upload(image, token).then((response) {
+      print(response);
+      _uploadMediaContoller.sink.add(response);
+      submitUpdateUser(userId, token, response.id);
+    }).catchError((e) {
+      _uploadMediaContoller.sink.addError(e);
+    });
+  }
+
+  submitUpdateUser(userId, token, imageId) {
     final validUserName = _nameSignUpController.value;
     final validPhoneNumber = _phoneSignUpController.value;
     final validIsoCode = _isoCodeSignUpController.value.code;
     pushLockTouchEvent;
 
-    updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token)
+    updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token,
+            imageId)
         .then((user) {
+      print(user);
       // login(validPhoneNumber, validPassword).then((response) {
       _submitUpdateUserController.sink.add(user);
       // }).catchError((e) {
@@ -249,6 +264,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     _submitSignUpController.close();
     _facebookLoginController.close();
     _loadingController.close();
+    _uploadMediaContoller.close();
   }
 }
 

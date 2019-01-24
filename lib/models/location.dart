@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:madar_booking/models/Image.dart';
+import 'package:madar_booking/models/media.dart';
 
 class Location {
   String descriptionEn;
@@ -19,7 +19,6 @@ class Location {
   List<dynamic> slideMedia;
   List<String> subLocationsIds;
 
-
   Location({
     this.descriptionEn,
     this.descriptionAr,
@@ -36,7 +35,6 @@ class Location {
     this.media,
     this.slideMedia,
     this.subLocationsIds,
-
   });
 
   factory Location.fromJson(Map<String, dynamic> json) =>
@@ -102,6 +100,7 @@ class Location {
   }
 
 }
+
 class LocationsResponse {
   final List<Location> locations;
 

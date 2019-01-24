@@ -28,7 +28,7 @@ dependencies:
   shimmer: ^1.0.0
   flutter_localizations:
     sdk: flutter
-
+  dio:
 dev_dependencies:
   flutter_test:
     sdk: flutter
