@@ -148,7 +148,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
     } else if (i == 3) {
       return MadarLocalizations.of(context).trans('choose_car');
     } else if (i == 4) {
-      return MadarLocalizations.of(context).trans('extends_your_trip');
+      return MadarLocalizations.of(context).trans('extend_your_trip');
     } else {
       return '';
     }
