@@ -49,7 +49,13 @@
   "pickup_to_airport" : "توصيل الى المطار",
   "trip_planing_question" : "لا تعرف كيف تخطط رحلتك؟",
   "end_date" : "الانتهاء",
-  "start_date" : "البداية"
+  "start_date" : "البداية",
+  "estim_cost" : "السعر التقريبي",
+  "seats" : "مقاعد",
+  "male" : "ذكر",
+  "female" : "انثى"
+
+
 
 
 

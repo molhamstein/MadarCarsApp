@@ -49,7 +49,11 @@
   "pickup_to_airport" : "pickup back to Airport",
   "trip_planing_question" : "Don't know how to plan a trip and need help?",
   "end_date" : "End Date",
-  "start_date" : "Start Date"
+  "start_date" : "Start Date",
+  "estim_cost" : "Estim Cost",
+  "seats" : "Seats",
+  "male" : "Male",
+  "female" : "Female"
 
 
 
