@@ -37,7 +37,7 @@ class Location {
         descriptionEn:
             json["descriptionEn"] == null ? null : json["descriptionEn"],
         descriptionAr:
-            json["descripstionAr"] == null ? null : json["descriptionAr"],
+            json["descriptionAr"] == null ? null : json["descriptionAr"],
         descriptionTr:
             json["descriptionTr"] == null ? null : json["descriptionTr"],
         nameEn: json["nameEn"] == null ? null : json["nameEn"],
