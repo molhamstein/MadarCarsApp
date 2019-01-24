@@ -31,7 +31,16 @@
   "edit_password" : "Edit Password",
   "trip" : "Trip",
   "me" : "Me",
-  "or" : "Or"
+  "or" : "Or",
+  "next" : "Next",
+  "done" : "Done",
+  "choose_city" : "Choose City",
+  "choose_type" : "Choose Type",
+  "choose_date" : "Choose Date",
+  "choose_car" : "Choose Car",
+  "extend_your_trip" : "Extend your trip",
+  "step_one_title" : "What city are you planing to visit?"
+
 
 
 }

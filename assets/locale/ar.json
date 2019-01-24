@@ -31,7 +31,17 @@
   "edit_password" : "تعديل كلمة المرور",
   "trip" : "رحلة",
   "me" : "أنا",
-  "or" : "أو"
+  "or" : "أو",
+  "next" : "التالي",
+  "done" : "تم",
+  "choose_city" : "اختر مدينة",
+  "choose_type" : "اختر نوع",
+  "choose_date" : "اختر تاريخ",
+  "choose_car" : "اختر سيارة",
+  "extend_your_trip" : "مزيد",
+  "step_one_title" : "ما هي المدينة التي تخطط لزيارتها؟"
+
+
 
 
 }

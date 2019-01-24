@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/location.dart';
 
@@ -65,7 +66,7 @@ class CityRadioTile extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    location.nameEn,
+                    location.name(MadarLocalizations.of(context).locale),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
