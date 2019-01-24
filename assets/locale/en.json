@@ -8,7 +8,7 @@
   "existing" : "Existing",
   "signup" : "Sign Up",
   "login" : "Login",
-  "user_name" : "Name",
+  "name" : "Name",
   "password" : "Password",
   "email" : "Email",
   "forgot_password" : "Forgot Password?",

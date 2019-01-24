@@ -137,7 +137,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
             FontAwesomeIcons.user,
             color: Colors.black,
           ),
-          hintText: "Name",
+          hintText: MadarLocalizations.of(context).trans('name'),
           hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
         ),
       ),
@@ -163,7 +163,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
             FontAwesomeIcons.mobile,
             color: Colors.black,
           ),
-          hintText: "Phone Number",
+          hintText: MadarLocalizations.of(context).trans('phone_number'),
           hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
         ),
       ),
@@ -192,7 +192,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
                 FontAwesomeIcons.lock,
                 color: Colors.black,
               ),
-              hintText: "Password",
+              hintText: MadarLocalizations.of(context).trans('password'),
               hintStyle:
                   TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
               suffixIcon: GestureDetector(
@@ -213,7 +213,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
   Widget isoCodePicker() {
     return Padding(
         padding:
-            EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+            EdgeInsets.only(top: 6.0, bottom: 20.0, left: 25.0, right: 25.0),
         child: CountryCodePicker(
           favorite: ['SY', 'TR'],
           initialSelection: 'SY',
@@ -233,7 +233,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
               initialData: true,
               builder: (context, loadingSnapshot) {
                 return MainButton(
-                  text: 'Submit',
+                  text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
                     if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                       showInSnackBar(
