@@ -46,9 +46,10 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       child: WillPopScope(
         onWillPop: () {
           if (bloc.index == 0) {
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
           } else
-            bloc.navBackward;
+            Navigator.of(context).pop(false);
+          bloc.navBackward;
         },
         child: StreamBuilder<bool>(
             stream: bloc.loadingStream,

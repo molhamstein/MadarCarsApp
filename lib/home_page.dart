@@ -159,27 +159,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        // FutureBuilder<List<TripModel>>(
-        //   future: Network().getPredifinedTrips(appBloc.token),
-        //   builder: (context, snapshot) {
-        //     switch (snapshot.connectionState) {
-        //       case ConnectionState.none:
-        //         return Text("There is no connection");
-        //       case ConnectionState.waiting:
-        //         return Container(
-        //             height: 190,
-        //             child: Center(child: CircularProgressIndicator()));
-        //       default:
-        //         if (snapshot.hasError) {
-        //           return Text("Error: ${snapshot.error}");
-        //         } else {
-        //           this.trips = snapshot.data;
-        //           return _tripCardContainerList();
-        //         }
-        //     }
-        //   },
-        // )
-
         StreamBuilder<List<TripModel>>(
           initialData: [],
           stream: homeBloc.predefindTripsStream,
@@ -222,42 +201,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               // homeScreen content
               children: <Widget>[
-                // Container(
-                //   height: 50,
-                // ),
-                // Container(
-                //   padding: EdgeInsets.all(8),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: <Widget>[
-                //       Expanded(
-                //         child: Padding(
-                //           padding: const EdgeInsets.only(left: 42.0),
-                //           child: Align(
-                //             alignment: Alignment.center,
-                //             child: Text(
-                //               "Hello ${appBloc.userName}",
-                //               style: TextStyle(
-                //                 fontSize: AppFonts.large_font_size,
-                //                 fontWeight: FontWeight.bold,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //       IconButton(
-                //         icon: Icon(Icons.person),
-                //         onPressed: () {
-                //           Navigator.of(context).push(
-                //             MaterialPageRoute(
-                //               builder: (context) => ProfilePage(),
-                //             ),
-                //           );
-                //         },
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 Container(
                   color: Colors.transparent,
                   height: 125,
