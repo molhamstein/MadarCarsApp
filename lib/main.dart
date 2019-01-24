@@ -3,11 +3,13 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/auth_page.dart';
 import 'package:madar_booking/home_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 import 'package:madar_booking/trip_planning/step_choose_city.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'DataStore.dart';
+import 'package:flutter\_localizations/flutter\_localizations.dart';
 
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -46,9 +48,7 @@ class MyAppState extends State<MyApp> {
           stream: bloc.logOutStream,
           initialData: false,
           builder: (context, snapshot) {
-            print(snapshot.data);
             if (snapshot.data) {
-              print('adsasdasadsadsads');
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 setState(() {
                   bloc.pushStopLoop;
@@ -59,6 +59,29 @@ class MyAppState extends State<MyApp> {
 
             return MaterialApp(
               key: key,
+              debugShowCheckedModeBanner: false,
+              supportedLocales: [
+                const Locale('en', 'US'),
+                const Locale('ar', ''),
+              ],
+              localizationsDelegates: [
+                const MadarLocalizationsDelegate(),
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              localeResolutionCallback:
+                  (Locale locale, Iterable<Locale> supportedLocales) {
+                for (Locale supportedLocale in supportedLocales) {
+                  if (locale != null) if (supportedLocale.languageCode ==
+                      locale.languageCode ||
+                      supportedLocale.countryCode == locale.countryCode) {
+                    print(supportedLocale);
+                    return supportedLocale;
+                  }
+                }
+
+                return supportedLocales.first;
+              },
               title: 'Flutter Demo',
               theme: ThemeData(
                 primarySwatch: Colors.blue,
