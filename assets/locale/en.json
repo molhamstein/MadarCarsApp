@@ -53,8 +53,8 @@
   "estim_cost" : "Estim Cost",
   "seats" : "Seats",
   "male" : "Male",
-  "female" : "Female"
-
+  "female" : "Female",
+  "trip_created_successfully" : "Your car will be waiting for you"
 
 
 }
