@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/date_picker.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/vertical_devider.dart';
 
@@ -92,7 +93,7 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Text('Select below the dates when you need the car',
+                        Text(MadarLocalizations.of(context).trans('step_three_title'),
                           style: TextStyle(fontSize: 16,
                               color: Colors.grey[600],
                               fontWeight: FontWeight.w700),),
@@ -126,7 +127,7 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
 
   _startDate() {
     return DatePicker(
-      title: 'Start Date',
+      title: MadarLocalizations.of(context).trans('start_date'),
       withTimePicker: fromAirport,
       onDateChanged: bloc.startDateChanged,
       date: bloc.trip.startDate,
@@ -135,10 +136,11 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
 
   _endDate() {
     return DatePicker(
-      title: 'End Date',
+      title: MadarLocalizations.of(context).trans('end_date'),
       withTimePicker: toAirport,
       onDateChanged: bloc.endDateChanged,
       date: bloc.trip.endDate,
+
     );
   }
 }

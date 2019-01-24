@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:madar_booking/madar_colors.dart';
 import 'package:intl/intl.dart';
+import 'package:madar_booking/madar_colors.dart';
+import 'dart:ui' as ui;
 
 class DatePicker extends StatefulWidget {
   final double size;
@@ -37,68 +38,70 @@ class DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          widget.title,
-          style: TextStyle(
-              fontSize: widget.size * 0.42,
-              fontWeight: FontWeight.w700,
-              color: Colors.black87),
-        ),
-        Padding(
-          padding: EdgeInsets.all(4),
-        ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: _selectDate,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  _selectedDate.day.toString(),
-                  style: TextStyle(
-                      fontSize: widget.size,
-                      fontWeight: FontWeight.w700,
-                      color: MadarColors.dark_grey),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(4),
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      DateFormat.MMM().format(_selectedDate),
-                      style: TextStyle(
-                          fontSize: widget.size * 0.53,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.grey[600]),
-                    ),
-                    Text(
-                      DateFormat.y().format(_selectedDate),
-                      style: TextStyle(
-                          fontSize: widget.size * 0.34,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey[600]),
-                    ),
-                  ],
-                )
-              ],
+    return Directionality(
+      textDirection: ui.TextDirection.ltr,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            widget.title,
+            style: TextStyle(
+                fontSize: widget.size * 0.42,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87, height: 0.5),
+          ),
+          Padding(
+            padding: EdgeInsets.all(4),
+          ),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: _selectDate,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    _selectedDate.day.toString(),
+                    style: TextStyle(
+                        fontSize: widget.size,
+                        fontWeight: FontWeight.w700,
+                        color: MadarColors.dark_grey, height: 0.5),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 4, left: 4),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        DateFormat.MMM().format(_selectedDate),
+                        style: TextStyle(
+                            fontSize: widget.size * 0.53,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.grey[600], height: 0.5),
+                      ),
+                      Text(
+                        DateFormat.y().format(_selectedDate),
+                        style: TextStyle(
+                            fontSize: widget.size * 0.34,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[600], height: 0.5),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        widget.withTimePicker ? Text(
-         'At ' + DateFormat('hh:mm a').format(DateTime(0,0,0, _selectedTime.hour, _selectedTime.minute)),
-          style: TextStyle(
-              fontSize: widget.size * 0.34,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey[500]),
-        ) : Container(height: widget.size * 0.34,),
-      ],
+          widget.withTimePicker ? Text(
+           DateFormat('hh:mm a').format(DateTime(0,0,0, _selectedTime.hour, _selectedTime.minute)),
+            style: TextStyle(
+                fontSize: widget.size * 0.34,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[500], height: 0.5),
+          ) : Container(height: widget.size * 0.34,),
+        ],
+      ),
     );
   }
 

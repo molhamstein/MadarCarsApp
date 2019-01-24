@@ -48,6 +48,25 @@ flutter:
     - family:  MyFlutterApp
       fonts:
        - asset: assets/fonts/MyFlutterApp.ttf
+
+
+    - family: cairo
+      fonts:
+        - asset: assets/fonts/cairo_extra_light.ttf
+          weight: 300
+        - asset: assets/fonts/cairo_light.ttf
+          weight: 400
+        - asset: assets/fonts/cairo_regular.ttf
+          weight: 500
+        - asset: assets/fonts/cairo_semi_bold.ttf
+          weight: 600
+        - asset: assets/fonts/cairo_bold.ttf
+          weight: 700
+        - asset: assets/fonts/cairo_black.ttf
+          weight: 800
+
+
+
   # To add assets to your application, add an assets section, like this:
   assets:
 #    - assets/images/

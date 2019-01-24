@@ -83,9 +83,7 @@ class MyAppState extends State<MyApp> {
                 return supportedLocales.first;
               },
               title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
+              theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'cairo'),
               initialRoute: '/',
               routes: {
                 '/': (context) => LandingPage(),
