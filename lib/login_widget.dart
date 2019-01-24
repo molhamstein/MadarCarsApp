@@ -319,9 +319,10 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
               return MainButton(
                 text: 'Submit',
                 onPressed: () {
-                  if (!snapshot.data) {
+                  if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                     showInSnackBar(
                         'Provide a valid phone number or password', context, color: Colors.redAccent);
+                    bloc.shouldShowFeedBack = false;
                   } else
                     bloc.submitLogin();
                 },
