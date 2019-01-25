@@ -82,14 +82,16 @@ class Network {
   }
 
   Future<User> updateUser(String userId, String phoneNumber, String userName,
-      String isoCode, String token, String imageId) async {
+      String isoCode, String token) async {
     headers['Authorization'] = token;
-    final body = json.encode({
+    String body;
+
+    body = json.encode({
       'phoneNumber': phoneNumber,
       'name': userName,
       'ISOCode': isoCode.toUpperCase(),
-      'mediaId': imageId
     });
+
     final response =
         await http.put(_userUrl + userId, body: body, headers: headers);
     if (response.statusCode == 200) {
@@ -245,7 +247,7 @@ class Network {
         return {
           "sublocationId": carSubLocation.id,
           "duration": carSubLocation.duration,
-          "cost": carSubLocation.cost == null ? 0: carSubLocation.cost,
+          "cost": carSubLocation.cost == null ? 0 : carSubLocation.cost,
         };
       }).toList(),
       "cost": trip.estimationPrice(),
@@ -349,67 +351,77 @@ class Network {
   // upload image
   Future<Media> upload(File imageFile, token) async {
     headers['Authorization'] = token;
-    // var stream =
-    //     new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    // var length = await imageFile.length();
+    var stream =
+        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
 
-    // var uri = Uri.parse(_uploadMediaUrl);
+    var uri = Uri.parse(_uploadMediaUrl);
 
-    // var request = new http.MultipartRequest("POST", uri);
-    // print(imageFile.path);
-    // var multipartFile = new http.MultipartFile('file', stream, length,
-    //     filename: basename(imageFile.path),
-    //     contentType: new MediaType('image', 'jpeg'));
-    // request.headers.addAll(headers);
-    // //contentType: new MediaType('image', 'png'));
-    // request.files.add(multipartFile);
+    var request = new http.MultipartRequest("POST", uri);
+    print(imageFile.path);
+    var multipartFile = new http.MultipartFile('file', stream, length,
+        filename: basename(imageFile.path),
+        contentType: new MediaType('image', 'jpeg'));
+    request.headers.addAll(headers);
+    //contentType: new MediaType('image', 'png'));
+    request.files.add(multipartFile);
+    http.Response response =
+        await http.Response.fromStream(await request.send());
+    print("Result: ${response.body}");
+    var media = mediasFromJson(json.decode(response.body));
+    return media.first;
+  }
+
+  updateUserWithImage(File imageFile, String userId, String phoneNumber,
+      String userName, String isoCode, String token) async {
+    headers['Authorization'] = token;
+    var stream =
+        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    var length = await imageFile.length();
+
+    var uri = Uri.parse(_uploadMediaUrl);
+
+    var request = new http.MultipartRequest("POST", uri);
+    print(imageFile.path);
+    var multipartFile = new http.MultipartFile('file', stream, length,
+        filename: basename(imageFile.path),
+        contentType: new MediaType('image', 'jpeg'));
+    request.headers.addAll(headers);
+    //contentType: new MediaType('image', 'png'));
+    request.files.add(multipartFile);
     // var response = await request.send();
-    // await request.send().then((response) {
-    //   if (response.statusCode == 200) {
-    //     print(response);
-    //     return Media.fromJson(json.decode(response.toString()));
-    //   } else {
-    //     print(json.decode(response.toString()));
-    //     throw json.decode(response.toString());
-    //   }
-    // });
-    // print(response.statusCode);
+    await request.send().then((response) {
+      if (response.statusCode == 200) {
+        print(response);
+        return Media.fromJson(json.decode(response.toString()));
+      } else {
+        print(json.decode(response.toString()));
+        throw json.decode(response.toString());
+      }
 
-    // response.stream.transform(utf8.decoder).listen((value) {
-    //   print(value);
-    //   var medias = mediasFromJson(json.decode(value));
-    //   return medias[0];
-    // });
+      //  final body = json.encode({
+      //     'phoneNumber': phoneNumber,
+      //     'name': userName,
+      //     'ISOCode': isoCode.toUpperCase(),
+      //     'imageId': imageId
+      //   });
 
-    Dio dio = new Dio();
-    FormData formdata = new FormData(); // just like JS
-    formdata.add(
-        "file", new UploadFileInfo(imageFile, basename(imageFile.path)));
-    var response = await dio
-        .post(_uploadMediaUrl,
-            data: formdata,
-            options: Options(
-                method: 'POST',
-                responseType: ResponseType.JSON,
-                headers: headers // or ResponseType.JSON
-                ))
-        //.then((response) => print(response.data))
-        .catchError((error) => print(error));
-    if (response.statusCode == 200) {
-      print(json.decode(response.data));
-      return Media.fromJson(json.decode(response.data));
-    } else {
-      print(json.decode(response.data));
-      throw json.decode(response.data);
-    }
+      // final response =
+      //     await http.put(_userUrl + userId, body: body, headers: headers);
+      // if (response.statusCode == 200) {
+      //   print(json.decode(response.body));
+      //   return User.fromJson(json.decode(response.body));
+      // } else if (response.statusCode ==
+      //     ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
+      //   print(json.decode(response.body));
+      //   throw ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED;
+      // } else {
+      //   print(response.body);
+      //   throw json.decode(response.body);
+      // }
+    });
   }
 }
-//     print(response.statusCode);
-//     response.stream.transform(utf8.decoder).listen((value) {
-//       print(value);
-//       var medias = mediasFromJson(json.decode(value));
-//       return medias[0];
-//     });
 
 mixin ErrorCodes {
   static const int LOGIN_FAILED = 401;

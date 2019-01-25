@@ -85,7 +85,8 @@ class MyAppState extends State<MyApp> {
                 return supportedLocales.first;
               },
               title: 'Flutter Demo',
-              theme: ThemeData(primaryColor: MadarColors.gradientDown, fontFamily: 'cairo'),
+              theme: ThemeData(
+                  primaryColor: MadarColors.gradientDown, fontFamily: 'cairo'),
               initialRoute: '/',
               routes: {
                 '/': (context) => LandingPage(),

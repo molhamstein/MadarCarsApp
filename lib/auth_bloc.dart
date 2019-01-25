@@ -152,9 +152,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
         stopLoading;
         pushUnlockTouchEvent;
       }).catchError((e) {
-
         print(e);
-
       });
     }).catchError((e) {
       shouldShowFeedBack = true;
@@ -167,23 +165,25 @@ class AuthBloc extends BaseBloc with Validators, Network {
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
         _submitSignUpController.sink
             .addError('Phone number or Username are used');
-
-      }
-      else {
+      } else {
         _submitSignUpController.sink.addError(e);
       }
       print(e);
-
     });
   }
 
-  updateImage(File image, token, userId) {
+  submitUpdateUserWithImage(File image, token, userId) {
     upload(image, token).then((response) {
       print(response);
       _uploadMediaContoller.sink.add(response);
-      submitUpdateUser(userId, token, response.id);
+      if (response != null) {
+        submitUpdateUser(userId, token, response.id);
+      }else{
+        stopLoading;
+      }
     }).catchError((e) {
       _uploadMediaContoller.sink.addError(e);
+      stopLoading;
     });
   }
 
@@ -192,21 +192,16 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validPhoneNumber = _phoneSignUpController.value;
     final validIsoCode = _isoCodeSignUpController.value.code;
     pushLockTouchEvent;
-
-    updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token,
-            imageId)
+    updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token)
         .then((user) {
       print(user);
-      // login(validPhoneNumber, validPassword).then((response) {
       _submitUpdateUserController.sink.add(user);
-      // }).catchError((e) {
-      //   print(e);
-      //   _submitSignUpController.sink.addError(e);
-      // });
+      stopLoading;
     }).catchError((e) {
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
         _submitUpdateUserController.sink
             .addError('Phone number or Username are used');
+      stopLoading;
     });
   }
 
@@ -265,6 +260,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     _facebookLoginController.close();
     _loadingController.close();
     _uploadMediaContoller.close();
+    _submitUpdateUserController.close();
   }
 }
 

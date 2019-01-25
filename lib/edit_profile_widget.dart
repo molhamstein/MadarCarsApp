@@ -8,9 +8,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/feedback.dart';
-import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -90,13 +88,13 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     bloc = BlocProvider.of<AuthBloc>(context);
     userId = appBloc.userId;
     token = appBloc.token;
+    signupNameController.text = appBloc.userName;
+    signupEmailController.text = appBloc.phone;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    signupNameController.text = appBloc.userName;
-    signupEmailController.text = appBloc.phone;
     bloc.changeSignUpUserName(appBloc.userName);
     bloc.changeLoginPhone(appBloc.phone);
     return StreamBuilder<User>(
@@ -108,12 +106,8 @@ class EditProfileWidgetState extends State<EditProfileWidget>
             });
           }
           if (snapshot.hasData) {
-            appBloc.saveUser(snapshot.data);
-            // WidgetsBinding.instance.addPostFrameCallback((_) {
-            //   Navigator.of(context).pushReplacement(
-            //       new MaterialPageRoute(builder: (context) => HomePage()));
-            // });
-            showInSnackBar('information updated succsesfully !', context);
+            // appBloc.saveUser(snapshot.data);
+            //  showInSnackBar('information updated succsesfully !', context);
           }
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +205,6 @@ class EditProfileWidgetState extends State<EditProfileWidget>
   Widget profileImage() {
     return StreamBuilder<String>(
         stream: userImageStream,
-        // initialData: 'assets/images/profileImg.png',
         builder: (context, snapshoot) {
           if (snapshoot.hasData) {
             return InkWell(
@@ -388,6 +381,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
         child: CountryCodePicker(
           favorite: ['SY', 'TR'],
           onChanged: bloc.changeSignUpIsoCode,
+          initialSelection: 'SY',
         ));
   }
 
@@ -398,19 +392,28 @@ class EditProfileWidgetState extends State<EditProfileWidget>
         stream: bloc.submitValidEditUser,
         initialData: false,
         builder: (context, snapshot) {
-          return MainButton(
-            text: 'Update',
-            onPressed: () {
-              if (!snapshot.hasData || !snapshot.data) {
-                showInSnackBar('Please provide valid information', context);
-              } else
-                bloc.updateImage(_image, token, userId);
-              //bloc.submitUpdateUser(userId, token);
-            },
-            width: 150,
-            height: 50,
-            loading: snapshot.data,
-          );
+          return StreamBuilder<bool>(
+              stream: bloc.loadingStream,
+              initialData: true,
+              builder: (context, loadingSnapshot) {
+                return MainButton(
+                  text: 'Update',
+                  onPressed: () {
+                    if (!snapshot.hasData || !snapshot.data) {
+                      showInSnackBar(
+                          'Please provide valid information', context);
+                    } else if (_image != null) {
+                      bloc.submitUpdateUserWithImage(_image, token, userId);
+                    } else {
+                      bloc.submitUpdateUser(userId, token, '');
+                    }
+                  },
+                  width: 150,
+                  height: 50,
+                  loading: (snapshot.data == null ? false : snapshot.data) &&
+                      loadingSnapshot.data,
+                );
+              });
         },
       ),
     );
