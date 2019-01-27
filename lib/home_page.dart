@@ -91,6 +91,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Container(
       constraints: BoxConstraints.expand(height: 225),
       child: ListView.builder(
+        padding: EdgeInsets.only(bottom: 5, top: 5),
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
