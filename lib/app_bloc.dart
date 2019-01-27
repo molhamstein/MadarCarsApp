@@ -30,6 +30,8 @@ class AppBloc extends BaseBloc {
   String get token => _dataStore.userToken;
   String get userId => _dataStore.getUser().id;
   String get userImage => _dataStore.userImage;
+  String get userISOCode => _dataStore.userISOCode;
+
   get logout {
     _dataStore.logout;
     _logOutController.sink.add(true);

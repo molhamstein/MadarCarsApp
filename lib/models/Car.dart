@@ -254,13 +254,12 @@ class SubLocation {
         "location": location == null ? null : location.toJson(),
       };
 
-
   String name(Locale locale) {
-    if(locale.languageCode == 'en') {
+    if (locale.languageCode == 'en') {
       return nameEn;
-    } return nameAr;
-   }
-
+    }
+    return nameAr;
+  }
 }
 
 class EnumValues<T> {

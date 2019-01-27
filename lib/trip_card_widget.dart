@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/madar_fonts.dart';
 import 'package:madar_booking/models/TripModel.dart';
@@ -42,45 +43,50 @@ class TripCard extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           left: 8.0, right: 8.0, top: 8.0),
                       child: Text(
-                        trip.titleEn,
+                        trip.title(MadarLocalizations.of(context).locale),
                         style: AppTextStyle.largeTextStyleWhite,
                       ),
                     ),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Row(
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            RichText(
-                              text: TextSpan(
-                                  text: '${trip.duration}',
-                                  style: AppTextStyle.xLaragTextStyleWhite),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Column(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                height: 50,
-                                width: 30,
-                                child: RichText(
-                                  textAlign: TextAlign.left,
-                                  text: TextSpan(
-                                      text: "Days",
-                                      style: AppTextStyle.xSmallTextStyleWhite),
-                                ),
+                              RichText(
+                                text: TextSpan(
+                                    text: '${trip.duration}',
+                                    style: AppTextStyle.xLaragTextStyleWhite),
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  height: 50,
+                                  width: 30,
+                                  child: RichText(
+                                    textAlign: TextAlign.start,
+                                    text: TextSpan(
+                                        text: MadarLocalizations.of(context)
+                                            .trans("days"),
+                                        style:
+                                            AppTextStyle.xSmallTextStyleWhite),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -95,7 +101,7 @@ class TripCard extends StatelessWidget {
                     Container(
                       // width: 150,
                       child: Text(
-                        trip.descriptionEn,
+                        trip.description(MadarLocalizations.of(context).locale),
                         style: AppTextStyle.meduimTextStyleWhite,
                         // softWrap: true,
                       ),

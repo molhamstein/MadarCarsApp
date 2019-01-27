@@ -5,6 +5,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/invoice_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
@@ -99,8 +100,11 @@ class TripInfoPageState extends State<TripInfoPage> {
               child: Container(
                 alignment: Alignment(0, 0),
                 child: Text(
-                  "Estim Cost",
-                  style: AppTextStyle.largeTextStyleBlack,
+                  MadarLocalizations.of(context).trans("estim_cost"),
+                  style:
+                      MadarLocalizations.of(context).locale.languageCode == 'en'
+                          ? AppTextStyle.largeTextStyleBlack
+                          : AppTextStyle.meduimTextStyleBlack,
                 ),
               ),
             ),
@@ -116,7 +120,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 32.0),
+                          padding: const EdgeInsetsDirectional.only(top: 32.0),
                           child: RichText(
                               textAlign: TextAlign.end,
                               text: TextSpan(
@@ -136,7 +140,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                               height: 75,
                               width: 20,
                               child: RichText(
-                                textAlign: TextAlign.left,
+                                textAlign: TextAlign.start,
                                 text: TextSpan(
                                     text: "\$",
                                     style: AppTextStyle.smallTextStyleBlack),
@@ -193,7 +197,8 @@ class TripInfoPageState extends State<TripInfoPage> {
 
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    padding: const EdgeInsetsDirectional.only(
+                        start: 20.0, end: 20.0),
                     // content container
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 300),
@@ -219,16 +224,26 @@ class TripInfoPageState extends State<TripInfoPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(16.0),
                                           child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
-                                                child: Text(
-                                                  "Start Date",
-                                                  style: AppTextStyle
-                                                      .meduimTextStylegrey,
-                                                ),
-                                              ),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: RichText(
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      text: TextSpan(
+                                                        text: MadarLocalizations
+                                                                .of(context)
+                                                            .trans(
+                                                                "start_date"),
+                                                        style: AppTextStyle
+                                                            .meduimTextStylegrey,
+                                                      ))),
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 4.0),
@@ -246,16 +261,25 @@ class TripInfoPageState extends State<TripInfoPage> {
                                         child: Padding(
                                           padding: const EdgeInsets.all(16.0),
                                           child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 8.0),
-                                                child: Text(
-                                                  "End Date",
-                                                  style: AppTextStyle
-                                                      .meduimTextStylegrey,
-                                                ),
-                                              ),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 8.0),
+                                                  child: RichText(
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      text: TextSpan(
+                                                        text: MadarLocalizations
+                                                                .of(context)
+                                                            .trans("end_date"),
+                                                        style: AppTextStyle
+                                                            .meduimTextStylegrey,
+                                                      ))),
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 4.0),
@@ -366,7 +390,8 @@ class TripInfoPageState extends State<TripInfoPage> {
                                         height: 40,
                                         child: Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 16.0),
+                                              const EdgeInsetsDirectional.only(
+                                                  start: 16.0),
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: true,
@@ -383,14 +408,16 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                     .driver.driverLangs[index];
                                                 return Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          right: 8.0),
+                                                      const EdgeInsetsDirectional
+                                                          .only(end: 8.0),
                                                   child: Container(
                                                       alignment:
                                                           Alignment(0, 0),
-                                                      padding: EdgeInsets.only(
-                                                          left: 10.0,
-                                                          right: 10.0),
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .only(
+                                                                  start: 10.0,
+                                                                  end: 10.0),
                                                       decoration: BoxDecoration(
                                                         color: MadarColors
                                                             .gradientDown,
@@ -541,21 +568,32 @@ class TripInfoPageState extends State<TripInfoPage> {
                                   // height: 100,
                                   child: Padding(
                                     padding: const EdgeInsets.all(20.0),
-                                    child: ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        shrinkWrap: true,
-                                        physics: const ClampingScrollPhysics(),
-                                        itemCount: trip.tripSublocations.length,
-                                        // itemExtent: 10.0,
-                                        // reverse: true, //makes the list appear in descending order
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          var location =
-                                              trip.tripSublocations[index];
-                                          return citiesListRow(
-                                              location.subLocation.nameEn,
-                                              '${location.duration}');
-                                        }),
+                                    child: Column(
+                                      children: <Widget>[
+                                        citiesListRow(
+                                            trip.location.name(
+                                                MadarLocalizations.of(context)
+                                                    .locale),
+                                            '${trip.daysInCity}'),
+                                        ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            physics:
+                                                const ClampingScrollPhysics(),
+                                            itemCount:
+                                                trip.tripSublocations.length,
+                                            // itemExtent: 10.0,
+                                            // reverse: true, //makes the list appear in descending order
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              var location =
+                                                  trip.tripSublocations[index];
+                                              return citiesListRow(
+                                                  location.subLocation.nameEn,
+                                                  '${location.duration}');
+                                            }),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Padding(

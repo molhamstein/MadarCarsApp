@@ -15,7 +15,6 @@ import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:path/path.dart';
-import 'package:dio/dio.dart';
 
 class Network {
   Map<String, String> headers = {
@@ -82,15 +81,23 @@ class Network {
   }
 
   Future<User> updateUser(String userId, String phoneNumber, String userName,
-      String isoCode, String token) async {
+      String isoCode, String token, String imageId) async {
     headers['Authorization'] = token;
     String body;
-
-    body = json.encode({
-      'phoneNumber': phoneNumber,
-      'name': userName,
-      'ISOCode': isoCode.toUpperCase(),
-    });
+    if (imageId != '') {
+      body = json.encode({
+        'phoneNumber': phoneNumber,
+        'name': userName,
+        'ISOCode': isoCode.toUpperCase(),
+        'mediaId': imageId
+      });
+    } else {
+      body = json.encode({
+        'phoneNumber': phoneNumber,
+        'name': userName,
+        'ISOCode': isoCode.toUpperCase(),
+      });
+    }
 
     final response =
         await http.put(_userUrl + userId, body: body, headers: headers);
@@ -280,10 +287,10 @@ class Network {
       headers: headers,
     );
     if (response.statusCode == 200) {
-      //  print(json.decode(response.body));
+      print(json.decode(response.body));
       return carFromJson(response.body);
     } else {
-      // print(json.decode(response.body));
+      print(json.decode(response.body));
       throw json.decode(response.body);
     }
   }
@@ -368,7 +375,7 @@ class Network {
     http.Response response =
         await http.Response.fromStream(await request.send());
     print("Result: ${response.body}");
-    var media = mediasFromJson(json.decode(response.body));
+    var media = mediasFromJson(response.body);
     return media.first;
   }
 

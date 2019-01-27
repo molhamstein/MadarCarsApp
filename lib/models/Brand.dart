@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class Brand {
   String nameEn;
   String nameAr;
@@ -24,4 +26,11 @@ class Brand {
         "createdAt": createdAt == null ? null : createdAt,
         "id": id == null ? null : id,
       };
+
+  String name(Locale locale) {
+    if (locale.languageCode == 'en') {
+      return nameEn;
+    }
+    return nameAr;
+  }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/edit_profile_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/profile_bloc.dart';
 import 'package:madar_booking/profile_header.dart';
 import 'package:madar_booking/settings_page.dart';
@@ -90,7 +92,9 @@ class _ProfilePageState extends State<ProfilePage> {
         border: Border.all(width: 5, color: Colors.white),
         borderRadius: BorderRadius.circular(50),
         image: DecorationImage(
-          image: AssetImage('assets/images/profileImg.png'),
+          image: appBloc.userImage != null
+              ? NetworkImage(appBloc.userImage)
+              : AssetImage('assets/images/profileImg.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -145,7 +149,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.only(left: 25.0),
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 25.0),
                                 child: profileImage(),
                               ),
                               Padding(
@@ -171,17 +176,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "Your bookings",
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        MadarLocalizations.of(context).trans("Your_bookings"),
+                        style: AppTextStyle.meduimTextStyleBlack,
                       ),
                     ),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 8.0, end: 8.0),
                       child: myTrips(),
                     ),
                   ),

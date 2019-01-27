@@ -3,6 +3,7 @@
 //     final trip = tripFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ui';
 import 'location.dart';
 import 'media.dart';
 import 'TripsSublocation.dart';
@@ -125,5 +126,17 @@ class TripModel {
                 predefinedTripsSublocations.map((x) => x.toJson())),
       };
 
+  String title(Locale locale) {
+    if (locale.languageCode == 'en') {
+      return titleEn;
+    }
+    return titleAr;
+  }
 
+  String description(Locale locale) {
+    if (locale.languageCode == 'en') {
+      return descriptionEn;
+    }
+    return descriptionAr;
+  }
 }
