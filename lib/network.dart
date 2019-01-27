@@ -65,7 +65,7 @@ class Network {
       'phoneNumber': isoCode.dialCode + phoneNumber,
       'name': userName,
       'password': password,
-      'ISOCode': isoCode.code.toUpperCase()
+      'ISOCode': isoCode.code.replaceAll('+', '00').toUpperCase()
     });
     final response = await http.post(_signUpUrl, body: body, headers: headers);
     if (response.statusCode == 200) {

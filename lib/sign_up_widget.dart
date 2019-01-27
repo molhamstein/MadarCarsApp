@@ -44,6 +44,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     bloc = BlocProvider.of<AuthBloc>(context);
+    bloc.shouldShowFeedBack = true;
     super.initState();
   }
 
@@ -52,6 +53,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
     return StreamBuilder<UserResponse>(
         stream: bloc.submitSignUpStream,
         builder: (context, snapshot) {
+          print('adasdasd' + bloc.shouldShowFeedBack.toString());
           if (snapshot.hasError  && bloc.shouldShowFeedBack) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               showInSnackBar(snapshot.error.toString(), context);
@@ -164,7 +166,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
             textDirection: TextDirection.ltr,
             decoration: InputDecoration(
 //          prefixText: snapshot.data.dialCode,
-              suffixText: snapshot.data.dialCode,
+              suffixText: snapshot.data.dialCode.replaceAll('+', '00'),
               border: InputBorder.none,
               icon: Icon(
                 FontAwesomeIcons.mobile,
@@ -242,9 +244,10 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
                 return MainButton(
                   text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
+                    bloc.shouldShowFeedBack = true;
                     if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                       showInSnackBar(
-                          'error_provide_valid_info', context);
+                          'error_provide_valid_info', context, color: Colors.redAccent);
                     bloc.shouldShowFeedBack = false;
                     } else
                       bloc.submitSignUp();

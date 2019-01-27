@@ -13,9 +13,8 @@ import 'validator.dart';
 class AuthBloc extends BaseBloc with Validators, Network {
   bool shouldShowFeedBack;
 
-  Authbloc() {
-    shouldShowFeedBack = true;
-  }
+
+  AuthBloc({this.shouldShowFeedBack = true});
 
   final _phoneLoginController = BehaviorSubject<String>();
   final _passwordLoginController = BehaviorSubject<String>();
@@ -149,7 +148,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
     signUp(validPhoneNumber, validUserName, validPassword, validIsoCode)
         .then((user) {
-      login(validPhoneNumber, validPassword).then((response) {
+      login(validIsoCode.dialCode + validPhoneNumber, validPassword).then((response) {
         _submitSignUpController.sink.add(response);
         stopLoading;
         pushUnlockTouchEvent;
@@ -157,7 +156,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
         print(e);
       });
     }).catchError((e) {
-      shouldShowFeedBack = true;
+      this.shouldShowFeedBack = true;
       stopLoading;
       Future.delayed(Duration(milliseconds: 100)).then((_) {
         startLoading;
@@ -165,6 +164,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
       pushUnlockTouchEvent;
 
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
+        this.shouldShowFeedBack = true;
         _submitSignUpController.sink
             .addError('Phone number or Username are used');
       } else {
