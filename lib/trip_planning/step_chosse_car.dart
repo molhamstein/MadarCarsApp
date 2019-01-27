@@ -135,7 +135,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                     MainAxisAlignment.end,
                                                 children: <Widget>[
                                                   Text(
-                                                    planingBloc.trip.estimationPrice().toString(),
+                                                    planingBloc.trip
+                                                        .estimationPrice()
+                                                        .toString(),
                                                     style: TextStyle(
                                                         color: Colors.grey[800],
                                                         fontSize: 60,
@@ -294,7 +296,10 @@ class StepChooseCarState extends State<StepChooseCar>
                                         ],
                                       );
                                     })
-                                : _topShimmer(),
+                                : carsSnapshot.hasData &&
+                                        carsSnapshot.data.isEmpty
+                                    ? _empty()
+                                    : _topShimmer(),
                           ),
                           carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
                               ? StreamBuilder<int>(
@@ -327,7 +332,10 @@ class StepChooseCarState extends State<StepChooseCar>
                                       ),
                                     );
                                   })
-                              : _listShimmer(),
+                              : carsSnapshot.hasData &&
+                                      carsSnapshot.data.isEmpty
+                                  ? Container()
+                                  : _listShimmer(),
                         ],
                       ),
                     );
@@ -341,8 +349,8 @@ class StepChooseCarState extends State<StepChooseCar>
 
   _topShimmer() {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300],
-      highlightColor: Colors.grey[200],
+      baseColor: Colors.grey[100],
+      highlightColor: Colors.grey[100],
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -352,30 +360,15 @@ class StepChooseCarState extends State<StepChooseCar>
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Container(
-                    height: 16,
-                    width: 30,
-                    color: Colors.grey[300],
-                  )),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Container(
-                    height: 60,
-                    width: 40,
-                    color: Colors.grey[300],
-                  ),
-                  Text(
-                    '\$',
-                    style: TextStyle(
-                        color: Colors.grey[800],
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ],
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  MadarLocalizations.of(context).trans('estim_cost'),
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      height: 0.5),
+                ),
               ),
             ],
           ),
@@ -389,6 +382,7 @@ class StepChooseCarState extends State<StepChooseCar>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
+                    margin: EdgeInsets.only(bottom: 4),
                     height: 24,
                     width: 40,
                     color: Colors.grey[300],
@@ -401,8 +395,9 @@ class StepChooseCarState extends State<StepChooseCar>
                 ],
               ),
               Container(
-                height: 16,
-                width: 24,
+                margin: EdgeInsets.only(bottom: 4),
+                height: 14,
+                width: 32,
                 color: Colors.grey[300],
               ),
             ],
@@ -412,17 +407,17 @@ class StepChooseCarState extends State<StepChooseCar>
           ),
           Wrap(spacing: 4, children: [
             Container(
-              height: 20,
+              height: 10,
               width: 40,
               color: Colors.grey[300],
             ),
             Container(
-              height: 20,
+              height: 10,
               width: 40,
               color: Colors.grey[300],
             ),
             Container(
-              height: 20,
+              height: 10,
               width: 40,
               color: Colors.grey[300],
             ),
@@ -436,15 +431,15 @@ class StepChooseCarState extends State<StepChooseCar>
               children: <Widget>[
                 Column(
                   children: <Widget>[
-                    Container(
-                      height: 28,
-                      width: 28,
-                      color: Colors.grey[300],
+                    Icon(
+                      MyFlutterApp.cal,
+                      size: 28,
+                      color: Colors.grey[800],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
-                        height: 16,
+                        height: 12,
                         width: 40,
                         color: Colors.grey[300],
                       ),
@@ -454,15 +449,15 @@ class StepChooseCarState extends State<StepChooseCar>
                 Expanded(
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        height: 28,
-                        width: 28,
-                        color: Colors.grey[300],
+                      Icon(
+                        MyFlutterApp.gender,
+                        size: 28,
+                        color: Colors.grey[800],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Container(
-                          height: 16,
+                          height: 12,
                           width: 40,
                           color: Colors.grey[300],
                         ),
@@ -472,15 +467,15 @@ class StepChooseCarState extends State<StepChooseCar>
                 ),
                 Column(
                   children: <Widget>[
-                    Container(
-                      height: 28,
-                      width: 28,
-                      color: Colors.grey[300],
+                    Icon(
+                      MyFlutterApp.seats,
+                      size: 28,
+                      color: Colors.grey[800],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
-                        height: 16,
+                        height: 12,
                         width: 40,
                         color: Colors.grey[300],
                       ),
@@ -517,6 +512,33 @@ class StepChooseCarState extends State<StepChooseCar>
         },
         scrollDirection: Axis.horizontal,
         itemCount: 2,
+      ),
+    );
+  }
+
+  Widget _empty() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Text(
+            MadarLocalizations.of(context).trans('no_cars_error'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          FlatButton(
+            onPressed: () => planingBloc.navBackward,
+            child: Text(
+              MadarLocalizations.of(context).trans('back'),
+            ),
+          ),
+        ],
       ),
     );
   }
