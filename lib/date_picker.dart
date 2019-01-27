@@ -9,14 +9,17 @@ class DatePicker extends StatefulWidget {
   final Function(DateTime) onDateChanged;
   final bool withTimePicker;
   final String title;
+  final bool endOfDay;
 
-  const DatePicker(
-      {Key key,
-      this.size = 50,
-      @required this.onDateChanged,
-      this.withTimePicker = false,
-      this.title = 'Date', this.date})
-      : super(key: key);
+  const DatePicker({
+    Key key,
+    this.size = 50,
+    @required this.onDateChanged,
+    this.withTimePicker = false,
+    this.title = 'Date',
+    this.date,
+    this.endOfDay = false,
+  }) : super(key: key);
 
   @override
   DatePickerState createState() {
@@ -31,8 +34,10 @@ class DatePickerState extends State<DatePicker> {
   @override
   void initState() {
     _selectedDate = widget.date == null ? DateTime.now() : widget.date;
-    _selectedTime = widget.date == null ? TimeOfDay(hour: 0, minute: 0) : TimeOfDay(hour: widget.date.hour, minute: widget.date.minute);
-
+    _selectedTime = widget.date == null
+        ? TimeOfDay(hour: 0, minute: 0)
+        : TimeOfDay(hour: widget.date.hour, minute: widget.date.minute);
+    print('date = ' + widget.date.toIso8601String());
     super.initState();
   }
 
@@ -48,7 +53,8 @@ class DatePickerState extends State<DatePicker> {
             style: TextStyle(
                 fontSize: widget.size * 0.42,
                 fontWeight: FontWeight.w700,
-                color: Colors.black87, height: 0.5),
+                color: Colors.black87,
+                height: 0.5),
           ),
           Padding(
             padding: EdgeInsets.all(4),
@@ -66,7 +72,8 @@ class DatePickerState extends State<DatePicker> {
                     style: TextStyle(
                         fontSize: widget.size,
                         fontWeight: FontWeight.w700,
-                        color: MadarColors.dark_grey, height: 0.5),
+                        color: MadarColors.dark_grey,
+                        height: 0.5),
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: 4, left: 4),
@@ -78,14 +85,16 @@ class DatePickerState extends State<DatePicker> {
                         style: TextStyle(
                             fontSize: widget.size * 0.53,
                             fontWeight: FontWeight.w700,
-                            color: Colors.grey[600], height: 0.5),
+                            color: Colors.grey[600],
+                            height: 0.5),
                       ),
                       Text(
                         DateFormat.y().format(_selectedDate),
                         style: TextStyle(
                             fontSize: widget.size * 0.34,
                             fontWeight: FontWeight.w600,
-                            color: Colors.grey[600], height: 0.5),
+                            color: Colors.grey[600],
+                            height: 0.5),
                       ),
                     ],
                   )
@@ -93,13 +102,19 @@ class DatePickerState extends State<DatePicker> {
               ),
             ),
           ),
-          widget.withTimePicker ? Text(
-           DateFormat('hh:mm a').format(DateTime(0,0,0, _selectedTime.hour, _selectedTime.minute)),
-            style: TextStyle(
-                fontSize: widget.size * 0.34,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[500], height: 0.5),
-          ) : Container(height: widget.size * 0.34,),
+          widget.withTimePicker
+              ? Text(
+                  DateFormat('hh:mm a').format(DateTime(
+                      0, 0, 0, _selectedTime.hour, _selectedTime.minute)),
+                  style: TextStyle(
+                      fontSize: widget.size * 0.34,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[500],
+                      height: 0.5),
+                )
+              : Container(
+                  height: widget.size * 0.34,
+                ),
         ],
       ),
     );
@@ -122,8 +137,8 @@ class DatePickerState extends State<DatePicker> {
 
     if (dateChanged || timeChanged) {
 
-      DateTime selectedDate = DateTime(date.year, date.month, date.day, 23);
-      if(dateChanged && timeChanged) {
+      DateTime selectedDate = DateTime(date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
+      if (dateChanged && timeChanged) {
         selectedDate = DateTime(date.year, date.month, date.day, time.hour);
       }
 

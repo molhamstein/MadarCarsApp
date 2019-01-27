@@ -11,7 +11,6 @@ class Trip {
   DateTime endDate;
   Car car;
   List<TripSublocation> tripSubLocations;
-  int duration;
 
   Trip({
     this.fromAirport,
@@ -75,13 +74,10 @@ class Trip {
     return dates;
   }
 
-  int estimationPrice() {
+  int estimationPrice({bool withSubLocationPrice = false}) {
     int cost = 0;
-    print('cost init' + cost.toString());
     if (inCity) {
-      cost +=
-          (tripDuration() - subLocationDuration()) * car.pricePerDay;
-      print('cost city' + cost.toString());
+      withSubLocationPrice ? cost += (tripDuration() - subLocationDuration()) * car.pricePerDay : cost += tripDuration() * car.pricePerDay;
     }
     if (toAirport && !fromAirport) {
       cost += car.priceOneWay;
@@ -106,7 +102,7 @@ class Trip {
 
   int subLocationDuration() {
     int allSubLocationDuration = 0;
-    tripSubLocations.forEach((subLocation) { allSubLocationDuration += subLocation.duration; print(subLocation.duration); });
+    tripSubLocations.forEach((subLocation) { allSubLocationDuration += subLocation.duration; });
     return allSubLocationDuration;
   }
 
