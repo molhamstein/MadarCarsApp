@@ -47,7 +47,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
 
     _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200), end: Offset.zero)
         .animate(curvedAnimation);
-    _citiesFloat = Tween<Offset>(begin: Offset(200, 0), end: Offset.zero)
+    _citiesFloat = Tween<Offset>(begin: Offset(500, 0), end: Offset.zero)
         .animate(curvedAnimation2);
 
     _offsetFloat.addListener(() {
@@ -107,7 +107,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
                             children: <Widget>[
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height - 270,
+                                    MediaQuery.of(context).size.height - 250,
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.all(16),
                                 margin: EdgeInsets.only(right: 24, left: 24),
@@ -151,11 +151,13 @@ class ChooseCityStepState extends State<ChooseCityStep>
                                                       MadarLocalizations.of(
                                                               context)
                                                           .locale),
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 5,
                                                   style: TextStyle(
                                                       color: Colors.black54,
                                                       fontSize: 16,
                                                       fontWeight:
-                                                          FontWeight.w700),
+                                                          FontWeight.w700, height: .8),
                                                 ),
                                               ),
                                             ],
@@ -242,7 +244,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
           top: MediaQuery.of(context)
               .size
               .height /
-              3),
+              3.5),
       height:
       MediaQuery.of(context).size.width / 2,
       child: StreamBuilder<int>(
