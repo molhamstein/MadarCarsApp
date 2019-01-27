@@ -243,6 +243,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 errorText: MadarLocalizations.of(context).trans(snapshot.error),
+                errorStyle: TextStyle(height: 0.7),
                 icon: Icon(
                   FontAwesomeIcons.mobile,
                   color: Colors.black,

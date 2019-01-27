@@ -8,7 +8,6 @@ import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/madar_fonts.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripModel.dart';
-import 'package:madar_booking/network.dart';
 import 'package:madar_booking/profile_page.dart';
 import 'package:madar_booking/car_card_widget.dart';
 import 'package:madar_booking/trip_card_widget.dart';
@@ -89,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _cardContainerList() {
     return Container(
-      constraints: BoxConstraints.expand(height: 225),
+      constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height / 3.2),
       child: ListView.builder(
         padding: EdgeInsets.only(bottom: 5, top: 5),
           scrollDirection: Axis.horizontal,
@@ -110,19 +109,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         builder: (context, widget) {
           return Transform.translate(
             offset: _offsetFloat.value,
-            child: Column(children: <Widget>[
-              Container(
-                color: Colors.transparent,
-                constraints: BoxConstraints.expand(height: 50),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    MadarLocalizations.of(context).trans("Trending_Cars"),
-                    style: TextStyle(
-                        fontSize: AppFonts.large_font_size,
-                        fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.start,
-                  ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, left: 8, right: 8),
+                child: Text(
+                  MadarLocalizations.of(context).trans("Trending_Cars"),
+                  style: TextStyle(
+                      fontSize: AppFonts.normal_font_size,
+                      fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.start,
                 ),
               ),
               StreamBuilder<List<Car>>(
@@ -155,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget _tripCardContainerList() {
     return Container(
       // height: 190,
-      constraints: BoxConstraints.expand(height: 190),
+      constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height / 3.8),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -189,19 +186,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 300),
       transform: predefinedTripTransformation,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            color: Colors.transparent,
-            constraints: BoxConstraints.expand(height: 50),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                MadarLocalizations.of(context).trans('Recomended_Trips'),
-                style: TextStyle(
-                    fontSize: AppFonts.large_font_size,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.start,
-              ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 8, left: 8),
+            child: Text(
+              MadarLocalizations.of(context).trans('Recomended_Trips'),
+              style: TextStyle(
+                  fontSize: AppFonts.normal_font_size,
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.start,
             ),
           ),
           StreamBuilder<List<TripModel>>(
@@ -232,7 +226,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(MadarLocalizations.of(context).locale.languageCode);
     return BlocProvider(
       bloc: homeBloc,
       child: Scaffold(
@@ -240,82 +233,76 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           AnimatedHeader(
             isAnimate: flag,
           ),
-          SingleChildScrollView(
-            child: Column(
-              // homeScreen content
-              children: <Widget>[
-                Container(
-                  color: Colors.transparent,
-                  height: 125,
-                ),
-                predefiedTrips(),
-                _availbleCars(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            // homeScreen content
+            children: <Widget>[
+              Container(
+                color: Colors.transparent,
+                height: 60,
+              ),
+              predefiedTrips(),
+              _availbleCars(),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            // constraints: BoxConstraints.expand(width: 200),
-                            alignment: Alignment(0, 0),
-                            child: Container(
-                              width: 75,
-                              height: 75,
-                              decoration: BoxDecoration(
-                                  boxShadow: [MadarColors.shadow],
-                                  color: Colors.grey.shade900,
-                                  borderRadius: BorderRadius.circular(15)),
-                              alignment: Alignment(0, 0),
-                              child: FlatButton(
-                                onPressed: () {
-                                  // setState(() {
-                                  //   flag = !flag;
-                                  //   if (flag) {
-                                  //     showContainers();
-                                  //   } else {
-                                  //     hideContainers();
-                                  //   }
-                                  // });
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return TripPlanningPage();
-                                  }));
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  size: 60,
-                                  color: Colors.white,
-                                ),
-                                padding: EdgeInsets.all(8.0),
-                              ),
-                            ),
+                    Container(
+                      alignment: Alignment(0, 0),
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            boxShadow: [MadarColors.shadow],
+                            color: Colors.grey.shade900,
+                            borderRadius: BorderRadius.circular(15)),
+                        alignment: Alignment(0, 0),
+                        child: FlatButton(
+                          onPressed: () {
+                            // setState(() {
+                            //   flag = !flag;
+                            //   if (flag) {
+                            //     showContainers();
+                            //   } else {
+                            //     hideContainers();
+                            //   }
+                            // });
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) {
+                              return TripPlanningPage();
+                            }));
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 40,
+                            color: Colors.white,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                MadarLocalizations.of(context)
-                                    .trans("Plan_a_Trip"),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 17,
-                                )),
-                          )
-                        ],
+                          padding: EdgeInsets.all(8.0),
+                        ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                          MadarLocalizations.of(context)
+                              .trans("Plan_a_Trip"),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                          )),
+                    )
                   ],
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
           new Positioned(
               top: 0.0,
               left: 0.0,
               right: 0.0,
               child: AppBar(
+                centerTitle: true,
                 title: Text(
                   "${MadarLocalizations.of(context).trans("hello")} ${appBloc.userName}",
                   style: TextStyle(color: Colors.black, fontSize: 24),

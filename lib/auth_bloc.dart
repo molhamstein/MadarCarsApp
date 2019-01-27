@@ -61,6 +61,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Function(CountryCode) get changeSignUpIsoCode =>
       _isoCodeSignUpController.sink.add;
 
+  Stream<CountryCode> get countryCodeChangeStream => _isoCodeSignUpController.stream;
+
   Stream<String> get phoneSignUpStream =>
       _phoneSignUpController.stream.transform(validatePhone);
 
@@ -142,7 +144,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validUserName = _nameSignUpController.value;
     final validPhoneNumber = _phoneSignUpController.value;
     final validPassword = _passwordSignUpController.value;
-    final validIsoCode = _isoCodeSignUpController.value.code;
+    final validIsoCode = _isoCodeSignUpController.value;
     pushLockTouchEvent;
 
     signUp(validPhoneNumber, validUserName, validPassword, validIsoCode)
