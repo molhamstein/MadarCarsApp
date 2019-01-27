@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:madar_booking/app_text_style.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/trip_info_page.dart';
@@ -51,8 +52,8 @@ class MyTripCard extends StatelessWidget {
                               : null,
                         ),
                         Padding(
-                          padding:
-                              const EdgeInsets.only(left: 10.0, right: 8.0),
+                          padding: const EdgeInsetsDirectional.only(
+                              start: 10.0, end: 8.0),
                           child: Container(
                             height: 175,
                             width: 1.0,
@@ -62,7 +63,7 @@ class MyTripCard extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.only(right: 4),
+                      margin: EdgeInsetsDirectional.only(end: 4),
                       // width: 50,
                       // color: Colors.red,
                       child: Column(
@@ -90,7 +91,7 @@ class MyTripCard extends StatelessWidget {
                   Container(
                     // color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsetsDirectional.only(start: 8.0),
                       child: Container(
                           // decoration: BoxDecoration(
                           //   boxShadow: [MadarColors.shadow],
@@ -99,12 +100,13 @@ class MyTripCard extends StatelessWidget {
                           height: 160,
                           //card info container
                           child: Container(
-                            margin: EdgeInsets.only(right: 8.0),
+                            margin: EdgeInsetsDirectional.only(end: 8.0),
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                   image:
                                       AssetImage('assets/images/card-01.png'),
-                                  fit: BoxFit.fill),
+                                  fit: BoxFit.fill,
+                                  matchTextDirection: true),
                               boxShadow: [MadarColors.shadow],
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(12.5),
@@ -125,10 +127,12 @@ class MyTripCard extends StatelessWidget {
                                           child: Container(
                                             // color: Colors.red,
                                             child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 12.0,
-                                                  right: 12.0,
-                                                  top: 16.0),
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                          .only(
+                                                      start: 12.0,
+                                                      end: 12.0,
+                                                      top: 16.0),
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -140,7 +144,10 @@ class MyTripCard extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: AutoSizeText(
-                                                      trip.location.nameEn,
+                                                      trip.location.name(
+                                                          MadarLocalizations.of(
+                                                                  context)
+                                                              .locale),
                                                       style: AppTextStyle
                                                           .largeTextStyleBlack,
                                                       maxLines: 1,
@@ -180,7 +187,9 @@ class MyTripCard extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: AutoSizeText(
-                                                      "Duration",
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans("duration"),
                                                       style: AppTextStyle
                                                           .largeTextStyleBlack,
                                                       maxLines: 1,
@@ -191,7 +200,7 @@ class MyTripCard extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: AutoSizeText(
-                                                      "${trip.totlaDuration()} Days",
+                                                      "${trip.totlaDuration()} ${MadarLocalizations.of(context).trans("days")}",
                                                       style: AppTextStyle
                                                           .smallTextStylegrey,
                                                       maxLines: 1,
@@ -299,7 +308,11 @@ class MyTripCard extends StatelessWidget {
                                                                         .only(
                                                                     top: 8.0),
                                                             child: AutoSizeText(
-                                                              "From",
+                                                              MadarLocalizations
+                                                                      .of(
+                                                                          context)
+                                                                  .trans(
+                                                                      "from"),
                                                               style: AppTextStyle
                                                                   .meduimTextStyleBlack,
                                                               maxLines: 1,
@@ -341,7 +354,10 @@ class MyTripCard extends StatelessWidget {
                                                                       top: 8.0),
                                                               child:
                                                                   AutoSizeText(
-                                                                "To",
+                                                                MadarLocalizations.of(
+                                                                        context)
+                                                                    .trans(
+                                                                        "to"),
                                                                 style: AppTextStyle
                                                                     .meduimTextStyleBlack,
                                                                 maxLines: 1,
@@ -376,8 +392,8 @@ class MyTripCard extends StatelessWidget {
                                     ),
                                     Center(
                                       child: Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 75),
+                                        margin: EdgeInsetsDirectional.only(
+                                            start: 10, end: 75),
                                         width: 200,
                                         height: 2,
                                         color: Colors.white,

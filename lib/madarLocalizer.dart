@@ -16,7 +16,8 @@ class MadarLocalizations {
   Map<String, String> _sentences;
 
   Future<bool> load() async {
-    String data = await rootBundle.loadString('assets/locale/${this.locale.languageCode}.json');
+    String data = await rootBundle
+        .loadString('assets/locale/${this.locale.languageCode}.json');
     Map<String, dynamic> _result = json.decode(data);
 
     this._sentences = new Map();
@@ -32,8 +33,8 @@ class MadarLocalizations {
   }
 }
 
-
-class MadarLocalizationsDelegate extends LocalizationsDelegate<MadarLocalizations> {
+class MadarLocalizationsDelegate
+    extends LocalizationsDelegate<MadarLocalizations> {
   const MadarLocalizationsDelegate();
 
   @override

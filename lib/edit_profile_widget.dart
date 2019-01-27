@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:country_code_picker/country_code_picker.dart';
@@ -8,11 +9,13 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/feedback.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class EditProfileWidget extends StatefulWidget {
   @override
@@ -44,12 +47,12 @@ class EditProfileWidgetState extends State<EditProfileWidget>
   AuthBloc bloc;
   String userId;
   String token;
-  final _imageController = BehaviorSubject<String>();
-  Function(String) get insertuserImage => _imageController.sink.add;
-  Stream<String> get userImageStream => _imageController.stream;
-
+  final _imageController = BehaviorSubject<File>();
+  Function(File) get insertuserImage => _imageController.sink.add;
+  Stream<String> get userImageStream =>
+      _imageController.stream.transform(commpressImage);
+  // Stream<String> get nameSignUpStream => _nameSignUpController.stream.transform(validateName);
   File _image;
-
   String lastSelectedValue;
   void showDemoActionSheet({BuildContext context, Widget child}) {
     showCupertinoModalPopup<String>(
@@ -64,12 +67,34 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     });
   }
 
+  final commpressImage =
+      StreamTransformer<File, String>.fromHandlers(handleData: (file, sink) {
+    compressAndGetFile(file).then((compresed) {
+      sink.add(compresed.path);
+    });
+  });
+
+  static Future<File> compressAndGetFile(File file) async {
+    print("testCompressAndGetFile");
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      file.path,
+      quality: 50,
+      minWidth: 100,
+      minHeight: 100,
+      rotate: 0,
+    );
+    print(file.lengthSync());
+    print(result.lengthSync());
+    return result;
+  }
+
   Future getImageFromCamera() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
 
     setState(() {
       _image = image;
-      insertuserImage(_image.path);
+      insertuserImage(_image);
     });
   }
 
@@ -78,7 +103,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
 
     setState(() {
       _image = image;
-      insertuserImage(_image.path);
+      insertuserImage(_image);
     });
   }
 
@@ -90,13 +115,13 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     token = appBloc.token;
     signupNameController.text = appBloc.userName;
     signupEmailController.text = appBloc.phone;
+    bloc.changeSignUpUserName(appBloc.userName);
+    bloc.changeLoginPhone(appBloc.phone);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    bloc.changeSignUpUserName(appBloc.userName);
-    bloc.changeLoginPhone(appBloc.phone);
     return StreamBuilder<User>(
         stream: bloc.submitUpdteUserStream,
         builder: (context, snapshot) {
@@ -106,71 +131,79 @@ class EditProfileWidgetState extends State<EditProfileWidget>
             });
           }
           if (snapshot.hasData) {
-            // appBloc.saveUser(snapshot.data);
-            //  showInSnackBar('information updated succsesfully !', context);
+            appBloc.saveUser(snapshot.data);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showInSnackBar('information updated succsesfully !', context);
+            });
           }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.topCenter,
-                overflow: Overflow.visible,
+          return Container(
+            constraints: BoxConstraints.expand(),
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(top: 75.0, left: 0, right: 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 60.0),
-                    height: 330.0,
-                    width: 300,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [MadarColors.shadow],
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  Container(
-                    // RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.circular(8.0),
-                    // ),
-                    child: Column(
-                      children: <Widget>[
-                        profileImage(),
-                        Container(
-                          width: 300.0,
-                          height: 360.0,
-                          child: Column(
-                            children: <Widget>[
-                              nameTextField(),
-                              Container(
-                                width: 250.0,
-                                height: 1.0,
-                                color: Colors.grey[400],
-                              ),
-                              phoneTextField(),
-                              Container(
-                                width: 250.0,
-                                height: 1.0,
-                                color: Colors.grey[400],
-                              ),
-                              // passwordTextField(),
-                              // Container(
-                              //   width: 250.0,
-                              //   height: 1.0,
-                              //   color: Colors.grey[400],
-                              // ),
-                              isoCodePicker(),
-                            ],
-                          ),
+                  Stack(
+                    alignment: Alignment.topCenter,
+                    overflow: Overflow.visible,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(top: 60.0),
+                        height: 330.0,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [MadarColors.shadow],
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 28.0),
-                    child: signUpBtn(),
+                      ),
+                      Container(
+                        // RoundedRectangleBorder(
+                        //   borderRadius: BorderRadius.circular(8.0),
+                        // ),
+                        child: Column(
+                          children: <Widget>[
+                            profileImage(),
+                            Container(
+                              width: 300.0,
+                              height: 360.0,
+                              child: Column(
+                                children: <Widget>[
+                                  nameTextField(),
+                                  Container(
+                                    width: 250.0,
+                                    height: 1.0,
+                                    color: Colors.grey[400],
+                                  ),
+                                  phoneTextField(),
+                                  Container(
+                                    width: 250.0,
+                                    height: 1.0,
+                                    color: Colors.grey[400],
+                                  ),
+                                  // passwordTextField(),
+                                  // Container(
+                                  //   width: 250.0,
+                                  //   height: 1.0,
+                                  //   color: Colors.grey[400],
+                                  // ),
+                                  isoCodePicker(),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 28.0),
+                        child: signUpBtn(),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           );
         });
   }
@@ -381,7 +414,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
         child: CountryCodePicker(
           favorite: ['SY', 'TR'],
           onChanged: bloc.changeSignUpIsoCode,
-          initialSelection: 'SY',
+          initialSelection: appBloc.userISOCode,
         ));
   }
 
@@ -397,11 +430,16 @@ class EditProfileWidgetState extends State<EditProfileWidget>
               initialData: true,
               builder: (context, loadingSnapshot) {
                 return MainButton(
-                  text: 'Update',
+                  text: MadarLocalizations.of(context).trans("update"),
                   onPressed: () {
-                    if (!snapshot.hasData || !snapshot.data) {
-                      showInSnackBar(
-                          'Please provide valid information', context);
+                    if ((!snapshot.hasData || !snapshot.data) &&
+                        bloc.shouldShowFeedBack) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        showInSnackBar(
+                            'Please provide valid information', context);
+                      });
+
+                      bloc.shouldShowFeedBack = false;
                     } else if (_image != null) {
                       bloc.submitUpdateUserWithImage(_image, token, userId);
                     } else {

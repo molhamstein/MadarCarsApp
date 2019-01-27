@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:madar_booking/app_text_style.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/rate_widget.dart';
@@ -60,7 +61,8 @@ class CarCard extends StatelessWidget {
                               },
                               textColor: Colors.white,
                               child: Text(
-                                car.location.nameEn,
+                                car.location.name(
+                                    MadarLocalizations.of(context).locale),
                                 style: AppTextStyle.smallTextStyleWhite,
                               ),
                               color: Color.fromARGB(255, 36, 36, 36),
@@ -84,7 +86,8 @@ class CarCard extends StatelessWidget {
                               child: Container(
                                 //  decoration: BoxDecoration(color: Colors.white),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 8.0),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -122,9 +125,13 @@ class CarCard extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       RateWidget('${car.rate}'),
-                                      Text(car.driver.firstName,
-                                          style:
-                                              AppTextStyle.smallTextStyleBlack)
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Text(car.driver.firstName,
+                                            style: AppTextStyle
+                                                .smallTextStyleBlack),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -145,27 +152,28 @@ class CarCard extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: <Widget>[
-                                          RichText(
-                                            text: TextSpan(
-                                              text: '${car.pricePerDay}',
-                                              style: TextStyle(
-                                                  color: Colors.grey.shade900,
-                                                  fontSize:
-                                                      AppFonts.large_font_size,
-                                                  fontWeight: FontWeight.bold),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8.0, bottom: 8.0),
+                                            child: RichText(
+                                              text: TextSpan(
+                                                text: '${car.pricePerDay}',
+                                                style: AppTextStyle
+                                                    .largeTextStyleBlack,
+                                              ),
                                             ),
                                           ),
                                           RichText(
                                             text: TextSpan(
                                               text: '\$',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey.shade600),
+                                              style: AppTextStyle
+                                                  .smallTextStylegrey,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      Text("/day",
+                                      Text(
+                                          "/${MadarLocalizations.of(context).trans("day")}",
                                           style: TextStyle(
                                               fontSize:
                                                   AppFonts.small_font_size,

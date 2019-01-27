@@ -1,7 +1,6 @@
 import 'package:madar_booking/models/user.dart';
 
 class UserResponse {
-
   final String token;
   final User user;
 
@@ -13,5 +12,4 @@ class UserResponse {
       User.fromJson(json['user']),
     );
   }
-
 }

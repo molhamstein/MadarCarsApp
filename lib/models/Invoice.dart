@@ -3,6 +3,7 @@
 //     final invoice = invoiceFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ui';
 import 'package:madar_booking/models/TripModel.dart';
 
 Invoice invoiceFromJson(String str) {
@@ -106,6 +107,13 @@ class Bill {
         "typeBillId": typeBillId == null ? null : typeBillId,
         "outerBillId": outerBillId == null ? null : outerBillId,
       };
+
+  String title(Locale locale) {
+    if (locale.languageCode == 'en') {
+      return titleEn;
+    }
+    return titleAr;
+  }
 }
 
 class EnumValues<T> {

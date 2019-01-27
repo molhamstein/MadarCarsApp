@@ -178,10 +178,12 @@ class AuthBloc extends BaseBloc with Validators, Network {
       _uploadMediaContoller.sink.add(response);
       if (response != null) {
         submitUpdateUser(userId, token, response.id);
-      }else{
+      } else {
         stopLoading;
       }
     }).catchError((e) {
+      shouldShowFeedBack = true;
+      // pushUnlockTouchEvent;
       _uploadMediaContoller.sink.addError(e);
       stopLoading;
     });
@@ -192,12 +194,15 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validPhoneNumber = _phoneSignUpController.value;
     final validIsoCode = _isoCodeSignUpController.value.code;
     pushLockTouchEvent;
-    updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token)
+    updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token,
+            imageId)
         .then((user) {
       print(user);
+
       _submitUpdateUserController.sink.add(user);
       stopLoading;
     }).catchError((e) {
+      shouldShowFeedBack = true;
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
         _submitUpdateUserController.sink
             .addError('Phone number or Username are used');

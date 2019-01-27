@@ -15,6 +15,7 @@ class DataStore {
       User.PHONE_NUMBER: _prefs.get('user_phone_number'),
       User.STATUS: _prefs.get('user_status'),
       User.CREATED_AT: _prefs.get('user_created_at'),
+      'ISOCode': _prefs.get('user_ISO_code')
     };
     return User.fromJson(json);
   }
@@ -24,10 +25,10 @@ class DataStore {
     _prefs.setString('user_id', user.id);
     _prefs.setString('user_username', user.name);
     _prefs.setString('user_phone_number', user.phoneNumber);
+    _prefs.setString('user_ISO_code', user.isoCode);
     if (user.media != null) _prefs.setString('user_image', user.media.url);
     _prefs.setString('user_status', user.status);
     _prefs.setString('user_created_at', user.createdAt);
-    _prefs.setString('user', json.encode(user.toJson()));
   }
 
   setUserToken(String accessToken) {
@@ -35,6 +36,7 @@ class DataStore {
   }
 
   String get userImage => _prefs.getString('user_image');
+  String get userISOCode => _prefs.getString('user_ISO_code');
 
   // User get me => User.fromJson(_prefs.getString('user'));
   String get userToken => _prefs.getString('access_token');

@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "Cars",
+                    MadarLocalizations.of(context).trans("Trending_Cars"),
                     style: TextStyle(
                         fontSize: AppFonts.large_font_size,
                         fontWeight: FontWeight.bold),
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Recomended Trips",
+                MadarLocalizations.of(context).trans('Recomended_Trips'),
                 style: TextStyle(
                     fontSize: AppFonts.large_font_size,
                     fontWeight: FontWeight.bold),
@@ -294,7 +294,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("Plan a Trip",
+                            child: Text(
+                                MadarLocalizations.of(context)
+                                    .trans("Plan_a_Trip"),
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 17,
@@ -314,7 +316,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               right: 0.0,
               child: AppBar(
                 title: Text(
-                  "Hello ${appBloc.userName}",
+                  "${MadarLocalizations.of(context).trans("hello")} ${appBloc.userName}",
                   style: TextStyle(color: Colors.black, fontSize: 24),
                 ),
                 elevation: 0.0,
