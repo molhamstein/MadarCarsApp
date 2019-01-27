@@ -183,13 +183,15 @@ class Network {
     String dates = '';
     if (trip.keys.keys.toList().length == 2)
       dates =
-          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}","${trip.keys.keys.toList()[1]}":"${trip.endDate.toString()}"}';
+          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toUtc().toIso8601String()}","${trip.keys.keys.toList()[1]}":"${trip.endDate.toUtc().toIso8601String()}"}';
     else
       dates =
-          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toString()}"}';
+          '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toUtc().toIso8601String()}"}';
 
     final url = _avaiableCars +
         '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
+
+    print(url);
 
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {

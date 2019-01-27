@@ -113,4 +113,10 @@ class TripTypeStepState extends State<TripTypeStep>
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 }

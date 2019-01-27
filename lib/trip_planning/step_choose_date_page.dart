@@ -140,7 +140,13 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
       withTimePicker: toAirport,
       onDateChanged: bloc.endDateChanged,
       date: bloc.trip.endDate,
-
+      endOfDay: true,
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

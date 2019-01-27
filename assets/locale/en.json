@@ -65,6 +65,8 @@
   "error_valid_password": "Enter a Valid password",
   "error_valid_name": "Enter a valid name",
   "error_wrong_credentials": "Phone number or password are wrong",
+  "no_cars_error": "No Cars Available in the date you chose 😢",
+  "back": "Back",
   "Recomended_Trips": "Recomended Trips",
   "Trending_Cars": "Trending Cars",
   "day": "day",

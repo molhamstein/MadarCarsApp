@@ -24,7 +24,7 @@ class TripSublocation {
         id: json["id"] == null ? null : json["id"],
         tripId: json["tripId"] == null ? null : json["tripId"],
         sublocationId:
-            json["sublocationId"] == null ? null : json["sublocationId"],
+            json["subLocationId"] == null ? null : json["subLocationId"],
         subLocation: json["subLocation"] == null
             ? null
             : SubLocation.fromJson(json["subLocation"]),

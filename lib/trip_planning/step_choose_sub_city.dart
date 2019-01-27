@@ -8,7 +8,6 @@ import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/widgets/sub_city_tile.dart';
 
 class StepChooseSubCity extends StatefulWidget {
-
   @override
   StepChooseSubCityState createState() {
     return new StepChooseSubCityState();
@@ -16,14 +15,14 @@ class StepChooseSubCity extends StatefulWidget {
 }
 
 class StepChooseSubCityState extends State<StepChooseSubCity> {
-
   ChooseSubCityBloc bloc;
   TripPlaningBloc planingBloc;
 
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
-    bloc = ChooseSubCityBloc(planingBloc.trip, BlocProvider.of<AppBloc>(context).token);
+    bloc = ChooseSubCityBloc(
+        planingBloc.trip, BlocProvider.of<AppBloc>(context).token);
     bloc.pushSubLocations;
     super.initState();
   }
@@ -43,8 +42,7 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
             padding: EdgeInsets.only(right: 16, left: 16, top: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  topLeft: Radius.circular(10)),
+                  topRight: Radius.circular(10), topLeft: Radius.circular(10)),
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
@@ -58,14 +56,11 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
               children: <Widget>[
                 Row(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment:
-                  CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 8.0),
+                      padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
                         MadarLocalizations.of(context).trans('estim_cost'),
                         style: TextStyle(
@@ -76,24 +71,22 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment:
-                      CrossAxisAlignment.start,
-                      mainAxisAlignment:
-                      MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
                         StreamBuilder<int>(
-                          stream: planingBloc.estimationStream,
-                          initialData: planingBloc.trip.estimationPrice(),
-                          builder: (context, snapshot) {
-                            return Text(
-                              snapshot.data.toString(),
-                              style: TextStyle(
-                                  color: Colors.grey[800],
-                                  fontSize: 60,
-                                  fontWeight: FontWeight.w700, height: 0.5),
-                            );
-                          }
-                        ),
+                            stream: planingBloc.estimationStream,
+                            initialData: planingBloc.trip.estimationPrice(),
+                            builder: (context, snapshot) {
+                              return Text(
+                                snapshot.data.toString(),
+                                style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontSize: 60,
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.5),
+                              );
+                            }),
                         Text(
                           '\$',
                           style: TextStyle(
@@ -105,12 +98,17 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                     ),
                   ],
                 ),
-
                 Padding(
                   padding: const EdgeInsets.only(top: 30, right: 32, left: 32),
-                  child: Text(MadarLocalizations.of(context).trans('step_five_title'), style: TextStyle(color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w600, height: 0.8),),
+                  child: Text(
+                    MadarLocalizations.of(context).trans('step_five_title'),
+                    style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        height: 0.8),
+                  ),
                 ),
-
                 StreamBuilder<List<SubLocationResponse>>(
                   stream: bloc.subLocationsStream,
                   initialData: [],
@@ -122,11 +120,17 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                           children: <Widget>[
                             Expanded(
                               child: Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.start,
-                                spacing: 16,
-                                runSpacing: 16,
-                                children: snapshot.data.map((subLocationResponse) => SubCityTile(onCounterChanged: planingBloc.addSubLocation, subLocationResponse: subLocationResponse,)).toList()
-                              ),
+                                  crossAxisAlignment: WrapCrossAlignment.start,
+                                  spacing: 16,
+                                  runSpacing: 16,
+                                  children: snapshot.data
+                                      .map((subLocationResponse) => SubCityTile(
+                                            onCounterChanged:
+                                                planingBloc.addSubLocation,
+                                            subLocationResponse:
+                                                subLocationResponse,
+                                          ))
+                                      .toList()),
                             ),
                           ],
                         ),

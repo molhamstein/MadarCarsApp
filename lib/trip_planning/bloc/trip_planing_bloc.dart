@@ -16,17 +16,21 @@ class TripPlaningBloc extends BaseBloc with Network {
   String token;
   String userId;
   bool showFeedback;
+  bool isPredefinedTrip;
 
   TripPlaningBloc(String token, String userId, {TripModel tripModel}) {
-    if (tripModel == null) trip = Trip.init();
+    isPredefinedTrip = false;
+    if (tripModel == null)
+      trip = Trip.init();
     else {
-      List<String> subLocations = [];
-      tripModel.predefinedTripsSublocations.map((s) => subLocations.add(s.id));
+      isPredefinedTrip = true;
       trip = Trip.init();
       trip.inCity = true;
-      trip.tripSubLocations = tripModel.predefinedTripsSublocations;
       trip.location = tripModel.location;
-      trip.duration = tripModel.duration;
+      trip.location.subLocationsIds =
+          tripModel.predefinedTripsSublocations.map((s) => s.sublocationId)
+              .toList();
+      trip.endDate = trip.endDate.add(Duration(days: tripModel.duration));
     }
     index = 0;
     done = false;
@@ -81,7 +85,9 @@ class TripPlaningBloc extends BaseBloc with Network {
         _navigationController.sink.add(++index);
       }
       done = false;
-      if (index == 4) done = true;
+      if (index == 4) {
+        done = true;
+      }
       if (trip.inCity) {
         if (index == 4) {
           pushLoading(true);
@@ -146,9 +152,6 @@ class TripPlaningBloc extends BaseBloc with Network {
   }
 
   startDateChanged(DateTime startDate) {
-    if(trip.duration != null) {
-      trip.endDate.add(Duration(days: trip.duration));
-    }
     trip.startDate = startDate;
   }
 
@@ -158,7 +161,6 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   cityId(Location location) {
     trip.location = location;
-    print(location.toString());
   }
 
   tripCar(Car car) {
@@ -168,7 +170,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   Function(String, int, int) get addSubLocation => trip.addSubLocation;
 
   get pushEstimationCost =>
-      _estimationCostController.sink.add(trip.estimationPrice());
+      _estimationCostController.sink.add(trip.estimationPrice(withSubLocationPrice: true));
 
   //TODO: change!
   get isToAirport => trip.toAirport;
@@ -185,14 +187,12 @@ class TripPlaningBloc extends BaseBloc with Network {
       _loadingController.sink.add(false);
       _feedbackController.sink.add(d);
       navForward;
-      print(d);
     }).catchError((e) {
       _loadingController.sink.add(false);
       Future.delayed(Duration(milliseconds: 10)).then((s) {
         if ((index == 3 && !trip.inCity) || index == 4)
           _loadingController.sink.add(true);
       });
-      print(e);
       _feedbackController.addError(e.toString());
     });
   }
