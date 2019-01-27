@@ -94,7 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
         image: DecorationImage(
           image: appBloc.userImage != null
               ? NetworkImage(appBloc.userImage)
-              : AssetImage('assets/images/profileImg.png'),
+              : AssetImage('assets/images/profileImg.jpeg'),
           fit: BoxFit.cover,
         ),
       ),
@@ -184,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsetsDirectional.only(
-                          start: 8.0, end: 8.0),
+                          start: 8.0, end: 0.0),
                       child: myTrips(),
                     ),
                   ),
