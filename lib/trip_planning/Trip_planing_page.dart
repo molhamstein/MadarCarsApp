@@ -85,17 +85,18 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                     }
                     return Stack(
                       children: <Widget>[
-                        // Hero(
-                        //   tag: "header_container",
-                        //   child: AnimatedHeader(
-                        //     isAnimate: true,
-                        //   ),
-                        // ),
+                        Hero(
+                          tag: "header_container",
+                          child: Container(
+                            decoration: BoxDecoration(
+                                gradient: MadarColors.gradiant_decoration),
+                          ),
+                        ),
                         Container(
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              gradient: MadarColors.gradiant_decoration),
+                          // decoration: BoxDecoration(
+                          //     gradient: MadarColors.gradiant_decoration),
                           child: StreamBuilder<int>(
                               stream: bloc.navigationStream,
                               initialData: 0,

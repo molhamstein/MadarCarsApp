@@ -41,23 +41,28 @@ class _ProfilePageState extends State<ProfilePage> {
   static AppBloc appBloc;
   static final token = appBloc.token;
   List<MyTrip> trips = [];
-
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
   @override
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     profileBloc = ProfileBloc(token);
-    profileBloc.myTrips();
+
     super.initState();
   }
 
   Widget tripInfoCardList() {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: const ClampingScrollPhysics(),
-        itemCount: trips.length,
-        itemBuilder: (BuildContext context, int index) {
-          return MyTripCard(trips[index]);
-        });
+    return RefreshIndicator(
+      key: _refreshIndicatorKey,
+      onRefresh: profileBloc.myTrips(),
+      child: ListView.builder(
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: trips.length,
+          itemBuilder: (BuildContext context, int index) {
+            return MyTripCard(trips[index]);
+          }),
+    );
   }
 
   Widget myTrips() {

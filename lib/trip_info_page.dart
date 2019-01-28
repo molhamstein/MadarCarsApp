@@ -547,7 +547,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: Text(
-                                                        "${trip.car.numOfSeat} Seats",
+                                                        "${trip.car.numOfSeat} ${MadarLocalizations.of(context).trans("seats")}",
                                                         style: TextStyle(
                                                             fontSize: 18,
                                                             fontWeight:

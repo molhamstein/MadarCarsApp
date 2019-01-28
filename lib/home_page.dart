@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:madar_booking/animated_header.dart';
+
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_bloc.dart';
@@ -37,28 +37,48 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   static AppBloc appBloc;
   static HomeBloc homeBloc;
+  static final token = appBloc.token;
   List<Car> cars = [];
   List<TripModel> trips = [];
   AnimationController _controller;
-  Animation<Offset> _offsetFloat;
+  Animation<Offset> _cars_offsetFloat;
+  Animation<Offset> _trips_offsetFloat;
+  Animation<Offset> _tripsButton_offsetFloat;
+  double myWidth;
+  double myHeight;
+  bool flag = true;
+  bool open = false;
+  Matrix4 rotateBy_0;
+  Matrix4 transformation;
+  BorderRadius borderRadius;
 
-  bool flag = false;
-
-  Matrix4 carsTransformation;
-  Matrix4 predefinedTripTransformation;
-
-  hideContainers() {
-    carsTransformation = new Matrix4.identity()..translate(0.0, -600.0, 0.0);
-    predefinedTripTransformation = Matrix4.identity()
-      ..translate(0.0, 600.0, 0.0);
+  void handelHeaderAnimation() {
+    // callback function
+    print("time out");
+    // containerWidgetHeight = 200;
+    transformation = rotateBy_0;
+    myHeight = MediaQuery.of(context).size.height;
+    myWidth = MediaQuery.of(context).size.width;
+    borderRadius = BorderRadius.circular(0);
+    setState(() {});
   }
 
-  showContainers() {
-    carsTransformation = new Matrix4.identity()..translate(0.0, 0.0, 0.0);
-    predefinedTripTransformation = Matrix4.identity()..translate(0.0, 0.0, 0.0);
+  initHeaerAnimation() {
+    myWidth = MediaQuery.of(context).size.width * 1.25;
+    myHeight = myHeight = MediaQuery.of(context).size.height * 0.4;
+    rotateBy_0 = new Matrix4.identity()
+      ..translate(0.0, 0.0, 0.0)
+      ..rotateZ(0 * 3.1415927 / 180)
+      ..scale(1.0);
+    transformation = new Matrix4.identity()
+      ..translate(0.0, -(myHeight * 0.5), 0.0)
+      ..rotateZ(25.0 * 3.1415927 / 180)
+      ..scale(1.0);
+    borderRadius = BorderRadius.circular(100);
+    flag = false;
+    // open = false;
+    setState(() {});
   }
-
-  static final token = appBloc.token;
 
   @override
   initState() {
@@ -73,18 +93,48 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     );
 
     final CurvedAnimation curvedAnimation =
-        CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
+        CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.8));
 
-    _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200.0), end: Offset.zero)
-        .animate(curvedAnimation);
+    _cars_offsetFloat =
+        Tween<Offset>(begin: Offset(600.0, 0.0), end: Offset.zero)
+            .animate(curvedAnimation);
+    _trips_offsetFloat =
+        Tween<Offset>(begin: Offset(-600.0, 0.0), end: Offset.zero)
+            .animate(curvedAnimation);
+    _tripsButton_offsetFloat =
+        Tween<Offset>(begin: Offset(0.0, 300.0), end: Offset.zero)
+            .animate(curvedAnimation);
 
-    _offsetFloat.addListener(() {
+    _cars_offsetFloat.addListener(() {
+      setState(() {});
+    });
+
+    _trips_offsetFloat.addListener(() {
+      setState(() {});
+    });
+    _tripsButton_offsetFloat.addListener(() {
       setState(() {});
     });
 
     _controller.forward();
 
     super.initState();
+  }
+
+  Widget _animatedHeader() {
+    return Container(
+      child: AnimatedContainer(
+        curve: Curves.easeInOut,
+        duration: Duration(milliseconds: 700),
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+          gradient: MadarColors.gradiant_decoration,
+        ),
+        height: myHeight,
+        width: myWidth,
+        transform: transformation,
+      ),
+    );
   }
 
   Widget _cardContainerList() {
@@ -105,10 +155,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _availbleCars() {
     return AnimatedBuilder(
-        animation: _offsetFloat,
+        animation: _cars_offsetFloat,
         builder: (context, widget) {
           return Transform.translate(
-            offset: _offsetFloat.value,
+            offset: _cars_offsetFloat.value,
             child: Column(children: <Widget>[
               Container(
                 color: Colors.transparent,
@@ -184,61 +234,65 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget predefiedTrips() {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      transform: predefinedTripTransformation,
-      child: Column(
-        children: <Widget>[
-          Container(
-            color: Colors.transparent,
-            constraints: BoxConstraints.expand(height: 50),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                MadarLocalizations.of(context).trans('Recomended_Trips'),
-                style: TextStyle(
-                    fontSize: AppFonts.large_font_size,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.start,
-              ),
+    return AnimatedBuilder(
+        animation: _trips_offsetFloat,
+        builder: (context, widget) {
+          return Transform.translate(
+            offset: _trips_offsetFloat.value,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  color: Colors.transparent,
+                  constraints: BoxConstraints.expand(height: 50),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      MadarLocalizations.of(context).trans('Recomended_Trips'),
+                      style: TextStyle(
+                          fontSize: AppFonts.large_font_size,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ),
+                StreamBuilder<List<TripModel>>(
+                  initialData: [],
+                  stream: homeBloc.predefindTripsStream,
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return Text("There is no connection");
+                      case ConnectionState.waiting:
+                        return Container(
+                            height: 190,
+                            child: Center(child: CircularProgressIndicator()));
+                      default:
+                        if (snapshot.hasError) {
+                          return Text("Error: ${snapshot.error}");
+                        } else {
+                          this.trips = snapshot.data;
+                          return _tripCardContainerList();
+                        }
+                    }
+                  },
+                ),
+              ],
             ),
-          ),
-          StreamBuilder<List<TripModel>>(
-            initialData: [],
-            stream: homeBloc.predefindTripsStream,
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  return Text("There is no connection");
-                case ConnectionState.waiting:
-                  return Container(
-                      height: 190,
-                      child: Center(child: CircularProgressIndicator()));
-                default:
-                  if (snapshot.hasError) {
-                    return Text("Error: ${snapshot.error}");
-                  } else {
-                    this.trips = snapshot.data;
-                    return _tripCardContainerList();
-                  }
-              }
-            },
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     print(MadarLocalizations.of(context).locale.languageCode);
+    if (flag || open) {
+      _controller.forward().whenCompleteOrCancel(initHeaerAnimation);
+    }
     return BlocProvider(
       bloc: homeBloc,
       child: Scaffold(
         body: Stack(children: <Widget>[
-          AnimatedHeader(
-            isAnimate: flag,
-          ),
+          Hero(tag: "header_container", child: _animatedHeader()),
           SingleChildScrollView(
             child: Column(
               // homeScreen content
@@ -249,64 +303,75 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 ),
                 predefiedTrips(),
                 _availbleCars(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            // constraints: BoxConstraints.expand(width: 200),
-                            alignment: Alignment(0, 0),
-                            child: Container(
-                              width: 75,
-                              height: 75,
-                              decoration: BoxDecoration(
-                                  boxShadow: [MadarColors.shadow],
-                                  color: Colors.grey.shade900,
-                                  borderRadius: BorderRadius.circular(15)),
-                              alignment: Alignment(0, 0),
-                              child: FlatButton(
-                                onPressed: () {
-                                  // setState(() {
-                                  //   flag = !flag;
-                                  //   if (flag) {
-                                  //     showContainers();
-                                  //   } else {
-                                  //     hideContainers();
-                                  //   }
-                                  // });
-                                  Navigator.of(context).push(
-                                      MaterialPageRoute(builder: (context) {
-                                    return TripPlanningPage();
-                                  }));
-                                },
-                                child: Icon(
-                                  Icons.add,
-                                  size: 60,
-                                  color: Colors.white,
+                AnimatedBuilder(
+                    animation: _tripsButton_offsetFloat,
+                    builder: (context, widget) {
+                      return Transform.translate(
+                          offset: _tripsButton_offsetFloat.value,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      // constraints: BoxConstraints.expand(width: 200),
+                                      alignment: Alignment(0, 0),
+                                      child: Container(
+                                        width: 75,
+                                        height: 75,
+                                        decoration: BoxDecoration(
+                                            boxShadow: [MadarColors.shadow],
+                                            color: Colors.grey.shade900,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        alignment: Alignment(0, 0),
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              handelHeaderAnimation();
+                                              _controller
+                                                  .reverse()
+                                                  .whenComplete(() {
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 500), () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
+                                                    return TripPlanningPage();
+                                                  }));
+                                                });
+                                              });
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 60,
+                                            color: Colors.white,
+                                          ),
+                                          padding: EdgeInsets.all(8.0),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          MadarLocalizations.of(context)
+                                              .trans("Plan_a_Trip"),
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 17,
+                                          )),
+                                    )
+                                  ],
                                 ),
-                                padding: EdgeInsets.all(8.0),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                MadarLocalizations.of(context)
-                                    .trans("Plan_a_Trip"),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 17,
-                                )),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                )
+                            ],
+                          ));
+                    })
               ],
             ),
           ),
