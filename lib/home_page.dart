@@ -41,9 +41,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   List<Car> cars = [];
   List<TripModel> trips = [];
   AnimationController _controller;
-  Animation<Offset> _cars_offsetFloat;
-  Animation<Offset> _trips_offsetFloat;
-  Animation<Offset> _tripsButton_offsetFloat;
+  Animation<Offset> _carsOffsetFloat;
+  Animation<Offset> _tripsOffsetFloat;
+  Animation<Offset> _tripsButtonOffsetFloat;
+  Animation<Offset> _navbarOffsetFloat;
   double myWidth;
   double myHeight;
   bool flag = true;
@@ -76,17 +77,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ..scale(1.0);
     borderRadius = BorderRadius.circular(100);
     flag = false;
-    // open = false;
+    open = false;
     setState(() {});
   }
 
-  @override
-  initState() {
-    appBloc = BlocProvider.of<AppBloc>(context);
-    homeBloc = HomeBloc(token);
-    homeBloc.predifindTrips();
-    homeBloc.getCars();
-
+  prepareAnimation() {
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
@@ -95,29 +90,42 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     final CurvedAnimation curvedAnimation =
         CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.8));
 
-    _cars_offsetFloat =
+    _carsOffsetFloat =
         Tween<Offset>(begin: Offset(600.0, 0.0), end: Offset.zero)
             .animate(curvedAnimation);
-    _trips_offsetFloat =
+    _tripsOffsetFloat =
         Tween<Offset>(begin: Offset(-600.0, 0.0), end: Offset.zero)
             .animate(curvedAnimation);
-    _tripsButton_offsetFloat =
+    _tripsButtonOffsetFloat =
         Tween<Offset>(begin: Offset(0.0, 300.0), end: Offset.zero)
             .animate(curvedAnimation);
-
-    _cars_offsetFloat.addListener(() {
+    _navbarOffsetFloat =
+        Tween<Offset>(begin: Offset(0.0, -100.0), end: Offset.zero)
+            .animate(curvedAnimation);
+    _carsOffsetFloat.addListener(() {
       setState(() {});
     });
 
-    _trips_offsetFloat.addListener(() {
+    _tripsOffsetFloat.addListener(() {
       setState(() {});
     });
-    _tripsButton_offsetFloat.addListener(() {
+    _tripsButtonOffsetFloat.addListener(() {
       setState(() {});
     });
 
+    _navbarOffsetFloat.addListener(() {
+      setState(() {});
+    });
     _controller.forward();
+  }
 
+  @override
+  initState() {
+    appBloc = BlocProvider.of<AppBloc>(context);
+    homeBloc = HomeBloc(token);
+    homeBloc.predifindTrips();
+    homeBloc.getCars();
+    prepareAnimation();
     super.initState();
   }
 
@@ -139,15 +147,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _cardContainerList() {
     return Container(
-      constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height / 3.2),
+      constraints: BoxConstraints.expand(
+          height: MediaQuery.of(context).size.height / 3.2),
       child: ListView.builder(
-        padding: EdgeInsets.only(bottom: 5, top: 5),
+          padding: EdgeInsets.only(bottom: 5, top: 5),
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
           itemCount: cars.length,
-          // itemExtent: 10.0,
-          // reverse: true, //makes the list appear in descending order
           itemBuilder: (BuildContext context, int index) {
             return CarCard(car: cars[index]);
           }),
@@ -156,10 +163,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _availbleCars() {
     return AnimatedBuilder(
-        animation: _cars_offsetFloat,
+        animation: _carsOffsetFloat,
         builder: (context, widget) {
           return Transform.translate(
-            offset: _cars_offsetFloat.value,
+            offset: _carsOffsetFloat.value,
             child: Column(children: <Widget>[
               Container(
                 color: Colors.transparent,
@@ -205,14 +212,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget _tripCardContainerList() {
     return Container(
       // height: 190,
-      constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height / 3.8),
+      constraints: BoxConstraints.expand(
+          height: MediaQuery.of(context).size.height / 3.8),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         itemCount: trips.length,
-        // itemExtent: 10.0,
-        // reverse: true, //makes the list appear in descending order
         itemBuilder: (BuildContext context, int index) {
           return Material(
             color: Colors.transparent,
@@ -236,10 +242,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget predefiedTrips() {
     return AnimatedBuilder(
-        animation: _trips_offsetFloat,
+        animation: _tripsOffsetFloat,
         builder: (context, widget) {
           return Transform.translate(
-            offset: _trips_offsetFloat.value,
+            offset: _tripsOffsetFloat.value,
             child: Column(
               children: <Widget>[
                 Container(
@@ -292,129 +298,135 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return BlocProvider(
       bloc: homeBloc,
       child: Scaffold(
-        body: Stack(children: <Widget>[
-          Hero(tag: "header_container", child: _animatedHeader()),
-          SingleChildScrollView(
-            child: Column(
-              // homeScreen content
-              children: <Widget>[
-                Container(
-                  color: Colors.transparent,
-                  height: 125,
-                ),
-                predefiedTrips(),
-                _availbleCars(),
-                AnimatedBuilder(
-                    animation: _tripsButton_offsetFloat,
-                    builder: (context, widget) {
-                      return Transform.translate(
-                          offset: _tripsButton_offsetFloat.value,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      // constraints: BoxConstraints.expand(width: 200),
-                                      alignment: Alignment(0, 0),
-                                      child: Container(
-                                        width: 75,
-                                        height: 75,
-                                        decoration: BoxDecoration(
-                                            boxShadow: [MadarColors.shadow],
-                                            color: Colors.grey.shade900,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
+        body: Stack(
+          children: <Widget>[
+            Hero(tag: "header_container", child: _animatedHeader()),
+            SingleChildScrollView(
+              child: Column(
+                // homeScreen content
+                children: <Widget>[
+                  Container(
+                    color: Colors.transparent,
+                    height: 125,
+                  ),
+                  predefiedTrips(),
+                  _availbleCars(),
+                  AnimatedBuilder(
+                      animation: _tripsButtonOffsetFloat,
+                      builder: (context, widget) {
+                        return Transform.translate(
+                            offset: _tripsButtonOffsetFloat.value,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Container(
                                         alignment: Alignment(0, 0),
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              handelHeaderAnimation();
-                                              _controller
-                                                  .reverse()
-                                                  .whenComplete(() {
-                                                Future.delayed(
-                                                    const Duration(
-                                                        milliseconds: 500), () {
-                                                  Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                          builder: (context) {
-                                                    return TripPlanningPage();
-                                                  }));
+                                        child: Container(
+                                          width: 75,
+                                          height: 75,
+                                          decoration: BoxDecoration(
+                                              boxShadow: [MadarColors.shadow],
+                                              color: Colors.grey.shade900,
+                                              borderRadius:
+                                                  BorderRadius.circular(15)),
+                                          alignment: Alignment(0, 0),
+                                          child: FlatButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                handelHeaderAnimation();
+                                                _controller
+                                                    .reverse()
+                                                    .whenComplete(() {
+                                                  Future.delayed(
+                                                      const Duration(
+                                                          milliseconds: 100),
+                                                      () {
+                                                    Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                            builder: (context) {
+                                                      return TripPlanningPage();
+                                                    }));
+                                                    Future.delayed(
+                                                        const Duration(
+                                                            milliseconds: 300),
+                                                        () {
+                                                      open = true;
+                                                    });
+                                                  });
                                                 });
                                               });
-                                            });
-                                          },
-                                          child: Icon(
-                                            Icons.add,
-                                            size: 60,
-                                            color: Colors.white,
+                                            },
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 60,
+                                              color: Colors.white,
+                                            ),
+                                            padding: EdgeInsets.all(8.0),
                                           ),
-                                          padding: EdgeInsets.all(8.0),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                          MadarLocalizations.of(context)
-                                              .trans("Plan_a_Trip"),
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 17,
-                                          )),
-                                    )
-                                  ],
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                            MadarLocalizations.of(context)
+                                                .trans("Plan_a_Trip"),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 17,
+                                            )),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ));
-                    })
-              ],
+                              ],
+                            ));
+                      })
+                ],
+              ),
             ),
-          ),
-          new Positioned(
+            new Positioned(
               top: 0.0,
               left: 0.0,
               right: 0.0,
-              child: AppBar(
-                centerTitle: true,
-                title: Text(
-                  "${MadarLocalizations.of(context).trans("hello")} ${appBloc.userName}",
-                  style: TextStyle(color: Colors.black, fontSize: 24),
-                ),
-                elevation: 0.0,
-
-                backgroundColor: Colors.transparent,
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.person),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => ProfilePage(),
-                        ),
-                      );
-                    },
-                    color: Colors.black,
+              child: Transform.translate(
+                offset: _navbarOffsetFloat.value,
+                child: AppBar(
+                  centerTitle: true,
+                  title: Text(
+                    "${MadarLocalizations.of(context).trans("hello")} ${appBloc.userName}",
+                    style: TextStyle(color: Colors.black, fontSize: 24),
                   ),
-                ],
-                // textTheme: Theme.of(context)
-                //     .textTheme
-                //     .apply(displayColor: Colors.black, bodyColor: Colors.black),
-              )),
-        ]),
-        // This trailing comma makes auto-formatting nicer for build methods.
+                  elevation: 0.0,
+                  backgroundColor: Colors.transparent,
+                  actions: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.person),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
+                      },
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _controller.dispose();
     super.dispose();
   }
