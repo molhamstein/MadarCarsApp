@@ -47,7 +47,7 @@
   "pickup_from_airport": "Pickup from Airport",
   "rent_car_for_city_tour": "Rent a car for city tour",
   "pickup_to_airport": "pickup back to Airport",
-  "trip_planing_question": "Don't know how to plan a trip and need help?",
+  "trip_planing_question": "Don't know how to plan a trip and",
   "end_date": "End Date",
   "start_date": "Start Date",
   "estim_cost": "Estim Cost",
@@ -62,13 +62,14 @@
   "error_car_not_available": "The car you requested is not available",
   "error_provide_valid_info": "Please provide valid information",
   "error_valid_phone_number": "Enter a Valid Phone Number",
+  "error_international_phone_number": "Should be international phone number",
   "error_valid_password": "Enter a Valid password",
   "error_valid_name": "Enter a valid name",
   "error_wrong_credentials": "Phone number or password are wrong",
   "no_cars_error": "No Cars Available in the date you chose 😢",
   "back": "Back",
   "Recomended_Trips": "Recomended Trips",
-  "Trending_Cars": "Trending Cars",
+  "Trending_Cars": "Our Cars",
   "day": "day",
   "Plan_a_Trip": "Plan a Trip",
   "Your_bookings": "Your bookings",
@@ -78,6 +79,9 @@
   "hello": "Hello",
   "trip_estim_cost": "Estim Cost",
   "update": "Update",
-  "prices_may_vary" : "Prices may vary from airport to airport in a city"
+  "prices_may_vary" : "Prices may vary from airport to airport in a city",
+  "home" : "Home",
+  "need_help" : "Need help?"
+
 
 }

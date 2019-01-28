@@ -42,6 +42,7 @@ class Network {
   final String _meUrl = _baseUrl + 'users/me';
   final String _userUrl = _baseUrl + 'users/';
   final String _uploadMediaUrl = _baseUrl + 'uploadFiles/image/upload';
+  final String _needHelp = _baseUrl + '/adminNotifications/needHelp';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -65,7 +66,7 @@ class Network {
       'phoneNumber': isoCode.dialCode + phoneNumber,
       'name': userName,
       'password': password,
-      'ISOCode': isoCode.code.replaceAll('+', '00').toUpperCase()
+      'ISOCode': isoCode.code.toUpperCase()
     });
     final response = await http.post(_signUpUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
@@ -74,7 +75,7 @@ class Network {
     } else if (response.statusCode ==
         ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
       print(json.decode(response.body));
-      throw ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED;
+      throw 'error_wrong_credentials';
     } else {
       print(response.body);
       throw json.decode(response.body);
@@ -178,6 +179,18 @@ class Network {
     }
   }
 
+  Future<void> sendHelp(String token) async {
+    print('token = ' + token);
+    headers['Authorization'] = token;
+    final response = await http.post(_needHelp, headers: headers);
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
   Future<List<Car>> fetchAvailableCars(String token, Trip trip) async {
     headers['Authorization'] = token;
 
@@ -253,6 +266,7 @@ class Network {
       "priceOneWay": trip.car.priceOneWay,
       "priceTowWay": trip.car.priceTowWay,
       "carId": trip.car.id,
+      "note": trip.note,
       "tripSublocations": trip.tripSubLocations.map((carSubLocation) {
         return {
           "sublocationId": carSubLocation.id,

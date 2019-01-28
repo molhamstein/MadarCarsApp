@@ -1,6 +1,8 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
+import 'package:madar_booking/MainButton2.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
@@ -32,13 +34,11 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
   void initState() {
     bloc = BlocProvider.of<AuthBloc>(context);
     appBloc = BlocProvider.of<AppBloc>(context);
-    bloc.shouldShowFeedBack = true;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return StreamBuilder<UserResponse>(
       // feedback the user about the server response.
       stream: bloc.submitLoginStream,
@@ -51,10 +51,10 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                 new MaterialPageRoute(builder: (context) => HomePage()));
           });
         }
-
         if (snapshot.hasError && bloc.shouldShowFeedBack) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            showInSnackBar(snapshot.error, context, color: Colors.redAccent);
+            showInSnackBar(snapshot.error.toString(), context,
+                color: Colors.redAccent);
             bloc.shouldShowFeedBack = false;
           });
         }
@@ -92,19 +92,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   loginBtn(),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      MadarLocalizations.of(context).trans('forgot_password'),
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.white,
-                          fontSize: 16.0,
-                          fontFamily: "WorkSansMedium"),
-                    )),
-              ),
+
               Padding(
                 padding: EdgeInsets.only(top: 10.0),
                 child: Row(
@@ -198,7 +186,11 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 10.0, left: 40, right: 40.0,),
+                    padding: EdgeInsets.only(
+                      top: 10.0,
+                      left: 40,
+                      right: 40.0,
+                    ),
                     child: GestureDetector(
 //                  onTap: () => showInSnackBar("Google button pressed"),
                       child: Container(
@@ -244,12 +236,8 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 errorText: MadarLocalizations.of(context).trans(snapshot.error),
-                errorStyle: TextStyle(height: 0.7),
-                icon: Icon(
-                  FontAwesomeIcons.mobile,
-                  color: Colors.black,
-                  size: 22.0,
-                ),
+                errorStyle: TextStyle(height: 0.1, fontSize: 12),
+                icon: isoCodePicker(),
                 hintText: MadarLocalizations.of(context).trans('phone_number'),
                 hintStyle:
                     TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
@@ -289,7 +277,8 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                       size: 22.0,
                       color: Colors.black,
                     ),
-                    errorText: MadarLocalizations.of(context).trans(passwordSnapshot.error),
+                    errorText: MadarLocalizations.of(context)
+                        .trans(passwordSnapshot.error),
                     hintText: MadarLocalizations.of(context).trans('password'),
                     hintStyle: TextStyle(
                         fontFamily: "WorkSansSemiBold", fontSize: 17.0),
@@ -311,6 +300,14 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
     );
   }
 
+  Widget isoCodePicker() {
+    return CountryCodePicker(
+      favorite: ['SA', 'TR', 'KW', 'AE'],
+      initialSelection: 'SA',
+      onChanged: bloc.changeSignUpIsoCode,
+    );
+  }
+
   Widget loginBtn() {
     return StreamBuilder<bool>(
       stream: bloc.submitValidLogin,
@@ -320,13 +317,12 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
             stream: bloc.loadingStream,
             initialData: true,
             builder: (context, loadingSnapshot) {
-              return MainButton(
+              return MainButton2(
                 text: MadarLocalizations.of(context).trans('submit'),
                 onPressed: () {
-                  bloc.shouldShowFeedBack = true;
-                  if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
-                    showInSnackBar(
-                        'error_provide_valid_info', context, color: Colors.redAccent);
+                  if ((!snapshot.hasData || !snapshot.data)) {
+                    showInSnackBar('error_provide_valid_info', context,
+                        color: Colors.redAccent);
                     bloc.shouldShowFeedBack = false;
                   } else
                     bloc.submitLogin();

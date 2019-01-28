@@ -156,7 +156,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           physics: const ClampingScrollPhysics(),
           itemCount: cars.length,
           itemBuilder: (BuildContext context, int index) {
-            return CarCard(car: cars[index]);
+            return CarCard(
+              car: cars[index],
+              onTap: (_) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => TripPlanningPage()));
+              },
+            );
           }),
     );
   }

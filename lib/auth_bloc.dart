@@ -34,7 +34,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
       BehaviorSubject<bool>(seedValue: true);
 
   final _submitLoginController = PublishSubject<UserResponse>();
-  final _submitSignUpController = BehaviorSubject<UserResponse>();
+  final _submitSignUpController = PublishSubject<UserResponse>();
   final _submitUpdateUserController = BehaviorSubject<User>();
   final _uploadMediaContoller = BehaviorSubject<Media>();
 
@@ -121,9 +121,11 @@ class AuthBloc extends BaseBloc with Validators, Network {
   submitLogin() {
     final validPhoneNumber = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
+    final validIsoCode = _isoCodeSignUpController.value;
+
     pushLockTouchEvent;
 
-    login(validPhoneNumber, validPassword).then((response) {
+    login(validIsoCode.dialCode + validPhoneNumber, validPassword).then((response) {
       print(response.token);
       _submitLoginController.sink.add(response);
       stopLoading;
@@ -158,15 +160,14 @@ class AuthBloc extends BaseBloc with Validators, Network {
     }).catchError((e) {
       this.shouldShowFeedBack = true;
       stopLoading;
+      pushUnlockTouchEvent;
       Future.delayed(Duration(milliseconds: 100)).then((_) {
         startLoading;
       });
-      pushUnlockTouchEvent;
 
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
-        this.shouldShowFeedBack = true;
         _submitSignUpController.sink
-            .addError('Phone number or Username are used');
+            .addError(e);
       } else {
         _submitSignUpController.sink.addError(e);
       }
