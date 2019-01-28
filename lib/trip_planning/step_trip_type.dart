@@ -118,7 +118,9 @@ class TripTypeStepState extends State<TripTypeStep>
                           width: 100,
                           text: 'Need help?',
                           loading: true,
-                          onPressed: (){},
+                          onPressed: (){
+                            bloc.submitHelp();
+                          },
                         ),
                       ),
                     ],

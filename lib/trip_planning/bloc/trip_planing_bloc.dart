@@ -59,6 +59,8 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get feedbackStream => _feedbackController.stream;
 
+  get helpStream => _helpController.stream;
+
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
   pushLoading(bool load) => _loadingController.sink.add(load);

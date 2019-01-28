@@ -146,34 +146,40 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
   }
 
   Widget phoneTextField() {
-    return Padding(
-      padding:
-          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-      child: StreamBuilder<CountryCode>(
-          stream: bloc.countryCodeChangeStream,
-          initialData: CountryCode(code: 'SA', dialCode: '+966'),
-          builder: (context, snapshot) {
-            return TextField(
-              focusNode: myFocusNodeEmail,
-              controller: signupEmailController,
-              keyboardType: TextInputType.phone,
-              onChanged: bloc.changeSignUpPhone,
-              style: TextStyle(
-                  fontFamily: "WorkSansSemiBold",
-                  fontSize: 16.0,
-                  color: Colors.black),
-              textDirection: TextDirection.ltr,
-              decoration: InputDecoration(
-                prefixText: snapshot.data.dialCode,
-//              suffixText: snapshot.data.dialCode.replaceAll('+', '00'),
-                border: InputBorder.none,
-                icon: Icon(
-                  FontAwesomeIcons.mobile,
-                  color: Colors.black,
-                ),
-              ),
-            );
-          }),
+    return StreamBuilder<String>(
+      stream: bloc.phoneSignUpStream,
+      builder: (context, phoneSnapshot) {
+        return Padding(
+          padding:
+              EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+          child: StreamBuilder<CountryCode>(
+              stream: bloc.countryCodeChangeStream,
+              initialData: CountryCode(code: 'SA', dialCode: '+966'),
+              builder: (context, snapshot) {
+                return TextField(
+                  focusNode: myFocusNodeEmail,
+                  controller: signupEmailController,
+                  keyboardType: TextInputType.phone,
+                  onChanged: bloc.changeSignUpPhone,
+                  style: TextStyle(
+                      fontFamily: "WorkSansSemiBold",
+                      fontSize: 16.0,
+                      color: Colors.black),
+                  textDirection: TextDirection.ltr,
+                  decoration: InputDecoration(
+                    errorText: MadarLocalizations.of(context).trans(phoneSnapshot.error),
+                    errorStyle: TextStyle(height: 0),
+                    prefixText: snapshot.data.dialCode,
+                    border: InputBorder.none,
+                    icon: Icon(
+                      FontAwesomeIcons.mobile,
+                      color: Colors.black,
+                    ),
+                  ),
+                );
+              }),
+        );
+      }
     );
   }
 

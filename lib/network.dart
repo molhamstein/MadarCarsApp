@@ -180,6 +180,7 @@ class Network {
   }
 
   Future<void> sendHelp(String token) async {
+    print('token = ' + token);
     headers['Authorization'] = token;
     final response = await http.post(_needHelp, headers: headers);
     if (response.statusCode == 200) {

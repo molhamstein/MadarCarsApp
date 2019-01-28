@@ -8,6 +8,7 @@ import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/final_step.dart';
+import 'package:madar_booking/trip_planning/need_help_page.dart';
 import 'package:madar_booking/trip_planning/step_choose_city.dart';
 import 'package:madar_booking/trip_planning/step_choose_date_page.dart';
 import 'package:madar_booking/trip_planning/step_choose_sub_city.dart';
@@ -120,6 +121,17 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                     body: steps[snapshot.data]);
                               }),
                         ),
+                        StreamBuilder<bool>(
+                            stream: bloc.helpStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData && snapshot.data)
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                      builder: (context) => NeedHelpPage()));
+                                });
+                              return Container();
+                            }),
                       ],
                     );
                   },
@@ -128,19 +140,22 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                   stream: bloc.changeTextStream,
                   initialData: 'next',
                   builder: (context, snapshot) {
-                    return MainButton(
-                      width: 150,
-                      height: 50,
-                      text: MadarLocalizations.of(context).trans(snapshot.data),
-                      loading: loadingSnapshot.data,
-                      onPressed: () {
-                        if (bloc.index == 5) {
-                          Navigator.of(context).pop();
-                        } else if (bloc.done) {
-                          bloc.submitTrip();
-                        } else
-                          bloc.navForward;
-                      },
+                    return Hero(
+                      tag: 'tripButton',
+                      child: MainButton(
+                        width: 150,
+                        height: 50,
+                        text: MadarLocalizations.of(context).trans(snapshot.data),
+                        loading: loadingSnapshot.data,
+                        onPressed: () {
+                          if (bloc.index == 5) {
+                            Navigator.of(context).pop();
+                          } else if (bloc.done) {
+                            bloc.submitTrip();
+                          } else
+                            bloc.navForward;
+                        },
+                      ),
                     );
                   },
                 ),

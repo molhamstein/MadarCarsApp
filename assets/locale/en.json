@@ -68,7 +68,7 @@
   "no_cars_error": "No Cars Available in the date you chose 😢",
   "back": "Back",
   "Recomended_Trips": "Recomended Trips",
-  "Trending_Cars": "Trending Cars",
+  "Trending_Cars": "Our Cars",
   "day": "day",
   "Plan_a_Trip": "Plan a Trip",
   "Your_bookings": "Your bookings",
@@ -78,6 +78,7 @@
   "hello": "Hello",
   "trip_estim_cost": "Estim Cost",
   "update": "Update",
-  "prices_may_vary" : "Prices may vary from airport to airport in a city"
+  "prices_may_vary" : "Prices may vary from airport to airport in a city",
+  "home" : "Home"
 
 }
