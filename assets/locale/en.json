@@ -79,9 +79,14 @@
   "hello": "Hello",
   "trip_estim_cost": "Estim Cost",
   "update": "Update",
-  "prices_may_vary" : "Prices may vary from airport to airport in a city",
-  "home" : "Home",
-  "need_help" : "Need help?"
-
-
+  "prices_may_vary": "Prices may vary from airport to airport in a city",
+  "home": "Home",
+  "need_help": "Need help?",
+  "date": "Date",
+  "invoice": "Invoice",
+  "item": "Item",
+  "price": "Price",
+  "quantity": "Quantity",
+  "subtotal": "Subtotal",
+  "total_cost": "Total Cost"
 }

@@ -79,7 +79,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       file.path,
-      quality: 50,
+      quality: 80,
       minWidth: 100,
       minHeight: 100,
       rotate: 0,

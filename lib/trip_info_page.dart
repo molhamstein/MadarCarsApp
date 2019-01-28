@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/bloc_provider.dart';
@@ -9,9 +8,7 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
-import 'package:madar_booking/settings_page.dart';
 import 'madar_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class TripInfoPage extends StatefulWidget {
   final MyTrip trip;

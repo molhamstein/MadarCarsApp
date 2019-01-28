@@ -1,18 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
-import 'package:madar_booking/invoice_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/MyTrip.dart';
-import 'package:madar_booking/models/TripModel.dart';
-import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/profile_bloc.dart';
-import 'package:madar_booking/profile_header.dart';
-import 'package:madar_booking/rate_widget.dart';
-import 'package:madar_booking/settings_page.dart';
-import 'madar_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'madar_fonts.dart';
 
 class InvoicePage extends StatefulWidget {
@@ -48,7 +40,7 @@ class _InvoicePageState extends State<InvoicePage> {
               // estim cost container
               child: Container(
                 alignment: Alignment(0, 0),
-                child: Text("Total Cost",
+                child: Text(MadarLocalizations.of(context).trans('total_cost'),
                     style:
                         TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ),
@@ -203,7 +195,8 @@ class _InvoicePageState extends State<InvoicePage> {
                             child: Container(
                               child: Center(
                                 child: Text(
-                                  "Invoice",
+                                  MadarLocalizations.of(context)
+                                      .trans('invoice'),
                                   style: TextStyle(
                                       fontSize: AppFonts.large_font_size,
                                       fontWeight: FontWeight.bold),
@@ -216,14 +209,16 @@ class _InvoicePageState extends State<InvoicePage> {
                               child: Container(
                                 child: ListTile(
                                   title: Text(
-                                    "Mercides E16",
+                                    trip.car.brand.name(
+                                        MadarLocalizations.of(context).locale),
                                     style: TextStyle(
                                         fontSize: AppFonts.large_font_size,
                                         color: Colors.grey.shade800,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   subtitle: Text(
-                                    "Istanbul",
+                                    trip.location.name(
+                                        MadarLocalizations.of(context).locale),
                                     style: TextStyle(
                                         fontSize: AppFonts.medium_font_size,
                                         color: Colors.grey.shade600,
@@ -242,14 +237,14 @@ class _InvoicePageState extends State<InvoicePage> {
                           padding: const EdgeInsets.all(0.0),
                           child: Container(
                             width: 350,
-                            // decoration: BoxDecoration(
-                            //   color: Colors.red,
-                            //   image: DecorationImage(
-                            //     image:
-                            //         AssetImage('assets/images/invoice-01.png'),
-                            //     fit: BoxFit.cover,
-                            //   ),
-                            // ),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/invoice-01.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                             child: Column(
                               children: <Widget>[
                                 Container(
@@ -261,7 +256,9 @@ class _InvoicePageState extends State<InvoicePage> {
                                             padding: const EdgeInsets.only(
                                                 top: 16.0),
                                             child: ListTile(
-                                              title: Text("Date",
+                                              title: Text(
+                                                  MadarLocalizations.of(context)
+                                                      .trans('date'),
                                                   style: TextStyle(
                                                     fontSize: AppFonts
                                                         .medium_font_size,
@@ -269,7 +266,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                                     fontWeight: FontWeight.bold,
                                                   )),
                                               subtitle: Text(
-                                                "12/12/2018",
+                                                trip.startDateFromated(),
                                                 style: TextStyle(
                                                   fontSize:
                                                       AppFonts.large_font_size,
@@ -287,7 +284,9 @@ class _InvoicePageState extends State<InvoicePage> {
                                             padding: const EdgeInsets.only(
                                                 top: 16.0),
                                             child: ListTile(
-                                              title: Text("Invoice",
+                                              title: Text(
+                                                  MadarLocalizations.of(context)
+                                                      .trans('invoice'),
                                                   style: TextStyle(
                                                     fontSize: AppFonts
                                                         .medium_font_size,
@@ -326,7 +325,8 @@ class _InvoicePageState extends State<InvoicePage> {
                                           children: [
                                             TableRow(children: [
                                               Text(
-                                                "item",
+                                                MadarLocalizations.of(context)
+                                                    .trans('item'),
                                                 style: TextStyle(
                                                     fontSize: AppFonts
                                                         .small_font_size,
@@ -335,7 +335,8 @@ class _InvoicePageState extends State<InvoicePage> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "Price",
+                                                MadarLocalizations.of(context)
+                                                    .trans('price'),
                                                 style: TextStyle(
                                                     fontSize: AppFonts
                                                         .small_font_size,
@@ -344,7 +345,8 @@ class _InvoicePageState extends State<InvoicePage> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "Quantity",
+                                                MadarLocalizations.of(context)
+                                                    .trans('quantity'),
                                                 style: TextStyle(
                                                     fontSize: AppFonts
                                                         .small_font_size,
@@ -353,7 +355,8 @@ class _InvoicePageState extends State<InvoicePage> {
                                                         FontWeight.bold),
                                               ),
                                               Text(
-                                                "subtotal",
+                                                MadarLocalizations.of(context)
+                                                    .trans('subtotal'),
                                                 style: TextStyle(
                                                     fontSize: AppFonts
                                                         .small_font_size,
@@ -382,7 +385,7 @@ class _InvoicePageState extends State<InvoicePage> {
                                       ),
                                     ),
                                   ),
-                                  child: costWidget("210"),
+                                  child: costWidget(trip.cost.toString()),
                                 ),
                               ],
                             ),

@@ -5,11 +5,8 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/edit_profile_widget.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/indicator_painter.dart';
-import 'package:madar_booking/login_widget.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/profile_bloc.dart';
-import 'package:madar_booking/sign_up_widget.dart';
 import 'package:madar_booking/feedback.dart';
 
 class EditProfilePage extends StatefulWidget {
