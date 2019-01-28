@@ -107,7 +107,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
                             children: <Widget>[
                               Container(
                                 height:
-                                    MediaQuery.of(context).size.height - 250,
+                                    MediaQuery.of(context).size.height - 260,
                                 width: MediaQuery.of(context).size.width,
                                 padding: EdgeInsets.all(16),
                                 margin: EdgeInsets.only(right: 24, left: 24),
