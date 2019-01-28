@@ -139,8 +139,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _cardContainerList() {
     return Container(
-      constraints: BoxConstraints.expand(height: 225),
+      constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height / 3.2),
       child: ListView.builder(
+        padding: EdgeInsets.only(bottom: 5, top: 5),
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
@@ -204,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget _tripCardContainerList() {
     return Container(
       // height: 190,
-      constraints: BoxConstraints.expand(height: 190),
+      constraints: BoxConstraints.expand(height: MediaQuery.of(context).size.height / 3.8),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -380,6 +381,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               left: 0.0,
               right: 0.0,
               child: AppBar(
+                centerTitle: true,
                 title: Text(
                   "${MadarLocalizations.of(context).trans("hello")} ${appBloc.userName}",
                   style: TextStyle(color: Colors.black, fontSize: 24),

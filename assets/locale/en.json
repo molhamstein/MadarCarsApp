@@ -77,5 +77,7 @@
   "to": "To",
   "hello": "Hello",
   "trip_estim_cost": "Estim Cost",
-  "update": "Update"
+  "update": "Update",
+  "prices_may_vary" : "Prices may vary from airport to airport in a city"
+
 }

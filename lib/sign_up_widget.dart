@@ -44,6 +44,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     bloc = BlocProvider.of<AuthBloc>(context);
+    bloc.shouldShowFeedBack = true;
     super.initState();
   }
 
@@ -52,6 +53,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
     return StreamBuilder<UserResponse>(
         stream: bloc.submitSignUpStream,
         builder: (context, snapshot) {
+          print('adasdasd' + bloc.shouldShowFeedBack.toString());
           if (snapshot.hasError  && bloc.shouldShowFeedBack) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               showInSnackBar(snapshot.error.toString(), context);
@@ -148,24 +150,31 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
     return Padding(
       padding:
           EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-      child: TextField(
-        focusNode: myFocusNodeEmail,
-        controller: signupEmailController,
-        keyboardType: TextInputType.phone,
-        onChanged: bloc.changeSignUpPhone,
-        style: TextStyle(
-            fontFamily: "WorkSansSemiBold",
-            fontSize: 16.0,
-            color: Colors.black),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(
-            FontAwesomeIcons.mobile,
-            color: Colors.black,
-          ),
-          hintText: MadarLocalizations.of(context).trans('phone_number'),
-          hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
-        ),
+      child: StreamBuilder<CountryCode>(
+        stream: bloc.countryCodeChangeStream,
+        initialData: CountryCode(code: 'SA', dialCode: '+966'),
+        builder: (context, snapshot) {
+          return TextField(
+            focusNode: myFocusNodeEmail,
+            controller: signupEmailController,
+            keyboardType: TextInputType.phone,
+            onChanged: bloc.changeSignUpPhone,
+            style: TextStyle(
+                fontFamily: "WorkSansSemiBold",
+                fontSize: 16.0,
+                color: Colors.black),
+            textDirection: TextDirection.ltr,
+            decoration: InputDecoration(
+//          prefixText: snapshot.data.dialCode,
+              suffixText: snapshot.data.dialCode.replaceAll('+', '00'),
+              border: InputBorder.none,
+              icon: Icon(
+                FontAwesomeIcons.mobile,
+                color: Colors.black,
+              ),
+            ),
+          );
+        }
       ),
     );
   }
@@ -215,8 +224,8 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
         padding:
             EdgeInsets.only(top: 6.0, bottom: 20.0, left: 25.0, right: 25.0),
         child: CountryCodePicker(
-          favorite: ['SY', 'TR'],
-          initialSelection: 'SY',
+          favorite: ['SA', 'TR', 'KW', 'AE'],
+          initialSelection: 'SA',
           onChanged: bloc.changeSignUpIsoCode,
         ));
   }
@@ -235,9 +244,10 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
                 return MainButton(
                   text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
+                    bloc.shouldShowFeedBack = true;
                     if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                       showInSnackBar(
-                          'error_provide_valid_info', context);
+                          'error_provide_valid_info', context, color: Colors.redAccent);
                     bloc.shouldShowFeedBack = false;
                     } else
                       bloc.submitSignUp();

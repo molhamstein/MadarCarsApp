@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:async/async.dart';
+import 'package:country_code_picker/country_code.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
@@ -59,12 +60,12 @@ class Network {
   }
 
   Future<User> signUp(String phoneNumber, String userName, String password,
-      String isoCode) async {
+      CountryCode isoCode) async {
     final body = json.encode({
-      'phoneNumber': phoneNumber,
+      'phoneNumber': isoCode.dialCode + phoneNumber,
       'name': userName,
       'password': password,
-      'ISOCode': isoCode.toUpperCase()
+      'ISOCode': isoCode.code.replaceAll('+', '00').toUpperCase()
     });
     final response = await http.post(_signUpUrl, body: body, headers: headers);
     if (response.statusCode == 200) {

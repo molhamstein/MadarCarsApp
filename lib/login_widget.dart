@@ -32,6 +32,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
   void initState() {
     bloc = BlocProvider.of<AuthBloc>(context);
     appBloc = BlocProvider.of<AppBloc>(context);
+    bloc.shouldShowFeedBack = true;
     super.initState();
   }
 
@@ -243,6 +244,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 errorText: MadarLocalizations.of(context).trans(snapshot.error),
+                errorStyle: TextStyle(height: 0.7),
                 icon: Icon(
                   FontAwesomeIcons.mobile,
                   color: Colors.black,
@@ -321,6 +323,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
               return MainButton(
                 text: MadarLocalizations.of(context).trans('submit'),
                 onPressed: () {
+                  bloc.shouldShowFeedBack = true;
                   if ((!snapshot.hasData || !snapshot.data) && bloc.shouldShowFeedBack) {
                     showInSnackBar(
                         'error_provide_valid_info', context, color: Colors.redAccent);

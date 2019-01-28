@@ -24,12 +24,11 @@ class MadarColors {
       tileMode: TileMode.clamp);
 
   static const shadow = BoxShadow(
-    color: Color(0x77000000),
-    blurRadius: 15.0, // has the effect of softening the shadow
-    spreadRadius: 5.0, // has the effect of extending the shadow
+    color: Colors.black26,
+    blurRadius: 8.0, // has the effect of softening the shadow
     offset: Offset(
       0.0, // horizontal, move right 10
-      5.0, // vertical, move down 10
+      1.0, // vertical, move down 10
     ),
   );
 
