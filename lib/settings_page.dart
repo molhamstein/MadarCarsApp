@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/main.dart';
 
 class MySettingsPage extends StatefulWidget {
   MySettingsPage({Key key, this.title}) : super(key: key);
@@ -144,7 +144,8 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                       BlocProvider.of<AppBloc>(context).logout;
                                     },
                                     child: Text(
-                                      'Logout',
+                                      MadarLocalizations.of(context)
+                                          .trans('logout'),
                                       style: TextStyle(
                                           fontSize: 24.0, color: Colors.black),
                                     ),
@@ -166,7 +167,7 @@ class _MySettingsPageState extends State<MySettingsPage> {
             child: AppBar(
               elevation: 0.0,
               backgroundColor: Colors.transparent,
-              title: Text("Settings"),
+              title: Text(MadarLocalizations.of(context).trans('settings')),
               actions: <Widget>[],
             ),
           ),

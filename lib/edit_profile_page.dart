@@ -109,6 +109,18 @@ class _EditProfilePageState extends State<EditProfilePage>
           WidgetsBinding.instance.addPostFrameCallback((_) {
             showInSnackBar(snapshot.error.toString(), context);
           });
+          return Center(
+            child: ListTile(
+              title: IconButton(
+                onPressed: () {
+                  profileBloc.getMe();
+                },
+                icon: Icon(Icons.restore),
+              ),
+              subtitle: Text(
+                  MadarLocalizations.of(context).trans('connection_error')),
+            ),
+          );
         } else {
           return Center(
             child: CircularProgressIndicator(),

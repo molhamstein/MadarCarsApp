@@ -7,9 +7,37 @@ import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/trip_info_page.dart';
 
-class MyTripCard extends StatelessWidget {
+class MyTripCard extends StatefulWidget {
   final MyTrip trip;
   MyTripCard(this.trip);
+
+  @override
+  MyTripCardState createState() {
+    return new MyTripCardState();
+  }
+}
+
+class MyTripCardState extends State<MyTripCard> {
+  String getTripStatus() {
+    if (widget.trip.fromAirport &&
+        widget.trip.inCity &&
+        widget.trip.toAirport) {
+      return MadarLocalizations.of(context).trans('tow_way_air_port') +
+          '\n' +
+          MadarLocalizations.of(context).trans('in_city');
+    } else if (widget.trip.fromAirport && widget.trip.inCity) {
+      return MadarLocalizations.of(context).trans('from_air_port') +
+          '\n' +
+          MadarLocalizations.of(context).trans('in_city');
+    } else if (widget.trip.fromAirport && widget.trip.toAirport) {
+      return MadarLocalizations.of(context).trans('tow_way_air_port');
+    } else if (widget.trip.inCity && widget.trip.toAirport) {
+      return MadarLocalizations.of(context).trans('to_air_port') +
+          '\n' +
+          MadarLocalizations.of(context).trans('in_city');
+    }
+    return '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +45,7 @@ class MyTripCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => TripInfoPage(trip),
+            builder: (context) => TripInfoPage(widget.trip),
           ),
         );
       },
@@ -39,12 +67,12 @@ class MyTripCard extends StatelessWidget {
                           width: 25,
                           height: 25,
                           decoration: BoxDecoration(
-                            color: trip.isActive()
+                            color: widget.trip.isActive()
                                 ? Colors.yellow.shade800
                                 : Colors.grey.shade800,
                             borderRadius: BorderRadius.circular(12.5),
                           ),
-                          child: trip.isActive()
+                          child: widget.trip.isActive()
                               ? Icon(
                                   Icons.check,
                                   color: Colors.white,
@@ -71,7 +99,7 @@ class MyTripCard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: AutoSizeText(
-                              "${DateFormat.Md().format(DateTime.parse(trip.startDate()))}\n${DateFormat.y().format(DateTime.parse(trip.startDate()))}",
+                              "${DateFormat.Md().format(DateTime.parse(widget.trip.startDate()))}\n${DateFormat.y().format(DateTime.parse(widget.trip.startDate()))}",
                               style: AppTextStyle.smallTextStyleBlack,
                               maxLines: 2,
                             ),
@@ -144,7 +172,7 @@ class MyTripCard extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: AutoSizeText(
-                                                      trip.location.name(
+                                                      widget.trip.location.name(
                                                           MadarLocalizations.of(
                                                                   context)
                                                               .locale),
@@ -158,7 +186,7 @@ class MyTripCard extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: AutoSizeText(
-                                                      "Picked From Airport",
+                                                      getTripStatus(),
                                                       style: AppTextStyle
                                                           .smallTextStylegrey,
                                                       maxLines: 2,
@@ -200,7 +228,7 @@ class MyTripCard extends StatelessWidget {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: AutoSizeText(
-                                                      "${trip.totlaDuration()} ${MadarLocalizations.of(context).trans("days")}",
+                                                      "${widget.trip.totlaDuration()} ${MadarLocalizations.of(context).trans("days")}",
                                                       style: AppTextStyle
                                                           .smallTextStylegrey,
                                                       maxLines: 1,
@@ -259,7 +287,7 @@ class MyTripCard extends StatelessWidget {
                                                             const EdgeInsets
                                                                 .only(top: 8.0),
                                                         child: AutoSizeText(
-                                                          trip.car.brand.name(
+                                                          widget.trip.car.brand.name(
                                                               MadarLocalizations
                                                                       .of(context)
                                                                   .locale),
@@ -273,7 +301,7 @@ class MyTripCard extends StatelessWidget {
                                                             const EdgeInsets
                                                                 .only(top: 8.0),
                                                         child: AutoSizeText(
-                                                          '${trip.driver.firstName} ${trip.driver.lastName}',
+                                                          '${widget.trip.driver.firstName} ${widget.trip.driver.lastName}',
                                                           style: AppTextStyle
                                                               .smallTextStyleWhite,
                                                           maxLines: 1,
@@ -327,7 +355,8 @@ class MyTripCard extends StatelessWidget {
                                                                         .only(
                                                                     top: 8.0),
                                                             child: AutoSizeText(
-                                                              trip.startDateFromated(),
+                                                              widget.trip
+                                                                  .startDateFromated(),
                                                               style: AppTextStyle
                                                                   .xSmallTextStyleWhite,
                                                               maxLines: 1,
@@ -375,7 +404,8 @@ class MyTripCard extends StatelessWidget {
                                                                       top: 8.0),
                                                               child:
                                                                   AutoSizeText(
-                                                                trip.endDateFormated(),
+                                                                widget.trip
+                                                                    .endDateFormated(),
                                                                 style: AppTextStyle
                                                                     .xSmallTextStyleWhite,
                                                                 maxLines: 1,

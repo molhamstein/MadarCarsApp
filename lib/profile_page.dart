@@ -77,7 +77,16 @@ class _ProfilePageState extends State<ProfilePage> {
             return Center(child: CircularProgressIndicator());
           default:
             if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
+              return ListTile(
+                title: IconButton(
+                  onPressed: () {
+                    profileBloc.myTrips();
+                  },
+                  icon: Icon(Icons.restore),
+                ),
+                subtitle: Text(
+                    MadarLocalizations.of(context).trans('connection_error')),
+              );
             } else {
               this.trips = snapshot.data;
               return tripInfoCardList();

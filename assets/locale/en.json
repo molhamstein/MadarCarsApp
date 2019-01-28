@@ -88,5 +88,12 @@
   "price": "Price",
   "quantity": "Quantity",
   "subtotal": "Subtotal",
-  "total_cost": "Total Cost"
+  "total_cost": "Total Cost",
+  "connection_error": "No Internet Connection Please check you connection and try again",
+  "tow_way_air_port": "Air port",
+  "in_city": "In City",
+  "logout": "Logout",
+  "settings": "Settings",
+  "from_air_port": "From Airport",
+  "to_air_port": "To Airport"
 }
