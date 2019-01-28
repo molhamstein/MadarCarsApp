@@ -313,7 +313,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                   .height /
                                               2.2),
                                       height:
-                                          MediaQuery.of(context).size.width / 2,
+                                          MediaQuery.of(context).size.width / 1.8,
                                       child: ListView.builder(
                                         itemBuilder: (context, index) {
                                           return CarCard(

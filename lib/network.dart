@@ -266,6 +266,7 @@ class Network {
       "priceOneWay": trip.car.priceOneWay,
       "priceTowWay": trip.car.priceTowWay,
       "carId": trip.car.id,
+      "note": trip.note,
       "tripSublocations": trip.tripSubLocations.map((carSubLocation) {
         return {
           "sublocationId": carSubLocation.id,

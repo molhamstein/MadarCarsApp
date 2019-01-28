@@ -47,7 +47,7 @@
   "pickup_from_airport": "Pickup from Airport",
   "rent_car_for_city_tour": "Rent a car for city tour",
   "pickup_to_airport": "pickup back to Airport",
-  "trip_planing_question": "Don't know how to plan a trip and need help?",
+  "trip_planing_question": "Don't know how to plan a trip and",
   "end_date": "End Date",
   "start_date": "Start Date",
   "estim_cost": "Estim Cost",
@@ -80,6 +80,8 @@
   "trip_estim_cost": "Estim Cost",
   "update": "Update",
   "prices_may_vary" : "Prices may vary from airport to airport in a city",
-  "home" : "Home"
+  "home" : "Home",
+  "need_help" : "Need help?"
+
 
 }

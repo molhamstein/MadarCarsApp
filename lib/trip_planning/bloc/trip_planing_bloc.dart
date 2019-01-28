@@ -46,6 +46,8 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _loadingController = BehaviorSubject<bool>();
   final _feedbackController = PublishSubject<String>();
   final _helpController = PublishSubject<bool>();
+  final _noteButtonController = PublishSubject<bool>();
+
 
   get navigationStream => _navigationController.stream;
 
@@ -60,6 +62,12 @@ class TripPlaningBloc extends BaseBloc with Network {
   get feedbackStream => _feedbackController.stream;
 
   get helpStream => _helpController.stream;
+
+  get noteButtonStream => _noteButtonController.stream;
+
+
+  get showNoteButton => _noteButtonController.sink.add(true);
+  get hideNoteButton => _noteButtonController.sink.add(false);
 
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
@@ -89,11 +97,13 @@ class TripPlaningBloc extends BaseBloc with Network {
       }
       done = false;
       if (index == 4) {
+        showNoteButton;
         done = true;
       }
       if (trip.inCity) {
         if (index == 4) {
           pushLoading(true);
+          showNoteButton;
           changeButtonText('done');
         }
       } else {
@@ -101,6 +111,7 @@ class TripPlaningBloc extends BaseBloc with Network {
           changeButtonText('done');
           pushLoading(true);
           done = true;
+          showNoteButton;
           index = 4;
         }
       }
@@ -217,5 +228,6 @@ class TripPlaningBloc extends BaseBloc with Network {
     _loadingController.close();
     _feedbackController.close();
     _helpController.close();
+    _noteButtonController.close();
   }
 }

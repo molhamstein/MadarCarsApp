@@ -10,6 +10,7 @@ class Trip {
   DateTime startDate;
   DateTime endDate;
   Car car;
+  String note;
   List<TripSublocation> tripSubLocations;
 
   Trip({
@@ -31,6 +32,7 @@ class Trip {
     endDate = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 23);
     tripSubLocations = [];
+    note = '';
   }
 
 

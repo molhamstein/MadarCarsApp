@@ -97,14 +97,14 @@ class TripTypeStepState extends State<TripTypeStep>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 16.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Don\'t know how to plan a trip and',
+                        MadarLocalizations.of(context).trans('trip_planing_question'),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
@@ -116,7 +116,7 @@ class TripTypeStepState extends State<TripTypeStep>
                         child: LoadingButtonSmall(
                           height: 30,
                           width: 100,
-                          text: 'Need help?',
+                          text: MadarLocalizations.of(context).trans('need_help'),
                           loading: true,
                           onPressed: (){
                             bloc.submitHelp();
