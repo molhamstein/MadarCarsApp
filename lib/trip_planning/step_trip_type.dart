@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madar_booking/LoadingButtonSmall.dart';
 import 'package:madar_booking/TripTypeTile.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
+import 'package:madar_booking/trip_planning/need_help_page.dart';
 
 class TripTypeStep extends StatefulWidget {
   @override
@@ -95,17 +97,34 @@ class TripTypeStepState extends State<TripTypeStep>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    MadarLocalizations.of(context)
-                        .trans('trip_planing_question'),
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16),
-                    textAlign: TextAlign.center,
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Don\'t know how to plan a trip and',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16),
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: LoadingButtonSmall(
+                          height: 30,
+                          width: 100,
+                          text: 'Need help?',
+                          loading: true,
+                          onPressed: (){},
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+
               ],
             );
           },

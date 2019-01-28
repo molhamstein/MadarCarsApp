@@ -27,9 +27,9 @@ class TripPlaningBloc extends BaseBloc with Network {
       trip = Trip.init();
       trip.inCity = true;
       trip.location = tripModel.location;
-      trip.location.subLocationsIds =
-          tripModel.predefinedTripsSublocations.map((s) => s.sublocationId)
-              .toList();
+      trip.location.subLocationsIds = tripModel.predefinedTripsSublocations
+          .map((s) => s.sublocationId)
+          .toList();
       trip.endDate = trip.endDate.add(Duration(days: tripModel.duration));
     }
     index = 0;
@@ -45,6 +45,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _mainButtonTextController = BehaviorSubject<String>();
   final _loadingController = BehaviorSubject<bool>();
   final _feedbackController = PublishSubject<String>();
+  final _helpController = PublishSubject<bool>();
 
   get navigationStream => _navigationController.stream;
 
@@ -169,8 +170,8 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   Function(String, int, int) get addSubLocation => trip.addSubLocation;
 
-  get pushEstimationCost =>
-      _estimationCostController.sink.add(trip.estimationPrice(withSubLocationPrice: true));
+  get pushEstimationCost => _estimationCostController.sink
+      .add(trip.estimationPrice(withSubLocationPrice: true));
 
   //TODO: change!
   get isToAirport => trip.toAirport;
@@ -197,6 +198,14 @@ class TripPlaningBloc extends BaseBloc with Network {
     });
   }
 
+  submitHelp() {
+    sendHelp(token).then((_) {
+      _helpController.sink.add(true);
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   @override
   void dispose() {
     _navigationController.close();
@@ -205,5 +214,6 @@ class TripPlaningBloc extends BaseBloc with Network {
     _mainButtonTextController.close();
     _loadingController.close();
     _feedbackController.close();
+    _helpController.close();
   }
 }
