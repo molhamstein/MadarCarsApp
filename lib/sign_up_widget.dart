@@ -168,7 +168,7 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
                   textDirection: TextDirection.ltr,
                   decoration: InputDecoration(
                     errorText: MadarLocalizations.of(context).trans(phoneSnapshot.error),
-                    errorStyle: TextStyle(height: 0),
+                    errorStyle: TextStyle(height: 0.1),
                     prefixText: snapshot.data.dialCode,
                     border: InputBorder.none,
                     icon: Icon(
