@@ -236,7 +236,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
               decoration: InputDecoration(
                 border: InputBorder.none,
                 errorText: MadarLocalizations.of(context).trans(snapshot.error),
-                errorStyle: TextStyle(height: 0.1),
+                errorStyle: TextStyle(height: 0.1, fontSize: 12),
                 icon: isoCodePicker(),
                 hintText: MadarLocalizations.of(context).trans('phone_number'),
                 hintStyle:
@@ -305,7 +305,6 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
       favorite: ['SA', 'TR', 'KW', 'AE'],
       initialSelection: 'SA',
       onChanged: bloc.changeSignUpIsoCode,
-      padding: EdgeInsets.all(0),
     );
   }
 

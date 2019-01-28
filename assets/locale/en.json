@@ -62,6 +62,7 @@
   "error_car_not_available": "The car you requested is not available",
   "error_provide_valid_info": "Please provide valid information",
   "error_valid_phone_number": "Enter a Valid Phone Number",
+  "error_international_phone_number": "Should be international phone number",
   "error_valid_password": "Enter a Valid password",
   "error_valid_name": "Enter a valid name",
   "error_wrong_credentials": "Phone number or password are wrong",
