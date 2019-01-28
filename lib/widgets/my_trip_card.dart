@@ -259,7 +259,10 @@ class MyTripCard extends StatelessWidget {
                                                             const EdgeInsets
                                                                 .only(top: 8.0),
                                                         child: AutoSizeText(
-                                                          trip.car.name,
+                                                          trip.car.brand.name(
+                                                              MadarLocalizations
+                                                                      .of(context)
+                                                                  .locale),
                                                           style: AppTextStyle
                                                               .normalTextStyleWhite,
                                                           maxLines: 1,

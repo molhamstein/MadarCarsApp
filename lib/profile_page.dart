@@ -47,14 +47,16 @@ class _ProfilePageState extends State<ProfilePage> {
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     profileBloc = ProfileBloc(token);
-
+    profileBloc.myTrips();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
     super.initState();
   }
 
   Widget tripInfoCardList() {
     return RefreshIndicator(
       key: _refreshIndicatorKey,
-      onRefresh: profileBloc.myTrips(),
+      onRefresh: profileBloc.myTrips,
       child: ListView.builder(
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),

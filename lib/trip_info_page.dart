@@ -354,7 +354,10 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                         const EdgeInsets.only(
                                                             top: 8.0),
                                                     child: Text(
-                                                      trip.car.name,
+                                                      trip.car.brand.name(
+                                                          MadarLocalizations.of(
+                                                                  context)
+                                                              .locale),
                                                       style: AppTextStyle
                                                           .largeTextStyleBlack,
                                                     ),
