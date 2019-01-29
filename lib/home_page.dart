@@ -195,7 +195,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
-                      return Text("There is no connection");
+                      return ListTile(
+                        title: IconButton(
+                          onPressed: () {
+                            homeBloc.getCars();
+                          },
+                          icon: Icon(Icons.restore),
+                        ),
+                        subtitle: Text(MadarLocalizations.of(context)
+                            .trans('connection_error')),
+                      );
                     case ConnectionState.waiting:
                       return Container(
                           height: 225,
@@ -203,7 +212,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           child: Center(child: CircularProgressIndicator()));
                     default:
                       if (snapshot.hasError) {
-                        return Text("Error}");
+                        return Container(
+                            constraints: BoxConstraints.expand(
+                                height:
+                                    MediaQuery.of(context).size.height / 3.2),
+                            child: ListTile(
+                              title: IconButton(
+                                onPressed: () {
+                                  homeBloc.getCars();
+                                },
+                                icon: Icon(Icons.restore),
+                              ),
+                              subtitle: Text(MadarLocalizations.of(context)
+                                  .trans('connection_error')),
+                            ));
                       } else {
                         this.cars = snapshot.data;
                         return _cardContainerList();
@@ -274,14 +296,36 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.none:
-                        return Text("There is no connection");
+                        return ListTile(
+                          title: IconButton(
+                            onPressed: () {
+                              homeBloc.predifindTrips();
+                            },
+                            icon: Icon(Icons.restore),
+                          ),
+                          subtitle: Text(MadarLocalizations.of(context)
+                              .trans('connection_error')),
+                        );
                       case ConnectionState.waiting:
                         return Container(
                             height: 190,
                             child: Center(child: CircularProgressIndicator()));
                       default:
                         if (snapshot.hasError) {
-                          return Text("Error: }");
+                          return Container(
+                              constraints: BoxConstraints.expand(
+                                  height:
+                                      MediaQuery.of(context).size.height / 3.8),
+                              child: ListTile(
+                                title: IconButton(
+                                  onPressed: () {
+                                    homeBloc.predifindTrips();
+                                  },
+                                  icon: Icon(Icons.restore),
+                                ),
+                                subtitle: Text(MadarLocalizations.of(context)
+                                    .trans('connection_error')),
+                              ));
                         } else {
                           this.trips = snapshot.data;
                           return _tripCardContainerList();

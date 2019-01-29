@@ -23,8 +23,8 @@ class ProfileBloc extends BaseBloc with Network {
   Function(User) get insertuser => _userController.sink.add;
   Stream<User> get userStream => _userController.stream;
 
-  myTrips() {
-    getMyTrips(token).then((response) {
+  Future myTrips() {
+    return getMyTrips(token).then((response) {
       print(response);
       _myTripsController.sink.add(response);
     }).catchError((e) {

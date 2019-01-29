@@ -5,11 +5,8 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/edit_profile_widget.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/indicator_painter.dart';
-import 'package:madar_booking/login_widget.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/profile_bloc.dart';
-import 'package:madar_booking/sign_up_widget.dart';
 import 'package:madar_booking/feedback.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -58,68 +55,78 @@ class _EditProfilePageState extends State<EditProfilePage>
               gradient: MadarColors.gradiant_decoration,
             ),
           ),
-          StreamBuilder<User>(
-            stream: profileBloc.userStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                appBloc.saveUser(snapshot.data);
-                return Scaffold(
-                  appBar: AppBar(
-                    elevation: 0.0,
-                    backgroundColor: Colors.transparent,
-                    title: Text(
-                        MadarLocalizations.of(context).trans("edit_profile")),
-                  ),
-                  backgroundColor: Colors.transparent,
-                  body: StreamBuilder<bool>(
-                    initialData: false,
-                    stream: bloc.lockTouchEventStream,
-                    builder: (context, snapshot) {
-                      print(snapshot.data);
-                      return _buildLayout(snapshot.data);
-                    },
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  showInSnackBar(snapshot.error.toString(), context);
-                });
-                return Container();
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          )
+          Scaffold(
+            appBar: AppBar(
+              elevation: 0.0,
+              backgroundColor: Colors.transparent,
+              title: Text(MadarLocalizations.of(context).trans("edit_profile")),
+            ),
+            backgroundColor: Colors.transparent,
+            body: StreamBuilder<bool>(
+              initialData: false,
+              stream: bloc.lockTouchEventStream,
+              builder: (context, snapshot) {
+                print(snapshot.data);
+                return _buildLayout(snapshot.data);
+              },
+            ),
+          ),
         ],
       ),
     );
   }
 
   _buildLayout(bool ignore) {
-    return Stack(
-      children: <Widget>[
-        IgnorePointer(
-          ignoring: ignore,
-          child: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (overscroll) {
-              overscroll.disallowGlow();
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(flex: 2, child: EditProfileWidget()),
-                ],
+    return StreamBuilder<User>(
+      stream: profileBloc.userStream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          appBloc.saveUser(snapshot.data);
+          return Stack(
+            children: <Widget>[
+              IgnorePointer(
+                ignoring: ignore,
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (overscroll) {
+                    overscroll.disallowGlow();
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(flex: 2, child: EditProfileWidget()),
+                      ],
+                    ),
+                  ),
+                ),
               ),
+            ],
+          );
+        } else if (snapshot.hasError) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            showInSnackBar(snapshot.error.toString(), context);
+          });
+          return Center(
+            child: ListTile(
+              title: IconButton(
+                onPressed: () {
+                  profileBloc.getMe();
+                },
+                icon: Icon(Icons.restore),
+              ),
+              subtitle: Text(
+                  MadarLocalizations.of(context).trans('connection_error')),
             ),
-          ),
-        ),
-      ],
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
@@ -96,7 +95,9 @@ class CarCard extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          car.name,
+                                          car.brand.name(
+                                              MadarLocalizations.of(context)
+                                                  .locale),
                                           style:
                                               AppTextStyle.smallTextStyleBlack,
                                         ),

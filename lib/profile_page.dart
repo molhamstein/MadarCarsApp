@@ -7,9 +7,6 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/profile_bloc.dart';
 import 'package:madar_booking/profile_header.dart';
 import 'package:madar_booking/settings_page.dart';
-import 'package:madar_booking/trip_info_page.dart';
-import 'madar_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'my_flutter_app_icons.dart';
 import 'widgets/my_trip_card.dart';
 import 'models/MyTrip.dart';
@@ -47,14 +44,16 @@ class _ProfilePageState extends State<ProfilePage> {
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     profileBloc = ProfileBloc(token);
-
+    profileBloc.myTrips();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
     super.initState();
   }
 
   Widget tripInfoCardList() {
     return RefreshIndicator(
       key: _refreshIndicatorKey,
-      onRefresh: profileBloc.myTrips(),
+      onRefresh: profileBloc.myTrips,
       child: ListView.builder(
           shrinkWrap: true,
           physics: const AlwaysScrollableScrollPhysics(),
@@ -78,7 +77,16 @@ class _ProfilePageState extends State<ProfilePage> {
             return Center(child: CircularProgressIndicator());
           default:
             if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
+              return ListTile(
+                title: IconButton(
+                  onPressed: () {
+                    profileBloc.myTrips();
+                  },
+                  icon: Icon(Icons.restore),
+                ),
+                subtitle: Text(
+                    MadarLocalizations.of(context).trans('connection_error')),
+              );
             } else {
               this.trips = snapshot.data;
               return tripInfoCardList();

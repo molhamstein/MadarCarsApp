@@ -1,18 +1,12 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/bloc_provider.dart';
-import 'package:madar_booking/invoice_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
+import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/MyTrip.dart';
-import 'package:madar_booking/models/TripModel.dart';
-import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/profile_bloc.dart';
-import 'package:madar_booking/profile_header.dart';
-import 'package:madar_booking/rate_widget.dart';
-import 'package:madar_booking/settings_page.dart';
-import 'madar_colors.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'madar_fonts.dart';
 
 class InvoicePage extends StatefulWidget {
@@ -48,9 +42,8 @@ class _InvoicePageState extends State<InvoicePage> {
               // estim cost container
               child: Container(
                 alignment: Alignment(0, 0),
-                child: Text("Total Cost",
-                    style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                child: Text(MadarLocalizations.of(context).trans('total_cost'),
+                    style: AppTextStyle.normalTextStyleBlack),
               ),
             ),
             Expanded(
@@ -203,7 +196,8 @@ class _InvoicePageState extends State<InvoicePage> {
                             child: Container(
                               child: Center(
                                 child: Text(
-                                  "Invoice",
+                                  MadarLocalizations.of(context)
+                                      .trans('invoice'),
                                   style: TextStyle(
                                       fontSize: AppFonts.large_font_size,
                                       fontWeight: FontWeight.bold),
@@ -216,14 +210,13 @@ class _InvoicePageState extends State<InvoicePage> {
                               child: Container(
                                 child: ListTile(
                                   title: Text(
-                                    "Mercides E16",
-                                    style: TextStyle(
-                                        fontSize: AppFonts.large_font_size,
-                                        color: Colors.grey.shade800,
-                                        fontWeight: FontWeight.bold),
+                                    trip.car.brand.name(
+                                        MadarLocalizations.of(context).locale),
+                                    style: AppTextStyle.largeTextStyleBlack,
                                   ),
                                   subtitle: Text(
-                                    "Istanbul",
+                                    trip.location.name(
+                                        MadarLocalizations.of(context).locale),
                                     style: TextStyle(
                                         fontSize: AppFonts.medium_font_size,
                                         color: Colors.grey.shade600,
@@ -236,159 +229,275 @@ class _InvoicePageState extends State<InvoicePage> {
                     ),
                   ),
                   Expanded(
-                      flex: 2,
-                      child: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Container(
-                            width: 350,
-                            // decoration: BoxDecoration(
-                            //   color: Colors.red,
-                            //   image: DecorationImage(
-                            //     image:
-                            //         AssetImage('assets/images/invoice-01.png'),
-                            //     fit: BoxFit.cover,
-                            //   ),
-                            // ),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 16.0),
-                                            child: ListTile(
-                                              title: Text("Date",
-                                                  style: TextStyle(
-                                                    fontSize: AppFonts
-                                                        .medium_font_size,
-                                                    color: Colors.grey.shade600,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                              subtitle: Text(
-                                                "12/12/2018",
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      AppFonts.large_font_size,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 16.0),
-                                            child: ListTile(
-                                              title: Text("Invoice",
-                                                  style: TextStyle(
-                                                    fontSize: AppFonts
-                                                        .medium_font_size,
-                                                    color: Colors.grey.shade600,
-                                                    fontWeight: FontWeight.bold,
-                                                  )),
-                                              subtitle: Text(
-                                                "Qtqtfaqc23",
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      AppFonts.large_font_size,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                    flex: 2,
+                    child: StreamBuilder<Invoice>(
+                      stream: profileBloc.invoiceStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Container(
+                                width: 350,
+                                decoration: BoxDecoration(
+                                  boxShadow: [MadarColors.shadow],
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/invoice-01.png'),
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
-                                Expanded(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        child: Table(
-                                          columnWidths: {
-                                            1: FractionColumnWidth(.2),
-                                            2: FractionColumnWidth(.2),
-                                            3: FractionColumnWidth(.2),
-                                            4: FractionColumnWidth(.2)
-                                          },
-                                          children: [
-                                            TableRow(children: [
-                                              Text(
-                                                "item",
-                                                style: TextStyle(
-                                                    fontSize: AppFonts
-                                                        .small_font_size,
-                                                    color: Colors.grey.shade400,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                            child: Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 16.0),
+                                                child: ListTile(
+                                                  title: Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans('date'),
+                                                      style: TextStyle(
+                                                        fontSize: AppFonts
+                                                            .medium_font_size,
+                                                        color: Colors
+                                                            .grey.shade600,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      )),
+                                                  subtitle: Text(
+                                                    trip.startDateFromated(),
+                                                    style: TextStyle(
+                                                      fontSize: AppFonts
+                                                          .large_font_size,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                              Text(
-                                                "Price",
-                                                style: TextStyle(
-                                                    fontSize: AppFonts
-                                                        .small_font_size,
-                                                    color: Colors.grey.shade400,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 16.0),
+                                                child: ListTile(
+                                                  title: Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans('invoice'),
+                                                      style: TextStyle(
+                                                        fontSize: AppFonts
+                                                            .medium_font_size,
+                                                        color: Colors
+                                                            .grey.shade600,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      )),
+                                                  subtitle: Text(
+                                                    snapshot.data.id
+                                                        .substring(17),
+                                                    style: TextStyle(
+                                                      fontSize: AppFonts
+                                                          .large_font_size,
+                                                      color: Colors.black,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
-                                              Text(
-                                                "Quantity",
-                                                style: TextStyle(
-                                                    fontSize: AppFonts
-                                                        .small_font_size,
-                                                    color: Colors.grey.shade400,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Container(
+                                              child: Table(
+                                                columnWidths: {
+                                                  1: FractionColumnWidth(.2),
+                                                  2: FractionColumnWidth(.2),
+                                                  3: FractionColumnWidth(.2),
+                                                  4: FractionColumnWidth(.2)
+                                                },
+                                                children: [
+                                                  TableRow(children: [
+                                                    Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans('item'),
+                                                      style: TextStyle(
+                                                          fontSize: AppFonts
+                                                              .small_font_size,
+                                                          color: Colors
+                                                              .grey.shade400,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans('price'),
+                                                      style: TextStyle(
+                                                          fontSize: AppFonts
+                                                              .small_font_size,
+                                                          color: Colors
+                                                              .grey.shade400,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans('quantity'),
+                                                      style: TextStyle(
+                                                          fontSize: AppFonts
+                                                              .small_font_size,
+                                                          color: Colors
+                                                              .grey.shade400,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans('subtotal'),
+                                                      style: TextStyle(
+                                                          fontSize: AppFonts
+                                                              .small_font_size,
+                                                          color: Colors
+                                                              .grey.shade400,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ]),
+                                                ],
                                               ),
-                                              Text(
-                                                "subtotal",
-                                                style: TextStyle(
-                                                    fontSize: AppFonts
-                                                        .small_font_size,
-                                                    color: Colors.grey.shade400,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                            ),
+                                            Container(
+                                              child: Table(
+                                                columnWidths: {
+                                                  1: FractionColumnWidth(.2),
+                                                  2: FractionColumnWidth(.2),
+                                                  3: FractionColumnWidth(.2),
+                                                  4: FractionColumnWidth(.2)
+                                                },
+                                                children: snapshot.data.bills
+                                                    .map(
+                                                      (bill) => TableRow(
+                                                            children: [
+                                                              Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 8.0),
+                                                                  child: Text(
+                                                                    '${bill.titleEn}',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            AppFonts
+                                                                                .medium_font_size,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  )),
+                                                              Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 8.0),
+                                                                  child: Text(
+                                                                    '${bill.pricePerUnit}',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            AppFonts
+                                                                                .medium_font_size,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  )),
+                                                              Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 8.0),
+                                                                  child: Text(
+                                                                    '${bill.quantity}',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            AppFonts
+                                                                                .medium_font_size,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  )),
+                                                              Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                              top: 8.0),
+                                                                  child: Text(
+                                                                    '${bill.totalPrice}',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            AppFonts
+                                                                                .medium_font_size,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                    )
+                                                    .toList(),
                                               ),
-                                            ]),
+                                            ),
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                        child: getInvoice(),
+                                    )),
+                                    Container(
+                                      height: 100,
+                                      margin: EdgeInsets.only(
+                                          left: 16.0, right: 16.0, top: 8.0),
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          top: BorderSide(
+                                            color: Colors.black,
+                                          ),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                )),
-                                Container(
-                                  height: 100,
-                                  margin: EdgeInsets.only(
-                                      left: 16.0, right: 16.0, top: 8.0),
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      top: BorderSide(
-                                        color: Colors.black,
-                                      ),
+                                      child: costWidget(trip.cost.toString()),
                                     ),
-                                  ),
-                                  child: costWidget("210"),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      )),
+                          );
+                        } else {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                      },
+                    ),
+                  )
                 ],
               ),
             ),
