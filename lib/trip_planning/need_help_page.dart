@@ -29,10 +29,10 @@ class NeedHelpPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Text(
                     MadarLocalizations.of(context)
-                        .trans('trip_created_successfully'),
+                        .trans('we_will_contact_you_text'),
                     style: TextStyle(
                         color: Colors.black87,
                         fontSize: 18,

@@ -195,7 +195,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                                   decoration: InputDecoration(
                                                     hasFloatingPlaceholder:
                                                         true,
-                                                    hintText: 'Your Note',
+                                                    hintText: MadarLocalizations.of(context).trans('your_note'),
                                                     border:
                                                         OutlineInputBorder(),
                                                   ),

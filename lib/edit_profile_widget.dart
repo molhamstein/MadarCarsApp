@@ -75,7 +75,6 @@ class EditProfileWidgetState extends State<EditProfileWidget>
   });
 
   static Future<File> compressAndGetFile(File file) async {
-    print("testCompressAndGetFile");
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       file.path,
@@ -331,7 +330,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   image: DecorationImage(
                     image: appBloc.userImage != null
                         ? NetworkImage(appBloc.userImage)
-                        : AssetImage('assets/images/profileImg.png'),
+                        : AssetImage('assets/images/profileImg.jpeg'),
                     fit: BoxFit.cover,
                   ),
                 ),

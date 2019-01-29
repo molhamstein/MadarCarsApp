@@ -37,7 +37,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
 
     _citiesController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 4000),
     );
 
     final CurvedAnimation curvedAnimation =
@@ -45,7 +45,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
     final CurvedAnimation curvedAnimation2 =
         CurvedAnimation(parent: _citiesController, curve: ElasticOutCurve(0.5));
 
-    _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200), end: Offset.zero)
+    _offsetFloat = Tween<Offset>(begin: Offset(0.0, -4000), end: Offset.zero)
         .animate(curvedAnimation);
     _citiesFloat = Tween<Offset>(begin: Offset(500, 0), end: Offset.zero)
         .animate(curvedAnimation2);

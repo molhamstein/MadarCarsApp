@@ -47,7 +47,7 @@ class TripTypeStepState extends State<TripTypeStep>
     return Material(
       color: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.only(top: 40),
+        margin: EdgeInsets.only(top: 20),
         child: AnimatedBuilder(
           animation: _offsetFloat,
           builder: (context, widget) {
@@ -115,7 +115,7 @@ class TripTypeStepState extends State<TripTypeStep>
                         padding: const EdgeInsets.all(8.0),
                         child: LoadingButtonSmall(
                           height: 30,
-                          width: 100,
+                          width: 170,
                           text: MadarLocalizations.of(context).trans('need_help'),
                           loading: true,
                           onPressed: (){

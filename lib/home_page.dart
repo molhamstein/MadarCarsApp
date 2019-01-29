@@ -173,17 +173,18 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         builder: (context, widget) {
           return Transform.translate(
             offset: _carsOffsetFloat.value,
-            child: Column(children: <Widget>[
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
               Container(
                 color: Colors.transparent,
-                constraints: BoxConstraints.expand(height: 50),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Text(
                     MadarLocalizations.of(context).trans("Trending_Cars"),
                     style: TextStyle(
-                        fontSize: AppFonts.large_font_size,
-                        fontWeight: FontWeight.bold),
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -202,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                           child: Center(child: CircularProgressIndicator()));
                     default:
                       if (snapshot.hasError) {
-                        return Text("Error: ${snapshot.error}");
+                        return Text("Error}");
                       } else {
                         this.cars = snapshot.data;
                         return _cardContainerList();
@@ -217,7 +218,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _tripCardContainerList() {
     return Container(
-      // height: 190,
       constraints: BoxConstraints.expand(
           height: MediaQuery.of(context).size.height / 3.8),
       child: ListView.builder(
@@ -253,17 +253,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           return Transform.translate(
             offset: _tripsOffsetFloat.value,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                   color: Colors.transparent,
-                  constraints: BoxConstraints.expand(height: 50),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 8.0, right: 8),
                     child: Text(
                       MadarLocalizations.of(context).trans('Recomended_Trips'),
                       style: TextStyle(
-                          fontSize: AppFonts.large_font_size,
-                          fontWeight: FontWeight.bold),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -281,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             child: Center(child: CircularProgressIndicator()));
                       default:
                         if (snapshot.hasError) {
-                          return Text("Error: ${snapshot.error}");
+                          return Text("Error: }");
                         } else {
                           this.trips = snapshot.data;
                           return _tripCardContainerList();
@@ -307,93 +307,91 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         body: Stack(
           children: <Widget>[
             Hero(tag: "header_container", child: _animatedHeader()),
-            SingleChildScrollView(
-              child: Column(
-                // homeScreen content
-                children: <Widget>[
-                  Container(
-                    color: Colors.transparent,
-                    height: 125,
-                  ),
-                  predefiedTrips(),
-                  _availbleCars(),
-                  AnimatedBuilder(
-                      animation: _tripsButtonOffsetFloat,
-                      builder: (context, widget) {
-                        return Transform.translate(
-                            offset: _tripsButtonOffsetFloat.value,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Container(
-                                        alignment: Alignment(0, 0),
-                                        child: Container(
-                                          width: 75,
-                                          height: 75,
-                                          decoration: BoxDecoration(
-                                              boxShadow: [MadarColors.shadow],
-                                              color: Colors.grey.shade900,
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          alignment: Alignment(0, 0),
-                                          child: FlatButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                handelHeaderAnimation();
-                                                _controller
-                                                    .reverse()
-                                                    .whenComplete(() {
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              // homeScreen content
+              children: <Widget>[
+                Container(
+                  color: Colors.transparent,
+                  height: 60,
+                ),
+                predefiedTrips(),
+                _availbleCars(),
+                AnimatedBuilder(
+                    animation: _tripsButtonOffsetFloat,
+                    builder: (context, widget) {
+                      return Transform.translate(
+                          offset: _tripsButtonOffsetFloat.value,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      alignment: Alignment(0, 0),
+                                      child: Container(
+                                        width: 60,
+                                        height: 60,
+                                        decoration: BoxDecoration(
+                                            boxShadow: [MadarColors.shadow],
+                                            color: Colors.grey.shade900,
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              handelHeaderAnimation();
+                                              _controller
+                                                  .reverse()
+                                                  .whenComplete(() {
+                                                Future.delayed(
+                                                    const Duration(
+                                                        milliseconds: 100),
+                                                    () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) {
+                                                    return TripPlanningPage();
+                                                  }));
                                                   Future.delayed(
                                                       const Duration(
-                                                          milliseconds: 100),
+                                                          milliseconds: 300),
                                                       () {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
-                                                            builder: (context) {
-                                                      return TripPlanningPage();
-                                                    }));
-                                                    Future.delayed(
-                                                        const Duration(
-                                                            milliseconds: 300),
-                                                        () {
-                                                      open = true;
-                                                    });
+                                                    open = true;
                                                   });
                                                 });
                                               });
-                                            },
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 60,
-                                              color: Colors.white,
-                                            ),
-                                            padding: EdgeInsets.all(8.0),
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 40,
+                                            color: Colors.white,
                                           ),
+                                          padding: EdgeInsets.all(8.0),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            MadarLocalizations.of(context)
-                                                .trans("Plan_a_Trip"),
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 17,
-                                            )),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                          MadarLocalizations.of(context)
+                                              .trans("Plan_a_Trip"),
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 17,
+                                          )),
+                                    )
+                                  ],
                                 ),
-                              ],
-                            ));
-                      })
-                ],
-              ),
+                              ),
+                            ],
+                          ));
+                    })
+              ],
             ),
             new Positioned(
               top: 0.0,

@@ -91,6 +91,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   get navForward {
     if (_shouldNav()) {
       if (index == 5) {
+        hideNoteButton;
         _navigationController.sink.add(index);
       } else {
         _navigationController.sink.add(++index);

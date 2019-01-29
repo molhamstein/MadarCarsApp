@@ -15,7 +15,7 @@ class LoadingButtonSmall extends StatefulWidget {
     this.text,
     this.loading = false,
     this.height = 50,
-    this.width = 150,
+    this.width = 170,
     this.duration,
   })  : assert(text != null),
         super(key: key);

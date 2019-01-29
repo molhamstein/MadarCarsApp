@@ -84,6 +84,7 @@ class _EditProfilePageState extends State<EditProfilePage>
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   showInSnackBar(snapshot.error.toString(), context);
                 });
+                return Container();
               } else {
                 return Center(
                   child: CircularProgressIndicator(),

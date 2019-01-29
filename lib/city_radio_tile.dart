@@ -21,9 +21,9 @@ class CityRadioTile extends StatelessWidget {
       height: tileSize,
       width: tileSize,
       decoration: BoxDecoration(
-        gradient: MadarColors.gradiant_decoration,
+        gradient: MadarColors.gradiantFromColors(location.color1, location.color2),
         image: DecorationImage(
-          image: AssetImage('assets/images/bursa.jpg'),
+          image: NetworkImage(location.media.url),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
               Colors.white.withOpacity(0.4), BlendMode.dstATop),
