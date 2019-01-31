@@ -12,6 +12,8 @@ import 'package:madar_booking/trip_planning/step_choose_city.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'DataStore.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -104,7 +106,39 @@ class MyAppState extends State<MyApp> {
   }
 }
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
+  @override
+  LandingPageState createState() {
+    return new LandingPageState();
+  }
+}
+
+class LandingPageState extends State<LandingPage> {
+
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('on launch $message');
+      },
+    );
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     AppBloc bloc = BlocProvider.of<AppBloc>(context);
