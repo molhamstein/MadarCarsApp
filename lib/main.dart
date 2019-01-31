@@ -7,6 +7,7 @@ import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/user.dart';
+import 'package:madar_booking/review/review_main.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 import 'package:madar_booking/trip_planning/step_choose_city.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,7 +100,7 @@ class MyAppState extends State<MyApp> {
                 '/': (context) => LandingPage(),
                 HomePage.route: (context) => HomePage(),
               },
-              // home: TripPlanningPage(),
+//               home: ReviewMain(),
             );
           }),
     );
