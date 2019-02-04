@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/review/expressions.dart';
 import 'package:madar_booking/review/review_bloc.dart';
 
 class ReviewMain extends StatefulWidget {
@@ -94,7 +95,7 @@ class ReviewMainState extends State<ReviewMain> {
                       );
                     },
                     child: PageView(
-                      physics: NeverScrollableScrollPhysics(),
+//                      physics: NeverScrollableScrollPhysics(),
                       controller: pageController,
                       children: [
                         Center(child: Text("")),
@@ -104,6 +105,10 @@ class ReviewMainState extends State<ReviewMain> {
                         Center(child: Text("")),
                       ],
                     ),
+                  ),
+                  CustomPaint(
+                    size: MediaQuery.of(context).size,
+                    painter: SmilePainter(pageController.hasClients ? pageController.page * 100 : 0),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 60.0),
