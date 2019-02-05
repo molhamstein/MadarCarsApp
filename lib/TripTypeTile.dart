@@ -35,8 +35,8 @@ class TripTypeTileState extends State<TripTypeTile> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 80,
-      margin: EdgeInsets.all(16),
+      height: MediaQuery.of(context).size.height / 10,
+      margin: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [

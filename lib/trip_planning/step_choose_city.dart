@@ -89,100 +89,100 @@ class ChooseCityStepState extends State<ChooseCityStep>
                     fontSize: 18),
               ),
             ),
-            StreamBuilder<List<Location>>(
-                stream: bloc.locationsStream,
-                builder: (context, locationsSnapshot) {
-                  if (locationsSnapshot.hasData &&
-                      (planingBloc.isLocationIdNull ||
-                          planingBloc.trip.location.subLocationsIds == null))
-                    planingBloc.cityId(locationsSnapshot
-                        .data[0]); // initial location (pre selected)
+            Expanded(
+              child: StreamBuilder<List<Location>>(
+                  stream: bloc.locationsStream,
+                  builder: (context, locationsSnapshot) {
+                    if (locationsSnapshot.hasData &&
+                        (planingBloc.isLocationIdNull ||
+                            planingBloc.trip.location.subLocationsIds == null))
+                      planingBloc.cityId(locationsSnapshot
+                          .data[0]); // initial location (pre selected)
 
-                  return AnimatedBuilder(
-                      animation: _offsetFloat,
-                      builder: (context, widget) {
-                        return Transform.translate(
-                          offset: _offsetFloat.value,
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height - 260,
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.all(16),
-                                margin: EdgeInsets.only(right: 24, left: 24),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      topLeft: Radius.circular(10)),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 8,
-                                    ),
-                                  ],
-                                ),
-                                child: locationsSnapshot.hasData
-                                    ? StreamBuilder<Location>(
-                                        stream: bloc.selectedCitStream,
-                                        initialData: locationsSnapshot.data[0],
-                                        builder: (context, snapshot) {
-                                          return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                snapshot.data.name(
-                                                    MadarLocalizations.of(
-                                                            context)
-                                                        .locale),
-                                                style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontSize: 22,
-                                                    fontWeight:
-                                                        FontWeight.w700),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 16.0),
-                                                child: Text(
-                                                  snapshot.data.description(
+                    return AnimatedBuilder(
+                        animation: _offsetFloat,
+                        builder: (context, widget) {
+                          return Transform.translate(
+                            offset: _offsetFloat.value,
+                            child: Stack(
+                              children: <Widget>[
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  padding: EdgeInsets.all(16),
+                                  margin: EdgeInsets.only(right: 24, left: 24),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10)),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 8,
+                                      ),
+                                    ],
+                                  ),
+                                  child: locationsSnapshot.hasData
+                                      ? StreamBuilder<Location>(
+                                          stream: bloc.selectedCitStream,
+                                          initialData: locationsSnapshot.data[0],
+                                          builder: (context, snapshot) {
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Text(
+                                                  snapshot.data.name(
                                                       MadarLocalizations.of(
                                                               context)
                                                           .locale),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 5,
                                                   style: TextStyle(
-                                                      color: Colors.black54,
-                                                      fontSize: 16,
+                                                      color: Colors.black87,
+                                                      fontSize: 22,
                                                       fontWeight:
-                                                          FontWeight.w700, height: .8),
+                                                          FontWeight.w700),
                                                 ),
-                                              ),
-                                            ],
-                                          );
-                                        })
-                                    : _titleShimmer(),
-                              ),
-                              AnimatedBuilder(
-                                animation: _citiesFloat,
-                                builder: (context, widget) {
-                                  return Transform.translate(
-                                    offset: _citiesFloat.value,
-                                    child: Container(
-                                        child: locationsSnapshot.hasData
-                                        ? _cities(locationsSnapshot)
-                                        : _tilesShimmer(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      });
-                }),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      top: 16.0),
+                                                  child: Text(
+                                                    snapshot.data.description(
+                                                        MadarLocalizations.of(
+                                                                context)
+                                                            .locale),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 5,
+                                                    style: TextStyle(
+                                                        color: Colors.black54,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w700, height: .8),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          })
+                                      : _titleShimmer(),
+                                ),
+                                AnimatedBuilder(
+                                  animation: _citiesFloat,
+                                  builder: (context, widget) {
+                                    return Transform.translate(
+                                      offset: _citiesFloat.value,
+                                      child: Container(
+                                          child: locationsSnapshot.hasData
+                                          ? _cities(locationsSnapshot)
+                                          : _tilesShimmer(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  }),
+            ),
           ],
         ),
       ),
