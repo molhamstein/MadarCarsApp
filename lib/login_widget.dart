@@ -92,7 +92,6 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                   loginBtn(),
                 ],
               ),
-
               Padding(
                 padding: EdgeInsets.only(top: 10.0),
                 child: Row(
@@ -148,24 +147,23 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                     padding: EdgeInsets.only(top: 10.0, right: 40.0, left: 40),
                     child: GestureDetector(
                       onTap: () => bloc.loginWithFacebook(),
-                      child: StreamBuilder<FacebookUser>(
+                      child: StreamBuilder<SocialUser>(
                           stream: bloc.facebookUserStream,
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                showInSnackBar(
-                                    snapshot.error.toString(), context);
-                              });
+                              WidgetsBinding.instance.addPostFrameCallback(
+                                (_) {
+                                  showInSnackBar(
+                                      snapshot.error.toString(), context);
+                                },
+                              );
                             }
                             if (snapshot.hasData) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
-//                              showInSnackBar(snapshot.data.toString(), context);
                                 Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(builder: (context) {
                                   return Step2SignUp(
-                                    socialId: snapshot.data.id,
-                                    socialToken: snapshot.data.token,
-                                    userName: snapshot.data.name,
+                                   user: snapshot.data,
                                   );
                                 }));
                               });
@@ -192,7 +190,7 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
                       right: 40.0,
                     ),
                     child: GestureDetector(
-//                  onTap: () => showInSnackBar("Google button pressed"),
+                      onTap: () => bloc.loginWithGoogle(),
                       child: Container(
                         padding: const EdgeInsets.all(15.0),
                         decoration: new BoxDecoration(

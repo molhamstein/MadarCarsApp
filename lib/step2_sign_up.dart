@@ -2,27 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/facebook_bloc.dart';
 import 'package:madar_booking/home_page.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 import 'feedback.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-
 
 class Step2SignUp extends StatefulWidget {
   @override
   Step2SignUpState createState() => new Step2SignUpState();
 
-  final String socialId;
-  final String socialToken;
-  final String userName;
+  final SocialUser user;
 
-  const Step2SignUp({Key key, this.socialId, this.socialToken, this.userName})
-      : assert(socialId != null),
-        assert(socialToken != null),
-        assert(userName != null),
+  const Step2SignUp({Key key, this.user})
+      : assert(user != null),
         super(key: key);
 }
 
@@ -33,68 +31,70 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
 
   @override
   void initState() {
-    bloc = FacebookBloc(widget.socialId, widget.socialToken, widget.userName);
+    bloc = FacebookBloc(widget.user);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User>(
-      stream: bloc.userStream,
-      builder: (context, snapshot) {
-        if(snapshot.hasData) {
-          BlocProvider.of<AppBloc>(context).saveUser(snapshot.data);
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomePage()));
-        }
+    return Material(
+      child: StreamBuilder<UserResponse>(
+          stream: bloc.userStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              BlocProvider.of<AppBloc>(context).saveUser(snapshot.data.user);
+              BlocProvider.of<AppBloc>(context).saveToken(snapshot.data.token);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(context).pushReplacement(
+                    new MaterialPageRoute(builder: (context) => HomePage()));
+              });
+            }
 
-        if(snapshot.hasError) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            showInSnackBar(snapshot.error.toString(), context);
-          });
-        }
-        return NotificationListener<OverscrollIndicatorNotification>(
-          onNotification: (overscroll) {
-            overscroll.disallowGlow();
-          },
-          child: SingleChildScrollView(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height >= 775.0
-                  ? MediaQuery.of(context).size.height
-                  : 775.0,
-              decoration: new BoxDecoration(
-                gradient: new LinearGradient(
-                    colors: [MadarColors.gradientUp, MadarColors.gradientDown],
-                    begin: const FractionalOffset(0.0, 0.0),
-                    end: const FractionalOffset(1.0, 1.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Center(
-                    child: Text('One last thing. Please fill you phone number and country', style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w600
-                    ),),
+            if (snapshot.hasError) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                showInSnackBar(
+                    MadarLocalizations.of(context)
+                        .trans(snapshot.error.toString()),
+                    context);
+              });
+            }
+            return NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (overscroll) {
+                overscroll.disallowGlow();
+              },
+              child: SingleChildScrollView(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height >= 775.0
+                      ? MediaQuery.of(context).size.height
+                      : 775.0,
+                  decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [
+                          MadarColors.gradientUp,
+                          MadarColors.gradientDown
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 1.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 75.0),
-                    child: Container(
-                      width: 250.0,
-                      height: 191.0,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20.0),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: new ConstrainedBox(
-                      constraints: const BoxConstraints.expand(),
-                      child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'One last thing. Please fill you phone number and country',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Container(
                         padding: EdgeInsets.only(top: 23.0),
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Stack(
                               alignment: Alignment.topCenter,
@@ -128,14 +128,12 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
                           ],
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-        );
-      }
+            );
+          }),
     );
   }
 
@@ -159,7 +157,7 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
                   color: Colors.black),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                errorText: snapshot.error,
+                errorText: MadarLocalizations.of(context).trans(snapshot.error),
                 icon: Icon(
                   FontAwesomeIcons.mobile,
                   color: Colors.black,
@@ -176,40 +174,39 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
     );
   }
 
-
   Widget isoCodePicker() {
     return Padding(
-      padding:
-          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-      child: CountryCodePicker(
-        favorite: ['SY', 'TR'],
-        initialSelection: 'SY',
-        onChanged: bloc.changeIsoCode,
-      )
-    );
+        padding:
+            EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+        child: CountryCodePicker(
+          favorite: ['SY', 'TR'],
+          initialSelection: 'SY',
+          onChanged: bloc.changeIsoCode,
+        ));
   }
 
-
-
   Widget submitBtn() {
-    return StreamBuilder<bool>(
-      stream: bloc.submitValid,
-      initialData: false,
-      builder: (context, snapshot) {
-        return MainButton(
-          text: 'Submit',
-          onPressed: () {
-            if (!snapshot.data) {
-              showInSnackBar(
-                  'Provide a valid phone number or password', context);
-            } else
-              bloc.submit();
-          },
-          width: 150,
-          height: 50,
-          loading: snapshot.data,
-        );
-      },
+    return Container(
+      margin: EdgeInsets.only(right: 16),
+      child: StreamBuilder<bool>(
+        stream: bloc.submitValid,
+        initialData: false,
+        builder: (context, snapshot) {
+          return MainButton(
+            text: MadarLocalizations.of(context).trans('submit'),
+            onPressed: () {
+              if (!snapshot.data) {
+                showInSnackBar(
+                    'Provide a valid phone number or password', context);
+              } else
+                bloc.submit();
+            },
+            width: 150,
+            height: 50,
+            loading: snapshot.data,
+          );
+        },
+      ),
     );
   }
 }

@@ -9,10 +9,10 @@ import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 import 'validator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthBloc extends BaseBloc with Validators, Network {
   bool shouldShowFeedBack;
-
 
   AuthBloc({this.shouldShowFeedBack = true});
 
@@ -23,7 +23,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _passwordSignUpController = BehaviorSubject<String>();
   final _nameSignUpController = BehaviorSubject<String>();
   final _isoCodeSignUpController = BehaviorSubject<CountryCode>();
-  final _facebookLoginController = BehaviorSubject<FacebookUser>();
+  final _SocialLoginController = BehaviorSubject<SocialUser>();
   final _loadingController = BehaviorSubject<bool>();
 
   final _obscureLoginPasswordController =
@@ -40,10 +40,10 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   final _lockTouchEventController = BehaviorSubject<bool>();
 
-  Stream<FacebookUser> get facebookUserStream =>
-      _facebookLoginController.stream;
+  Stream<SocialUser> get facebookUserStream => _SocialLoginController.stream;
 
   get pushLockTouchEvent => _lockTouchEventController.sink.add(true);
+
   get pushUnlockTouchEvent => _lockTouchEventController.sink.add(false);
 
   Function(String) get changeLoginPhone => _phoneLoginController.sink.add;
@@ -60,7 +60,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Function(CountryCode) get changeSignUpIsoCode =>
       _isoCodeSignUpController.sink.add;
 
-  Stream<CountryCode> get countryCodeChangeStream => _isoCodeSignUpController.stream;
+  Stream<CountryCode> get countryCodeChangeStream =>
+      _isoCodeSignUpController.stream;
 
   Stream<String> get phoneSignUpStream =>
       _phoneSignUpController.stream.transform(validatePhone);
@@ -103,12 +104,15 @@ class AuthBloc extends BaseBloc with Validators, Network {
       passwordSignUpStream,
       nameSignUpStream,
       (a, b, c) => true);
+
   Stream<bool> get submitValidEditUser => Observable.combineLatest2(
       phoneSignUpStream, nameSignUpStream, (a, b) => true);
+
 // _submitUpdateUserController
   Stream<UserResponse> get submitLoginStream => _submitLoginController.stream;
 
   Stream<UserResponse> get submitSignUpStream => _submitSignUpController.stream;
+
   Stream<User> get submitUpdteUserStream => _submitUpdateUserController.stream;
 
   Stream<bool> get lockTouchEventStream => _lockTouchEventController.stream;
@@ -116,6 +120,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<bool> get loadingStream => _loadingController.stream;
 
   get startLoading => _loadingController.sink.add(true);
+
   get stopLoading => _loadingController.sink.add(false);
 
   submitLogin() {
@@ -125,7 +130,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
     pushLockTouchEvent;
 
-    login(validIsoCode.dialCode + validPhoneNumber, validPassword).then((response) {
+    login(validIsoCode.dialCode + validPhoneNumber, validPassword)
+        .then((response) {
       print(response.token);
       _submitLoginController.sink.add(response);
       stopLoading;
@@ -150,7 +156,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
     signUp(validPhoneNumber, validUserName, validPassword, validIsoCode)
         .then((user) {
-      login(validIsoCode.dialCode + validPhoneNumber, validPassword).then((response) {
+      login(validIsoCode.dialCode + validPhoneNumber, validPassword)
+          .then((response) {
         _submitSignUpController.sink.add(response);
         stopLoading;
         pushUnlockTouchEvent;
@@ -166,8 +173,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
       });
 
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
-        _submitSignUpController.sink
-            .addError(e);
+        _submitSignUpController.sink.addError(e);
       } else {
         _submitSignUpController.sink.addError(e);
       }
@@ -223,8 +229,12 @@ class AuthBloc extends BaseBloc with Validators, Network {
         print(result.accessToken.token);
         getFacebookProfile(result.accessToken.token).then((jsonProfile) {
           print(jsonProfile);
-          FacebookUser facebookUser =
-              FacebookUser.fromJson(jsonProfile, result.accessToken.token);
+          SocialUser facebookUser = SocialUser(
+              jsonProfile['name'],
+              jsonProfile['email'],
+              jsonProfile['id'],
+              result.accessToken.token,
+              UserSocialLoginType.facebook);
           facebookSignUp(facebookUser.id, facebookUser.token)
               .then((userResponse) {
             print('user name : ' + userResponse.user.name);
@@ -232,14 +242,12 @@ class AuthBloc extends BaseBloc with Validators, Network {
           }).catchError((e) {
             print(e);
             if (e == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
-              _facebookLoginController.sink.add(facebookUser);
+              _SocialLoginController.sink.add(facebookUser);
             }
           });
-
-          print(facebookUser.id);
         }).catchError((e) {
           print(e);
-          _facebookLoginController.addError(e);
+          _SocialLoginController.addError(e);
         });
 
         break;
@@ -250,6 +258,33 @@ class AuthBloc extends BaseBloc with Validators, Network {
         print(result.errorMessage);
         break;
     }
+  }
+
+  loginWithGoogle() {
+    GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+
+    googleSignIn.signIn().then((account) {
+      account.authentication.then((auth) {
+        SocialUser googleUser = SocialUser(
+            account.displayName, account.email, account.id, auth.accessToken, UserSocialLoginType.google);
+
+        googleSignUp(account.id, auth.accessToken).then((userResponse) {
+          print('user name : ' + userResponse.user.name);
+          _submitLoginController.sink.add(userResponse);
+        }).catchError((e) {
+          print(e);
+          if (e == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
+            _SocialLoginController.sink.add(googleUser);
+            print(e);
+          }
+        });
+      }).catchError((e) => print(e));
+    }).catchError((e) => print(e));
   }
 
   dispose() {
@@ -265,22 +300,25 @@ class AuthBloc extends BaseBloc with Validators, Network {
     _passwordSignUpController.close();
     _isoCodeSignUpController.close();
     _submitSignUpController.close();
-    _facebookLoginController.close();
+    _SocialLoginController.close();
     _loadingController.close();
     _uploadMediaContoller.close();
     _submitUpdateUserController.close();
   }
 }
 
-class FacebookUser {
+class SocialUser {
   final String name;
   final String email;
   final String id;
   final String token;
+  final UserSocialLoginType type;
 
-  FacebookUser(this.name, this.email, this.id, this.token);
+  SocialUser(this.name, this.email, this.id, this.token, this.type);
 
-  factory FacebookUser.fromJson(Map<String, dynamic> json, String token) {
-    return FacebookUser(json['name'], json['email'], json['id'], token);
-  }
+
+}
+
+enum UserSocialLoginType{
+  google, facebook
 }

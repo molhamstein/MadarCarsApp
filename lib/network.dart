@@ -28,6 +28,7 @@ class Network {
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _signUpUrl = _baseUrl + 'users';
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
+  final String _googleLoginUrl = _baseUrl + 'users/googleLogin';
   final String _locations = _baseUrl +
       'locations?filter[include]=subLocations&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
@@ -139,6 +140,24 @@ class Network {
     final response =
         await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
+      return UserResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
+      throw ErrorCodes.NOT_COMPLETED_SN_LOGIN;
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<UserResponse> googleSignUp(
+      String facebookId, String facebookToken) async {
+    final body = json.encode({
+      'socialId': facebookId,
+      'token': facebookToken,
+    });
+    final response =
+        await http.post(_googleLoginUrl, body: body, headers: headers);
+    if (response.statusCode == 200) {
       print('seeex' + json.decode(response.body).toString());
       return UserResponse.fromJson(json.decode(response.body));
     } else if (response.statusCode == ErrorCodes.NOT_COMPLETED_SN_LOGIN) {
@@ -149,7 +168,7 @@ class Network {
     }
   }
 
-  Future<User> step2FacebookSignUp(String phoneNumber, String isoCode,
+  Future<UserResponse> step2FacebookSignUp(String phoneNumber, String isoCode,
       String facebookId, String facebookToken, String facebookUsername) async {
     final body = json.encode({
       'phoneNumber': phoneNumber,
@@ -161,7 +180,26 @@ class Network {
     final response =
         await http.post(_facebookLoginUrl, body: body, headers: headers);
     if (response.statusCode == 200) {
-      return User.fromJson(json.decode(response.body)['user']);
+      return UserResponse.fromJson(json.decode(response.body));
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<UserResponse> step2GoogleSignUp(String phoneNumber, String isoCode,
+      String facebookId, String facebookToken, String facebookUsername) async {
+    final body = json.encode({
+      'phoneNumber': phoneNumber,
+      'name': facebookUsername,
+      'socialId': facebookId,
+      'token': facebookToken,
+      'ISOCode': isoCode.toUpperCase(),
+    });
+    final response =
+        await http.post(_googleLoginUrl, body: body, headers: headers);
+    if (response.statusCode == 200) {
+      return UserResponse.fromJson(json.decode(response.body));
     } else {
       print(response.body);
       throw json.decode(response.body);
