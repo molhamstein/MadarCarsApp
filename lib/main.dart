@@ -160,7 +160,7 @@ class LandingPageState extends State<LandingPage> {
           }
         }
         return Container(
-          color: Colors.green,
+          color: Colors.white,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
         );
