@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/car_card_widget.dart';
@@ -55,7 +54,6 @@ class StepChooseCarState extends State<StepChooseCar>
 
   @override
   Widget build(BuildContext context) {
-    print('device ratio ' + MediaQuery.of(context).);
     final TextStyle infoLabelStyle = TextStyle(
         color: Colors.grey[700],
         fontSize: 18,
