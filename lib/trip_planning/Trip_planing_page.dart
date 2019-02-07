@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/MainButton.dart';
-import 'package:madar_booking/animated_header.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';

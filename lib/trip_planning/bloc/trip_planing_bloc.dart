@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripModel.dart';
