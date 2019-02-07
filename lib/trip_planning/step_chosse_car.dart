@@ -55,6 +55,7 @@ class StepChooseCarState extends State<StepChooseCar>
 
   @override
   Widget build(BuildContext context) {
+    print('device ratio ' + MediaQuery.of(context).);
     final TextStyle infoLabelStyle = TextStyle(
         color: Colors.grey[700],
         fontSize: 18,
@@ -164,6 +165,10 @@ class StepChooseCarState extends State<StepChooseCar>
                                               mainAxisAlignment:
                                                   MainAxisAlignment.spaceBetween,
                                               children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundImage: NetworkImage(carSnapshot.data.driver.media.url),
+                                                ),
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -171,7 +176,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                     Text(
                                                       carSnapshot.data.name,
                                                       style: TextStyle(
-                                                          fontSize: 24,
+                                                          fontSize: 20,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           color: Colors.grey[800],
@@ -181,7 +186,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                       carSnapshot
                                                           .data.driver.username,
                                                       style: TextStyle(
-                                                          fontSize: 18,
+                                                          fontSize: 16,
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           color: Colors.grey[600],
@@ -206,6 +211,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                         text: Text(
                                                           language.language.name,
                                                           style: TextStyle(
+                                                            fontSize: 12,
                                                               color: Colors.white,
                                                               fontWeight:
                                                                   FontWeight.w700,
