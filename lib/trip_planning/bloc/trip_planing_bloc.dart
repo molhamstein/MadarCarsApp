@@ -76,7 +76,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   get navBackward {
     if (!trip.inCity) {
       if (index == 5) index = 3;
-      if (index == 4) index = 2;
+      if (index == 4) index = 3;
       _navigationController.sink.add(--index);
     } else {
       _navigationController.sink.add(--index);

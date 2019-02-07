@@ -57,7 +57,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       bloc: bloc,
       child: WillPopScope(
         onWillPop: () async {
-          if (bloc.index == 0) {
+          if (bloc.index == 0 || bloc.index == 5) {
             Navigator.of(context).pop();
             return false;
           } else {
