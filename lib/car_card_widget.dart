@@ -80,37 +80,31 @@ class CarCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                //  decoration: BoxDecoration(color: Colors.white),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.only(
-                                      start: 8.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          car.brand.name(
-                                              MadarLocalizations.of(context)
-                                                  .locale),
-                                          style:
-                                              AppTextStyle.smallTextStyleBlack,
-                                        ),
+                            Container(
+                              //  decoration: BoxDecoration(color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        car.brand.name(
+                                            MadarLocalizations.of(context)
+                                                .locale),
+                                        style: AppTextStyle.smallTextStyleBlack,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            car.productionDate.toString(),
-                                            style: AppTextStyle
-                                                .smallTextStyleBlack),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(car.productionDate.toString(),
+                                          style:
+                                              AppTextStyle.smallTextStyleBlack),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
