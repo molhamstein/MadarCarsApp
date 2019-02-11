@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:madar_booking/app_bloc.dart';
@@ -11,6 +12,7 @@ import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/profile_page.dart';
 import 'package:madar_booking/car_card_widget.dart';
+import 'package:madar_booking/review/review_main.dart';
 import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 
@@ -52,6 +54,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Matrix4 rotateBy_0;
   Matrix4 transformation;
   BorderRadius borderRadius;
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
 
   void handelHeaderAnimation() {
     // callback function
@@ -126,6 +130,38 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     homeBloc.predifindTrips();
     homeBloc.getCars();
     prepareAnimation();
+
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print('on message $message');
+        print('in NAVIGATION');
+//        Navigator.of(context)
+//            .push(MaterialPageRoute(builder: (context) => ReviewMain()));
+      },
+      onResume: (Map<String, dynamic> message) {
+        print('on resume $message');
+//        Navigator.of(context)
+//            .push(MaterialPageRoute(builder: (context) => ReviewMain()));
+
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('on launch $message');
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ReviewMain()));
+        });
+
+      },
+    );
+
+    _firebaseMessaging.getToken().then((token) {
+      print('token = ' + token);
+    });
+
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+
     super.initState();
   }
 

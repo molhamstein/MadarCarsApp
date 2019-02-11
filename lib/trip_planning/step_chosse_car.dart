@@ -56,9 +56,12 @@ class StepChooseCarState extends State<StepChooseCar>
   Widget build(BuildContext context) {
     final TextStyle infoLabelStyle = TextStyle(
         color: Colors.grey[700],
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: FontWeight.w700,
         height: 0.8);
+
+    final double iconSize = 18;
+
     return Material(
       color: Colors.transparent,
       child: Column(
@@ -69,8 +72,10 @@ class StepChooseCarState extends State<StepChooseCar>
             child: StreamBuilder<List<Car>>(
                 stream: bloc.carsStream,
                 builder: (context, carsSnapshot) {
-                  if (carsSnapshot.hasData && carsSnapshot.data.isNotEmpty)
+                  if (carsSnapshot.hasData && carsSnapshot.data.isNotEmpty) {
                     planingBloc.tripCar(carsSnapshot.data[0]);
+                    bloc.selectCar(carsSnapshot.data[0], 0);
+                  }
                   return AnimatedBuilder(
                     animation: _offsetFloat,
                     builder: (context, widget) {
@@ -78,233 +83,327 @@ class StepChooseCarState extends State<StepChooseCar>
                         offset: _offsetFloat.value,
                         child: Stack(
                           children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(right: 24, left: 24),
-                              width: MediaQuery.of(context).size.width,
-                              padding:
-                                  EdgeInsets.only(right: 16, left: 16, top: 16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    topLeft: Radius.circular(10)),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black26,
-                                    blurRadius: 8,
-                                  ),
-                                ],
-                              ),
-                              child: carsSnapshot.hasData &&
-                                      carsSnapshot.data.isNotEmpty
-                                  ? StreamBuilder<Car>(
-                                      stream: bloc.selectedCarStream,
-                                      initialData: carsSnapshot.data[0],
-                                      builder: (context, carSnapshot) {
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      bottom: 8.0),
-                                                  child: Text(
-                                                    MadarLocalizations.of(context)
-                                                        .trans('estim_cost'),
-                                                    style: TextStyle(
-                                                        color: Colors.black87,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        height: 0.5),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      planingBloc.trip
-                                                          .estimationPrice()
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color: Colors.grey[800],
-                                                          fontSize: 60,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          height: 0.5),
-                                                    ),
-                                                    Text(
-                                                      '\$',
-                                                      style: TextStyle(
-                                                          color: Colors.grey[800],
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w700),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
+                            StreamBuilder<Car>(
+                                stream: bloc.selectedCarStream,
+                                builder: (context, carSnapshot) {
+                                  return Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            right: 24, left: 24),
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        padding: EdgeInsets.only(
+                                            right: 16, left: 16, top: 16),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(10),
+                                              topLeft: Radius.circular(10)),
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: 8,
                                             ),
-                                            Padding(
-                                              padding: EdgeInsets.all(20),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: <Widget>[
-                                                CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundImage: NetworkImage(carSnapshot.data.driver.media.url),
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      carSnapshot.data.name,
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.grey[800],
-                                                          height: 0.5),
-                                                    ),
-                                                    Text(
-                                                      carSnapshot
-                                                          .data.driver.username,
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: Colors.grey[600],
-                                                          height: 0.5),
-                                                    ),
-                                                  ],
-                                                ),
-                                                RateWidget(
-                                                  carSnapshot.data.rate
-                                                      .toString(),
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: 15,
-                                            ),
-                                            Wrap(
-                                              spacing: 4,
-                                              children: carSnapshot
-                                                  .data.driver.driverLangs
-                                                  .map((language) => LanguageTag(
-                                                        text: Text(
-                                                          language.language.name,
-                                                          style: TextStyle(
-                                                            fontSize: 12,
-                                                              color: Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight.w700,
-                                                              height: 0.8),
-                                                        ),
-                                                      ))
-                                                  .toList(),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Row(
+                                          ],
+                                        ),
+                                        child: carsSnapshot.hasData &&
+                                                carsSnapshot.data.isNotEmpty &&
+                                                carSnapshot.hasData
+                                            ? Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
-                                                  Column(
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
                                                     children: <Widget>[
-                                                      Icon(
-                                                        MyFlutterApp.cal,
-                                                        size: 28,
-                                                        color: Colors.grey[800],
-                                                      ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsets.only(
-                                                                top: 8.0),
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 8.0),
                                                         child: Text(
-                                                            carSnapshot.data
-                                                                .productionDate
+                                                          MadarLocalizations.of(
+                                                                  context)
+                                                              .trans(
+                                                                  'estim_cost'),
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              height: 0.5),
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            planingBloc.trip
+                                                                .estimationPrice()
                                                                 .toString(),
-                                                            style:
-                                                                infoLabelStyle),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[800],
+                                                                fontSize: 60,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                height: 0.5),
+                                                          ),
+                                                          Text(
+                                                            '\$',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[800],
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ],
                                                   ),
-                                                  Expanded(
-                                                    child: Column(
+                                                  Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      CircleAvatar(
+                                                        radius: 20,
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                                carSnapshot
+                                                                    .data
+                                                                    .driver
+                                                                    .media
+                                                                    .url),
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            carSnapshot
+                                                                .data.name,
+                                                            style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .grey[800],
+                                                                height: 0.5),
+                                                          ),
+                                                          Text(
+                                                            carSnapshot
+                                                                .data
+                                                                .driver
+                                                                .username,
+                                                            style: TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                color: Colors
+                                                                    .grey[600],
+                                                                height: 0.5),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      RateWidget(
+                                                        carSnapshot.data.rate
+                                                            .toString(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    height: 12,
+                                                  ),
+                                                  Wrap(
+                                                    spacing: 4,
+                                                    children:
+                                                        carSnapshot.data.driver
+                                                            .driverLangs
+                                                            .map(
+                                                                (language) =>
+                                                                    LanguageTag(
+                                                                      text:
+                                                                          Text(
+                                                                        language
+                                                                            .language
+                                                                            .name,
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                12,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.w700,
+                                                                            height: 0.8),
+                                                                      ),
+                                                                    ))
+                                                            .toList(),
+                                                  ),
+                                                  Container(
+                                                    height: 16,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
                                                       children: <Widget>[
-                                                        Icon(
-                                                          MyFlutterApp.gender,
-                                                          size: 28,
-                                                          color: Colors.grey[800],
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Icon(
+                                                              MyFlutterApp.cal,
+                                                              size: iconSize,
+                                                              color: Colors
+                                                                  .grey[800],
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 8.0),
+                                                              child: Text(
+                                                                  carSnapshot
+                                                                      .data
+                                                                      .productionDate
+                                                                      .toString(),
+                                                                  style:
+                                                                      infoLabelStyle),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(top: 8.0),
-                                                          child: Text(
-                                                              MadarLocalizations
-                                                                      .of(context)
-                                                                  .trans(
-                                                                      carSnapshot
-                                                                          .data
-                                                                          .driver
-                                                                          .gender),
-                                                              style:
-                                                                  infoLabelStyle),
+                                                        Expanded(
+                                                          child: Column(
+                                                            children: <Widget>[
+                                                              Icon(
+                                                                MyFlutterApp
+                                                                    .gender,
+                                                                size: iconSize,
+                                                                color: Colors
+                                                                    .grey[800],
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        top:
+                                                                            8.0),
+                                                                child: Text(
+                                                                    MadarLocalizations.of(
+                                                                            context)
+                                                                        .trans(carSnapshot
+                                                                            .data
+                                                                            .driver
+                                                                            .gender),
+                                                                    style:
+                                                                        infoLabelStyle),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Column(
+                                                          children: <Widget>[
+                                                            Icon(
+                                                              MyFlutterApp
+                                                                  .seats,
+                                                              size: iconSize,
+                                                              color: Colors
+                                                                  .grey[800],
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .only(
+                                                                      top: 8.0),
+                                                              child: Text(
+                                                                  '${carSnapshot.data.numOfSeat.toString()} ' +
+                                                                      MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              'seats'),
+                                                                  style:
+                                                                      infoLabelStyle),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
                                                   ),
-                                                  Column(
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        MyFlutterApp.seats,
-                                                        size: 28,
-                                                        color: Colors.grey[800],
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                top: 8.0),
-                                                        child: Text(
-                                                            '${carSnapshot.data.numOfSeat.toString()} ' +
-                                                                MadarLocalizations
-                                                                        .of(
-                                                                            context)
-                                                                    .trans(
-                                                                        'seats'),
-                                                            style:
-                                                                infoLabelStyle),
-                                                      ),
-                                                    ],
-                                                  ),
                                                 ],
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      })
-                                  : carsSnapshot.hasData &&
-                                          carsSnapshot.data.isEmpty
-                                      ? _empty()
-                                      : _topShimmer(),
-                            ),
+                                              )
+                                            : carsSnapshot.hasData &&
+                                                    carsSnapshot.data.isEmpty
+                                                ? _empty()
+                                                : _topShimmer(),
+                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              11,
+                                          margin: EdgeInsets.only(bottom: 24),
+                                          child: ListView.builder(
+                                            cacheExtent: 0,
+                                            itemBuilder: (context, index) {
+                                              return Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    12,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    12,
+                                                margin: EdgeInsets.all(4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        blurRadius: 4,
+                                                        color: Colors.black45)
+                                                  ],
+                                                ),
+                                                child: FadeInImage(placeholder: AssetImage('assets/images/logo.jpg'), image: NetworkImage( carSnapshot.data
+                                                    .carMedia[index].url), fit: BoxFit.cover,),
+                                              );
+                                            },
+                                            itemCount: carSnapshot
+                                                .data.carMedia.length,
+                                            scrollDirection: Axis.horizontal,
+                                            padding: EdgeInsets.all(4),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }),
                             carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
                                 ? StreamBuilder<int>(
                                     stream: bloc.indexStream,
@@ -315,9 +414,10 @@ class StepChooseCarState extends State<StepChooseCar>
                                             top: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                2.2),
+                                                2.1),
                                         height:
-                                            MediaQuery.of(context).size.width / 1.8,
+                                            MediaQuery.of(context).size.width /
+                                                1.8,
                                         child: ListView.builder(
                                           itemBuilder: (context, index) {
                                             return CarCard(
