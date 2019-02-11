@@ -192,6 +192,7 @@ class MyTrip {
     tripSublocations.forEach((f) {
       res += f.duration;
     });
+    res += daysInCity;
     return res;
   }
 }
