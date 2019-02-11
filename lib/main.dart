@@ -6,9 +6,12 @@ import 'package:madar_booking/auth_page.dart';
 import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/review/review_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
 
 
 void main() async {
@@ -64,6 +67,7 @@ class MyAppState extends State<MyApp> {
             return MaterialApp(
               key: key,
               debugShowCheckedModeBanner: false,
+              navigatorKey: navigatorKey,
               supportedLocales: [
                 const Locale('en', 'US'),
                 const Locale('ar', ''),
@@ -111,29 +115,11 @@ class LandingPage extends StatefulWidget {
 
 class LandingPageState extends State<LandingPage> {
 
-  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) {
-        print('on message $message');
-      },
-      onResume: (Map<String, dynamic> message) {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) {
-        print('on launch $message');
-      },
-    );
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(sound: true, badge: true, alert: true));
-    _firebaseMessaging.getToken().then((token){
-      print(token);
-    });
-  }
 
+  }
 
   @override
   Widget build(BuildContext context) {
