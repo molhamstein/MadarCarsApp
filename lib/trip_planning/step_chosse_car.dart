@@ -8,8 +8,10 @@ import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_car_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
+import 'package:madar_booking/trip_planning/gallery.dart';
 import 'package:madar_booking/widgets/language_tag.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter/services.dart';
 
 class StepChooseCar extends StatefulWidget {
   @override
@@ -369,29 +371,65 @@ class StepChooseCarState extends State<StepChooseCar>
                                               11,
                                           margin: EdgeInsets.only(bottom: 24),
                                           child: ListView.builder(
-                                            cacheExtent: 0,
+                                            key: UniqueKey(),
                                             itemBuilder: (context, index) {
-                                              return Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    12,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    12,
-                                                margin: EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                        blurRadius: 4,
-                                                        color: Colors.black45)
-                                                  ],
+                                              return Material(
+                                                color: Colors.transparent,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Gallery(
+                                                              images:
+                                                                  carSnapshot
+                                                                      .data
+                                                                      .carMedia,
+                                                              initialIndex:
+                                                                  index,
+                                                            ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            12,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            12,
+                                                    margin: EdgeInsets.all(4),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                            blurRadius: 4,
+                                                            color:
+                                                                Colors.black45)
+                                                      ],
+                                                    ),
+                                                    child: Hero(
+                                                      tag: carSnapshot.data
+                                                          .carMedia[index].id,
+                                                      child: FadeInImage(
+                                                        placeholder: AssetImage(
+                                                            'assets/images/logo.jpg'),
+                                                        image: NetworkImage(
+                                                            carSnapshot
+                                                                .data
+                                                                .carMedia[index]
+                                                                .url),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                                child: FadeInImage(placeholder: AssetImage('assets/images/logo.jpg'), image: NetworkImage( carSnapshot.data
-                                                    .carMedia[index].url), fit: BoxFit.cover,),
                                               );
                                             },
                                             itemCount: carSnapshot
