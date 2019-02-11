@@ -98,6 +98,7 @@
   "settings": "Settings",
   "from_air_port": "From Airport",
   "to_air_port": "To Airport",
-  "review_text": "Please Rate your trip with us"
+  "review_text": "Please Rate your trip with us",
+  "add_note": "Add Note"
 
 }

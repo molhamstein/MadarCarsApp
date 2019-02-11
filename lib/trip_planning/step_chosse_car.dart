@@ -11,7 +11,6 @@ import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/gallery.dart';
 import 'package:madar_booking/widgets/language_tag.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:flutter/services.dart';
 
 class StepChooseCar extends StatefulWidget {
   @override

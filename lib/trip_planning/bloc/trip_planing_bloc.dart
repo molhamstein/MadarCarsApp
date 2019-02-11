@@ -84,6 +84,7 @@ class TripPlaningBloc extends BaseBloc with Network {
       done = false;
       pushLoading(false);
       changeButtonText('next');
+      hideNoteButton;
     }
   }
 
