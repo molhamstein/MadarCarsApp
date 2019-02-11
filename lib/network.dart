@@ -44,6 +44,7 @@ class Network {
   final String _userUrl = _baseUrl + 'users/';
   final String _uploadMediaUrl = _baseUrl + 'uploadFiles/image/upload';
   final String _needHelp = _baseUrl + '/adminNotifications/needHelp';
+  final String _rate = _baseUrl + '/rates/makeRate';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -221,6 +222,17 @@ class Network {
     print('token = ' + token);
     headers['Authorization'] = token;
     final response = await http.post(_needHelp, headers: headers);
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<void> postRate(String token) async {
+    headers['Authorization'] = token;
+    final response = await http.post(_rate, headers: headers);
     if (response.statusCode == 200) {
       return;
     } else {

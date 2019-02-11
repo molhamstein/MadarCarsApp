@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/review/expressions.dart';
+import 'package:madar_booking/review/rating_value.dart';
 import 'package:madar_booking/review/review_bloc.dart';
 
 class ReviewMain extends StatefulWidget {
@@ -64,24 +65,22 @@ class ReviewMainState extends State<ReviewMain> with TickerProviderStateMixin {
       TweenSequenceItem(
         weight: 1.0,
         tween: ColorTween(
-          begin: Colors.yellow[700],
-          end: Colors.teal[300],
+          begin: Colors.yellow[500],
+          end: Colors.lightGreen[700],
         ),
       ),
       TweenSequenceItem(
         weight: 1.0,
         tween: ColorTween(
-          begin: Colors.teal[300],
-          end: Colors.teal[400],
+          begin: Colors.lightGreen[700],
+          end: Colors.lightGreen[800],
         ),
       ),
     ]);
     pageController = PageController();
-    if (pageController.page == 0) {
-      badController.forward();
-      okController.reverse();
-      greatController.reverse();
-    }
+    badController.forward();
+    okController.reverse();
+    greatController.reverse();
     pageController.addListener(() {
       bloc.pushIndex(pageController.page);
 
@@ -102,13 +101,6 @@ class ReviewMainState extends State<ReviewMain> with TickerProviderStateMixin {
       }
     });
   }
-
-//  @override
-//  void reassemble() {
-//    pageController.dispose();
-//    _initialize();
-//    super.reassemble();
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,90 +178,45 @@ class ReviewMainState extends State<ReviewMain> with TickerProviderStateMixin {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () => pageController.animateToPage(0,
-                                duration: duration, curve: Curves.linear),
-                            splashColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                '1',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
+                          RatingValue(
+                            value: 1,
+                            onTap: (value) {
+                              pageController.animateToPage(value - 1,
+                                  duration: duration, curve: Curves.linear);
+                            },
+                            selected: snapshot.data.toInt() == 0,
                           ),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () => pageController.animateToPage(1,
-                                duration: duration, curve: Curves.linear),
-                            splashColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                '2',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
+                          RatingValue(
+                            value: 2,
+                            onTap: (value) {
+                              pageController.animateToPage(value - 1,
+                                  duration: duration, curve: Curves.linear);
+                            },
+                            selected: snapshot.data.toInt() == 1,
                           ),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () => pageController.animateToPage(2,
-                                duration: duration, curve: Curves.linear),
-                            splashColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                '3',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
+                          RatingValue(
+                            value: 3,
+                            onTap: (value) {
+                              pageController.animateToPage(value - 1,
+                                  duration: duration, curve: Curves.linear);
+                            },
+                            selected: snapshot.data.toInt() == 2,
                           ),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () => pageController.animateToPage(3,
-                                duration: duration, curve: Curves.linear),
-                            splashColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                '4',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
+                          RatingValue(
+                            value: 4,
+                            onTap: (value) {
+                              pageController.animateToPage(value - 1,
+                                  duration: duration, curve: Curves.linear);
+                            },
+                            selected: snapshot.data.toInt() == 3,
                           ),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(30),
-                            onTap: () => pageController.animateToPage(4,
-                                duration: duration, curve: Curves.linear),
-                            splashColor: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Text(
-                                '5',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
+                          RatingValue(
+                            value: 5,
+                            onTap: (value) {
+                              pageController.animateToPage(value - 1,
+                                  duration: duration, curve: Curves.linear);
+                            },
+                            selected: snapshot.data.toInt() == 4,
                           ),
                         ],
                       ),
