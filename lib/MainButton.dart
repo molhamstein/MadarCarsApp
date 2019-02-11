@@ -60,7 +60,7 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     if (widget.miniButton) {
       height = 40;
-      width = 80;
+      width = 100;
     } else {
       height = 0;
       width = 0;
@@ -131,25 +131,28 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
       child: InkWell(
         onTap: widget.onMiniBtnPressed,
         child: AnimatedContainer(
+          curve: Curves.ease,
           margin: EdgeInsets.only(left: 16, right: 16),
-          duration: Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 400),
           decoration: BoxDecoration(
             color: MadarColors.gradientDown,
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(
                 blurRadius: 10,
-                color: Colors.black26,
+                color: MadarColors.gradientUp,
               ),
             ],
           ),
           height: height,
           width: width,
           child: Center(
-            child: width > 60 ? Text(
+            child: width > 80 ? Text(
               MadarLocalizations.of(context).trans('add_note'),
               style: TextStyle(
                 color: Colors.white,
+                fontSize: 18,
+
               ),
             ) : Container(),
           ),
