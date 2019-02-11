@@ -370,7 +370,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                   .height /
                                               11,
                                           margin: EdgeInsets.only(bottom: 24),
-                                          child: ListView.builder(
+                                          child: carSnapshot.data != null ? ListView.builder(
                                             key: UniqueKey(),
                                             itemBuilder: (context, index) {
                                               return Material(
@@ -436,7 +436,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 .data.carMedia.length,
                                             scrollDirection: Axis.horizontal,
                                             padding: EdgeInsets.all(4),
-                                          ),
+                                          ) : Container(),
                                         ),
                                       ),
                                     ],
