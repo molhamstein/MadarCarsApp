@@ -115,7 +115,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     signupNameController.text = appBloc.userName;
     signupEmailController.text = appBloc.phone;
     bloc.changeSignUpUserName(appBloc.userName);
-    bloc.changeLoginPhone(appBloc.phone);
+    bloc.changeSignUpPhone(appBloc.phone);
     super.initState();
   }
 

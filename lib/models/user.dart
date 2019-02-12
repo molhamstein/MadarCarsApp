@@ -1,6 +1,18 @@
+import 'dart:convert';
+
 import 'package:madar_booking/models/media.dart';
 
 import 'Country.dart';
+
+User userFromJson(String str) {
+  final jsonData = json.decode(str);
+  return User.fromJson(jsonData);
+}
+
+String userToJson(User data) {
+  final dyn = data.toJson();
+  return json.encode(dyn);
+}
 
 class User {
   static const ID = 'id';

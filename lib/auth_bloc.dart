@@ -189,10 +189,11 @@ class AuthBloc extends BaseBloc with Validators, Network {
         submitUpdateUser(userId, token, response.id);
       } else {
         stopLoading;
+        pushUnlockTouchEvent;
       }
     }).catchError((e) {
       shouldShowFeedBack = true;
-      // pushUnlockTouchEvent;
+      pushUnlockTouchEvent;
       _uploadMediaContoller.sink.addError(e);
       stopLoading;
     });
@@ -203,18 +204,18 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validPhoneNumber = _phoneSignUpController.value;
     final validIsoCode = _isoCodeSignUpController.value.code;
     pushLockTouchEvent;
+    startLoading;
     updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token,
             imageId)
         .then((user) {
       print(user);
-
+      pushUnlockTouchEvent;
       _submitUpdateUserController.sink.add(user);
       stopLoading;
     }).catchError((e) {
+      pushUnlockTouchEvent;
       shouldShowFeedBack = true;
-      if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
-        _submitUpdateUserController.sink
-            .addError('Phone number or Username are used');
+      _submitUpdateUserController.sink.addError(e);
       stopLoading;
     });
   }
@@ -270,8 +271,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
     googleSignIn.signIn().then((account) {
       account.authentication.then((auth) {
-        SocialUser googleUser = SocialUser(
-            account.displayName, account.email, account.id, auth.accessToken, UserSocialLoginType.google);
+        SocialUser googleUser = SocialUser(account.displayName, account.email,
+            account.id, auth.accessToken, UserSocialLoginType.google);
 
         googleSignUp(account.id, auth.accessToken).then((userResponse) {
           print('user name : ' + userResponse.user.name);
@@ -315,10 +316,6 @@ class SocialUser {
   final UserSocialLoginType type;
 
   SocialUser(this.name, this.email, this.id, this.token, this.type);
-
-
 }
 
-enum UserSocialLoginType{
-  google, facebook
-}
+enum UserSocialLoginType { google, facebook }

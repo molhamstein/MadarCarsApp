@@ -10,6 +10,7 @@ import 'Car.dart';
 import 'user.dart';
 import 'location.dart';
 import 'Driver.dart';
+import 'package:date_format/date_format.dart';
 
 List<MyTrip> myTripFromJson(String str) {
   final jsonData = json.decode(str);
@@ -166,7 +167,7 @@ class MyTrip {
   }
 
   String startDateFromated() {
-    return DateFormat.yMd().format(DateTime.parse(startDate()));
+    return formatDate(DateTime.parse(startDate()), [d, '/', m, '/', yyyy]);
   }
 
   String endDate() {
@@ -177,7 +178,7 @@ class MyTrip {
   }
 
   String endDateFormated() {
-    return DateFormat.yMd().format(DateTime.parse(endDate()));
+    return formatDate(DateTime.parse(endDate()), [d, '/', m, '/', yyyy]);
   }
 
   bool isShowEndDate() {
