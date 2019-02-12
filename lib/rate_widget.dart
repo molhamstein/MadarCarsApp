@@ -7,16 +7,13 @@ class RateWidget extends StatelessWidget {
   RateWidget(this.rate);
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 6.0, bottom: 4.0),
-      child: Container(
-        width: 60,
-        height: 25,
-        padding: EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(15),
-        ),
+    return Container(
+      padding: EdgeInsets.only(left: 8, right: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
