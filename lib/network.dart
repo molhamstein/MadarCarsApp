@@ -16,6 +16,7 @@ import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:path/path.dart';
+import 'package:device_info/device_info.dart';
 
 class Network {
   Map<String, String> headers = {
@@ -24,8 +25,10 @@ class Network {
   };
 
   //static final String _baseUrl = 'http://104.217.253.15:3006/api/';
-  static final String _baseUrl = 'https://www.jawlatcom.com/api/';
+  static final String _baseUrl = 'http://192.168.1.7:3000/api/';
+//  static final String _baseUrl = 'https://www.jawlatcom.com/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
+  final String _logoutUrl = _baseUrl + 'users/logOut';
   final String _signUpUrl = _baseUrl + 'users';
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
   final String _googleLoginUrl = _baseUrl + 'users/googleLogin';
@@ -45,6 +48,8 @@ class Network {
   final String _uploadMediaUrl = _baseUrl + 'uploadFiles/image/upload';
   final String _needHelp = _baseUrl + '/adminNotifications/needHelp';
   final String _rate = _baseUrl + '/rates/makeRate';
+  final String _firbaseTokens = _baseUrl + '/firbaseTokens';
+  final String _updateFirbaseTokens = _baseUrl + '/firbaseTokens/updateFirebaseToken';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -56,6 +61,32 @@ class Network {
       return UserResponse.fromJson(json.decode(response.body));
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       throw 'error_wrong_credentials';
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<void> putLogout() async {
+
+    final deviceInfo = DeviceInfoPlugin();
+    String deviceId;
+    if(Platform.isAndroid) {
+      deviceInfo.androidInfo.then((info) {
+        deviceId = info.androidId;
+      });
+    } else {
+      deviceInfo.iosInfo.then((info) {
+        deviceId = info.identifierForVendor;
+      });
+    }
+
+    final body = json.encode({
+      'deviceId': deviceId,
+    });
+    final response = await http.put(_logoutUrl, body: body, headers: headers);
+    if (response.statusCode == 200) {
+      return;
     } else {
       print(response.body);
       throw json.decode(response.body);
@@ -233,6 +264,35 @@ class Network {
   Future<void> postRate(String token) async {
     headers['Authorization'] = token;
     final response = await http.post(_rate, headers: headers);
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<void> postFirebaseTokens(String token, String firebaseToken, String deviceId) async {
+    headers['Authorization'] = token;
+    final body = json.encode({
+      "token": firebaseToken,
+      "deviceId": deviceId,
+    });
+    final response = await http.post(_firbaseTokens, headers: headers, body: body);
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<void> updateFirebaseTokens(String token, String firebaseToken) async {
+    headers['Authorization'] = token;
+    final body = json.encode({
+      "token": firebaseToken,
+    });
+    final response = await http.put(_updateFirbaseTokens, headers: headers, body: body);
     if (response.statusCode == 200) {
       return;
     } else {
