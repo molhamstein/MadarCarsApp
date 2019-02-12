@@ -3,10 +3,11 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/user.dart';
+import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AppBloc extends BaseBloc {
+class AppBloc extends BaseBloc with Network {
   final SharedPreferences _prefs;
   DataStore _dataStore;
 
@@ -41,6 +42,7 @@ class AppBloc extends BaseBloc {
   String get userISOCode => _dataStore.userISOCode;
 
   get logout {
+    putLogout();
     _dataStore.logout;
     _logOutController.sink.add(true);
   }

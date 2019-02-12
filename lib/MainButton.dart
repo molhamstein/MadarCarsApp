@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 
 class MainButton extends StatefulWidget {
@@ -57,11 +58,10 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.miniButton){
+    if (widget.miniButton) {
       height = 40;
-      width = 40;
-    }
-    else{
+      width = 100;
+    } else {
       height = 0;
       width = 0;
     }
@@ -131,24 +131,30 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
       child: InkWell(
         onTap: widget.onMiniBtnPressed,
         child: AnimatedContainer(
+          curve: Curves.ease,
           margin: EdgeInsets.only(left: 16, right: 16),
-          duration: Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 400),
           decoration: BoxDecoration(
-            color: Colors.black54,
+            color: MadarColors.gradientDown,
             borderRadius: BorderRadius.circular(40),
             boxShadow: [
               BoxShadow(
                 blurRadius: 10,
-                color: Colors.black26,
+                color: MadarColors.gradientUp,
               ),
             ],
           ),
           height: height,
           width: width,
-          child: Icon(
-            FontAwesomeIcons.edit,
-            color: Colors.white,
-              size: width / 2.5,
+          child: Center(
+            child: width > 80 ? Text(
+              MadarLocalizations.of(context).trans('add_note'),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+
+              ),
+            ) : Container(),
           ),
         ),
       ),

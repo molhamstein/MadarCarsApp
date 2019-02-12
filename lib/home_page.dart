@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:madar_booking/app_bloc.dart';
@@ -5,31 +8,38 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_bloc.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/madar_fonts.dart';
+import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripModel.dart';
-import 'package:madar_booking/network.dart';
 import 'package:madar_booking/profile_page.dart';
 import 'package:madar_booking/car_card_widget.dart';
+import 'package:madar_booking/review/review_main.dart';
 import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
-import 'dart:developer';
+import 'package:device_info/device_info.dart';
 
 class HomePage extends StatelessWidget {
   static const String route = 'home_page';
+  final bool afterLogin;
+
+  const HomePage({Key key, this.afterLogin = false}) : super(key: key);
+
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print('size is = ' +  MediaQuery.of(context).size.toString());
+    print('aspect ratio is = ' + MediaQuery.of(context).size.aspectRatio.toString());
     return Material(
-      child: MyHomePage(),
+      child: MyHomePage(afterLogin: afterLogin,),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.afterLogin = false}) : super(key: key);
   final String title;
+  final bool afterLogin;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -53,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Matrix4 rotateBy_0;
   Matrix4 transformation;
   BorderRadius borderRadius;
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
 
   void handelHeaderAnimation() {
     // callback function
@@ -127,6 +138,59 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     homeBloc.predifindTrips();
     homeBloc.getCars();
     prepareAnimation();
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) {
+        print('on message $message');
+//        Navigator.of(context)
+//            .push(MaterialPageRoute(builder: (context) => ReviewMain()));
+      },
+      onResume: (Map<String, dynamic> message) {
+        print('on resume $message');
+        if(message['openActivity'] == 'rating') {
+          final carId = message['carId'];
+          final tripId = message['tripId'];
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+        }
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('on launch $message');
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if(message['openActivity'] == 'rating') {
+            final carId = message['carId'];
+            final tripId = message['tripId'];
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+          }
+        });
+      },
+    );
+
+    _firebaseMessaging.getToken().then((token) {
+      print('token = ' + token);
+      if (widget.afterLogin) {
+        final deviceInfo = DeviceInfoPlugin();
+        if (Platform.isAndroid) {
+          deviceInfo.androidInfo.then((info) {
+            homeBloc.postFirebaseToken(token, info.androidId);
+          });
+        } else {
+          deviceInfo.iosInfo.then((info) {
+            homeBloc.postFirebaseToken(token, info.identifierForVendor);
+          });
+        }
+      }
+    });
+
+    _firebaseMessaging.onTokenRefresh.listen((token) {
+      print('token =  $token');
+      homeBloc.updateFirebaseToken(token);
+    });
+
+    _firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(sound: true, badge: true, alert: true));
+
     super.initState();
   }
 
@@ -187,7 +251,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Text(
                     MadarLocalizations.of(context).trans("Trending_Cars"),
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+==== BASE ====
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600),
+==== BASE ====
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -253,7 +321,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     debugger(when: trips == null);
     return Container(
       constraints: BoxConstraints.expand(
-          height: MediaQuery.of(context).size.height / 3.8),
+          height: isScreenLongEnough ? (MediaQuery.of(context).size.height / 3.8) : (MediaQuery.of(context).size.height / 4),),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -298,7 +366,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     child: Text(
                       MadarLocalizations.of(context).trans('Recomended_Trips'),
                       style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: isScreenLongEnough ? 22 : 18, fontWeight: FontWeight.w600),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -401,8 +469,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     Container(
                                       alignment: Alignment(0, 0),
                                       child: Container(
-                                        width: 60,
-                                        height: 60,
+                                        width: isScreenLongEnough ? 60 : 40,
+                                        height: isScreenLongEnough ? 60 : 40,
                                         decoration: BoxDecoration(
                                             boxShadow: [MadarColors.shadow],
                                             color: Colors.grey.shade900,
@@ -435,7 +503,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           },
                                           child: Icon(
                                             Icons.add,
-                                            size: 40,
+                                            size: isScreenLongEnough ? 40 : 25,
                                             color: Colors.white,
                                           ),
                                           padding: EdgeInsets.all(8.0),
@@ -495,6 +563,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
     );
   }
+
 
   @override
   void dispose() {

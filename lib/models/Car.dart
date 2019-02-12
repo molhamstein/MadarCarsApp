@@ -46,7 +46,7 @@ class Car {
   Brand brand;
   Location location;
   Driver driver;
-  List<dynamic> carMedia;
+  List<Media> carMedia;
   List<CarSublocation> carSublocations;
   Media media;
 
@@ -113,7 +113,7 @@ class Car {
         driver: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
         carMedia: json["carMedia"] == null
             ? null
-            : new List<dynamic>.from(json["carMedia"].map((x) => x)),
+            : new List<Media>.from(json["carMedia"].map((x) => Media.fromJson(x))),
         carSublocations: json["carSublocations"] == null
             ? null
             : new List<CarSublocation>.from(
