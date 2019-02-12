@@ -3,6 +3,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/city_radio_tile.dart';
 import 'package:madar_booking/madarLocalizer.dart';
+import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_city_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
@@ -241,10 +242,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
   _cities(locationsSnapshot) {
     return Container(
       margin: EdgeInsets.only(
-          top: MediaQuery.of(context)
-              .size
-              .height /
-              3.5),
+          top: isScreenLongEnough ? MediaQuery.of(context).size.height / 3.5 : MediaQuery.of(context).size.height / 4) ,
       height:
       MediaQuery.of(context).size.width / 2,
       child: StreamBuilder<int>(

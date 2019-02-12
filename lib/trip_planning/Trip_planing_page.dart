@@ -4,6 +4,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/final_step.dart';
@@ -153,8 +154,8 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                             return Hero(
                               tag: 'tripButton',
                               child: MainButton(
-                                width: 150,
-                                height: 50,
+                                width: isScreenLongEnough ? 150 : 120,
+                                height: isScreenLongEnough ? 50 : 40,
                                 miniButton:
                                     noteSnapshot.hasData && noteSnapshot.data,
                                 text: MadarLocalizations.of(context)
