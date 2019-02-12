@@ -46,7 +46,7 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
               BlocProvider.of<AppBloc>(context).saveToken(snapshot.data.token);
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pushReplacement(
-                    new MaterialPageRoute(builder: (context) => HomePage()));
+                    new MaterialPageRoute(builder: (context) => HomePage(afterLogin: true,)));
               });
             }
 

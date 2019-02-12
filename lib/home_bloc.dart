@@ -39,6 +39,16 @@ class HomeBloc extends BaseBloc with Network {
     });
   }
 
+  updateFirebaseToken(String firebaseToken) {
+    updateFirebaseTokens(token, firebaseToken);
+  }
+
+  postFirebaseToken(String firebaseToken, String deviceId) {
+    postFirebaseTokens(token, firebaseToken, deviceId);
+  }
+
+
+
   @override
   void dispose() {
     _availableCarController.close();

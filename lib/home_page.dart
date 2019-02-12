@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -6,31 +8,35 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_bloc.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/madar_fonts.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripModel.dart';
-import 'package:madar_booking/network.dart';
 import 'package:madar_booking/profile_page.dart';
 import 'package:madar_booking/car_card_widget.dart';
 import 'package:madar_booking/review/review_main.dart';
 import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
+import 'package:device_info/device_info.dart';
 
 class HomePage extends StatelessWidget {
   static const String route = 'home_page';
+  final bool afterLogin;
+
+  const HomePage({Key key, this.afterLogin = false}) : super(key: key);
+
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: MyHomePage(),
+      child: MyHomePage(afterLogin: afterLogin,),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title, this.afterLogin = false}) : super(key: key);
   final String title;
+  final bool afterLogin;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -55,7 +61,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Matrix4 transformation;
   BorderRadius borderRadius;
   FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-
 
   void handelHeaderAnimation() {
     // callback function
@@ -131,7 +136,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     homeBloc.getCars();
     prepareAnimation();
 
-
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         print('on message $message');
@@ -143,7 +147,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         print('on resume $message');
 //        Navigator.of(context)
 //            .push(MaterialPageRoute(builder: (context) => ReviewMain()));
-
       },
       onLaunch: (Map<String, dynamic> message) {
         print('on launch $message');
@@ -151,12 +154,28 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (context) => ReviewMain()));
         });
-
       },
     );
 
     _firebaseMessaging.getToken().then((token) {
       print('token = ' + token);
+      if (widget.afterLogin) {
+        final deviceInfo = DeviceInfoPlugin();
+        if (Platform.isAndroid) {
+          deviceInfo.androidInfo.then((info) {
+            homeBloc.postFirebaseToken(token, info.androidId);
+          });
+        } else {
+          deviceInfo.iosInfo.then((info) {
+            homeBloc.postFirebaseToken(token, info.identifierForVendor);
+          });
+        }
+      }
+    });
+
+    _firebaseMessaging.onTokenRefresh.listen((token) {
+      print('token =  $token');
+      homeBloc.updateFirebaseToken(token);
     });
 
     _firebaseMessaging.requestNotificationPermissions(
@@ -209,18 +228,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         builder: (context, widget) {
           return Transform.translate(
             offset: _carsOffsetFloat.value,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                    Widget>[
               Container(
                 color: Colors.transparent,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Text(
                     MadarLocalizations.of(context).trans("Trending_Cars"),
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -319,9 +336,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     padding: const EdgeInsets.only(left: 8.0, right: 8),
                     child: Text(
                       MadarLocalizations.of(context).trans('Recomended_Trips'),
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -429,8 +445,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                                   .whenComplete(() {
                                                 Future.delayed(
                                                     const Duration(
-                                                        milliseconds: 100),
-                                                    () {
+                                                        milliseconds: 100), () {
                                                   Navigator.of(context).push(
                                                       MaterialPageRoute(
                                                           builder: (context) {
