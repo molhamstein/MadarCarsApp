@@ -11,8 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
-
+bool isScreenLongEnough;
 
 void main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -67,7 +66,6 @@ class MyAppState extends State<MyApp> {
             return MaterialApp(
               key: key,
               debugShowCheckedModeBanner: false,
-              navigatorKey: navigatorKey,
               supportedLocales: [
                 const Locale('en', 'US'),
                 const Locale('ar', ''),
@@ -118,11 +116,11 @@ class LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
   Widget build(BuildContext context) {
+    isScreenLongEnough = MediaQuery.of(context).size.height > 625;
     AppBloc bloc = BlocProvider.of<AppBloc>(context);
     bloc.pushUser;
     return StreamBuilder<bool>(

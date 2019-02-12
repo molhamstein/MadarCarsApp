@@ -8,6 +8,7 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_bloc.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/profile_page.dart';
@@ -27,6 +28,8 @@ class HomePage extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print('size is = ' +  MediaQuery.of(context).size.toString());
+    print('aspect ratio is = ' + MediaQuery.of(context).size.aspectRatio.toString());
     return Material(
       child: MyHomePage(afterLogin: afterLogin,),
     );
@@ -244,7 +247,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Text(
                     MadarLocalizations.of(context).trans("Trending_Cars"),
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: isScreenLongEnough ? 22 : 18, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.start,
                   ),
                 ),
@@ -301,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget _tripCardContainerList() {
     return Container(
       constraints: BoxConstraints.expand(
-          height: MediaQuery.of(context).size.height / 3.8),
+          height: isScreenLongEnough ? (MediaQuery.of(context).size.height / 3.8) : (MediaQuery.of(context).size.height / 4),),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -344,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     child: Text(
                       MadarLocalizations.of(context).trans('Recomended_Trips'),
                       style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                          TextStyle(fontSize: isScreenLongEnough ? 22 : 18, fontWeight: FontWeight.w600),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -436,8 +439,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     Container(
                                       alignment: Alignment(0, 0),
                                       child: Container(
-                                        width: 60,
-                                        height: 60,
+                                        width: isScreenLongEnough ? 60 : 40,
+                                        height: isScreenLongEnough ? 60 : 40,
                                         decoration: BoxDecoration(
                                             boxShadow: [MadarColors.shadow],
                                             color: Colors.grey.shade900,
@@ -470,7 +473,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                           },
                                           child: Icon(
                                             Icons.add,
-                                            size: 40,
+                                            size: isScreenLongEnough ? 40 : 25,
                                             color: Colors.white,
                                           ),
                                           padding: EdgeInsets.all(8.0),
@@ -530,6 +533,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
     );
   }
+
 
   @override
   void dispose() {

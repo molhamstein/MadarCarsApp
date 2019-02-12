@@ -22,11 +22,11 @@ class TripCard extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        width: 185,
-        height: 185,
+        width: MediaQuery.of(context).size.height / 3.8,
+        height: MediaQuery.of(context).size.height / 3.8,
         child: Container(
-          width: 185,
-          height: 185,
+          width: MediaQuery.of(context).size.height / 3.8,
+          height: MediaQuery.of(context).size.height / 3.8,
           decoration: BoxDecoration(
             gradient: MadarColors.gradiantFromColors(trip.color1, trip.color2),
             color: Color.fromARGB(180, 255, 255, 255),
