@@ -261,9 +261,14 @@ class Network {
     }
   }
 
-  Future<void> postRate(String token) async {
+  Future<void> postRate(String token, String carId, String tripId, int value) async {
     headers['Authorization'] = token;
-    final response = await http.post(_rate, headers: headers);
+    final body = json.encode({
+      "carId": carId,
+      "tripId": tripId,
+      "value": value,
+    });
+    final response = await http.post(_rate, headers: headers, body: body);
     if (response.statusCode == 200) {
       return;
     } else {

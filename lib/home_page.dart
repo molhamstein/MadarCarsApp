@@ -139,20 +139,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         print('on message $message');
-        print('in NAVIGATION');
 //        Navigator.of(context)
 //            .push(MaterialPageRoute(builder: (context) => ReviewMain()));
       },
       onResume: (Map<String, dynamic> message) {
         print('on resume $message');
-//        Navigator.of(context)
-//            .push(MaterialPageRoute(builder: (context) => ReviewMain()));
+        if(message['openActivity'] == 'rating') {
+          final carId = message['carId'];
+          final tripId = message['tripId'];
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+        }
       },
       onLaunch: (Map<String, dynamic> message) {
         print('on launch $message');
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => ReviewMain()));
+          if(message['openActivity'] == 'rating') {
+            final carId = message['carId'];
+            final tripId = message['tripId'];
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+          }
         });
       },
     );

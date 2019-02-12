@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:madar_booking/app_bloc.dart';
+import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
-import 'package:madar_booking/review/expressions.dart';
 import 'package:madar_booking/review/rating_value.dart';
 import 'package:madar_booking/review/review_bloc.dart';
+import 'package:madar_booking/feedback.dart';
 
 class ReviewMain extends StatefulWidget {
+  final carId;
+  final tripId;
+
+  const ReviewMain({Key key, this.carId, this.tripId})
+      : assert(carId != null),
+        assert(tripId != null),
+        super(key: key);
+
   @override
   ReviewMainState createState() {
     return new ReviewMainState();
   }
 }
 
-class ReviewMainState extends State<ReviewMain> with TickerProviderStateMixin {
+class ReviewMainState extends State<ReviewMain> with TickerProviderStateMixin, UserFeedback {
   PageController pageController;
   Animatable<Color> background;
   ReviewBloc bloc;
@@ -24,7 +34,7 @@ class ReviewMainState extends State<ReviewMain> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    bloc = ReviewBloc();
+    bloc = ReviewBloc(widget.carId, widget.tripId, BlocProvider.of<AppBloc>(context).token);
     _initialize();
     super.initState();
   }
@@ -111,119 +121,160 @@ class ReviewMainState extends State<ReviewMain> with TickerProviderStateMixin {
             stream: bloc.indexStream,
             initialData: 0,
             builder: (context, snapshot) {
-              return Stack(
-                alignment: Alignment.bottomCenter,
-                children: <Widget>[
+              return StreamBuilder<bool>(
+                stream: bloc.submitStream,
+                builder: (context, submitSnapshot) {
 
-                  AnimatedBuilder(
-                    animation: pageController,
-                    builder: (context, child) {
-                      if (pageController.hasClients) {
-                        print(pageController.page);
-                      }
+                  if(submitSnapshot.hasData) {
+                    if (submitSnapshot.data) {
 
-                      return DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: background.evaluate(
-                              AlwaysStoppedAnimation(snapshot.data / 5)),
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        showInSnackBar('after_rate_msg', context);
+                        Navigator.of(context).pop();
+                      });
+
+
+                    } else {
+
+                    }
+                  }
+
+                  return Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: <Widget>[
+                      AnimatedBuilder(
+                        animation: pageController,
+                        builder: (context, child) {
+                          if (pageController.hasClients) {
+                            print(pageController.page);
+                          }
+
+                          return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: background.evaluate(
+                                  AlwaysStoppedAnimation(snapshot.data / 5)),
+                            ),
+                            child: child,
+                          );
+                        },
+                        child: PageView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: pageController,
+                          children: [
+                            Center(child: Text("")),
+                            Center(child: Text("")),
+                            Center(child: Text("")),
+                            Center(child: Text("")),
+                            Center(child: Text("")),
+                          ],
                         ),
-                        child: child,
-                      );
-                    },
-                    child: PageView(
-                      physics: NeverScrollableScrollPhysics(),
-                      controller: pageController,
-                      children: [
-                        Center(child: Text("")),
-                        Center(child: Text("")),
-                        Center(child: Text("")),
-                        Center(child: Text("")),
-                        Center(child: Text("")),
-                      ],
-                    ),
-                  ),
-                  Container(
-                      margin: EdgeInsets.all(32),
-                      alignment: Alignment.center,
-                      child: Stack(
-                        children: <Widget>[
-                          FadeTransition(
-                              opacity: badFace,
-                              child: Image.asset('assets/images/bad_face.png')),
-                          FadeTransition(
-                              opacity: okFace,
-                              child: Image.asset('assets/images/ok_face.png')),
-                          FadeTransition(
-                              opacity: greatFace,
-                              child:
-                                  Image.asset('assets/images/great_face.png')),
-                        ],
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.only(top:80.0),
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        MadarLocalizations.of(context).trans('review_text'),
-                        style: TextStyle(
-                          fontSize: 22,
-                            color: Colors.white, fontWeight: FontWeight.w700),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 60.0),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          RatingValue(
-                            value: 1,
-                            onTap: (value) {
-                              pageController.animateToPage(value - 1,
-                                  duration: duration, curve: Curves.linear);
-                            },
-                            selected: snapshot.data.toInt() == 0,
+                      Container(
+                          margin: EdgeInsets.all(32),
+                          alignment: Alignment.center,
+                          child: Stack(
+                            children: <Widget>[
+                              FadeTransition(
+                                  opacity: badFace,
+                                  child: Image.asset('assets/images/bad_face.png')),
+                              FadeTransition(
+                                  opacity: okFace,
+                                  child: Image.asset('assets/images/ok_face.png')),
+                              FadeTransition(
+                                  opacity: greatFace,
+                                  child:
+                                      Image.asset('assets/images/great_face.png')),
+                            ],
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 80.0),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            MadarLocalizations.of(context).trans('review_text'),
+                            style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700),
                           ),
-                          RatingValue(
-                            value: 2,
-                            onTap: (value) {
-                              pageController.animateToPage(value - 1,
-                                  duration: duration, curve: Curves.linear);
-                            },
-                            selected: snapshot.data.toInt() == 1,
-                          ),
-                          RatingValue(
-                            value: 3,
-                            onTap: (value) {
-                              pageController.animateToPage(value - 1,
-                                  duration: duration, curve: Curves.linear);
-                            },
-                            selected: snapshot.data.toInt() == 2,
-                          ),
-                          RatingValue(
-                            value: 4,
-                            onTap: (value) {
-                              pageController.animateToPage(value - 1,
-                                  duration: duration, curve: Curves.linear);
-                            },
-                            selected: snapshot.data.toInt() == 3,
-                          ),
-                          RatingValue(
-                            value: 5,
-                            onTap: (value) {
-                              pageController.animateToPage(value - 1,
-                                  duration: duration, curve: Curves.linear);
-                            },
-                            selected: snapshot.data.toInt() == 4,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 60.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              RatingValue(
+                                value: 1,
+                                onTap: (value) {
+                                  pageController.animateToPage(value - 1,
+                                      duration: duration, curve: Curves.linear);
+                                },
+                                selected: snapshot.data.toInt() == 0,
+                              ),
+                              RatingValue(
+                                value: 2,
+                                onTap: (value) {
+                                  pageController.animateToPage(value - 1,
+                                      duration: duration, curve: Curves.linear);
+                                },
+                                selected: snapshot.data.toInt() == 1,
+                              ),
+                              RatingValue(
+                                value: 3,
+                                onTap: (value) {
+                                  pageController.animateToPage(value - 1,
+                                      duration: duration, curve: Curves.linear);
+                                },
+                                selected: snapshot.data.toInt() == 2,
+                              ),
+                              RatingValue(
+                                value: 4,
+                                onTap: (value) {
+                                  pageController.animateToPage(value - 1,
+                                      duration: duration, curve: Curves.linear);
+                                },
+                                selected: snapshot.data.toInt() == 3,
+                              ),
+                              RatingValue(
+                                value: 5,
+                                onTap: (value) {
+                                  pageController.animateToPage(value - 1,
+                                      duration: duration, curve: Curves.linear);
+                                },
+                                selected: snapshot.data.toInt() == 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FlatButton(
+                          onPressed: () {
+                            bloc.submit();
+                          },
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  );
+                }
               );
             }));
+  }
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
   }
 }
