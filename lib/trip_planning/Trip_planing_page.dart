@@ -297,31 +297,44 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          SquareFilterButton(
-                            child: Text(
-                              'VIP cars',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  height: 0.8),
-                            ),
-                          ),
-                          Container(
-                            width: 8,
-                          ),
-                          SquareFilterButton(
-                            child: Text(
-                              'All cars',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  height: 0.8),
-                            ),
-                          ),
-                        ],
+                      child: StreamBuilder<Object>(
+                        stream: bloc.carTypeStream,
+                        builder: (context, snapshot) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SquareFilterButton(
+                                child: Text(
+                                  'VIP cars',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      height: 0.8),
+                                ),
+                                selected: snapshot.data == Type.vip,
+                                onTap: () {
+                                  bloc.selectCarType(Type.vip);
+                                },
+                              ),
+                              Container(
+                                width: 8,
+                              ),
+                              SquareFilterButton(
+                                child: Text(
+                                  'All cars',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      height: 0.8),
+                                ),
+                                selected: snapshot.data == Type.normal,
+                                onTap: () {
+                                  bloc.selectCarType(Type.normal);
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                     Divider(),
@@ -345,14 +358,23 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                               color: Colors.white,
                               size: 16,
                             ),
+                            onTap: (){
+                              bloc.plusSeat();
+                            },
                           ),
-                          Text(
-                            '8',
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w800,
-                            ),
+                          StreamBuilder(
+                            stream: bloc.numberOfSeatsStream,
+                            initialData: '-',
+                            builder: (context, snapshot) {
+                              return Text(
+                                snapshot.data.toString(),
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              );
+                            }
                           ),
                           RoundFilterButton(
                             child: Icon(
@@ -360,6 +382,9 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                               color: Colors.white,
                               size: 16,
                             ),
+                            onTap: () {
+                              bloc.minusSeat();
+                            },
                           ),
                         ],
                       ),
@@ -523,7 +548,7 @@ class _GenderFilterButtonState extends State<GenderFilterButton> {
 
 class SquareFilterButton extends StatefulWidget {
   final Widget child;
-  final Function(bool) onTap;
+  final Function() onTap;
   final double padding;
   final bool selected;
 
@@ -540,11 +565,9 @@ class SquareFilterButton extends StatefulWidget {
 }
 
 class _SquareFilterButtonState extends State<SquareFilterButton> {
-  bool selected;
 
   @override
   void initState() {
-    selected = widget.selected;
     super.initState();
   }
 
@@ -554,11 +577,10 @@ class _SquareFilterButtonState extends State<SquareFilterButton> {
       child: InkWell(
         onTap: () {
           setState(() {
-            selected = !selected;
-            if (widget.onTap != null) widget.onTap(selected);
+            if (widget.onTap != null) widget.onTap();
           });
         },
-        child: selected
+        child: widget.selected
             ? Container(
                 padding: EdgeInsets.all(widget.padding),
                 decoration: BoxDecoration(
