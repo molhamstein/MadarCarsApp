@@ -24,14 +24,16 @@ class HomePage extends StatelessWidget {
 
   const HomePage({Key key, this.afterLogin = false}) : super(key: key);
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print('size is = ' +  MediaQuery.of(context).size.toString());
-    print('aspect ratio is = ' + MediaQuery.of(context).size.aspectRatio.toString());
+    print('size is = ' + MediaQuery.of(context).size.toString());
+    print('aspect ratio is = ' +
+        MediaQuery.of(context).size.aspectRatio.toString());
     return Material(
-      child: MyHomePage(afterLogin: afterLogin,),
+      child: MyHomePage(
+        afterLogin: afterLogin,
+      ),
     );
   }
 }
@@ -147,21 +149,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       },
       onResume: (Map<String, dynamic> message) {
         print('on resume $message');
-        if(message['openActivity'] == 'rating') {
+        if (message['openActivity'] == 'rating') {
           final carId = message['carId'];
           final tripId = message['tripId'];
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ReviewMain(
+                    carId: carId,
+                    tripId: tripId,
+                  )));
         }
       },
       onLaunch: (Map<String, dynamic> message) {
         print('on launch $message');
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if(message['openActivity'] == 'rating') {
+          if (message['openActivity'] == 'rating') {
             final carId = message['carId'];
             final tripId = message['tripId'];
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ReviewMain(
+                      carId: carId,
+                      tripId: tripId,
+                    )));
           }
         });
       },
@@ -212,7 +220,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _cardContainerList() {
     this.cars = appBloc.ourCars;
-    debugger(when: cars == null);
     return Container(
       constraints: BoxConstraints.expand(
           height: MediaQuery.of(context).size.height / 3.2),
@@ -236,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _availbleCars() {
     var temp = appBloc.ourCars != null ? appBloc.ourCars : [];
-    debugger(when: temp == null);
     return AnimatedBuilder(
         animation: _carsOffsetFloat,
         builder: (context, widget) {
@@ -251,17 +257,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Text(
                     MadarLocalizations.of(context).trans("Trending_Cars"),
-==== BASE ====
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600),
-==== BASE ====
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.start,
                   ),
                 ),
               ),
               StreamBuilder<List<Car>>(
-                initialData: [],
+                // initialData: temp,
                 stream: homeBloc.availableCarsStream,
                 builder: (context, snapshot) {
                   // switch (snapshot.connectionState) {
@@ -318,10 +320,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget _tripCardContainerList() {
     this.trips = appBloc.recomendedTrips;
-    debugger(when: trips == null);
+
     return Container(
       constraints: BoxConstraints.expand(
-          height: isScreenLongEnough ? (MediaQuery.of(context).size.height / 3.8) : (MediaQuery.of(context).size.height / 4),),
+        height: isScreenLongEnough
+            ? (MediaQuery.of(context).size.height / 3.8)
+            : (MediaQuery.of(context).size.height / 4),
+      ),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -350,7 +355,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   Widget predefiedTrips() {
     var temp = appBloc.recomendedTrips != null ? appBloc.recomendedTrips : [];
-    debugger(when: temp == null);
+
     return AnimatedBuilder(
         animation: _tripsOffsetFloat,
         builder: (context, widget) {
@@ -365,14 +370,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     padding: const EdgeInsets.only(left: 8.0, right: 8),
                     child: Text(
                       MadarLocalizations.of(context).trans('Recomended_Trips'),
-                      style:
-                          TextStyle(fontSize: isScreenLongEnough ? 22 : 18, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: isScreenLongEnough ? 22 : 18,
+                          fontWeight: FontWeight.w600),
                       textAlign: TextAlign.start,
                     ),
                   ),
                 ),
                 StreamBuilder<List<TripModel>>(
-                  initialData: [],
+                  //        initialData: temp,
                   stream: homeBloc.predefindTripsStream,
                   builder: (context, snapshot) {
                     // switch (snapshot.connectionState) {
@@ -405,11 +411,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                 height:
                                     MediaQuery.of(context).size.height / 3.8),
                             child: ListTile(
-                              title: IconButton(
+                              title: FlatButton(
                                 onPressed: () {
                                   homeBloc.predifindTrips();
                                 },
-                                icon: Icon(Icons.restore),
+                                child: Text(MadarLocalizations.of(context)
+                                    .trans('retry')),
                               ),
                               subtitle: Text(MadarLocalizations.of(context)
                                   .trans('connection_error')),
@@ -563,7 +570,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
     );
   }
-
 
   @override
   void dispose() {

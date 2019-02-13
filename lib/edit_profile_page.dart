@@ -66,7 +66,7 @@ class _EditProfilePageState extends State<EditProfilePage>
               initialData: false,
               stream: bloc.lockTouchEventStream,
               builder: (context, snapshot) {
-                print(snapshot.data);
+                print('isLocked ${snapshot.data}');
                 return _buildLayout(snapshot.data);
               },
             ),
@@ -79,6 +79,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   _buildLayout(bool ignore) {
     return StreamBuilder<User>(
       stream: profileBloc.userStream,
+      initialData: appBloc.me,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           appBloc.saveUser(snapshot.data);

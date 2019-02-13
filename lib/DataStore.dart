@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
@@ -60,6 +61,16 @@ class DataStore {
 
   recomendedTripList(List<TripModel> trips) {
     _prefs.setString("recomendedTrips", tripToJson(trips));
+  }
+
+  List<MyTrip> getMyTripList() {
+    var trips = _prefs.getString("myTips");
+    List<MyTrip> t = trips != null ? myTripFromJson(trips) : [];
+    return t;
+  }
+
+  myTripList(List<MyTrip> trips) {
+    _prefs.setString("myTips", myTripToJson(trips));
   }
 
   List<Car> getOurCars() {
