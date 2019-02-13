@@ -257,7 +257,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
   showModal(context) {
     final titleStyle = TextStyle(
       color: MadarColors.gradientDown,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w700,
     );
 
     showModalBottomSheet(
@@ -287,141 +287,234 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Show VIP cars only',
-                          style: titleStyle,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 16, bottom: 16),
-                      child: StreamBuilder<Object>(
+                    StreamBuilder<Type>(
                         stream: bloc.carTypeStream,
                         builder: (context, snapshot) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              SquareFilterButton(
-                                child: Text(
-                                  'VIP cars',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      height: 0.8),
-                                ),
-                                selected: snapshot.data == Type.vip,
-                                onTap: () {
-                                  bloc.selectCarType(Type.vip);
-                                },
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Show VIP cars only',
+                                    style: titleStyle,
+                                  ),
+                                  snapshot.hasData && snapshot.data != Type.none
+                                      ? ActionChip(
+                                          padding: EdgeInsets.all(1),
+                                          label: Text(
+                                            snapshot.data
+                                                .toString()
+                                                .split('.')
+                                                .last,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              height: 0.8,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            bloc.selectCarType(Type.none);
+                                          },
+                                          avatar: Icon(
+                                            Icons.close,
+                                            size: 18,
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
                               ),
                               Container(
-                                width: 8,
-                              ),
-                              SquareFilterButton(
-                                child: Text(
-                                  'All cars',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      height: 0.8),
+                                margin: EdgeInsets.only(top: 16, bottom: 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    SquareFilterButton(
+                                      child: Text(
+                                        'VIP cars',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            height: 0.8),
+                                      ),
+                                      selected: snapshot.data == Type.vip,
+                                      onTap: () {
+                                        bloc.selectCarType(Type.vip);
+                                      },
+                                    ),
+                                    Container(
+                                      width: 8,
+                                    ),
+                                    SquareFilterButton(
+                                      child: Text(
+                                        'All cars',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            height: 0.8),
+                                      ),
+                                      selected: snapshot.data == Type.normal,
+                                      onTap: () {
+                                        bloc.selectCarType(Type.normal);
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                selected: snapshot.data == Type.normal,
-                                onTap: () {
-                                  bloc.selectCarType(Type.normal);
-                                },
                               ),
                             ],
                           );
-                        },
-                      ),
-                    ),
+                        }),
                     Divider(),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Number of seats',
-                          style: titleStyle,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2,
-                      margin: EdgeInsets.only(top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          RoundFilterButton(
-                            child: Icon(
-                              FontAwesomeIcons.plus,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            onTap: (){
-                              bloc.plusSeat();
-                            },
-                          ),
-                          StreamBuilder(
-                            stream: bloc.numberOfSeatsStream,
-                            initialData: '-',
-                            builder: (context, snapshot) {
-                              return Text(
-                                snapshot.data.toString(),
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.w800,
+                    StreamBuilder<int>(
+                        stream: bloc.numberOfSeatsStream,
+                        initialData: 1,
+                        builder: (context, snapshot) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    'Number of seats',
+                                    style: titleStyle,
+                                  ),
+                                  snapshot.hasData && snapshot.data >= 2
+                                      ? ActionChip(
+                                          padding: EdgeInsets.all(1),
+                                          label: Text(
+                                            snapshot.data.toString(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                              height: 0.8,
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            bloc.clearNumberOfSeats();
+                                          },
+                                          avatar: Icon(
+                                            Icons.close,
+                                            size: 18,
+                                          ),
+                                        )
+                                      : Container(),
+                                ],
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width / 2,
+                                margin: EdgeInsets.only(top: 16, bottom: 16),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    RoundFilterButton(
+                                      child: Icon(
+                                        FontAwesomeIcons.plus,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                      onTap: () {
+                                        bloc.plusSeat();
+                                      },
+                                    ),
+                                    Text(
+                                      snapshot.data < 2 ? '-' : snapshot.data.toString(),
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    RoundFilterButton(
+                                      child: Icon(
+                                        FontAwesomeIcons.minus,
+                                        color: Colors.white,
+                                        size: 16,
+                                      ),
+                                      onTap: () {
+                                        bloc.minusSeat();
+                                      },
+                                    ),
+                                  ],
                                 ),
-                              );
-                            }
-                          ),
-                          RoundFilterButton(
-                            child: Icon(
-                              FontAwesomeIcons.minus,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            onTap: () {
-                              bloc.minusSeat();
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                              ),
+                            ],
+                          );
+                        }),
+
                     Divider(),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Driver gender',
-                          style: titleStyle,
-                        ),
-                      ],
+                    StreamBuilder<Gender>(
+                      stream: bloc.genderStream,
+                      builder: (context, snapshot) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              'Driver gender',
+                              style: titleStyle,
+                            ),
+                            snapshot.hasData && snapshot.data != Gender.none
+                                ? ActionChip(
+                              padding: EdgeInsets.all(1),
+                              label: Text(
+                                snapshot.data.toString().split('.').last,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  height: 0.8,
+                                ),
+                              ),
+                              onPressed: () {
+                                bloc.selectGender(Gender.none);
+                              },
+                              avatar: Icon(
+                                Icons.close,
+                                size: 18,
+                              ),
+                            )
+                                : Container(),
+                          ],
+                        );
+                      }
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 2,
                       margin: EdgeInsets.only(top: 16, bottom: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          GenderFilterButton(
-                            child: Icon(
-                              FontAwesomeIcons.male,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            padding: 16,
-                          ),
-                          GenderFilterButton(
-                            child: Icon(
-                              FontAwesomeIcons.female,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            padding: 16,
-                          ),
-                        ],
-                      ),
+                      child: StreamBuilder<Object>(
+                          stream: bloc.genderStream,
+                          builder: (context, snapshot) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                GenderFilterButton(
+                                  child: Icon(
+                                    FontAwesomeIcons.male,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  padding: 16,
+                                  selected: snapshot.data == Gender.male,
+                                  onTap: () {
+                                    bloc.selectGender(Gender.male);
+                                  },
+                                ),
+                                GenderFilterButton(
+                                  child: Icon(
+                                    FontAwesomeIcons.female,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                  padding: 16,
+                                  selected: snapshot.data == Gender.female,
+                                  onTap: () {
+                                    bloc.selectGender(Gender.female);
+                                  },
+                                ),
+                              ],
+                            );
+                          }),
                     ),
                     Divider(),
                     Row(
@@ -436,12 +529,85 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                       margin: EdgeInsets.only(top: 16, bottom: 16),
                       child: Row(
                         children: <Widget>[
-                          FilterChip(label: Text('Arabic'), onSelected: (_) {}),
-                          FilterChip(
-                              label: Text('English'), onSelected: (_) {}),
-                          FilterChip(
-                              label: Text('Turkish'), onSelected: (_) {}),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: ChoiceChip(
+                              label: Text(
+                                'Arabic',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              onSelected: (_) {},
+                              selectedColor: Colors.black87,
+                              selected: true,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: ChoiceChip(
+                              label: Text('English',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              onSelected: (_) {},
+                              selectedColor: Colors.black87,
+                              selected: false,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: ChoiceChip(
+                              label: Text('Turkish',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                  )),
+                              onSelected: (_) {},
+                              selectedColor: Colors.black87,
+                              selected: false,
+                            ),
+                          ),
                         ],
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2.5,
+                      height: 50,
+                      margin: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.black87,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black38,
+                            blurRadius: 16,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(25),
+                          onTap: () {},
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 3,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: Center(
+                                child: Text(
+                              'Apply',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  height: 0.8),
+                            )),
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -489,11 +655,16 @@ class RoundFilterButton extends StatelessWidget {
 
 class GenderFilterButton extends StatefulWidget {
   final Widget child;
-  final Function(bool) onTap;
+  final Function onTap;
   final double padding;
   final bool selected;
 
-  const GenderFilterButton({Key key, this.child, this.onTap, this.padding = 10, this.selected = false})
+  const GenderFilterButton(
+      {Key key,
+      this.child,
+      this.onTap,
+      this.padding = 10,
+      this.selected = false})
       : super(key: key);
 
   @override
@@ -501,12 +672,8 @@ class GenderFilterButton extends StatefulWidget {
 }
 
 class _GenderFilterButtonState extends State<GenderFilterButton> {
-
-  bool selected;
-
   @override
   void initState() {
-    selected = widget.selected;
     super.initState();
   }
 
@@ -515,33 +682,34 @@ class _GenderFilterButtonState extends State<GenderFilterButton> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          selected = !selected;
-          if(widget.onTap != null) {
-            widget.onTap(selected);
+          if (widget.onTap != null) {
+            widget.onTap();
           }
         });
       },
-      child: selected ? Container(
-        padding: EdgeInsets.all(widget.padding),
-        decoration: BoxDecoration(
-          color: Colors.black87,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black38,
-              blurRadius: 16,
+      child: widget.selected
+          ? Container(
+              padding: EdgeInsets.all(widget.padding),
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black38,
+                    blurRadius: 16,
+                  ),
+                ],
+              ),
+              child: widget.child,
+            )
+          : Container(
+              padding: EdgeInsets.all(widget.padding),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                shape: BoxShape.circle,
+              ),
+              child: widget.child,
             ),
-          ],
-        ),
-        child: widget.child,
-      ) : Container(
-        padding: EdgeInsets.all(widget.padding),
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          shape: BoxShape.circle,
-        ),
-        child: widget.child,
-      ),
     );
   }
 }
@@ -565,7 +733,6 @@ class SquareFilterButton extends StatefulWidget {
 }
 
 class _SquareFilterButtonState extends State<SquareFilterButton> {
-
   @override
   void initState() {
     super.initState();
@@ -598,7 +765,7 @@ class _SquareFilterButtonState extends State<SquareFilterButton> {
             : Container(
                 padding: EdgeInsets.all(widget.padding),
                 decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: Colors.grey[300],
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: widget.child,

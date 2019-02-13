@@ -50,7 +50,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _noteButtonController = PublishSubject<bool>();
   final _carTypeController = BehaviorSubject<Type>();
   final _genderController = BehaviorSubject<Gender>();
-  final _numberOfSeatsController = BehaviorSubject<int>();
+  final _numberOfSeatsController = ReplaySubject<int>();
 
   get navigationStream => _navigationController.stream;
 
@@ -246,6 +246,11 @@ class TripPlaningBloc extends BaseBloc with Network {
     if (numberOfSeats > 2) _numberOfSeatsController.sink.add(--numberOfSeats);
   }
 
+  clearNumberOfSeats() {
+    numberOfSeats = 1;
+    _numberOfSeatsController.add(numberOfSeats);
+  }
+
   @override
   void dispose() {
     _navigationController.close();
@@ -258,9 +263,10 @@ class TripPlaningBloc extends BaseBloc with Network {
     _noteButtonController.close();
     _carTypeController.close();
     _genderController.close();
+    _numberOfSeatsController.close();
   }
 }
 
-enum Gender { male, female }
+enum Gender { male, female, none }
 
-enum Type { vip, normal }
+enum Type { vip, normal, none }
