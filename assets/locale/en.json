@@ -79,9 +79,9 @@
   "hello": "Hello",
   "trip_estim_cost": "Estim Cost",
   "update": "Update",
-  "prices_may_vary" : "Prices may vary from airport to airport in a city",
-  "home" : "Home",
-  "need_help" : "Need help?",
+  "prices_may_vary": "Prices may vary from airport to airport in a city",
+  "home": "Home",
+  "need_help": "Need help?",
   "we_will_contact_you_text": "We will contact you soon",
   "your_note": "Your Note",
   "date": "Date",
@@ -91,7 +91,7 @@
   "quantity": "Quantity",
   "subtotal": "Subtotal",
   "total_cost": "Total Cost",
-  "connection_error": "No Internet Connection Please check you connection and try again",
+  "connection_error": "Please check your connection and press try again",
   "tow_way_air_port": "Air port",
   "in_city": "In City",
   "logout": "Logout",
@@ -101,7 +101,8 @@
   "review_text": "Please Rate your trip with us",
   "add_note": "Add Note",
   "after_rate_msg": "Thank you for your feedback",
-  "images": "images"
-
-
+  "images": "images",
+  "retry": "Retry",
+  "success_message": "information updated succsesfully !",
+  "PHONENUMBER_OR_USERNAME_IS_USED": "Username or Phone number already used"
 }

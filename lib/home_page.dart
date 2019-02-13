@@ -24,14 +24,16 @@ class HomePage extends StatelessWidget {
 
   const HomePage({Key key, this.afterLogin = false}) : super(key: key);
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print('size is = ' +  MediaQuery.of(context).size.toString());
-    print('aspect ratio is = ' + MediaQuery.of(context).size.aspectRatio.toString());
+    print('size is = ' + MediaQuery.of(context).size.toString());
+    print('aspect ratio is = ' +
+        MediaQuery.of(context).size.aspectRatio.toString());
     return Material(
-      child: MyHomePage(afterLogin: afterLogin,),
+      child: MyHomePage(
+        afterLogin: afterLogin,
+      ),
     );
   }
 }
@@ -147,21 +149,27 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       },
       onResume: (Map<String, dynamic> message) {
         print('on resume $message');
-        if(message['openActivity'] == 'rating') {
+        if (message['openActivity'] == 'rating') {
           final carId = message['carId'];
           final tripId = message['tripId'];
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ReviewMain(
+                    carId: carId,
+                    tripId: tripId,
+                  )));
         }
       },
       onLaunch: (Map<String, dynamic> message) {
         print('on launch $message');
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if(message['openActivity'] == 'rating') {
+          if (message['openActivity'] == 'rating') {
             final carId = message['carId'];
             final tripId = message['tripId'];
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => ReviewMain(carId: carId, tripId: tripId,)));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ReviewMain(
+                      carId: carId,
+                      tripId: tripId,
+                    )));
           }
         });
       },
@@ -211,6 +219,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget _cardContainerList() {
+    this.cars = appBloc.ourCars;
     return Container(
       constraints: BoxConstraints.expand(
           height: MediaQuery.of(context).size.height / 3.2),
@@ -233,6 +242,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget _availbleCars() {
+    var temp = appBloc.ourCars != null ? appBloc.ourCars : [];
     return AnimatedBuilder(
         animation: _carsOffsetFloat,
         builder: (context, widget) {
@@ -247,53 +257,60 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                   child: Text(
                     MadarLocalizations.of(context).trans("Trending_Cars"),
-                    style: TextStyle(fontSize: isScreenLongEnough ? 22 : 18, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.start,
                   ),
                 ),
               ),
               StreamBuilder<List<Car>>(
-                initialData: [],
+                // initialData: temp,
                 stream: homeBloc.availableCarsStream,
                 builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                      return ListTile(
-                        title: IconButton(
-                          onPressed: () {
-                            homeBloc.getCars();
-                          },
-                          icon: Icon(Icons.restore),
-                        ),
-                        subtitle: Text(MadarLocalizations.of(context)
-                            .trans('connection_error')),
-                      );
-                    case ConnectionState.waiting:
+                  // switch (snapshot.connectionState) {
+                  //   case ConnectionState.none:
+                  //     return ListTile(
+                  //       title: IconButton(
+                  //         onPressed: () {
+                  //           homeBloc.getCars();
+                  //         },
+                  //         icon: Icon(Icons.restore),
+                  //       ),
+                  //       subtitle: Text(MadarLocalizations.of(context)
+                  //           .trans('connection_error')),
+                  //     );
+                  //   case ConnectionState.waiting:
+
+                  //   default:
+                  if (snapshot.hasData) {
+                    this.cars = snapshot.data;
+                    appBloc.saveOurCars(this.cars);
+                    return _cardContainerList();
+                  } else if (snapshot.hasError) {
+                    if (appBloc.ourCars != null) {
+                      return _cardContainerList();
+                    } else {
                       return Container(
-                          height: 225,
-                          color: Colors.transparent,
-                          child: Center(child: CircularProgressIndicator()));
-                    default:
-                      if (snapshot.hasError) {
-                        return Container(
-                            constraints: BoxConstraints.expand(
-                                height:
-                                    MediaQuery.of(context).size.height / 3.2),
-                            child: ListTile(
-                              title: IconButton(
-                                onPressed: () {
-                                  homeBloc.getCars();
-                                },
-                                icon: Icon(Icons.restore),
-                              ),
-                              subtitle: Text(MadarLocalizations.of(context)
-                                  .trans('connection_error')),
-                            ));
-                      } else {
-                        this.cars = snapshot.data;
-                        return _cardContainerList();
-                      }
+                          constraints: BoxConstraints.expand(
+                              height: MediaQuery.of(context).size.height / 3.2),
+                          child: ListTile(
+                            title: IconButton(
+                              onPressed: () {
+                                homeBloc.getCars();
+                              },
+                              icon: Icon(Icons.restore),
+                            ),
+                            subtitle: Text(MadarLocalizations.of(context)
+                                .trans('connection_error')),
+                          ));
+                    }
+                  } else {
+                    return Container(
+                        constraints: BoxConstraints.expand(
+                            height: MediaQuery.of(context).size.height / 3.2),
+                        color: Colors.transparent,
+                        child: Center(child: CircularProgressIndicator()));
                   }
+                  // }
                 },
               ),
             ]),
@@ -302,9 +319,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget _tripCardContainerList() {
+    this.trips = appBloc.recomendedTrips;
+
     return Container(
       constraints: BoxConstraints.expand(
-          height: isScreenLongEnough ? (MediaQuery.of(context).size.height / 3.8) : (MediaQuery.of(context).size.height / 4),),
+        height: isScreenLongEnough
+            ? (MediaQuery.of(context).size.height / 3.8)
+            : (MediaQuery.of(context).size.height / 4),
+      ),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
@@ -332,6 +354,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   Widget predefiedTrips() {
+    var temp = appBloc.recomendedTrips != null ? appBloc.recomendedTrips : [];
+
     return AnimatedBuilder(
         animation: _tripsOffsetFloat,
         builder: (context, widget) {
@@ -346,53 +370,66 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     padding: const EdgeInsets.only(left: 8.0, right: 8),
                     child: Text(
                       MadarLocalizations.of(context).trans('Recomended_Trips'),
-                      style:
-                          TextStyle(fontSize: isScreenLongEnough ? 22 : 18, fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          fontSize: isScreenLongEnough ? 22 : 18,
+                          fontWeight: FontWeight.w600),
                       textAlign: TextAlign.start,
                     ),
                   ),
                 ),
                 StreamBuilder<List<TripModel>>(
-                  initialData: [],
+                  //        initialData: temp,
                   stream: homeBloc.predefindTripsStream,
                   builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                        return ListTile(
-                          title: IconButton(
-                            onPressed: () {
-                              homeBloc.predifindTrips();
-                            },
-                            icon: Icon(Icons.restore),
-                          ),
-                          subtitle: Text(MadarLocalizations.of(context)
-                              .trans('connection_error')),
-                        );
-                      case ConnectionState.waiting:
+                    // switch (snapshot.connectionState) {
+                    //   case ConnectionState.none:
+                    //     return ListTile(
+                    //       title: IconButton(
+                    //         onPressed: () {
+                    //           homeBloc.predifindTrips();
+                    //         },
+                    //         icon: Icon(Icons.restore),
+                    //       ),
+                    //       subtitle: Text(MadarLocalizations.of(context)
+                    //           .trans('connection_error')),
+                    //     );
+                    //   case ConnectionState.waiting:
+                    //     return Container(
+                    //         height: 190,
+                    //         child: Center(child: CircularProgressIndicator()));
+                    //   default:
+                    if (snapshot.hasData) {
+                      this.trips = snapshot.data;
+                      appBloc.saveRecomendedTrips(this.trips);
+                      return _tripCardContainerList();
+                    } else if (snapshot.hasError) {
+                      if (appBloc.recomendedTrips != null) {
+                        return _tripCardContainerList();
+                      } else {
                         return Container(
-                            height: 190,
-                            child: Center(child: CircularProgressIndicator()));
-                      default:
-                        if (snapshot.hasError) {
-                          return Container(
-                              constraints: BoxConstraints.expand(
-                                  height:
-                                      MediaQuery.of(context).size.height / 3.8),
-                              child: ListTile(
-                                title: IconButton(
-                                  onPressed: () {
-                                    homeBloc.predifindTrips();
-                                  },
-                                  icon: Icon(Icons.restore),
-                                ),
-                                subtitle: Text(MadarLocalizations.of(context)
-                                    .trans('connection_error')),
-                              ));
-                        } else {
-                          this.trips = snapshot.data;
-                          return _tripCardContainerList();
-                        }
+                            constraints: BoxConstraints.expand(
+                                height:
+                                    MediaQuery.of(context).size.height / 3.8),
+                            child: ListTile(
+                              title: FlatButton(
+                                onPressed: () {
+                                  homeBloc.predifindTrips();
+                                },
+                                child: Text(MadarLocalizations.of(context)
+                                    .trans('retry')),
+                              ),
+                              subtitle: Text(MadarLocalizations.of(context)
+                                  .trans('connection_error')),
+                            ));
+                      }
+                    } else {
+                      return Container(
+                          constraints: BoxConstraints.expand(
+                              height: MediaQuery.of(context).size.height / 3.8),
+                          color: Colors.transparent,
+                          child: Center(child: CircularProgressIndicator()));
                     }
+                    // }
                   },
                 ),
               ],
@@ -533,7 +570,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
     );
   }
-
 
   @override
   void dispose() {

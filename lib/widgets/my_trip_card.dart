@@ -41,6 +41,7 @@ class MyTripCardState extends State<MyTripCard> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.trip.startDateFromated());
     return InkWell(
       onTap: () {
         Navigator.of(context).push(

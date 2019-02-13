@@ -35,15 +35,18 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   final _submitLoginController = PublishSubject<UserResponse>();
   final _submitSignUpController = PublishSubject<UserResponse>();
-  final _submitUpdateUserController = BehaviorSubject<User>();
+  final _submitUpdateUserController = PublishSubject<User>();
   final _uploadMediaContoller = BehaviorSubject<Media>();
 
   final _lockTouchEventController = BehaviorSubject<bool>();
+  final _updateSuccessController = BehaviorSubject<bool>();
+
+  get pushUpdateSuccessEvent => _updateSuccessController.sink.add(true);
+  get pushUpdateFaildEvent => _updateSuccessController.sink.add(false);
 
   Stream<SocialUser> get facebookUserStream => _SocialLoginController.stream;
 
   get pushLockTouchEvent => _lockTouchEventController.sink.add(true);
-
   get pushUnlockTouchEvent => _lockTouchEventController.sink.add(false);
 
   Function(String) get changeLoginPhone => _phoneLoginController.sink.add;
@@ -116,6 +119,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<User> get submitUpdteUserStream => _submitUpdateUserController.stream;
 
   Stream<bool> get lockTouchEventStream => _lockTouchEventController.stream;
+  Stream<bool> get userUpdateStream => _updateSuccessController.stream;
 
   Stream<bool> get loadingStream => _loadingController.stream;
 
@@ -173,7 +177,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
       });
 
       if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
-        _submitSignUpController.sink.addError(e);
+        _submitSignUpController.sink
+            .addError("PHONENUMBER_OR_USERNAME_IS_USED");
       } else {
         _submitSignUpController.sink.addError(e);
       }
@@ -189,10 +194,11 @@ class AuthBloc extends BaseBloc with Validators, Network {
         submitUpdateUser(userId, token, response.id);
       } else {
         stopLoading;
+        //   pushUnlockTouchEvent;
       }
     }).catchError((e) {
       shouldShowFeedBack = true;
-      // pushUnlockTouchEvent;
+      //  pushUnlockTouchEvent;
       _uploadMediaContoller.sink.addError(e);
       stopLoading;
     });
@@ -202,19 +208,21 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validUserName = _nameSignUpController.value;
     final validPhoneNumber = _phoneSignUpController.value;
     final validIsoCode = _isoCodeSignUpController.value.code;
-    pushLockTouchEvent;
+    // pushLockTouchEvent;
+    startLoading;
     updateUser(userId, validPhoneNumber, validUserName, validIsoCode, token,
             imageId)
         .then((user) {
       print(user);
-
+      //   pushUnlockTouchEvent;
+      pushUpdateSuccessEvent;
       _submitUpdateUserController.sink.add(user);
       stopLoading;
     }).catchError((e) {
+      //  pushUnlockTouchEvent;
+      pushUpdateFaildEvent;
       shouldShowFeedBack = true;
-      if (e == ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED)
-        _submitUpdateUserController.sink
-            .addError('Phone number or Username are used');
+      _submitUpdateUserController.sink.addError(e);
       stopLoading;
     });
   }
@@ -270,8 +278,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
     googleSignIn.signIn().then((account) {
       account.authentication.then((auth) {
-        SocialUser googleUser = SocialUser(
-            account.displayName, account.email, account.id, auth.accessToken, UserSocialLoginType.google);
+        SocialUser googleUser = SocialUser(account.displayName, account.email,
+            account.id, auth.accessToken, UserSocialLoginType.google);
 
         googleSignUp(account.id, auth.accessToken).then((userResponse) {
           print('user name : ' + userResponse.user.name);
@@ -315,10 +323,6 @@ class SocialUser {
   final UserSocialLoginType type;
 
   SocialUser(this.name, this.email, this.id, this.token, this.type);
-
-
 }
 
-enum UserSocialLoginType{
-  google, facebook
-}
+enum UserSocialLoginType { google, facebook }

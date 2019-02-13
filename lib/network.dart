@@ -49,7 +49,8 @@ class Network {
   final String _needHelp = _baseUrl + '/adminNotifications/needHelp';
   final String _rate = _baseUrl + '/rates/makeRate';
   final String _firbaseTokens = _baseUrl + '/firbaseTokens';
-  final String _updateFirbaseTokens = _baseUrl + '/firbaseTokens/updateFirebaseToken';
+  final String _updateFirbaseTokens =
+      _baseUrl + '/firbaseTokens/updateFirebaseToken';
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -68,10 +69,9 @@ class Network {
   }
 
   Future<void> putLogout() async {
-
     final deviceInfo = DeviceInfoPlugin();
     String deviceId;
-    if(Platform.isAndroid) {
+    if (Platform.isAndroid) {
       deviceInfo.androidInfo.then((info) {
         deviceId = info.androidId;
       });
@@ -119,23 +119,30 @@ class Network {
       String isoCode, String token, String imageId) async {
     headers['Authorization'] = token;
     String body;
+    String data;
     if (imageId != '') {
       body = json.encode({
-        'phoneNumber': phoneNumber,
-        'name': userName,
-        'ISOCode': isoCode.toUpperCase(),
-        'mediaId': imageId
+        'data': {
+          'phoneNumber': phoneNumber,
+          'name': userName,
+          'ISOCode': isoCode.toUpperCase(),
+          'mediaId': imageId
+        }
       });
     } else {
       body = json.encode({
-        'phoneNumber': phoneNumber,
-        'name': userName,
-        'ISOCode': isoCode.toUpperCase(),
+        'data': {
+          'phoneNumber': phoneNumber,
+          'name': userName,
+          'ISOCode': isoCode.toUpperCase(),
+        }
       });
     }
 
-    final response =
-        await http.put(_userUrl + userId, body: body, headers: headers);
+    // body = json.encode({'data': data});
+    print(body);
+    final response = await http.put(_userUrl + 'updateUser/' + userId,
+        body: body, headers: headers);
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return User.fromJson(json.decode(response.body));
@@ -261,7 +268,8 @@ class Network {
     }
   }
 
-  Future<void> postRate(String token, String carId, String tripId, int value) async {
+  Future<void> postRate(
+      String token, String carId, String tripId, int value) async {
     headers['Authorization'] = token;
     final body = json.encode({
       "carId": carId,
@@ -277,13 +285,15 @@ class Network {
     }
   }
 
-  Future<void> postFirebaseTokens(String token, String firebaseToken, String deviceId) async {
+  Future<void> postFirebaseTokens(
+      String token, String firebaseToken, String deviceId) async {
     headers['Authorization'] = token;
     final body = json.encode({
       "token": firebaseToken,
       "deviceId": deviceId,
     });
-    final response = await http.post(_firbaseTokens, headers: headers, body: body);
+    final response =
+        await http.post(_firbaseTokens, headers: headers, body: body);
     if (response.statusCode == 200) {
       return;
     } else {
@@ -297,7 +307,8 @@ class Network {
     final body = json.encode({
       "token": firebaseToken,
     });
-    final response = await http.put(_updateFirbaseTokens, headers: headers, body: body);
+    final response =
+        await http.put(_updateFirbaseTokens, headers: headers, body: body);
     if (response.statusCode == 200) {
       return;
     } else {

@@ -66,32 +66,35 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget myTrips() {
     return StreamBuilder<List<MyTrip>>(
-      initialData: [],
+      initialData: appBloc.myTrips,
       stream: profileBloc.myTripsStream,
       builder: (context, snapshot) {
         print(snapshot.data);
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return Text("There is no connection");
-          case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
-          default:
-            if (snapshot.hasError) {
-              return ListTile(
-                title: IconButton(
-                  onPressed: () {
-                    profileBloc.myTrips();
-                  },
-                  icon: Icon(Icons.restore),
-                ),
-                subtitle: Text(
-                    MadarLocalizations.of(context).trans('connection_error')),
-              );
-            } else {
-              this.trips = snapshot.data;
-              return tripInfoCardList();
-            }
+        // switch (snapshot.connectionState) {
+        //   case ConnectionState.none:
+        //     return Text("There is no connection");
+        //   case ConnectionState.waiting:
+        //     return Center(child: CircularProgressIndicator());
+        //   default:
+        if (snapshot.hasData) {
+          this.trips = snapshot.data;
+          appBloc.saveMyTrips(trips);
+          return tripInfoCardList();
+        } else if (snapshot.hasError) {
+          return ListTile(
+            title: IconButton(
+              onPressed: () {
+                profileBloc.myTrips();
+              },
+              icon: Icon(Icons.restore),
+            ),
+            subtitle:
+                Text(MadarLocalizations.of(context).trans('connection_error')),
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
         }
+        // }
       },
     );
   }

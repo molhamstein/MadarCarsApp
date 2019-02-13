@@ -1,5 +1,8 @@
 import 'package:madar_booking/DataStore.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/MyTrip.dart';
+import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
@@ -23,6 +26,14 @@ class AppBloc extends BaseBloc with Network {
   get pushUser => _userController.sink.add(_dataStore.isUserLoggedIn);
 
   Function(User) get saveUser => _dataStore.setUser;
+  Function(List<TripModel>) get saveRecomendedTrips =>
+      _dataStore.recomendedTripList;
+  List<TripModel> get recomendedTrips => _dataStore.getRecomendedTripList();
+  Function(List<MyTrip>) get saveMyTrips => _dataStore.myTripList;
+  List<MyTrip> get myTrips => _dataStore.getMyTripList();
+
+  Function(List<Car>) get saveOurCars => _dataStore.ourCars;
+  List<Car> get ourCars => _dataStore.getOurCars();
 
   Function(String) get saveToken => _dataStore.setUserToken;
   String get phone => _dataStore.getUser().phoneNumber;
@@ -32,7 +43,7 @@ class AppBloc extends BaseBloc with Network {
   String get userId => _dataStore.getUser().id;
   String get userImage => _dataStore.userImage;
   String get userISOCode => _dataStore.userISOCode;
-
+  User get me => _dataStore.getUser();
   get logout {
     putLogout();
     _dataStore.logout;
