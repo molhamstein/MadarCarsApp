@@ -6,6 +6,7 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
+import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/final_step.dart';
@@ -49,6 +50,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       BlocProvider.of<AppBloc>(context).userId,
       tripModel: widget.tripModel,
     );
+    bloc.getLanguages();
     super.initState();
   }
 
@@ -375,7 +377,8 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
                                     'Number of seats',
@@ -407,7 +410,8 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                 width: MediaQuery.of(context).size.width / 2,
                                 margin: EdgeInsets.only(top: 16, bottom: 16),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     RoundFilterButton(
                                       child: Icon(
@@ -420,7 +424,9 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                       },
                                     ),
                                     Text(
-                                      snapshot.data < 2 ? '-' : snapshot.data.toString(),
+                                      snapshot.data < 2
+                                          ? '-'
+                                          : snapshot.data.toString(),
                                       style: TextStyle(
                                         fontSize: 22,
                                         color: Colors.black87,
@@ -443,42 +449,43 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                             ],
                           );
                         }),
-
                     Divider(),
                     StreamBuilder<Gender>(
-                      stream: bloc.genderStream,
-                      builder: (context, snapshot) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Driver gender',
-                              style: titleStyle,
-                            ),
-                            snapshot.hasData && snapshot.data != Gender.none
-                                ? ActionChip(
-                              padding: EdgeInsets.all(1),
-                              label: Text(
-                                snapshot.data.toString().split('.').last,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  height: 0.8,
-                                ),
+                        stream: bloc.genderStream,
+                        builder: (context, snapshot) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Driver gender',
+                                style: titleStyle,
                               ),
-                              onPressed: () {
-                                bloc.selectGender(Gender.none);
-                              },
-                              avatar: Icon(
-                                Icons.close,
-                                size: 18,
-                              ),
-                            )
-                                : Container(),
-                          ],
-                        );
-                      }
-                    ),
+                              snapshot.hasData && snapshot.data != Gender.none
+                                  ? ActionChip(
+                                      padding: EdgeInsets.all(1),
+                                      label: Text(
+                                        snapshot.data
+                                            .toString()
+                                            .split('.')
+                                            .last,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          height: 0.8,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        bloc.selectGender(Gender.none);
+                                      },
+                                      avatar: Icon(
+                                        Icons.close,
+                                        size: 18,
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
+                          );
+                        }),
                     Container(
                       width: MediaQuery.of(context).size.width / 2,
                       margin: EdgeInsets.only(top: 16, bottom: 16),
@@ -525,54 +532,43 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                         ),
                       ],
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 16, bottom: 16),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: ChoiceChip(
-                              label: Text(
-                                'Arabic',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
+                    StreamBuilder<List<Language>>(
+                        stream: bloc.languagesStream,
+                        builder: (context, snapshot) {
+                          print('lang' + snapshot.data.toString());
+                          return StreamBuilder<List<String>>(
+                            stream: bloc.languagesIdsStream,
+                            builder: (context, snapshot2) {
+                              return Container(
+                                margin: EdgeInsets.only(top: 16, bottom: 16),
+                                child: Row(
+                                  children: snapshot.hasData ? snapshot.data
+                                      .map((language) => Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: ChoiceChip(
+                                              label: Text(
+                                                language.name,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              onSelected: (selected) {
+                                                setState(() {
+                                                  if(selected) bloc.selectLanguage(language.id);
+                                                  else bloc.removeLanguage(language.id);
+                                                });
+                                              },
+                                              selectedColor: Colors.black87,
+                                              selected: snapshot2.data.contains(language.id),
+                                            ),
+                                          ))
+                                      .toList() : [Container()],
                                 ),
-                              ),
-                              onSelected: (_) {},
-                              selectedColor: Colors.black87,
-                              selected: true,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: ChoiceChip(
-                              label: Text('English',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  )),
-                              onSelected: (_) {},
-                              selectedColor: Colors.black87,
-                              selected: false,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: ChoiceChip(
-                              label: Text('Turkish',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700,
-                                  )),
-                              onSelected: (_) {},
-                              selectedColor: Colors.black87,
-                              selected: false,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                              );
+                            }
+                          );
+                        }),
                     Container(
                       width: MediaQuery.of(context).size.width / 2.5,
                       height: 50,

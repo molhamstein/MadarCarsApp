@@ -108,7 +108,7 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
                             color: Colors.white,
                             fontSize: 22.0,
                             fontWeight: FontWeight.w500,
-                            height: 0.5),
+                            height: 0.8),
                       ),
                     ),
                     onPressed: () {

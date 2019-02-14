@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/trip.dart';
@@ -17,6 +18,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   bool showFeedback;
   bool isPredefinedTrip;
   int numberOfSeats;
+  List<String> langFiltersIds;
 
   TripPlaningBloc(String token, String userId, {TripModel tripModel}) {
     isPredefinedTrip = false;
@@ -38,6 +40,8 @@ class TripPlaningBloc extends BaseBloc with Network {
     this.userId = userId;
     showFeedback = false;
     numberOfSeats = 1;
+    langFiltersIds = [];
+    _languagesIdsController.sink.add(langFiltersIds);
   }
 
   final _navigationController = BehaviorSubject<int>();
@@ -51,6 +55,8 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _carTypeController = BehaviorSubject<Type>();
   final _genderController = BehaviorSubject<Gender>();
   final _numberOfSeatsController = ReplaySubject<int>();
+  final _languagesController = ReplaySubject<List<Language>>();
+  final _languagesIdsController = ReplaySubject<List<String>>();
 
   get navigationStream => _navigationController.stream;
 
@@ -251,6 +257,31 @@ class TripPlaningBloc extends BaseBloc with Network {
     _numberOfSeatsController.add(numberOfSeats);
   }
 
+  get languagesStream => _languagesController.stream;
+
+  selectLanguage(String langId) {
+    langFiltersIds.add(langId);
+    _languagesIdsController.sink.add(langFiltersIds);
+
+  }
+
+  removeLanguage(String langId){
+    langFiltersIds.removeWhere((id) => id == langId);
+    _languagesIdsController.sink.add(langFiltersIds);
+  }
+
+  getLanguages() {
+
+    fetchLanguages(token).then((languages) {
+
+      _languagesController.sink.add(languages);
+
+    });
+
+  }
+
+  get languagesIdsStream => _languagesIdsController.stream;
+
   @override
   void dispose() {
     _navigationController.close();
@@ -264,6 +295,8 @@ class TripPlaningBloc extends BaseBloc with Network {
     _carTypeController.close();
     _genderController.close();
     _numberOfSeatsController.close();
+    _languagesController.close();
+    _languagesIdsController.close();
   }
 }
 

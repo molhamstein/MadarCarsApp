@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/Invoice.dart';
+import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
@@ -37,6 +38,7 @@ class Network {
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
   final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
   final String _trip = _baseUrl + 'trips';
+  final String _languages = _baseUrl + 'languages';
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
@@ -252,6 +254,18 @@ class Network {
       return LocationsResponse.fromJson(json.decode(response.body));
     } else {
       print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<List<Language>> fetchLanguages(String token) async {
+    headers['Authorization'] = token;
+    final response = await http.get(_languages, headers: headers);
+    if (response.statusCode == 200) {
+      print('asdasd' + json.decode(response.body).toString());
+      return (json.decode(response.body) as List).map((lang) => Language.fromJson(lang)).toList();
+    } else {
+      print('asdasd' + json.decode(response.body).toString());
       throw json.decode(response.body);
     }
   }

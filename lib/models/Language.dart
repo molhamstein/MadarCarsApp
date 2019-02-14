@@ -20,4 +20,11 @@ class Language {
         "code": code == null ? null : code,
         "id": id == null ? null : id,
       };
+
+  @override
+  String toString() {
+    return 'Language{name: $name, code: $code, id: $id}';
+  }
+
+
 }
