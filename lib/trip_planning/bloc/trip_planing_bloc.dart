@@ -57,6 +57,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _numberOfSeatsController = ReplaySubject<int>();
   final _languagesController = ReplaySubject<List<Language>>();
   final _languagesIdsController = ReplaySubject<List<String>>();
+  final _modalController = PublishSubject<bool>();
 
   get navigationStream => _navigationController.stream;
 
@@ -83,6 +84,12 @@ class TripPlaningBloc extends BaseBloc with Network {
   Stream<Gender> get genderStream => _genderController.stream;
 
   Stream<int> get numberOfSeatsStream => _numberOfSeatsController.stream;
+
+  get showFiltersStream => _modalController.stream;
+
+  get showModal => _modalController.sink.add(true);
+  get hideModal => _modalController.sink.add(false);
+
 
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
@@ -297,6 +304,7 @@ class TripPlaningBloc extends BaseBloc with Network {
     _numberOfSeatsController.close();
     _languagesController.close();
     _languagesIdsController.close();
+    _modalController.close();
   }
 }
 

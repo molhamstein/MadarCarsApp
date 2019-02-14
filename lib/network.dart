@@ -331,7 +331,7 @@ class Network {
     }
   }
 
-  Future<List<Car>> fetchAvailableCars(String token, Trip trip) async {
+  Future<List<Car>> fetchAvailableCars(String token, Trip trip, List<String> langIds, int numberOfSeats, String gender, String type) async {
     headers['Authorization'] = token;
 
     String dates = '';
@@ -342,8 +342,13 @@ class Network {
       dates =
           '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toUtc().toIso8601String()}"}';
 
-    final url = _avaiableCars +
+    String url = _avaiableCars +
         '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
+
+    if(langIds != null) {
+      url += '&langFilter=$langIds';
+    }
+
 
     print(url);
 
