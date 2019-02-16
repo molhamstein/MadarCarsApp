@@ -140,6 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocProvider(
       bloc: profileBloc,
       child: Scaffold(
+        backgroundColor: Colors.grey.shade300,
         body: Stack(
           children: <Widget>[
             ProfileHeader(),
