@@ -447,6 +447,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return BlocProvider(
       bloc: homeBloc,
       child: Scaffold(
+        backgroundColor: Colors.grey.shade300,
         body: Stack(
           children: <Widget>[
             Hero(tag: "header_container", child: _animatedHeader()),
