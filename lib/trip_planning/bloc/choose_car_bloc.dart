@@ -26,9 +26,8 @@ class ChooseCarBloc extends BaseBloc with Network {
     _selectedCarIndexController.sink.add(index);
   }
 
-  get pushCars => _fetchAvailableCars();
 
-  _fetchAvailableCars(
+  fetchGetAvailableCars(
       {List<String> langIds, Gender gender, Type type, int numberOfSeats}) {
     fetchAvailableCars(token, trip, langIds, numberOfSeats,
             gender.toString().split('.').last, type.toString().split('.').last)

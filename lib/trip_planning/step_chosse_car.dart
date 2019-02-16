@@ -37,7 +37,7 @@ class StepChooseCarState extends State<StepChooseCar>
         planingBloc.trip, BlocProvider
         .of<AppBloc>(context)
         .token);
-    bloc.pushCars;
+    bloc.fetchGetAvailableCars();
 
     _controller = AnimationController(
       vsync: this,
@@ -1277,7 +1277,9 @@ class StepChooseCarState extends State<StepChooseCar>
                           color: Colors.transparent,
                           child: InkWell(
                             borderRadius: BorderRadius.circular(25),
-                            onTap: () {},
+                            onTap: () {
+                              bloc.fetchGetAvailableCars(langIds: planingBloc.langFiltersIds);
+                            },
                             child: Container(
                               width: MediaQuery
                                   .of(context)

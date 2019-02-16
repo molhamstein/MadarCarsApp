@@ -346,7 +346,7 @@ class Network {
         '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
     if(langIds != null) {
-      url += '&langFilter=$langIds';
+      url += '&langFilter=${json.encode(langIds)}';
     }
 
 
