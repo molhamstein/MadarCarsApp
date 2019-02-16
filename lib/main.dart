@@ -91,7 +91,7 @@ class MyAppState extends State<MyApp> {
               },
               title: 'Flutter Demo',
               theme: ThemeData(
-                  primaryColor: MadarColors.gradientDown, fontFamily: 'cairo'),
+                  primaryColor: MadarColors.gradientDown, fontFamily: 'cairo', canvasColor: Colors.transparent),
               initialRoute: '/',
               routes: {
                 '/': (context) => LandingPage(),

@@ -16,6 +16,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   String userId;
   bool showFeedback;
   bool isPredefinedTrip;
+  int numberOfSeats;
 
   TripPlaningBloc(String token, String userId, {TripModel tripModel}) {
     isPredefinedTrip = false;
@@ -36,6 +37,7 @@ class TripPlaningBloc extends BaseBloc with Network {
     this.token = token;
     this.userId = userId;
     showFeedback = false;
+    numberOfSeats = 1;
   }
 
   final _navigationController = BehaviorSubject<int>();
@@ -46,7 +48,9 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _feedbackController = PublishSubject<String>();
   final _helpController = PublishSubject<bool>();
   final _noteButtonController = PublishSubject<bool>();
-
+  final _carTypeController = BehaviorSubject<Type>();
+  final _genderController = BehaviorSubject<Gender>();
+  final _numberOfSeatsController = ReplaySubject<int>();
 
   get navigationStream => _navigationController.stream;
 
@@ -64,9 +68,15 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get noteButtonStream => _noteButtonController.stream;
 
-
   get showNoteButton => _noteButtonController.sink.add(true);
+
   get hideNoteButton => _noteButtonController.sink.add(false);
+
+  Stream<Type> get carTypeStream => _carTypeController.stream;
+
+  Stream<Gender> get genderStream => _genderController.stream;
+
+  Stream<int> get numberOfSeatsStream => _numberOfSeatsController.stream;
 
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
@@ -220,6 +230,27 @@ class TripPlaningBloc extends BaseBloc with Network {
     });
   }
 
+  selectGender(Gender gender) {
+    _genderController.sink.add(gender);
+  }
+
+  selectCarType(Type type) {
+    _carTypeController.sink.add(type);
+  }
+
+  plusSeat() {
+    _numberOfSeatsController.sink.add(++numberOfSeats);
+  }
+
+  minusSeat() {
+    if (numberOfSeats > 2) _numberOfSeatsController.sink.add(--numberOfSeats);
+  }
+
+  clearNumberOfSeats() {
+    numberOfSeats = 1;
+    _numberOfSeatsController.add(numberOfSeats);
+  }
+
   @override
   void dispose() {
     _navigationController.close();
@@ -230,5 +261,12 @@ class TripPlaningBloc extends BaseBloc with Network {
     _feedbackController.close();
     _helpController.close();
     _noteButtonController.close();
+    _carTypeController.close();
+    _genderController.close();
+    _numberOfSeatsController.close();
   }
 }
+
+enum Gender { male, female, none }
+
+enum Type { vip, normal, none }

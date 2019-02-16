@@ -19,6 +19,7 @@ class ChooseCarBloc extends BaseBloc with Network {
  Stream<int> get indexStream => _selectedCarIndexController.stream;
  Stream<Car> get selectedCarStream => _selectedCarController.stream;
 
+
  selectCar(Car car, int index) {
    _selectedCarController.sink.add(car);
    _selectedCarIndexController.sink.add(index);
@@ -46,6 +47,8 @@ print(e);
    _carsController.close();
    _selectedCarIndexController.close();
    _selectedCarController.close();
+
   }
 
 }
+
