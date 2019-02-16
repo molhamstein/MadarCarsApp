@@ -157,6 +157,7 @@ class TripInfoPageState extends State<TripInfoPage> {
   Widget build(BuildContext context) {
     AppBloc bloc = BlocProvider.of<AppBloc>(context);
     return Scaffold(
+      backgroundColor: Colors.grey.shade300,
       body: Stack(
         children: <Widget>[
           Container(
