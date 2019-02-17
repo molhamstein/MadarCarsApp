@@ -126,7 +126,10 @@ class ChooseCityStepState extends State<ChooseCityStep>
                                   child: locationsSnapshot.hasData
                                       ? StreamBuilder<Location>(
                                           stream: bloc.selectedCitStream,
-                                          initialData: locationsSnapshot.data[0],
+                                          initialData:
+                                              planingBloc.trip.location != null
+                                                  ? planingBloc.trip.location
+                                                  : locationsSnapshot.data[0],
                                           builder: (context, snapshot) {
                                             return Column(
                                               crossAxisAlignment:
@@ -144,20 +147,23 @@ class ChooseCityStepState extends State<ChooseCityStep>
                                                           FontWeight.w700),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 16.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 16.0),
                                                   child: Text(
                                                     snapshot.data.description(
                                                         MadarLocalizations.of(
                                                                 context)
                                                             .locale),
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     maxLines: 5,
                                                     style: TextStyle(
                                                         color: Colors.black54,
                                                         fontSize: 16,
                                                         fontWeight:
-                                                            FontWeight.w700, height: .8),
+                                                            FontWeight.w700,
+                                                        height: .8),
                                                   ),
                                                 ),
                                               ],
@@ -171,9 +177,9 @@ class ChooseCityStepState extends State<ChooseCityStep>
                                     return Transform.translate(
                                       offset: _citiesFloat.value,
                                       child: Container(
-                                          child: locationsSnapshot.hasData
-                                          ? _cities(locationsSnapshot)
-                                          : _tilesShimmer(),
+                                        child: locationsSnapshot.hasData
+                                            ? _cities(locationsSnapshot)
+                                            : _tilesShimmer(),
                                       ),
                                     );
                                   },
@@ -242,31 +248,24 @@ class ChooseCityStepState extends State<ChooseCityStep>
   _cities(locationsSnapshot) {
     return Container(
       margin: EdgeInsets.only(
-          top: isScreenLongEnough ? MediaQuery.of(context).size.height / 3.5 : MediaQuery.of(context).size.height / 4) ,
-      height:
-      MediaQuery.of(context).size.width / 2,
+          top: isScreenLongEnough
+              ? MediaQuery.of(context).size.height / 3.5
+              : MediaQuery.of(context).size.height / 4),
+      height: MediaQuery.of(context).size.width / 2,
       child: StreamBuilder<int>(
         stream: bloc.indexStream,
         initialData: 0,
         builder: (context, snapshot) {
           return ListView.builder(
-            padding: EdgeInsets.only(
-                right: 32,
-                left: 32,
-                top: 16,
-                bottom: 16),
-            itemCount:
-            locationsSnapshot.data.length,
+            padding: EdgeInsets.only(right: 32, left: 32, top: 16, bottom: 16),
+            itemCount: locationsSnapshot.data.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return CityRadioTile(
-                location: locationsSnapshot
-                    .data[index],
-                selected:
-                index == snapshot.data,
+                location: locationsSnapshot.data[index],
+                selected: index == snapshot.data,
                 onTap: (location) {
-                  bloc.selectLocation(
-                      location, index);
+                  bloc.selectLocation(location, index);
                   planingBloc.cityId(location);
                 },
               );
