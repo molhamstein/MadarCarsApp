@@ -110,7 +110,7 @@ class Network {
     } else if (response.statusCode ==
         ErrorCodes.PHONENUMBER_OR_USERNAME_IS_USED) {
       print(json.decode(response.body));
-      throw 'error_wrong_credentials';
+      throw 'PHONENUMBER_OR_USERNAME_IS_USED';
     } else {
       print(response.body);
       throw json.decode(response.body);
