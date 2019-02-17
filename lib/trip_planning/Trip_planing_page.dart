@@ -129,7 +129,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                                   fontWeight: FontWeight.w700),
                                             ),
                                             actions: <Widget>[
-                                              IconButton(
+                                             bloc.index == 4 ? IconButton(
                                                 icon: Icon(
                                                     FontAwesomeIcons.filter),
                                                 onPressed: () {
@@ -141,7 +141,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                                     bloc.hideModal;
                                                   });
                                                 },
-                                              )
+                                              ) : Container(),
                                             ],
                                           ),
                                           body: steps[snapshot.data]);
