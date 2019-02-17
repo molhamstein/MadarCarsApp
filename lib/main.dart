@@ -6,10 +6,8 @@ import 'package:madar_booking/auth_page.dart';
 import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/review/review_main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 bool isScreenLongEnough;
 
