@@ -627,6 +627,7 @@ class TripInfoPageState extends State<TripInfoPage> {
               elevation: 0.0,
               backgroundColor: Colors.transparent,
               actions: <Widget>[],
+              iconTheme: IconThemeData(color: Colors.white),
             ),
           ),
         ],
