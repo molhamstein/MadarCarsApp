@@ -100,6 +100,16 @@ class ChooseCityStepState extends State<ChooseCityStep>
                       planingBloc.cityId(locationsSnapshot
                           .data[0]); // initial location (pre selected)
 
+                    if (locationsSnapshot.hasData && planingBloc.trip.location != null) {
+                      bloc.selectLocation(
+                          locationsSnapshot.data.firstWhere((location) =>
+                              location.id == planingBloc.trip.location.id),
+                          locationsSnapshot.data.indexOf(locationsSnapshot.data
+                              .firstWhere((location) =>
+                                  location.id ==
+                                  planingBloc.trip.location.id)));
+                    }
+
                     return AnimatedBuilder(
                         animation: _offsetFloat,
                         builder: (context, widget) {
@@ -245,7 +255,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
     );
   }
 
-  _cities(locationsSnapshot) {
+  _cities(AsyncSnapshot<List<Location>> locationsSnapshot) {
     return Container(
       margin: EdgeInsets.only(
           top: isScreenLongEnough
