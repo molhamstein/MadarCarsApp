@@ -313,17 +313,17 @@ class TripInfoPageState extends State<TripInfoPage> {
                                         ),
                                       ),
                                       Expanded(
-                                        child: Container(
-                                          alignment: Alignment(0, -0.5),
-                                          child: trip.isActive()
-                                              ? IconButton(
-                                                  onPressed: () {
-                                                    print("edit clicled");
-                                                  },
-                                                  icon: Icon(
-                                                      MyFlutterApp.edit_trip),
-                                                )
-                                              : null,
+                                        child: Container( //TODO : edit trip button
+//                                          alignment: Alignment(0, -0.5),
+//                                          child: trip.isActive()
+//                                              ? IconButton(
+//                                                  onPressed: () {
+//                                                    print("edit clicled");
+//                                                  },
+//                                                  icon: Icon(
+//                                                      MyFlutterApp.edit_trip),
+//                                                )
+//                                              : null,
                                         ),
                                       ),
                                     ],
