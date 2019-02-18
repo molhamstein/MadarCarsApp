@@ -129,7 +129,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                                   fontWeight: FontWeight.w700),
                                             ),
                                             actions: <Widget>[
-                                             bloc.index == 4 ? IconButton(
+                                             bloc.index == 4 || bloc.index == 3 ? IconButton(
                                                 icon: Icon(
                                                     FontAwesomeIcons.filter),
                                                 onPressed: () {
