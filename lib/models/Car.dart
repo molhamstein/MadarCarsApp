@@ -22,7 +22,7 @@ String carToJson(List<Car> data) {
 
 class Car {
   String name;
-  int rate;
+  double rate;
   int numRateing;
   int numOfSeat;
   bool isVip;
@@ -83,7 +83,7 @@ class Car {
 
   factory Car.fromJson(Map<String, dynamic> json) => new Car(
         name: json["name"] == null ? null : json["name"],
-        rate: json["rate"] == null ? null : json["rate"],
+        rate: json["rate"] == null ? null : json["rate"].toDouble(),
         numRateing: json["numRateing"] == null ? null : json["numRateing"],
         numOfSeat: json["numOfSeat"] == null ? null : json["numOfSeat"],
         isVip: json["isVip"] == null ? null : json["isVip"],

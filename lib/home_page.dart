@@ -24,12 +24,8 @@ class HomePage extends StatelessWidget {
 
   const HomePage({Key key, this.afterLogin = false}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print('size is = ' + MediaQuery.of(context).size.toString());
-    print('aspect ratio is = ' +
-        MediaQuery.of(context).size.aspectRatio.toString());
     return Material(
       child: MyHomePage(
         afterLogin: afterLogin,
@@ -68,9 +64,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
 
   void handelHeaderAnimation() {
-    // callback function
-    print("time out");
-    // containerWidgetHeight = 200;
     transformation = rotateBy_0;
     myHeight = MediaQuery.of(context).size.height;
     myWidth = MediaQuery.of(context).size.width;
@@ -228,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           physics: const ClampingScrollPhysics(),
-          itemCount: cars.length,
+          itemCount: cars.length == null ? 0 : cars.length,
           itemBuilder: (BuildContext context, int index) {
             return CarCard(
               car: cars[index],
@@ -331,7 +324,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
-        itemCount: trips.length,
+        itemCount: trips.length == null ? 0 : trips.length,
         itemBuilder: (BuildContext context, int index) {
           return Material(
             color: Colors.transparent,
@@ -440,7 +433,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    print(MadarLocalizations.of(context).locale.languageCode);
     if (flag || open) {
       _controller.forward().whenCompleteOrCancel(initHeaerAnimation);
     }
