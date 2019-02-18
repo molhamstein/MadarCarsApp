@@ -857,7 +857,7 @@ class StepChooseCarState extends State<StepChooseCar>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Filters',
+                        MadarLocalizations.of(context).trans('filters'),
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 22,
@@ -875,7 +875,8 @@ class StepChooseCarState extends State<StepChooseCar>
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Show VIP cars only',
+                                      MadarLocalizations.of(context)
+                                          .trans('filter_vip_title'),
                                       style: titleStyle,
                                     ),
                                     snapshot.hasData &&
@@ -912,7 +913,8 @@ class StepChooseCarState extends State<StepChooseCar>
                                     children: <Widget>[
                                       SquareFilterButton(
                                         child: Text(
-                                          'VIP cars',
+                                          MadarLocalizations.of(context)
+                                              .trans('vip_cars'),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 16,
@@ -928,7 +930,8 @@ class StepChooseCarState extends State<StepChooseCar>
                                       ),
                                       SquareFilterButton(
                                         child: Text(
-                                          'All cars',
+                                          MadarLocalizations.of(context)
+                                              .trans('all_cars'),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 16,
@@ -957,28 +960,29 @@ class StepChooseCarState extends State<StepChooseCar>
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Car model year',
+                                      MadarLocalizations.of(context)
+                                          .trans('filter_car_model_year_title'),
                                       style: titleStyle,
                                     ),
                                     snapshot.hasData && snapshot.data != null
                                         ? ActionChip(
-                                      padding: EdgeInsets.all(1),
-                                      label: Text(
-                                        snapshot.data.toString(),
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          height: 0.8,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        planingBloc.clearProductionDate();
-                                      },
-                                      avatar: Icon(
-                                        Icons.close,
-                                        size: 18,
-                                      ),
-                                    )
+                                            padding: EdgeInsets.all(1),
+                                            label: Text(
+                                              snapshot.data.toString(),
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                height: 0.8,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              planingBloc.clearProductionDate();
+                                            },
+                                            avatar: Icon(
+                                              Icons.close,
+                                              size: 18,
+                                            ),
+                                          )
                                         : Container(),
                                   ],
                                 ),
@@ -997,7 +1001,10 @@ class StepChooseCarState extends State<StepChooseCar>
                                   onChanged: planingBloc.selectProductionDate,
                                   value:
                                       snapshot.hasData ? snapshot.data : null,
-                                  hint: Text('Car model year'),
+                                  hint: Text(
+                                    MadarLocalizations.of(context)
+                                        .trans('car_model_year'),
+                                  ),
                                 ),
                               ],
                             );
@@ -1015,7 +1022,8 @@ class StepChooseCarState extends State<StepChooseCar>
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
-                                      'Number of seats',
+                                      MadarLocalizations.of(context)
+                                          .trans('number_of_seats'),
                                       style: titleStyle,
                                     ),
                                     snapshot.hasData && snapshot.data >= 2
@@ -1091,17 +1099,19 @@ class StepChooseCarState extends State<StepChooseCar>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 Text(
-                                  'Driver gender',
+                                  MadarLocalizations.of(context)
+                                      .trans('driver_gender'),
                                   style: titleStyle,
                                 ),
                                 snapshot.hasData && snapshot.data != Gender.none
                                     ? ActionChip(
                                         padding: EdgeInsets.all(1),
                                         label: Text(
-                                          snapshot.data
-                                              .toString()
-                                              .split('.')
-                                              .last,
+                                          MadarLocalizations.of(context).trans(
+                                              snapshot.data
+                                                  .toString()
+                                                  .split('.')
+                                                  .last),
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700,
@@ -1162,7 +1172,8 @@ class StepChooseCarState extends State<StepChooseCar>
                       Row(
                         children: <Widget>[
                           Text(
-                            'Driver language',
+                            MadarLocalizations.of(context)
+                                .trans('driver_language'),
                             style: titleStyle,
                           ),
                         ],
@@ -1170,7 +1181,6 @@ class StepChooseCarState extends State<StepChooseCar>
                       StreamBuilder<List<Language>>(
                           stream: planingBloc.languagesStream,
                           builder: (context, snapshot) {
-                            print('lang' + snapshot.data.toString());
                             return StreamBuilder<List<String>>(
                                 stream: planingBloc.languagesIdsStream,
                                 builder: (context, snapshot2) {
@@ -1258,8 +1268,8 @@ class StepChooseCarState extends State<StepChooseCar>
                               ),
                               child: Center(
                                   child: Text(
-                                'Apply',
-                                style: TextStyle(
+                                    MadarLocalizations.of(context).trans('apply'),
+                                    style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 22,
                                     height: 0.8),
