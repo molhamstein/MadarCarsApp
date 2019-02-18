@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
@@ -42,8 +43,9 @@ class TripCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 8.0, right: 8.0, top: 8.0),
-                      child: Text(
+                      child: AutoSizeText(
                         trip.title(MadarLocalizations.of(context).locale),
+                        maxLines: 1,
                         style: AppTextStyle.largeTextStyleWhite,
                       ),
                     ),
