@@ -345,9 +345,22 @@ class Network {
     String url = _avaiableCars +
         '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
-    if(langIds != null) {
+    if(langIds != null && langIds.isNotEmpty) {
       url += '&langFilter=${json.encode(langIds)}';
     }
+
+    var filter = Map<String, dynamic>();
+
+    if(numberOfSeats != null) {
+      filter['numOfSeat'] = numberOfSeats;
+    }
+
+    var whereClause = '&filter=' + json.encode({
+      'where':filter
+    });
+
+    url += whereClause;
+
 
 
     print(url);

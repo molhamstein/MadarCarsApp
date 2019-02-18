@@ -34,9 +34,7 @@ class StepChooseCarState extends State<StepChooseCar>
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
     bloc = ChooseCarBloc(
-        planingBloc.trip, BlocProvider
-        .of<AppBloc>(context)
-        .token);
+        planingBloc.trip, BlocProvider.of<AppBloc>(context).token);
     bloc.fetchGetAvailableCars();
 
     _controller = AnimationController(
@@ -45,7 +43,7 @@ class StepChooseCarState extends State<StepChooseCar>
     );
 
     final CurvedAnimation curvedAnimation =
-    CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
+        CurvedAnimation(parent: _controller, curve: ElasticOutCurve(0.5));
 
     _offsetFloat = Tween<Offset>(begin: Offset(0.0, 200), end: Offset.zero)
         .animate(curvedAnimation);
@@ -99,10 +97,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                         margin: EdgeInsets.only(
                                             right: 24, left: 24),
                                         width:
-                                        MediaQuery
-                                            .of(context)
-                                            .size
-                                            .width,
+                                            MediaQuery.of(context).size.width,
                                         padding: EdgeInsets.only(
                                             right: 16, left: 16, top: 16),
                                         decoration: BoxDecoration(
@@ -118,355 +113,345 @@ class StepChooseCarState extends State<StepChooseCar>
                                           ],
                                         ),
                                         child: carsSnapshot.hasData &&
-                                            carsSnapshot.data.isNotEmpty &&
-                                            carSnapshot.hasData
+                                                carsSnapshot.data.isNotEmpty &&
+                                                carSnapshot.hasData
                                             ? Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Row(
-                                              mainAxisSize:
-                                              MainAxisSize.max,
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      bottom: 8.0),
-                                                  child: Text(
-                                                    MadarLocalizations.of(
-                                                        context)
-                                                        .trans(
-                                                        'estim_cost'),
-                                                    style: TextStyle(
-                                                        color: Colors
-                                                            .black87,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                        FontWeight
-                                                            .w700,
-                                                        height: 0.5),
-                                                  ),
-                                                ),
-                                                Row(
-                                                  mainAxisSize:
-                                                  MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .end,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      planingBloc.trip
-                                                          .estimationPrice()
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .grey[800],
-                                                          fontSize: 60,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w700,
-                                                          height: 0.5),
-                                                    ),
-                                                    Text(
-                                                      '\$',
-                                                      style: TextStyle(
-                                                          color: Colors
-                                                              .grey[800],
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w700),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.all(8),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
-                                              children: <Widget>[
-                                                CircleAvatar(
-                                                  radius: 20,
-                                                  backgroundImage:
-                                                  NetworkImage(
-                                                      carSnapshot
-                                                          .data
-                                                          .driver
-                                                          .media
-                                                          .url),
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      carSnapshot
-                                                          .data.name,
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                          isScreenLongEnough
-                                                              ? 20
-                                                              : 16,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .bold,
-                                                          color: Colors
-                                                              .grey[800],
-                                                          height: 0.5),
-                                                    ),
-                                                    Text(
-                                                      carSnapshot
-                                                          .data
-                                                          .driver
-                                                          .firstName + " " + carSnapshot
-                                                          .data
-                                                          .driver
-                                                          .lastName,
-                                                      style: TextStyle(
-                                                          fontSize:
-                                                          isScreenLongEnough
-                                                              ? 16
-                                                              : 14,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .w700,
-                                                          color: Colors
-                                                              .grey[600],
-                                                          height: 0.5),
-                                                    ),
-                                                  ],
-                                                ),
-                                                RateWidget(
-                                                  carSnapshot.data.rate
-                                                      .toString(),
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              height: 12,
-                                            ),
-                                            Wrap(
-                                              spacing: 4,
-                                              children:
-                                              carSnapshot.data.driver
-                                                  .driverLangs
-                                                  .map(
-                                                      (language) =>
-                                                      LanguageTag(
-                                                        text:
-                                                        Text(
-                                                          language
-                                                              .language
-                                                              .name,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 8.0),
+                                                        child: Text(
+                                                          MadarLocalizations.of(
+                                                                  context)
+                                                              .trans(
+                                                                  'estim_cost'),
                                                           style: TextStyle(
-                                                              fontSize:
-                                                              12,
-                                                              color:
-                                                              Colors.white,
-                                                              fontWeight: FontWeight
-                                                                  .w700,
-                                                              height: 0.8),
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              height: 0.5),
                                                         ),
-                                                      ))
-                                                  .toList(),
-                                            ),
-                                            Container(
-                                              height: 16,
-                                            ),
-                                            Padding(
-                                              padding:
-                                              const EdgeInsets.all(
-                                                  8.0),
-                                              child: _infoRow(carSnapshot, infoLabelStyle, iconSize),
-                                            ),
-                                          ],
-                                        )
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            planingBloc.trip
+                                                                .estimationPrice()
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[800],
+                                                                fontSize: 60,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                height: 0.5),
+                                                          ),
+                                                          Text(
+                                                            '\$',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey[800],
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: <Widget>[
+                                                      CircleAvatar(
+                                                        radius: 20,
+                                                        backgroundImage:
+                                                            NetworkImage(
+                                                                carSnapshot
+                                                                    .data
+                                                                    .driver
+                                                                    .media
+                                                                    .url),
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Text(
+                                                            carSnapshot
+                                                                .data.name,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    isScreenLongEnough
+                                                                        ? 20
+                                                                        : 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .grey[800],
+                                                                height: 0.5),
+                                                          ),
+                                                          Text(
+                                                            carSnapshot
+                                                                    .data
+                                                                    .driver
+                                                                    .firstName +
+                                                                " " +
+                                                                carSnapshot
+                                                                    .data
+                                                                    .driver
+                                                                    .lastName,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    isScreenLongEnough
+                                                                        ? 16
+                                                                        : 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                color: Colors
+                                                                    .grey[600],
+                                                                height: 0.5),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      RateWidget(
+                                                        carSnapshot.data.rate
+                                                            .toString(),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    height: 12,
+                                                  ),
+                                                  Wrap(
+                                                    spacing: 4,
+                                                    children:
+                                                        carSnapshot.data.driver
+                                                            .driverLangs
+                                                            .map(
+                                                                (language) =>
+                                                                    LanguageTag(
+                                                                      text:
+                                                                          Text(
+                                                                        language
+                                                                            .language
+                                                                            .name,
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                12,
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.w700,
+                                                                            height: 0.8),
+                                                                      ),
+                                                                    ))
+                                                            .toList(),
+                                                  ),
+                                                  Container(
+                                                    height: 16,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: _infoRow(
+                                                        carSnapshot,
+                                                        infoLabelStyle,
+                                                        iconSize),
+                                                  ),
+                                                ],
+                                              )
                                             : carsSnapshot.hasData &&
-                                            carsSnapshot.data.isEmpty
-                                            ? _empty()
-                                            : _topShimmer(),
+                                                    carsSnapshot.data.isEmpty
+                                                ? _empty()
+                                                : _topShimmer(),
                                       ),
                                       isScreenLongEnough
                                           ? Align(
-                                        alignment: Alignment.center,
-                                        child: Container(
-                                          height: MediaQuery
-                                              .of(context)
-                                              .size
-                                              .height /
-                                              11,
-                                          margin:
-                                          EdgeInsets.only(bottom: 24),
-                                          child: carSnapshot.data != null
-                                              ? ListView.builder(
-                                            key: UniqueKey(),
-                                            itemBuilder:
-                                                (context, index) {
-                                              return Material(
-                                                color: Colors
-                                                    .transparent,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    Navigator.of(
-                                                        context)
-                                                        .push(
-                                                      MaterialPageRoute(
-                                                        builder:
-                                                            (context) =>
-                                                            Gallery(
-                                                              images: carSnapshot
-                                                                  .data
-                                                                  .carMedia,
-                                                              initialIndex: index,
-                                                            ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                    width: MediaQuery
-                                                        .of(
-                                                        context)
+                                              alignment: Alignment.center,
+                                              child: Container(
+                                                height: MediaQuery.of(context)
                                                         .size
                                                         .height /
-                                                        12,
-                                                    height: MediaQuery
-                                                        .of(
-                                                        context)
-                                                        .size
-                                                        .height /
-                                                        12,
-                                                    margin:
-                                                    EdgeInsets
-                                                        .all(4),
-                                                    decoration:
-                                                    BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          4),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            blurRadius:
-                                                            4,
+                                                    11,
+                                                margin:
+                                                    EdgeInsets.only(bottom: 24),
+                                                child: carSnapshot.data != null
+                                                    ? ListView.builder(
+                                                        key: UniqueKey(),
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          return Material(
                                                             color: Colors
-                                                                .black45)
-                                                      ],
-                                                    ),
-                                                    child: Hero(
-                                                      tag: carSnapshot
-                                                          .data
-                                                          .carMedia[
-                                                      index]
-                                                          .id,
-                                                      child:
-                                                      FadeInImage(
-                                                        placeholder:
-                                                        AssetImage(
-                                                            'assets/images/logo.jpg'),
-                                                        image: NetworkImage(
-                                                            carSnapshot
-                                                                .data
-                                                                .carMedia[
-                                                            index]
-                                                                .url),
-                                                        fit: BoxFit
-                                                            .cover,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            itemCount: carSnapshot
-                                                .data
-                                                .carMedia
-                                                .length,
-                                            scrollDirection:
-                                            Axis.horizontal,
-                                            padding:
-                                            EdgeInsets.all(4),
-                                          )
-                                              : Container(),
-                                        ),
-                                      )
+                                                                .transparent,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            Gallery(
+                                                                              images: carSnapshot.data.carMedia,
+                                                                              initialIndex: index,
+                                                                            ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                width: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height /
+                                                                    12,
+                                                                height: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .height /
+                                                                    12,
+                                                                margin:
+                                                                    EdgeInsets
+                                                                        .all(4),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              4),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        blurRadius:
+                                                                            4,
+                                                                        color: Colors
+                                                                            .black45)
+                                                                  ],
+                                                                ),
+                                                                child: Hero(
+                                                                  tag: carSnapshot
+                                                                      .data
+                                                                      .carMedia[
+                                                                          index]
+                                                                      .id,
+                                                                  child:
+                                                                      FadeInImage(
+                                                                    placeholder:
+                                                                        AssetImage(
+                                                                            'assets/images/logo.jpg'),
+                                                                    image: NetworkImage(carSnapshot
+                                                                        .data
+                                                                        .carMedia[
+                                                                            index]
+                                                                        .url),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        itemCount: carSnapshot
+                                                            .data
+                                                            .carMedia
+                                                            .length,
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        padding:
+                                                            EdgeInsets.all(4),
+                                                      )
+                                                    : Container(),
+                                              ),
+                                            )
                                           : Container(),
                                     ],
                                   );
                                 }),
                             carsSnapshot.hasData && carsSnapshot.data.isNotEmpty
                                 ? StreamBuilder<int>(
-                                stream: bloc.indexStream,
-                                initialData: 0,
-                                builder: (context, indexSnapshot) {
-                                  return Container(
-                                    margin: EdgeInsets.only(
-                                        top: isScreenLongEnough
-                                            ? MediaQuery
-                                            .of(context)
-                                            .size
-                                            .height /
-                                            2.1
-                                            : MediaQuery
-                                            .of(context)
-                                            .size
-                                            .height /
-                                            2.3),
-                                    height:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .width /
-                                        1.8,
-                                    child: ListView.builder(
-                                      itemBuilder: (context, index) {
-                                        return CarCard(
-                                          car: carsSnapshot.data[index],
-                                          onTap: (car) {
-                                            bloc.selectCar(car, index);
-                                            planingBloc.tripCar(
-                                                carsSnapshot.data[index]);
+                                    stream: bloc.indexStream,
+                                    initialData: 0,
+                                    builder: (context, indexSnapshot) {
+                                      return Container(
+                                        margin: EdgeInsets.only(
+                                            top: isScreenLongEnough
+                                                ? MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    2.1
+                                                : MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    2.3),
+                                        height:
+                                            MediaQuery.of(context).size.width /
+                                                1.8,
+                                        child: ListView.builder(
+                                          itemBuilder: (context, index) {
+                                            return CarCard(
+                                              car: carsSnapshot.data[index],
+                                              onTap: (car) {
+                                                bloc.selectCar(car, index);
+                                                planingBloc.tripCar(
+                                                    carsSnapshot.data[index]);
+                                              },
+                                              selected:
+                                                  index == indexSnapshot.data,
+                                            );
                                           },
-                                          selected:
-                                          index == indexSnapshot.data,
-                                        );
-                                      },
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: carsSnapshot.data.length,
-                                    ),
-                                  );
-                                })
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: carsSnapshot.data.length,
+                                        ),
+                                      );
+                                    })
                                 : carsSnapshot.hasData &&
-                                carsSnapshot.data.isEmpty
-                                ? Container()
-                                : _listShimmer(),
-
+                                        carsSnapshot.data.isEmpty
+                                    ? Container()
+                                    : _listShimmer(),
                             StreamBuilder<bool>(
-                              stream: planingBloc.showFiltersStream,
-                              builder: (context, snapshot) {
-                                if(snapshot.hasData && snapshot.data) {
-                                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                                    showModal(context);
-                                  });
-
-                                }
-                                return Container();
-                              }
-                            )
-
+                                stream: planingBloc.showFiltersStream,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData && snapshot.data) {
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                      showModal(context);
+                                    });
+                                  }
+                                  return Container();
+                                })
                           ],
                         ),
                       );
@@ -624,14 +609,8 @@ class StepChooseCarState extends State<StepChooseCar>
 
   _listShimmer() {
     return Container(
-      margin: EdgeInsets.only(top: MediaQuery
-          .of(context)
-          .size
-          .height / 2.2),
-      height: MediaQuery
-          .of(context)
-          .size
-          .width / 2,
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.2),
+      height: MediaQuery.of(context).size.width / 2,
       child: ListView.builder(
         itemBuilder: (context, index) {
           return Shimmer.fromColors(
@@ -639,10 +618,7 @@ class StepChooseCarState extends State<StepChooseCar>
             highlightColor: Colors.grey[200],
             child: Container(
               margin: EdgeInsets.all(8),
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width / 1.3,
+              width: MediaQuery.of(context).size.width / 1.3,
               height: 200,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
@@ -685,91 +661,54 @@ class StepChooseCarState extends State<StepChooseCar>
   }
 
   _infoRow(carSnapshot, infoLabelStyle, iconSize) {
-    
-    if(isScreenLongEnough) {
+    if (isScreenLongEnough) {
       return Row(
-        mainAxisSize:
-        MainAxisSize.max,
-        mainAxisAlignment:
-        MainAxisAlignment
-            .spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Column(
             children: <Widget>[
               Icon(
                 MyFlutterApp.cal,
                 size: iconSize,
-                color: Colors
-                    .grey[800],
+                color: Colors.grey[800],
               ),
               Padding(
-                padding:
-                const EdgeInsets
-                    .only(
-                    top: 8.0),
-                child: Text(
-                    carSnapshot
-                        .data
-                        .productionDate
-                        .toString(),
-                    style:
-                    infoLabelStyle),
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(carSnapshot.data.productionDate.toString(),
+                    style: infoLabelStyle),
               ),
             ],
           ),
           Column(
             children: <Widget>[
               Icon(
-                MyFlutterApp
-                    .gender,
+                MyFlutterApp.gender,
                 size: iconSize,
-                color: Colors
-                    .grey[800],
+                color: Colors.grey[800],
               ),
               Padding(
-                padding:
-                const EdgeInsets
-                    .only(
-                    top: 8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                    MadarLocalizations
-                        .of(
-                        context)
-                        .trans(
-                        carSnapshot
-                            .data
-                            .driver
-                            .gender),
-                    style:
-                    infoLabelStyle),
+                    MadarLocalizations.of(context)
+                        .trans(carSnapshot.data.driver.gender),
+                    style: infoLabelStyle),
               ),
             ],
           ),
           Column(
             children: <Widget>[
               Icon(
-                MyFlutterApp
-                    .seats,
+                MyFlutterApp.seats,
                 size: iconSize,
-                color: Colors
-                    .grey[800],
+                color: Colors.grey[800],
               ),
               Padding(
-                padding:
-                const EdgeInsets
-                    .only(
-                    top: 8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                    '${carSnapshot.data
-                        .numOfSeat
-                        .toString()} ' +
-                        MadarLocalizations
-                            .of(
-                            context)
-                            .trans(
-                            'seats'),
-                    style:
-                    infoLabelStyle),
+                    '${carSnapshot.data.numOfSeat.toString()} ' +
+                        MadarLocalizations.of(context).trans('seats'),
+                    style: infoLabelStyle),
               ),
             ],
           ),
@@ -777,103 +716,61 @@ class StepChooseCarState extends State<StepChooseCar>
       );
     } else {
       return Row(
-        mainAxisSize:
-        MainAxisSize.max,
-        mainAxisAlignment:
-        MainAxisAlignment
-            .spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Column(
             children: <Widget>[
               Icon(
                 MyFlutterApp.cal,
                 size: iconSize,
-                color: Colors
-                    .grey[800],
+                color: Colors.grey[800],
               ),
               Padding(
-                padding:
-                const EdgeInsets
-                    .only(
-                    top: 8.0),
-                child: Text(
-                    carSnapshot
-                        .data
-                        .productionDate
-                        .toString(),
-                    style:
-                    infoLabelStyle),
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(carSnapshot.data.productionDate.toString(),
+                    style: infoLabelStyle),
               ),
             ],
           ),
           Column(
             children: <Widget>[
               Icon(
-                MyFlutterApp
-                    .gender,
+                MyFlutterApp.gender,
                 size: iconSize,
-                color: Colors
-                    .grey[800],
+                color: Colors.grey[800],
               ),
               Padding(
-                padding:
-                const EdgeInsets
-                    .only(
-                    top: 8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                    MadarLocalizations
-                        .of(
-                        context)
-                        .trans(
-                        carSnapshot
-                            .data
-                            .driver
-                            .gender),
-                    style:
-                    infoLabelStyle),
+                    MadarLocalizations.of(context)
+                        .trans(carSnapshot.data.driver.gender),
+                    style: infoLabelStyle),
               ),
             ],
           ),
           Column(
             children: <Widget>[
               Icon(
-                MyFlutterApp
-                    .seats,
+                MyFlutterApp.seats,
                 size: iconSize,
-                color: Colors
-                    .grey[800],
+                color: Colors.grey[800],
               ),
               Padding(
-                padding:
-                const EdgeInsets
-                    .only(
-                    top: 8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                    '${carSnapshot.data
-                        .numOfSeat
-                        .toString()} ' +
-                        MadarLocalizations
-                            .of(
-                            context)
-                            .trans(
-                            'seats'),
-                    style:
-                    infoLabelStyle),
+                    '${carSnapshot.data.numOfSeat.toString()} ' +
+                        MadarLocalizations.of(context).trans('seats'),
+                    style: infoLabelStyle),
               ),
             ],
           ),
           GestureDetector(
             onTap: () {
-              if (carSnapshot
-                  .data
-                  .carMedia
-                  .isNotEmpty)
-                Navigator.of(
-                    context)
-                    .push(
+              if (carSnapshot.data.carMedia.isNotEmpty)
+                Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) =>
-                        Gallery(
+                    builder: (context) => Gallery(
                           images: carSnapshot.data.carMedia,
                           initialIndex: 0,
                         ),
@@ -881,46 +778,34 @@ class StepChooseCarState extends State<StepChooseCar>
                 );
             },
             child: Column(
-              children: <
-                  Widget>[
-                carSnapshot
-                    .data
-                    .carMedia
-                    .isNotEmpty
+              children: <Widget>[
+                carSnapshot.data.carMedia.isNotEmpty
                     ? Container(
-                  width:
-                  20,
-                  height:
-                  20,
-                  decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20),
-                      image: DecorationImage(
-                          image: NetworkImage(carSnapshot.data.carMedia[0].url),
-                          fit: BoxFit.cover)),
-                )
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    carSnapshot.data.carMedia[0].url),
+                                fit: BoxFit.cover)),
+                      )
                     : Icon(
-                  Icons.not_interested,
-                  color:
-                  Colors.grey,
-                  size:
-                  20,
-                ),
+                        Icons.not_interested,
+                        color: Colors.grey,
+                        size: 20,
+                      ),
                 Padding(
-                  padding: const EdgeInsets
-                      .only(
-                      top:
-                      8.0),
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                      '${carSnapshot.data.carMedia != null ? carSnapshot.data.carMedia
-                          .length : 0} ' +
-                          MadarLocalizations.of(context).trans(
-                              'images'),
-                      style:
-                      infoLabelStyle),
+                      '${carSnapshot.data.carMedia != null ? carSnapshot.data.carMedia.length : 0} ' +
+                          MadarLocalizations.of(context).trans('images'),
+                      style: infoLabelStyle),
                 ),
               ],
             ),
-          )        ],
+          )
+        ],
       );
     }
   }
@@ -972,34 +857,36 @@ class StepChooseCarState extends State<StepChooseCar>
                               children: <Widget>[
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       'Show VIP cars only',
                                       style: titleStyle,
                                     ),
-                                    snapshot.hasData && snapshot.data != Type.none
+                                    snapshot.hasData &&
+                                            snapshot.data != Type.none
                                         ? ActionChip(
-                                      padding: EdgeInsets.all(1),
-                                      label: Text(
-                                        snapshot.data
-                                            .toString()
-                                            .split('.')
-                                            .last,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          height: 0.8,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        planingBloc.selectCarType(Type.none);
-                                      },
-                                      avatar: Icon(
-                                        Icons.close,
-                                        size: 18,
-                                      ),
-                                    )
+                                            padding: EdgeInsets.all(1),
+                                            label: Text(
+                                              snapshot.data
+                                                  .toString()
+                                                  .split('.')
+                                                  .last,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                height: 0.8,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              planingBloc
+                                                  .selectCarType(Type.none);
+                                            },
+                                            avatar: Icon(
+                                              Icons.close,
+                                              size: 18,
+                                            ),
+                                          )
                                         : Container(),
                                   ],
                                 ),
@@ -1034,7 +921,8 @@ class StepChooseCarState extends State<StepChooseCar>
                                         ),
                                         selected: snapshot.data == Type.normal,
                                         onTap: () {
-                                          planingBloc.selectCarType(Type.normal);
+                                          planingBloc
+                                              .selectCarType(Type.normal);
                                         },
                                       ),
                                     ],
@@ -1053,7 +941,7 @@ class StepChooseCarState extends State<StepChooseCar>
                               children: <Widget>[
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Text(
                                       'Number of seats',
@@ -1061,35 +949,32 @@ class StepChooseCarState extends State<StepChooseCar>
                                     ),
                                     snapshot.hasData && snapshot.data >= 2
                                         ? ActionChip(
-                                      padding: EdgeInsets.all(1),
-                                      label: Text(
-                                        snapshot.data.toString(),
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          height: 0.8,
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        planingBloc.clearNumberOfSeats();
-                                      },
-                                      avatar: Icon(
-                                        Icons.close,
-                                        size: 18,
-                                      ),
-                                    )
+                                            padding: EdgeInsets.all(1),
+                                            label: Text(
+                                              snapshot.data.toString(),
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                height: 0.8,
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              planingBloc.clearNumberOfSeats();
+                                            },
+                                            avatar: Icon(
+                                              Icons.close,
+                                              size: 18,
+                                            ),
+                                          )
                                         : Container(),
                                   ],
                                 ),
                                 Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width / 2,
+                                  width: MediaQuery.of(context).size.width / 2,
                                   margin: EdgeInsets.only(top: 16, bottom: 16),
                                   child: Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
                                       RoundFilterButton(
                                         child: Icon(
@@ -1140,41 +1025,39 @@ class StepChooseCarState extends State<StepChooseCar>
                                 ),
                                 snapshot.hasData && snapshot.data != Gender.none
                                     ? ActionChip(
-                                  padding: EdgeInsets.all(1),
-                                  label: Text(
-                                    snapshot.data
-                                        .toString()
-                                        .split('.')
-                                        .last,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      height: 0.8,
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    planingBloc.selectGender(Gender.none);
-                                  },
-                                  avatar: Icon(
-                                    Icons.close,
-                                    size: 18,
-                                  ),
-                                )
+                                        padding: EdgeInsets.all(1),
+                                        label: Text(
+                                          snapshot.data
+                                              .toString()
+                                              .split('.')
+                                              .last,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            height: 0.8,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          planingBloc.selectGender(Gender.none);
+                                        },
+                                        avatar: Icon(
+                                          Icons.close,
+                                          size: 18,
+                                        ),
+                                      )
                                     : Container(),
                               ],
                             );
                           }),
                       Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 2,
+                        width: MediaQuery.of(context).size.width / 2,
                         margin: EdgeInsets.only(top: 16, bottom: 16),
                         child: StreamBuilder<Object>(
                             stream: planingBloc.genderStream,
                             builder: (context, snapshot) {
                               return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   GenderFilterButton(
                                     child: Icon(
@@ -1221,46 +1104,53 @@ class StepChooseCarState extends State<StepChooseCar>
                                 stream: planingBloc.languagesIdsStream,
                                 builder: (context, snapshot2) {
                                   return Container(
-                                    margin: EdgeInsets.only(top: 16, bottom: 16),
+                                    margin:
+                                        EdgeInsets.only(top: 16, bottom: 16),
                                     child: Row(
-                                      children: snapshot.hasData ? snapshot.data
-                                          .map((language) =>
-                                          Padding(
-                                            padding: const EdgeInsets.all(4.0),
-                                            child: ChoiceChip(
-                                              label: Text(
-                                                language.name,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              onSelected: (selected) {
-                                                setState(() {
-                                                  if (selected)
-                                                    planingBloc.selectLanguage(
-                                                        language.id);
-                                                  else
-                                                    planingBloc.removeLanguage(
-                                                        language.id);
-                                                });
-                                              },
-                                              selectedColor: Colors.black87,
-                                              selected: snapshot2.data.contains(
-                                                  language.id),
-                                            ),
-                                          ))
-                                          .toList() : [Container()],
+                                      children: snapshot.hasData
+                                          ? snapshot.data
+                                              .map((language) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            4.0),
+                                                    child: ChoiceChip(
+                                                      label: Text(
+                                                        language.name,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                      onSelected: (selected) {
+                                                        setState(() {
+                                                          if (selected)
+                                                            planingBloc
+                                                                .selectLanguage(
+                                                                    language
+                                                                        .id);
+                                                          else
+                                                            planingBloc
+                                                                .removeLanguage(
+                                                                    language
+                                                                        .id);
+                                                        });
+                                                      },
+                                                      selectedColor:
+                                                          Colors.black87,
+                                                      selected: snapshot2.data
+                                                          .contains(
+                                                              language.id),
+                                                    ),
+                                                  ))
+                                              .toList()
+                                          : [Container()],
                                     ),
                                   );
-                                }
-                            );
+                                });
                           }),
                       Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 2.5,
+                        width: MediaQuery.of(context).size.width / 2.5,
                         height: 50,
                         margin: EdgeInsets.all(8),
                         decoration: BoxDecoration(
@@ -1278,25 +1168,26 @@ class StepChooseCarState extends State<StepChooseCar>
                           child: InkWell(
                             borderRadius: BorderRadius.circular(25),
                             onTap: () {
-                              bloc.fetchGetAvailableCars(langIds: planingBloc.langFiltersIds);
+                              bloc.fetchGetAvailableCars(
+                                  langIds: planingBloc.langFiltersIds,
+                                  numberOfSeats: planingBloc.numberOfSeats > 1
+                                      ? planingBloc.numberOfSeats
+                                      : null,);
                             },
                             child: Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width / 3,
+                              width: MediaQuery.of(context).size.width / 3,
                               height: 50,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),
                               ),
                               child: Center(
                                   child: Text(
-                                    'Apply',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        height: 0.8),
-                                  )),
+                                'Apply',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    height: 0.8),
+                              )),
                             ),
                           ),
                         ),
@@ -1309,10 +1200,7 @@ class StepChooseCarState extends State<StepChooseCar>
           );
         });
   }
-
 }
-
-
 
 class RoundFilterButton extends StatelessWidget {
   final Widget child;
@@ -1356,10 +1244,10 @@ class GenderFilterButton extends StatefulWidget {
 
   const GenderFilterButton(
       {Key key,
-        this.child,
-        this.onTap,
-        this.padding = 10,
-        this.selected = false})
+      this.child,
+      this.onTap,
+      this.padding = 10,
+      this.selected = false})
       : super(key: key);
 
   @override
@@ -1384,27 +1272,27 @@ class _GenderFilterButtonState extends State<GenderFilterButton> {
       },
       child: widget.selected
           ? Container(
-        padding: EdgeInsets.all(widget.padding),
-        decoration: BoxDecoration(
-          color: Colors.black87,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black38,
-              blurRadius: 16,
-            ),
-          ],
-        ),
-        child: widget.child,
-      )
+              padding: EdgeInsets.all(widget.padding),
+              decoration: BoxDecoration(
+                color: Colors.black87,
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black38,
+                    blurRadius: 16,
+                  ),
+                ],
+              ),
+              child: widget.child,
+            )
           : Container(
-        padding: EdgeInsets.all(widget.padding),
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          shape: BoxShape.circle,
-        ),
-        child: widget.child,
-      ),
+              padding: EdgeInsets.all(widget.padding),
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                shape: BoxShape.circle,
+              ),
+              child: widget.child,
+            ),
     );
   }
 }
@@ -1417,10 +1305,10 @@ class SquareFilterButton extends StatefulWidget {
 
   const SquareFilterButton(
       {Key key,
-        this.child,
-        this.onTap,
-        this.padding = 10,
-        this.selected = false})
+      this.child,
+      this.onTap,
+      this.padding = 10,
+      this.selected = false})
       : super(key: key);
 
   @override
@@ -1444,27 +1332,27 @@ class _SquareFilterButtonState extends State<SquareFilterButton> {
         },
         child: widget.selected
             ? Container(
-          padding: EdgeInsets.all(widget.padding),
-          decoration: BoxDecoration(
-            color: Colors.black87,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black38,
-                blurRadius: 16,
-              ),
-            ],
-          ),
-          child: widget.child,
-        )
+                padding: EdgeInsets.all(widget.padding),
+                decoration: BoxDecoration(
+                  color: Colors.black87,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black38,
+                      blurRadius: 16,
+                    ),
+                  ],
+                ),
+                child: widget.child,
+              )
             : Container(
-          padding: EdgeInsets.all(widget.padding),
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: widget.child,
-        ),
+                padding: EdgeInsets.all(widget.padding),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: widget.child,
+              ),
       ),
     );
   }
