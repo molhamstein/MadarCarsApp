@@ -932,6 +932,22 @@ class StepChooseCarState extends State<StepChooseCar>
                             );
                           }),
                       Divider(),
+
+
+                      Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Show VIP cars only',
+                            style: titleStyle,
+                          ),
+                        ],
+                      ),
+
+
+
+                      Divider(),
                       StreamBuilder<int>(
                           stream: planingBloc.numberOfSeatsStream,
                           initialData: 1,
@@ -1172,7 +1188,10 @@ class StepChooseCarState extends State<StepChooseCar>
                                   langIds: planingBloc.langFiltersIds,
                                   numberOfSeats: planingBloc.numberOfSeats > 1
                                       ? planingBloc.numberOfSeats
-                                      : null,);
+                                      : null,
+                              gender: planingBloc.gender,
+                                type: planingBloc.type,
+                              );
                               Navigator.of(context).pop();
                             },
                             child: Container(

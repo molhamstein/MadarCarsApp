@@ -18,7 +18,10 @@ class TripPlaningBloc extends BaseBloc with Network {
   bool showFeedback;
   bool isPredefinedTrip;
   int numberOfSeats;
+  Gender gender;
   List<String> langFiltersIds;
+
+  Type type;
 
   TripPlaningBloc(String token, String userId, {TripModel tripModel}) {
     isPredefinedTrip = false;
@@ -245,10 +248,12 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   selectGender(Gender gender) {
     _genderController.sink.add(gender);
+    this.gender = gender;
   }
 
   selectCarType(Type type) {
     _carTypeController.sink.add(type);
+    this.type = type;
   }
 
   plusSeat() {

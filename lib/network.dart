@@ -348,21 +348,18 @@ class Network {
     if(langIds != null && langIds.isNotEmpty) {
       url += '&langFilter=${json.encode(langIds)}';
     }
-//    if(gender && gender != 'none') {
-//      url += '&driverGender=${json.encode(gender)}';
-//    }
+    if(gender != 'null' && gender != 'none') {
+      url += '&driverGender=$gender';
+    }
 
     var filter = Map<String, dynamic>();
 
     if(numberOfSeats != null) {
       filter['numOfSeat'] = numberOfSeats;
     }
-//    if(gender != null) {
-//      filter['gender']=gender;
-//    }
-//    if(type != null) {
-//      filter['isVip'] = type == 'vip';
-//    }
+    if(type != null && type == 'vip') {
+      filter['isVip'] = true;
+    }
 
     var whereClause = '&filter=' + json.encode({
       'where':filter
