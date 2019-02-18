@@ -620,7 +620,6 @@ class TripInfoPageState extends State<TripInfoPage> {
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: Colors.black,
                 ),
                 onPressed: () => Navigator.pop(context),
               ),
