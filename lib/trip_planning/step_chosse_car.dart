@@ -1173,6 +1173,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                   numberOfSeats: planingBloc.numberOfSeats > 1
                                       ? planingBloc.numberOfSeats
                                       : null,);
+                              Navigator.of(context).pop();
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 3,
