@@ -28,9 +28,9 @@ class ChooseCarBloc extends BaseBloc with Network {
 
 
   fetchGetAvailableCars(
-      {List<String> langIds, Gender gender, Type type, int numberOfSeats}) {
+      {List<String> langIds, Gender gender, Type type, int numberOfSeats, String productionDate}) {
     fetchAvailableCars(token, trip, langIds, numberOfSeats,
-            gender.toString().split('.').last, type.toString().split('.').last)
+            gender.toString().split('.').last, type.toString().split('.').last, productionDate)
         .then((carsList) {
       _carsController.sink.add(carsList);
     }).catchError((e) {

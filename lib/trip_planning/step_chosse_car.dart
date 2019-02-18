@@ -30,6 +30,22 @@ class StepChooseCarState extends State<StepChooseCar>
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
 
+  final productionDates = [
+    '2010',
+    '2011',
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    '2021',
+    '2022'
+  ];
+
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
@@ -821,7 +837,6 @@ class StepChooseCarState extends State<StepChooseCar>
         builder: (context) {
           return WillPopScope(
             onWillPop: () async {
-              print('OUT!!!');
               planingBloc.hideModal;
               return true;
             },
@@ -932,21 +947,61 @@ class StepChooseCarState extends State<StepChooseCar>
                             );
                           }),
                       Divider(),
-
-
-                      Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            'Show VIP cars only',
-                            style: titleStyle,
-                          ),
-                        ],
-                      ),
-
-
-
+                      StreamBuilder<String>(
+                          stream: planingBloc.productionDateStream,
+                          builder: (context, snapshot) {
+                            return Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      'Car model year',
+                                      style: titleStyle,
+                                    ),
+                                    snapshot.hasData && snapshot.data != null
+                                        ? ActionChip(
+                                      padding: EdgeInsets.all(1),
+                                      label: Text(
+                                        snapshot.data.toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          height: 0.8,
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        planingBloc.clearProductionDate();
+                                      },
+                                      avatar: Icon(
+                                        Icons.close,
+                                        size: 18,
+                                      ),
+                                    )
+                                        : Container(),
+                                  ],
+                                ),
+                                DropdownButton<String>(
+                                  items: productionDates
+                                      .map((s) => DropdownMenuItem<String>(
+                                            child: Container(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.5,
+                                                child: Text(s)),
+                                            value: s,
+                                          ))
+                                      .toList(),
+                                  onChanged: planingBloc.selectProductionDate,
+                                  value:
+                                      snapshot.hasData ? snapshot.data : null,
+                                  hint: Text('Car model year'),
+                                ),
+                              ],
+                            );
+                          }),
                       Divider(),
                       StreamBuilder<int>(
                           stream: planingBloc.numberOfSeatsStream,
@@ -1185,12 +1240,13 @@ class StepChooseCarState extends State<StepChooseCar>
                             borderRadius: BorderRadius.circular(25),
                             onTap: () {
                               bloc.fetchGetAvailableCars(
-                                  langIds: planingBloc.langFiltersIds,
-                                  numberOfSeats: planingBloc.numberOfSeats > 1
-                                      ? planingBloc.numberOfSeats
-                                      : null,
-                              gender: planingBloc.gender,
+                                langIds: planingBloc.langFiltersIds,
+                                numberOfSeats: planingBloc.numberOfSeats > 1
+                                    ? planingBloc.numberOfSeats
+                                    : null,
+                                gender: planingBloc.gender,
                                 type: planingBloc.type,
+                                productionDate: planingBloc.productionDate,
                               );
                               Navigator.of(context).pop();
                             },

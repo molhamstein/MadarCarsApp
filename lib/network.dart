@@ -331,7 +331,7 @@ class Network {
     }
   }
 
-  Future<List<Car>> fetchAvailableCars(String token, Trip trip, List<String> langIds, int numberOfSeats, String gender, String type) async {
+  Future<List<Car>> fetchAvailableCars(String token, Trip trip, List<String> langIds, int numberOfSeats, String gender, String type, String productionDate) async {
     headers['Authorization'] = token;
 
     String dates = '';
@@ -359,6 +359,9 @@ class Network {
     }
     if(type != null && type == 'vip') {
       filter['isVip'] = true;
+    }
+    if(productionDate != null) {
+      filter['productionDate'] = productionDate;
     }
 
     var whereClause = '&filter=' + json.encode({
