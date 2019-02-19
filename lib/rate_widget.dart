@@ -8,7 +8,8 @@ class RateWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 8, right: 6),
+      width: 60,
+      padding: EdgeInsets.only(left: 8, right: 8),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(15),
@@ -17,10 +18,11 @@ class RateWidget extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
               rate,
-              style: TextStyle(fontWeight: FontWeight.w800, height: 0.8),
+              style: TextStyle(fontWeight: FontWeight.w700, height: 0.8),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 4, right: 4),

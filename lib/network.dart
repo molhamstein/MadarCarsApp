@@ -42,7 +42,7 @@ class Network {
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
-  final String _predifindTripsUrl = _baseUrl + 'predefinedTrips';
+  final String _predifindTripsUrl = _baseUrl + 'predefinedTrips?filter[where][status]=active';
   final String _myTripsUrl = _baseUrl + 'trips/getMyTrip';
   final String _invoiceUrl = _baseUrl + 'outerBills/getouterBill/';
   final String _meUrl = _baseUrl + 'users/me';

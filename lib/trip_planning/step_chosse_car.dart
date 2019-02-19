@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/car_card_widget.dart';
+import 'package:madar_booking/car_card_widget_small.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
@@ -437,7 +438,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 1.8,
                                         child: ListView.builder(
                                           itemBuilder: (context, index) {
-                                            return CarCard(
+                                            return CarCardSmall(
                                               car: carsSnapshot.data[index],
                                               onTap: (car) {
                                                 bloc.selectCar(car, index);
