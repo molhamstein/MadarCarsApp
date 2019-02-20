@@ -18,7 +18,11 @@ class TripPlaningBloc extends BaseBloc with Network {
   bool showFeedback;
   bool isPredefinedTrip;
   int numberOfSeats;
+  Gender gender;
+  String productionDate;
   List<String> langFiltersIds;
+
+  Type type;
 
   TripPlaningBloc(String token, String userId, {TripModel tripModel}) {
     isPredefinedTrip = false;
@@ -54,6 +58,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _noteButtonController = PublishSubject<bool>();
   final _carTypeController = BehaviorSubject<Type>();
   final _genderController = BehaviorSubject<Gender>();
+  final _productionDateController = BehaviorSubject<String>();
   final _numberOfSeatsController = ReplaySubject<int>();
   final _languagesController = ReplaySubject<List<Language>>();
   final _languagesIdsController = ReplaySubject<List<String>>();
@@ -89,6 +94,9 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get showModal => _modalController.sink.add(true);
   get hideModal => _modalController.sink.add(false);
+
+  get productionDateStream => _productionDateController.stream;
+
 
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
@@ -244,10 +252,12 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   selectGender(Gender gender) {
     _genderController.sink.add(gender);
+    this.gender = gender;
   }
 
   selectCarType(Type type) {
     _carTypeController.sink.add(type);
+    this.type = type;
   }
 
   plusSeat() {
@@ -299,7 +309,19 @@ class TripPlaningBloc extends BaseBloc with Network {
     _languagesController.close();
     _languagesIdsController.close();
     _modalController.close();
+    _productionDateController.close();
   }
+
+  selectProductionDate(String value) {
+    _productionDateController.sink.add(value);
+    productionDate = value;
+  }
+
+  void clearProductionDate() {
+    productionDate = null;
+    _productionDateController.sink.add(productionDate);
+  }
+
 }
 
 enum Gender { male, female, none }

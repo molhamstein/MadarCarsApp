@@ -103,5 +103,15 @@
   "images": "صور",
   "retry": "اعد المحاولة",
   "success_message": "تم تعديل المعلومات بنجاح",
-  "PHONENUMBER_OR_USERNAME_IS_USED": "الاسم او رقم الهاتف مستخدم مسبقا"
+  "PHONENUMBER_OR_USERNAME_IS_USED": "الاسم او رقم الهاتف مستخدم مسبقا",
+  "filters": "الفلاتر",
+  "filter_vip_title": "فخامة السيارة",
+  "vip_cars": "VIP",
+  "all_cars": "كل السيارات",
+  "filter_car_model_year_title": "سنة صنع السيارة",
+  "car_model_year": "سنة صنع السيارة",
+  "number_of_seats": "عدد المقاعد",
+  "driver_gender": "جنس السائق",
+  "driver_language": "لغة السائق",
+  "apply": "تطبيق"
 }

@@ -26,7 +26,7 @@ class Network {
   };
 
   //static final String _baseUrl = 'http://104.217.253.15:3006/api/';
-//  static final String _baseUrl = 'http://192.168.1.7:3000/api/';
+//  static final String _baseUrl = 'http://192.168.1.6:3000/api/';
   static final String _baseUrl = 'https://www.jawlatcom.com/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _logoutUrl = _baseUrl + 'users/logOut';
@@ -42,7 +42,7 @@ class Network {
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
-  final String _predifindTripsUrl = _baseUrl + 'predefinedTrips';
+  final String _predifindTripsUrl = _baseUrl + 'predefinedTrips?filter[where][status]=active';
   final String _myTripsUrl = _baseUrl + 'trips/getMyTrip';
   final String _invoiceUrl = _baseUrl + 'outerBills/getouterBill/';
   final String _meUrl = _baseUrl + 'users/me';
@@ -331,7 +331,7 @@ class Network {
     }
   }
 
-  Future<List<Car>> fetchAvailableCars(String token, Trip trip, List<String> langIds, int numberOfSeats, String gender, String type) async {
+  Future<List<Car>> fetchAvailableCars(String token, Trip trip, List<String> langIds, int numberOfSeats, String gender, String type, String productionDate) async {
     headers['Authorization'] = token;
 
     String dates = '';
@@ -345,9 +345,31 @@ class Network {
     String url = _avaiableCars +
         '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
-    if(langIds != null) {
+    if(langIds != null && langIds.isNotEmpty) {
       url += '&langFilter=${json.encode(langIds)}';
     }
+    if(gender != 'null' && gender != 'none') {
+      url += '&driverGender=$gender';
+    }
+
+    var filter = Map<String, dynamic>();
+
+    if(numberOfSeats != null) {
+      filter['numOfSeat'] = numberOfSeats;
+    }
+    if(type != null && type == 'vip') {
+      filter['isVip'] = true;
+    }
+    if(productionDate != null) {
+      filter['productionDate'] = productionDate;
+    }
+
+    var whereClause = '&filter=' + json.encode({
+      'where':filter
+    });
+
+    url += whereClause;
+
 
 
     print(url);

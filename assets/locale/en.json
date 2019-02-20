@@ -104,5 +104,15 @@
   "images": "images",
   "retry": "Retry",
   "success_message": "information updated succsesfully !",
-  "PHONENUMBER_OR_USERNAME_IS_USED": "Username or Phone number already used"
+  "PHONENUMBER_OR_USERNAME_IS_USED": "Username or Phone number already used",
+  "filters": "Filters",
+  "filter_vip_title": "Show VIP cars only",
+  "vip_cars": "VIP cars",
+  "all_cars": "All cars",
+  "filter_car_model_year_title": "Car model year",
+  "car_model_year": "Car model year",
+  "number_of_seats": "Number of seats",
+  "driver_gender": "Driver gender",
+  "driver_language": "Driver language",
+  "apply": "Apply"
 }
