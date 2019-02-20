@@ -90,7 +90,6 @@ class TripPlaningBloc extends BaseBloc with Network {
   get showModal => _modalController.sink.add(true);
   get hideModal => _modalController.sink.add(false);
 
-
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
   pushLoading(bool load) => _loadingController.sink.add(load);
@@ -269,22 +268,17 @@ class TripPlaningBloc extends BaseBloc with Network {
   selectLanguage(String langId) {
     langFiltersIds.add(langId);
     _languagesIdsController.sink.add(langFiltersIds);
-
   }
 
-  removeLanguage(String langId){
+  removeLanguage(String langId) {
     langFiltersIds.removeWhere((id) => id == langId);
     _languagesIdsController.sink.add(langFiltersIds);
   }
 
   getLanguages() {
-
     fetchLanguages(token).then((languages) {
-
       _languagesController.sink.add(languages);
-
     });
-
   }
 
   get languagesIdsStream => _languagesIdsController.stream;

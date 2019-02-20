@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'dart:io' show Platform;
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,6 +14,7 @@ import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:path/path.dart' as path;
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
@@ -70,18 +71,23 @@ class EditProfileWidgetState extends State<EditProfileWidget>
 
   final commpressImage =
       StreamTransformer<File, String>.fromHandlers(handleData: (file, sink) {
-    compressAndGetFile(file).then((compresed) {
-      sink.add(compresed.path);
-    });
+    if (Platform.isIOS) {
+      compressAndGetFile(file).then((compresed) {
+        sink.add(compresed.path);
+      });
+    } else {
+      sink.add(file.path);
+    }
+
+    //
   });
 
   static Future<File> compressAndGetFile(File file) async {
+    print(path.normalize(file.path));
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       file.path,
-      quality: 80,
-      minWidth: 100,
-      minHeight: 100,
+      quality: 25,
       rotate: 0,
     );
     return result;
@@ -171,6 +177,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                           child: Container(child: Text('Camera')),
                           onPressed: () {
                             getImageFromCamera();
+                            print("ccc");
                             Navigator.pop(context, 'Camera');
                           },
                         ),
@@ -186,8 +193,8 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                         child: const Text('Cancel'),
                         isDefaultAction: false,
                         onPressed: () {
-                          // Navigator.pop(context, 'Cancel');
                           Navigator.pop(context, 'Cancel');
+                          //  Navigator.pop(context, 'Cancel');
                         },
                       )),
                 );
@@ -201,7 +208,8 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   border: Border.all(width: 5, color: Colors.white),
                   borderRadius: BorderRadius.circular(60),
                   image: DecorationImage(
-                    image: AssetImage(snapshoot.data),
+                    image: FileImage(File(snapshoot.data)),
+                    //AssetImage(snapshoot.data),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -221,13 +229,16 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                         CupertinoActionSheetAction(
                           child: Container(child: Text('Camera')),
                           onPressed: () {
+                            print("ccc");
                             getImageFromCamera();
+                            Navigator.pop(context, 'Camera');
                           },
                         ),
                         CupertinoActionSheetAction(
                           child: Container(child: Text('Gallery')),
                           onPressed: () {
                             getImageFromGallery();
+                            Navigator.pop(context, 'Gallery');
                           },
                         )
                       ],
@@ -235,7 +246,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                         child: const Text('Cancel'),
                         isDefaultAction: false,
                         onPressed: () {
-                          // Navigator.pop(context, 'Cancel');
+                          Navigator.pop(context, 'Cancel');
                         },
                       )),
                 );
@@ -284,46 +295,6 @@ class EditProfileWidgetState extends State<EditProfileWidget>
           hintStyle: TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
         ),
       ),
-    );
-  }
-
-  Widget passwordTextField() {
-    return StreamBuilder<bool>(
-      stream: bloc.obscureSignUpPasswordStream,
-      builder: (context, snapshot) {
-        return Padding(
-          padding:
-              EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-          child: TextField(
-            focusNode: myFocusNodePassword,
-            controller: signupPasswordController,
-            obscureText: snapshot.data ?? true,
-            onChanged: bloc.changeSignUpPassword,
-            style: TextStyle(
-                fontFamily: "WorkSansSemiBold",
-                fontSize: 16.0,
-                color: Colors.black),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              icon: Icon(
-                FontAwesomeIcons.lock,
-                color: Colors.black,
-              ),
-              hintText: "Password",
-              hintStyle:
-                  TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
-              suffixIcon: GestureDetector(
-                onTap: () => bloc.pushObscureSignUpPassword,
-                child: Icon(
-                  FontAwesomeIcons.eye,
-                  size: 15.0,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -395,7 +366,9 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     showInSnackBar('success_message', context);
                   });
-                  Navigator.pop(context);
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    Navigator.pop(context);
+                  });
                 }
                 return Container(
                   constraints: BoxConstraints.expand(),

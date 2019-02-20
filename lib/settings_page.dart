@@ -3,6 +3,7 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MySettingsPage extends StatefulWidget {
   MySettingsPage({Key key, this.title}) : super(key: key);
@@ -13,6 +14,18 @@ class MySettingsPage extends StatefulWidget {
 }
 
 class _MySettingsPageState extends State<MySettingsPage> {
+  String _contactusURL = "mailto:nour@yahoo.com?subject=helloo there&body=";
+  String _privacyURL = "https://jawlatcom.com/privacy";
+  // const _contactusURL = "";
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,92 +57,92 @@ class _MySettingsPageState extends State<MySettingsPage> {
                             ),
                           ),
                         ),
-                        // Padding(
-                        //   padding:
-                        //       const EdgeInsets.only(left: 32.0, right: 32.0),
-                        //   child: Container(
-                        //     height: 180,
-                        //     child: Column(
-                        //       children: <Widget>[
-                        //         Container(
-                        //           decoration: BoxDecoration(
-                        //               border: Border(
-                        //                   bottom: BorderSide(
-                        //                       color: Theme.of(context)
-                        //                           .dividerColor))),
-                        //           height: 60,
-                        //           child: InkWell(
-                        //             onTap: () {
-                        //               print("pressed");
-                        //             },
-                        //             child: Row(
-                        //               children: <Widget>[
-                        //                 Text(
-                        //                   "Contact us",
-                        //                   style: TextStyle(fontSize: 17),
-                        //                 ),
-                        //                 Expanded(
-                        //                   child: Container(),
-                        //                 ),
-                        //                 Icon(Icons.chevron_right)
-                        //               ],
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         Container(
-                        //           decoration: BoxDecoration(
-                        //               border: Border(
-                        //                   bottom: BorderSide(
-                        //                       color: Theme.of(context)
-                        //                           .dividerColor))),
-                        //           height: 60,
-                        //           child: InkWell(
-                        //             onTap: () {
-                        //               print("pressed");
-                        //             },
-                        //             child: Row(
-                        //               children: <Widget>[
-                        //                 Text(
-                        //                   "Privacy Policy",
-                        //                   style: TextStyle(fontSize: 17),
-                        //                 ),
-                        //                 Expanded(
-                        //                   child: Container(),
-                        //                 ),
-                        //                 Icon(Icons.chevron_right)
-                        //               ],
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         Container(
-                        //           decoration: BoxDecoration(
-                        //               border: Border(
-                        //                   bottom: BorderSide(
-                        //                       color: Theme.of(context)
-                        //                           .dividerColor))),
-                        //           height: 60,
-                        //           child: InkWell(
-                        //             onTap: () {
-                        //               print("pressed");
-                        //             },
-                        //             child: Row(
-                        //               children: <Widget>[
-                        //                 Text(
-                        //                   "Push Notifications",
-                        //                   style: TextStyle(fontSize: 17),
-                        //                 ),
-                        //                 Expanded(
-                        //                   child: Container(),
-                        //                 ),
-                        //                 Icon(Icons.chevron_right)
-                        //               ],
-                        //             ),
-                        //           ),
-                        //         )
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(left: 32.0, right: 32.0),
+                          child: Container(
+                            height: 180,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Theme.of(context)
+                                                  .dividerColor))),
+                                  height: 60,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _launchURL(_contactusURL);
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Contact us",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        Icon(Icons.chevron_right)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Theme.of(context)
+                                                  .dividerColor))),
+                                  height: 60,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _launchURL(_privacyURL);
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Privacy Policy",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        Icon(Icons.chevron_right)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          bottom: BorderSide(
+                                              color: Theme.of(context)
+                                                  .dividerColor))),
+                                  height: 60,
+                                  child: InkWell(
+                                    onTap: () {
+                                      print("pressed");
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Push Notifications",
+                                          style: TextStyle(fontSize: 17),
+                                        ),
+                                        Expanded(
+                                          child: Container(),
+                                        ),
+                                        Icon(Icons.chevron_right)
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                         Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

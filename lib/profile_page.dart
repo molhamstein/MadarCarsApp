@@ -4,26 +4,13 @@ import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/edit_profile_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
+import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/profile_bloc.dart';
 import 'package:madar_booking/profile_header.dart';
 import 'package:madar_booking/settings_page.dart';
 import 'my_flutter_app_icons.dart';
 import 'widgets/my_trip_card.dart';
 import 'models/MyTrip.dart';
-
-// class ProfilePage extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: MyProfilePage(title: 'Flutter Demo Home Page'),
-//     );
-//   }
-// }
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, this.title}) : super(key: key);
@@ -45,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     appBloc = BlocProvider.of<AppBloc>(context);
     profileBloc = ProfileBloc(token);
     profileBloc.myTrips();
+    profileBloc.getMe();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _refreshIndicatorKey.currentState.show());
     super.initState();
@@ -158,32 +146,50 @@ class _ProfilePageState extends State<ProfilePage> {
                             height: 50,
                           ),
                         ),
-                        Container(
-                          // color: Colors.blue,
-                          height: 122.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 25.0),
-                                child: profileImage(),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  bloc.userName,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                        StreamBuilder<User>(
+                            stream: profileBloc.userStream,
+                            initialData: appBloc.me,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data.name != null) {
+                                  appBloc.saveUser(snapshot.data);
+                                  return Container(
+                                    // color: Colors.blue,
+                                    height: 122.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.only(
+                                                  start: 25.0),
+                                          child: profileImage(),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            bloc.userName,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                              } else {
+                                return Container(
+                                    height: 122.0,
+                                    child: Center(
+                                        child: CircularProgressIndicator()));
+                              }
+                            }),
                       ],
                     ),
                   ),

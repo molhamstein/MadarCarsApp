@@ -4,6 +4,7 @@ import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileBloc extends BaseBloc with Network {
   final token;
@@ -46,11 +47,19 @@ class ProfileBloc extends BaseBloc with Network {
   getMe() {
     getUserProfile(token).then((response) {
       print(response);
+      // saveUser(response);
       _userController.sink.add(response);
     }).catchError((e) {
       print(e);
       _userController.sink.addError(e);
     });
+  }
+
+  saveUser(User user) async {
+    final SharedPreferences _prefs = await SharedPreferences.getInstance();
+    if (user.media != null) _prefs.setString('user_image', user.media.url);
+    print("save user");
+    _prefs.setString("user", userToJson(user));
   }
 
   @override

@@ -36,13 +36,17 @@ class AppBloc extends BaseBloc with Network {
   List<Car> get ourCars => _dataStore.getOurCars();
 
   Function(String) get saveToken => _dataStore.setUserToken;
-  String get phone => _dataStore.getUser().phoneNumber;
-  String get userName =>
-      _dataStore.getUser().name; //TODO remove; only for testing
+  String get phone => _dataStore.getUser().phoneNumber != null
+      ? _dataStore.getUser().phoneNumber
+      : "";
+  String get userName => _dataStore.getUser().name != null
+      ? _dataStore.getUser().name
+      : ""; //TODO remove; only for testing
   String get token => _dataStore.userToken;
   String get userId => _dataStore.getUser().id;
   String get userImage => _dataStore.userImage;
-  String get userISOCode => _dataStore.userISOCode;
+  String get userISOCode =>
+      _dataStore.userISOCode != null ? _dataStore.userISOCode : "";
   User get me => _dataStore.getUser();
   get logout {
     putLogout();

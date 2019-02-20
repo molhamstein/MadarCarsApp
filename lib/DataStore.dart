@@ -23,11 +23,12 @@ class DataStore {
     // };
     // return User.fromJson(json);
     var userStr = _prefs.getString("user");
-    return userFromJson(userStr);
+    var u = userStr != null ? userFromJson(userStr) : User();
+    return u;
   }
 
   setUser(User user) {
-    print('hahahahahahha' + user.name);
+    print('hahahahahahha');
     // _prefs.setString('user_id', user.id);
     // _prefs.setString('user_username', user.name);
     // _prefs.setString('user_phone_number', user.phoneNumber);
