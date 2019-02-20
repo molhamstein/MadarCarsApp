@@ -78,15 +78,12 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     } else {
       sink.add(file.path);
     }
-
-    //
   });
 
   static Future<File> compressAndGetFile(File file) async {
-    print(path.normalize(file.path));
     var result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
-      file.path,
+      path.canonicalize(file.path),
       quality: 25,
       rotate: 0,
     );
