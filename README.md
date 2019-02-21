@@ -11,7 +11,7 @@ A cross platform mobile application using Dart with The Flutter framework.
 * Comfortable with Reactive programming.
 * Comfortable with the **BLOC** pattern.
 
-## Getting Started
+## Getting Started 😍
 
 **Jawlatcom** is a trip booking app around Turkey.
 
@@ -19,7 +19,7 @@ This project uses:
 - [x] Flutter 1.2
 - [x] Dart 2
 
-### Running the project
+### Running the project 
 
 >`git clone https://github.com/molhamstein/MadarCarsApp.git`
 
@@ -28,12 +28,19 @@ to update your dependencies.
 
 Then simply run it on a device or a simulator with `flutter run`.
 
-### Structure
+## Structure 💩
 
 The project uses the **BLOC** pattern.
 
+#### Backend
+* All API calls are in the *Network.dart* class.
+* Store and retrieve User, access token and other data from *DataStore.dart* class. 
+* Every Widget **COULD** have a bloc, and every action **SHOULD** have a controller. *-Ayham Orfali* 😜
 
-## Known Issues
+#### Frontend 
+* Use `setState()` only in small widgets or actions.
+
+## Known Issues ☔
 
 #### flutter.h not found on IOS builds
 
@@ -48,7 +55,6 @@ The project uses the **BLOC** pattern.
 	Go to 
 	
 	> Flutter.framework -> Headers
-	
 	
 	If the files are shortcuts:
 	1. Go back and unzip Flutter.framework.zip
