@@ -22,6 +22,8 @@ class ChooseCarBloc extends BaseBloc with Network {
   Stream<Car> get selectedCarStream => _selectedCarController.stream;
 
   selectCar(Car car, int index) {
+    trip.car = car;
+    print(trip.car.id);
     _selectedCarController.sink.add(car);
     _selectedCarIndexController.sink.add(index);
   }
