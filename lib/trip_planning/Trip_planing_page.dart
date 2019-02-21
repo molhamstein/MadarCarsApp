@@ -128,21 +128,6 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                                   fontSize: 22,
                                                   fontWeight: FontWeight.w700),
                                             ),
-                                            actions: <Widget>[
-                                             bloc.index == 4 || bloc.index == 3 ? IconButton(
-                                                icon: Icon(
-                                                    FontAwesomeIcons.filter),
-                                                onPressed: () {
-//                                                  showModal(scaffoldContext);
-                                                  bloc.showModal;
-                                                  Future.delayed(Duration(
-                                                          milliseconds: 300))
-                                                      .then((_) {
-                                                    bloc.hideModal;
-                                                  });
-                                                },
-                                              ) : Container(),
-                                            ],
                                           ),
                                           body: steps[snapshot.data]);
                                     }),
