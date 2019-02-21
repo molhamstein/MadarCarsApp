@@ -1,16 +1,29 @@
-# madar_booking
+# Jawlatcom
 
-A new Flutter application.
+A cross platform mobile application using Dart with The Flutter framework.
+
+## Prerequisites
+
+* Basic knowledge of *Dart* and *Dart 2*
+* Familiar with *Flutter*
+* Basic understanding of mobile app development 
+* Familiar with Android *Material design* and IOS *Cupertino*
+* Comfortable with Reactive programming.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+**Jawlatcom** is a trip booking app around Turkey.
 
-A few resources to get you started if this is your first Flutter project:
+This project uses:
+- [x] Flutter 1.2
+- [x] Dart 2
 
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
+### Running the project
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+>`git clone https://github.com/molhamstein/MadarCarsApp.git`
+
+After cloning the project use `flutter packages get`
+to update your dependencies.
+
+Then simply run it on a device or a simulator with `flutter run`.
+
