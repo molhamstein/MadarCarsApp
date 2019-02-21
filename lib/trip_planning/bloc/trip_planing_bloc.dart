@@ -278,22 +278,17 @@ class TripPlaningBloc extends BaseBloc with Network {
   selectLanguage(String langId) {
     langFiltersIds.add(langId);
     _languagesIdsController.sink.add(langFiltersIds);
-
   }
 
-  removeLanguage(String langId){
+  removeLanguage(String langId) {
     langFiltersIds.removeWhere((id) => id == langId);
     _languagesIdsController.sink.add(langFiltersIds);
   }
 
   getLanguages() {
-
     fetchLanguages(token).then((languages) {
-
       _languagesController.sink.add(languages);
-
     });
-
   }
 
   get languagesIdsStream => _languagesIdsController.stream;

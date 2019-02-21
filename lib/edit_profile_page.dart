@@ -82,30 +82,36 @@ class _EditProfilePageState extends State<EditProfilePage>
       initialData: appBloc.me,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          appBloc.saveUser(snapshot.data);
-          return Stack(
-            children: <Widget>[
-              IgnorePointer(
-                ignoring: ignore,
-                child: NotificationListener<OverscrollIndicatorNotification>(
-                  onNotification: (overscroll) {
-                    overscroll.disallowGlow();
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(flex: 2, child: EditProfileWidget()),
-                      ],
+          if (snapshot.data.name != null) {
+            appBloc.saveUser(snapshot.data);
+            return Stack(
+              children: <Widget>[
+                IgnorePointer(
+                  ignoring: ignore,
+                  child: NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification: (overscroll) {
+                      overscroll.disallowGlow();
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(flex: 2, child: EditProfileWidget()),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          );
+              ],
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
         } else if (snapshot.hasError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             showInSnackBar(snapshot.error.toString(), context);
