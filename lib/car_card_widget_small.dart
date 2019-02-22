@@ -18,7 +18,6 @@ class CarCardSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width / 1.3;
     final height = MediaQuery.of(context).size.height / 5;
-    print("isVIP = " + car.isVip.toString());
     return InkWell(
       onTap: () {
         onTap(car);

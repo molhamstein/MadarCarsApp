@@ -95,8 +95,21 @@ class StepChooseCarState extends State<StepChooseCar>
                 stream: bloc.carsStream,
                 builder: (context, carsSnapshot) {
                   if (carsSnapshot.hasData && carsSnapshot.data.isNotEmpty) {
-                    planingBloc.tripCar(carsSnapshot.data[0]);
-                    bloc.selectCar(carsSnapshot.data[0], 0);
+                    if (bloc.trip.car != null) {
+                      planingBloc.tripCar(bloc.trip.car);
+                      print('not null');
+                      print(carsSnapshot.data
+                          .indexWhere((car) => car.id == bloc.trip.car.id));
+                      print(bloc.trip.car.id);
+                      bloc.selectCar(
+                          bloc.trip.car,
+                          carsSnapshot.data
+                              .indexWhere((car) => car.id == bloc.trip.car.id));
+                    } else {
+                      bloc.selectCar(carsSnapshot.data[0], 0);
+                      planingBloc.tripCar(carsSnapshot.data[0]);
+                      print('null');
+                    }
                   }
                   return AnimatedBuilder(
                     animation: _offsetFloat,
@@ -324,8 +337,8 @@ class StepChooseCarState extends State<StepChooseCar>
                                                         .size
                                                         .height /
                                                     11,
-                                                margin:
-                                                    EdgeInsets.only(bottom: 24),
+                                                margin: EdgeInsets.only(
+                                                    bottom: 160),
                                                 child: carSnapshot.data != null
                                                     ? ListView.builder(
                                                         key: UniqueKey(),
@@ -414,6 +427,51 @@ class StepChooseCarState extends State<StepChooseCar>
                                               ),
                                             )
                                           : Container(),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Container(
+                                          height: 30,
+                                          width: 100,
+                                          margin: EdgeInsets.only(
+                                              right: 32, left: 32),
+                                          decoration: BoxDecoration(
+                                            color: Colors.black87,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(40)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 15,
+                                              ),
+                                            ],
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: () => showModal(context),
+                                            child: Center(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Icon(
+                                                    Icons.filter_list,
+                                                    color: Colors.white,
+                                                    size: 18,
+                                                  ),
+                                                  Text(
+                                                    'Filters',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   );
                                 }),
@@ -441,6 +499,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                             return CarCardSmall(
                                               car: carsSnapshot.data[index],
                                               onTap: (car) {
+                                                print('onTap');
                                                 bloc.selectCar(car, index);
                                                 planingBloc.tripCar(
                                                     carsSnapshot.data[index]);
@@ -626,7 +685,7 @@ class StepChooseCarState extends State<StepChooseCar>
 
   _listShimmer() {
     return Container(
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.2),
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.1),
       height: MediaQuery.of(context).size.width / 2,
       child: ListView.builder(
         itemBuilder: (context, index) {
@@ -1269,8 +1328,8 @@ class StepChooseCarState extends State<StepChooseCar>
                               ),
                               child: Center(
                                   child: Text(
-                                    MadarLocalizations.of(context).trans('apply'),
-                                    style: TextStyle(
+                                MadarLocalizations.of(context).trans('apply'),
+                                style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 22,
                                     height: 0.8),
