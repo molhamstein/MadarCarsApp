@@ -25,6 +25,7 @@ class HomeBloc extends BaseBloc with Network {
       _availableCarController.sink.add(response);
     }).catchError((e) {
       print(e);
+      print('cars error');
       _availableCarController.sink.addError(e);
     });
   }
@@ -47,11 +48,9 @@ class HomeBloc extends BaseBloc with Network {
     postFirebaseTokens(token, firebaseToken, deviceId);
   }
 
-
-
   @override
   void dispose() {
-    _availableCarController.close();
-    _predefinedTripsController.close();
+    //_availableCarController.close();
+    //  _predefinedTripsController.close();
   }
 }
