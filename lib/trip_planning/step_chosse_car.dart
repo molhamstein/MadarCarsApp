@@ -32,6 +32,16 @@ class StepChooseCarState extends State<StepChooseCar>
   Animation<Offset> _offsetFloat;
 
   final productionDates = [
+    '2000',
+    '2001',
+    '2002',
+    '2003',
+    '2004',
+    '2005',
+    '2006',
+    '2007',
+    '2008',
+    '2009',
     '2010',
     '2011',
     '2012',
@@ -81,7 +91,6 @@ class StepChooseCarState extends State<StepChooseCar>
         fontSize: isScreenLongEnough ? 16 : 12,
         fontWeight: FontWeight.w700,
         height: 0.8);
-
     final double iconSize = 18;
 
     return Material(
@@ -94,13 +103,12 @@ class StepChooseCarState extends State<StepChooseCar>
             child: StreamBuilder<List<Car>>(
                 stream: bloc.carsStream,
                 builder: (context, carsSnapshot) {
+                  if (carsSnapshot.hasData && carsSnapshot.data.isEmpty) {
+                    bloc.trip.car = null;
+                  }
                   if (carsSnapshot.hasData && carsSnapshot.data.isNotEmpty) {
                     if (bloc.trip.car != null) {
                       planingBloc.tripCar(bloc.trip.car);
-                      print('not null');
-                      print(carsSnapshot.data
-                          .indexWhere((car) => car.id == bloc.trip.car.id));
-                      print(bloc.trip.car.id);
                       bloc.selectCar(
                           bloc.trip.car,
                           carsSnapshot.data
@@ -108,7 +116,6 @@ class StepChooseCarState extends State<StepChooseCar>
                     } else {
                       bloc.selectCar(carsSnapshot.data[0], 0);
                       planingBloc.tripCar(carsSnapshot.data[0]);
-                      print('null');
                     }
                   }
                   return AnimatedBuilder(
@@ -330,7 +337,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 : _topShimmer(),
                                       ),
                                       isScreenLongEnough
-                                          ? Align(
+                                          ? carsSnapshot.hasData && carsSnapshot.data.isNotEmpty ? Align(
                                               alignment: Alignment.center,
                                               child: Container(
                                                 height: MediaQuery.of(context)
@@ -338,7 +345,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                         .height /
                                                     11,
                                                 margin: EdgeInsets.only(
-                                                    bottom: 160),
+                                                    bottom: 60),
                                                 child: carSnapshot.data != null
                                                     ? ListView.builder(
                                                         key: UniqueKey(),
@@ -426,14 +433,14 @@ class StepChooseCarState extends State<StepChooseCar>
                                                     : Container(),
                                               ),
                                             )
-                                          : Container(),
-                                      Align(
+                                          : Container() : Container(),
+                                  Align(
                                         alignment: Alignment.centerRight,
                                         child: Container(
                                           height: 30,
                                           width: 100,
                                           margin: EdgeInsets.only(
-                                              right: 32, left: 32),
+                                              right: 32, left: 32, top: 40),
                                           decoration: BoxDecoration(
                                             color: Colors.black87,
                                             borderRadius: BorderRadius.all(
@@ -461,17 +468,17 @@ class StepChooseCarState extends State<StepChooseCar>
                                                     size: 18,
                                                   ),
                                                   Text(
-                                                    'Filters',
+                                                    MadarLocalizations.of(context).trans('filters'),
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                             ),
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   );
                                 }),
@@ -486,7 +493,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 ? MediaQuery.of(context)
                                                         .size
                                                         .height /
-                                                    2.1
+                                                    1.8
                                                 : MediaQuery.of(context)
                                                         .size
                                                         .height /
@@ -685,7 +692,7 @@ class StepChooseCarState extends State<StepChooseCar>
 
   _listShimmer() {
     return Container(
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.1),
+      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 1.8),
       height: MediaQuery.of(context).size.width / 2,
       child: ListView.builder(
         itemBuilder: (context, index) {
@@ -1309,6 +1316,7 @@ class StepChooseCarState extends State<StepChooseCar>
                           child: InkWell(
                             borderRadius: BorderRadius.circular(25),
                             onTap: () {
+                              bloc.trip.car = null;
                               bloc.fetchGetAvailableCars(
                                 langIds: planingBloc.langFiltersIds,
                                 numberOfSeats: planingBloc.numberOfSeats > 1
