@@ -37,7 +37,7 @@ class TripPlaningBloc extends BaseBloc with Network {
       trip.inCity = true;
       trip.location = tripModel.location;
       trip.location.subLocationsIds = tripModel.predefinedTripsSublocations
-          .map((s) => s.sublocationId)
+          .map((s) => s.subLocationId)
           .toList();
       trip.endDate = trip.endDate.add(Duration(days: tripModel.duration));
     }

@@ -328,18 +328,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     //         height: 190,
                     //         child: Center(child: CircularProgressIndicator()));
                     //   default:
-                    print("gettt trippps");
                     if (snapshot.hasData) {
-                      print("trips data");
                       this.trips = snapshot.data;
                       appBloc.saveRecomendedTrips(this.trips);
                       return _tripCardContainerList();
                     } else if (snapshot.hasError) {
                       if (appBloc.recomendedTrips != null) {
-                        print("trips cache data");
                         return _tripCardContainerList();
                       } else {
-                        print("trips errro");
                         return Container(
                             constraints: BoxConstraints.expand(
                                 height:
@@ -357,7 +353,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                             ));
                       }
                     } else {
-                      print("trips loading");
                       return Container(
                           constraints: BoxConstraints.expand(
                               height: MediaQuery.of(context).size.height / 3.8),
