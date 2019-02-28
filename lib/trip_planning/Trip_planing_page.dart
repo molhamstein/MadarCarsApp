@@ -44,6 +44,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
 
   @override
   void initState() {
+    print('in VIEW = ' + widget.tripModel.toString());
     _noteController = TextEditingController();
     bloc = TripPlaningBloc(
       BlocProvider.of<AppBloc>(context).token,

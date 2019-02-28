@@ -266,6 +266,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                print('on TAPS = ' + trips[index].toString());
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => TripPlanningPage(
