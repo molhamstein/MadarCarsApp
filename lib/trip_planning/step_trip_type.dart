@@ -116,7 +116,7 @@ class TripTypeStepState extends State<TripTypeStep>
                         child: LoadingButtonSmall(
                           height: 30,
                           width: 170,
-                          text: MadarLocalizations.of(context).trans('need_help'),
+                          text: MadarLocalizations.of(context).trans('call_us'),
                           loading: true,
                           onPressed: (){
                             bloc.submitHelp();
