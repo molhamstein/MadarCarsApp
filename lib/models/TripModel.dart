@@ -139,4 +139,11 @@ class TripModel {
     }
     return descriptionAr;
   }
+
+  @override
+  String toString() {
+    return 'TripModel{titleAr: $titleAr, locationId: $locationId, predefinedTripsMedias: $predefinedTripsMedias, location: $location, predefinedTripsSublocations: $predefinedTripsSublocations}';
+  }
+
+
 }

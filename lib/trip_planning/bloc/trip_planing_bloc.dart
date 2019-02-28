@@ -25,6 +25,9 @@ class TripPlaningBloc extends BaseBloc with Network {
   Type type;
 
   TripPlaningBloc(String token, String userId, {TripModel tripModel}) {
+    print('in BLOC = ' + tripModel.toString());
+    tripModel.predefinedTripsSublocations
+        .map((s) => print('sub = ' + s.toString()));
     isPredefinedTrip = false;
     if (tripModel == null)
       trip = Trip.init();

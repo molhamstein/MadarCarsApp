@@ -38,4 +38,11 @@ class TripSublocation {
         "sublocationId": sublocationId == null ? null : sublocationId,
         "subLocation": subLocation == null ? null : subLocation.toJson(),
       };
+
+  @override
+  String toString() {
+    return 'TripSublocation{duration: $duration, cost: $cost, id: $id, tripId: $tripId, sublocationId: $sublocationId, subLocation: $subLocation}';
+  }
+
+
 }
