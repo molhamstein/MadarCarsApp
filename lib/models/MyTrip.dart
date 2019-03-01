@@ -12,16 +12,16 @@ import 'location.dart';
 import 'Driver.dart';
 import 'package:date_format/date_format.dart';
 
-List<MyTrip> myTripFromJson(String str) {
-  final jsonData = json.decode(str);
-  return new List<MyTrip>.from(jsonData.map((x) => MyTrip.fromJson(x)));
-}
 
 String myTripToJson(List<MyTrip> data) {
   final dyn = new List<dynamic>.from(data.map((x) => x.toJson()));
   return json.encode(dyn);
 }
 
+List<MyTrip> myTripFromJson(String str) {
+  final jsonData = json.decode(str);
+  return new List<MyTrip>.from(jsonData.map((x) => MyTrip.fromJson(x)));
+}
 class MyTrip {
   String status;
   String type;
@@ -117,7 +117,12 @@ class MyTrip {
                 .map((x) => TripSublocation.fromJson(x))),
         driver: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
       );
-
+  bool isActive() {
+    // var date = DateTime.now();
+    // var startDate = DateTime.parse(trip.fromAirportDate);
+    // var endDate = DateTime.parse(trip.endInCityDate);
+    return status != "finished";
+  }
   Map<String, dynamic> toJson() => {
         "status": status == null ? null : status,
         "type": type == null ? null : type,
@@ -149,12 +154,35 @@ class MyTrip {
         "driver": driver == null ? null : driver.toJson(),
       };
 
-  bool isActive() {
-    // var date = DateTime.now();
-    // var startDate = DateTime.parse(trip.fromAirportDate);
-    // var endDate = DateTime.parse(trip.endInCityDate);
-    return status != "finished";
+  int totlaDuration() {
+    int res = 0;
+    tripSublocations.forEach((f) {
+      res += f.duration == 0 ? 1 : f.duration;
+    });
+    res += daysInCity;
+    return res;
   }
+
+
+  String endDate() {
+    if (toAirport) {
+      return toAirportDate;
+    }
+    return endInCityDate;
+  }
+  String startDateFromated() {
+    return formatDate(DateTime.parse(startDate()), [d, '/', m, '/', yyyy]);
+  }
+
+  bool isShowEndDate() {
+    if (fromAirport == false && inCity == false) {
+      return false;
+    }
+    return true;
+  }
+
+
+
 
   String startDate() {
     if (fromAirport) {
@@ -165,35 +193,8 @@ class MyTrip {
     }
     return toAirportDate;
   }
-
-  String startDateFromated() {
-    return formatDate(DateTime.parse(startDate()), [d, '/', m, '/', yyyy]);
-  }
-
-  String endDate() {
-    if (toAirport) {
-      return toAirportDate;
-    }
-    return endInCityDate;
-  }
-
   String endDateFormated() {
     return formatDate(DateTime.parse(endDate()), [d, '/', m, '/', yyyy]);
   }
 
-  bool isShowEndDate() {
-    if (fromAirport == false && inCity == false) {
-      return false;
-    }
-    return true;
-  }
-
-  int totlaDuration() {
-    int res = 0;
-    tripSublocations.forEach((f) {
-      res += f.duration;
-    });
-    res += daysInCity;
-    return res;
-  }
 }

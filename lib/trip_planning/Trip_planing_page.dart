@@ -51,12 +51,14 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       BlocProvider.of<AppBloc>(context).userId,
       tripModel: widget.tripModel,
     );
+    print('token is = ' + BlocProvider.of<AppBloc>(context).token);
     bloc.getLanguages();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(
