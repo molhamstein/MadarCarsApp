@@ -14,7 +14,7 @@ class MySettingsPage extends StatefulWidget {
 }
 
 class _MySettingsPageState extends State<MySettingsPage> {
-  String _contactusURL = "mailto:nour@yahoo.com?subject=helloo there&body=";
+  String _contactusURL = "mailto:info@jawlatcom.com?subject=helloo there&body=";
   String _privacyURL = "https://jawlatcom.com/privacy";
   // const _contactusURL = "";
 
