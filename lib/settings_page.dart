@@ -120,24 +120,24 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           bottom: BorderSide(
                                               color: Theme.of(context)
                                                   .dividerColor))),
-                                  height: 60,
-                                  child: InkWell(
-                                    onTap: () {
-                                      print("pressed");
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "Push Notifications",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Icon(Icons.chevron_right)
-                                      ],
-                                    ),
-                                  ),
+//                                  height: 60,
+//                                  child: InkWell(
+//                                    onTap: () {
+//                                      print("pressed");
+//                                    },
+//                                    child: Row(
+//                                      children: <Widget>[
+//                                        Text(
+//                                          "Push Notifications",
+//                                          style: TextStyle(fontSize: 17),
+//                                        ),
+//                                        Expanded(
+//                                          child: Container(),
+//                                        ),
+//                                        Icon(Icons.chevron_right)
+//                                      ],
+//                                    ),
+//                                  ),
                                 )
                               ],
                             ),
