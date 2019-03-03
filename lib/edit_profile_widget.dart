@@ -323,8 +323,8 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                     if ((!snapshot.hasData || !snapshot.data) &&
                         bloc.shouldShowFeedBack) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        showInSnackBar(
-                            'Please provide valid information', context);
+//                        showInSnackBar(
+//                            'Please provide valid information', context);
                       });
 
                       bloc.shouldShowFeedBack = false;
@@ -336,8 +336,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   },
                   width: 150,
                   height: 50,
-                  loading: (snapshot.data == null ? false : snapshot.data) &&
-                      loadingSnapshot.data,
+                  loading: loadingSnapshot.data,
                 );
               });
         },
