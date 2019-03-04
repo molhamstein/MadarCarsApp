@@ -26,11 +26,13 @@ class _ProfilePageState extends State<ProfilePage> {
   static AppBloc appBloc;
   static final token = appBloc.token;
   List<MyTrip> trips = [];
+  String imageUrl;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
   @override
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
+    imageUrl = appBloc.userImage;
     profileBloc = ProfileBloc(token);
     profileBloc.myTrips();
     profileBloc.getMe();
@@ -97,8 +99,8 @@ class _ProfilePageState extends State<ProfilePage> {
         border: Border.all(width: 5, color: Colors.white),
         borderRadius: BorderRadius.circular(50),
         image: DecorationImage(
-          image: appBloc.userImage != null
-              ? NetworkImage(appBloc.userImage)
+          image: imageUrl != null
+              ? NetworkImage(imageUrl)
               : AssetImage('assets/images/profileImg.jpeg'),
           fit: BoxFit.cover,
         ),
@@ -224,9 +226,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 backgroundColor: Colors.transparent,
                 actions: <Widget>[
                   GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                    onTap: () async {
+                      final imageUrlTemp = await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => EditProfilePage()));
+                       setState(() {
+                         if(imageUrlTemp != null) {
+                           imageUrl = imageUrlTemp;
+                         }
+                       });
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -237,9 +244,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                    onTap: () async {
+                     bool s = await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => MySettingsPage()));
+
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

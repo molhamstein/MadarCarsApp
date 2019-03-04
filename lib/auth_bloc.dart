@@ -194,8 +194,9 @@ class AuthBloc extends BaseBloc with Validators, Network {
       if (response != null) {
         SharedPreferences.getInstance().then((prefs) {
           prefs.setString('user_image', response.url);
+          submitUpdateUser(userId, token, response.id);
+
         });
-        submitUpdateUser(userId, token, response.id);
       } else {
         stopLoading;
         //   pushUnlockTouchEvent;
