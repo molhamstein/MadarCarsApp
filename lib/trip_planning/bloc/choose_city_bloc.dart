@@ -16,6 +16,8 @@ class ChooseCityBloc extends BaseBloc with Network {
 
 
   Stream<List<Location>> get locationsStream => _locationsController.stream;
+
+
   Stream<int> get indexStream => _selectedCityIndex.stream;
   Stream<Location> get selectedCitStream => _selectedCityController.stream;
   get pushLocations => _fetchLocations();

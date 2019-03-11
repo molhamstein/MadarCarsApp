@@ -7,6 +7,8 @@ import 'package:madar_booking/vertical_devider.dart';
 
 class StepChooseDatePage extends StatefulWidget {
 
+  static String endDate = "";
+  static String startDate = "";
 
   @override
   StepChooseDatePageState createState() {
@@ -51,6 +53,8 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
 
   @override
   Widget build(BuildContext context) {
+
+
     bloc = BlocProvider.of<TripPlaningBloc>(context);
     fromAirport = bloc.isFromAirport;
     toAirport = bloc.isToAirport;
@@ -118,6 +122,7 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
   List<Widget> _layout() {
     if (cityTour || (fromAirport && toAirport)) {
       return [
+
         _startDate(),
         MadarVerticalDivider(height: 70, color: Colors.black54),
         _endDate()
@@ -128,15 +133,20 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
   }
 
   _startDate() {
+//    StepChooseDatePage.startDate =_startDate();
+
     return DatePicker(
       title: MadarLocalizations.of(context).trans('start_date'),
       withTimePicker: fromAirport,
       onDateChanged: bloc.startDateChanged,
       date: bloc.trip.startDate,
     );
+
   }
 
   _endDate() {
+//    StepChooseDatePage.endDate = _endDate();
+
     return DatePicker(
       title: MadarLocalizations.of(context).trans('end_date'),
       withTimePicker: toAirport,
@@ -144,6 +154,7 @@ class StepChooseDatePageState extends State<StepChooseDatePage> with TickerProvi
       date: bloc.trip.endDate,
       endOfDay: true,
     );
+
   }
 
   @override

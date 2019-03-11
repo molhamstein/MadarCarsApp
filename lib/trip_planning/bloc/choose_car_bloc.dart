@@ -1,13 +1,18 @@
+import 'package:madar_booking/DataStore.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseCarBloc extends BaseBloc with Network {
   final Trip trip;
   final String token;
+
+  SharedPreferences _prefs;
+  DataStore dataStore;
 
   ChooseCarBloc(this.trip, this.token);
 
@@ -24,8 +29,12 @@ class ChooseCarBloc extends BaseBloc with Network {
   selectCar(Car car, int index) {
     trip.car = car;
     print(trip.car.id);
+    print("car name is : " +trip.car.name);
+//    dataStore.saveCarName(trip.car.name);
+
     _selectedCarController.sink.add(car);
     _selectedCarIndexController.sink.add(index);
+
   }
 
   fetchGetAvailableCars(

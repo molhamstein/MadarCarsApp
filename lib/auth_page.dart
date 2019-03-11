@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
-import 'package:madar_booking/madarLocalizer.dart';
-import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/indicator_painter.dart';
 import 'package:madar_booking/login_widget.dart';
+import 'package:madar_booking/madarLocalizer.dart';
+import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/sign_up_widget.dart';
 
 class AuthPage extends StatefulWidget {

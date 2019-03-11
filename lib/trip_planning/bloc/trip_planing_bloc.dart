@@ -97,7 +97,6 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get productionDateStream => _productionDateController.stream;
 
-
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
   pushLoading(bool load) => _loadingController.sink.add(load);
@@ -129,7 +128,7 @@ class TripPlaningBloc extends BaseBloc with Network {
       done = false;
       if (index == 4) {
         showNoteButton;
-        done = true;
+        done = false;
       }
       if (trip.inCity) {
         if (index == 4) {
@@ -141,7 +140,7 @@ class TripPlaningBloc extends BaseBloc with Network {
         if (index == 3) {
           changeButtonText('done');
           pushLoading(true);
-          done = true;
+          done = false;
           showNoteButton;
           index = 4;
         }
@@ -321,7 +320,6 @@ class TripPlaningBloc extends BaseBloc with Network {
     productionDate = null;
     _productionDateController.sink.add(productionDate);
   }
-
 }
 
 enum Gender { male, female, none }

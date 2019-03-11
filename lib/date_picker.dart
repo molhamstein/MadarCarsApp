@@ -10,6 +10,7 @@ class DatePicker extends StatefulWidget {
   final bool withTimePicker;
   final String title;
   final bool endOfDay;
+//  static String Summarydate = "";
 
   const DatePicker({
     Key key,
@@ -43,6 +44,8 @@ class DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
+
+//    DatePicker.Summarydate =_selectedDate.toString();
     return Directionality(
       textDirection: ui.TextDirection.ltr,
       child: Column(

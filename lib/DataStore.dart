@@ -29,6 +29,7 @@ class DataStore {
 
   setUser(User user) {
     print('hahahahahahha');
+
     // _prefs.setString('user_id', user.id);
     // _prefs.setString('user_username', user.name);
     // _prefs.setString('user_phone_number', user.phoneNumber);
@@ -49,6 +50,36 @@ class DataStore {
     print("save user");
     _prefs.setString("user", userToJson(user));
   }
+
+  //////////////////////
+  saveStartDate(var date) {
+    date = _prefs.setString("startDate", date);
+  }
+
+  saveEndDate(var date) {
+    date = _prefs.setString("EndDate", date);
+  }
+
+  saveEstimCost(var estim) {
+    estim = _prefs.setInt("Estim", estim);
+  }
+
+  saveCarName(var carName) {
+    _prefs.setString("CarName", carName);
+  }
+
+  getCarName() {
+    var carName = _prefs.getString("CarName");
+    print(carName);
+    return carName;
+  }
+
+  saveCarPrice(var carPrice) {
+    carPrice = _prefs.setString("CarPrice", carPrice);
+  }
+
+  saveAirportPickUp() {}
+//////////////////////
 
   setUserToken(String accessToken) {
     _prefs.setString('access_token', accessToken);
