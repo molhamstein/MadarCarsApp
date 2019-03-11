@@ -89,7 +89,7 @@ class MyAppState extends State<MyApp> {
 
                 return supportedLocales.first;
               },
-              title: 'Flutter Demo',
+              title: 'Jawlatcom',
               theme: ThemeData(
                   primaryColor: MadarColors.gradientDown, fontFamily: 'cairo', canvasColor: Colors.transparent),
               initialRoute: '/',

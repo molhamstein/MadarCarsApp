@@ -14,7 +14,7 @@ class MySettingsPage extends StatefulWidget {
 }
 
 class _MySettingsPageState extends State<MySettingsPage> {
-  String _contactusURL = "mailto:nour@yahoo.com?subject=helloo there&body=";
+  String _contactusURL = "mailto:info@jawlatcom.com?body=";
   String _privacyURL = "https://jawlatcom.com/privacy";
   // const _contactusURL = "";
 
@@ -120,24 +120,24 @@ class _MySettingsPageState extends State<MySettingsPage> {
                                           bottom: BorderSide(
                                               color: Theme.of(context)
                                                   .dividerColor))),
-                                  height: 60,
-                                  child: InkWell(
-                                    onTap: () {
-                                      print("pressed");
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text(
-                                          "Push Notifications",
-                                          style: TextStyle(fontSize: 17),
-                                        ),
-                                        Expanded(
-                                          child: Container(),
-                                        ),
-                                        Icon(Icons.chevron_right)
-                                      ],
-                                    ),
-                                  ),
+//                                  height: 60,
+//                                  child: InkWell(
+//                                    onTap: () {
+//                                      print("pressed");
+//                                    },
+//                                    child: Row(
+//                                      children: <Widget>[
+//                                        Text(
+//                                          "Push Notifications",
+//                                          style: TextStyle(fontSize: 17),
+//                                        ),
+//                                        Expanded(
+//                                          child: Container(),
+//                                        ),
+//                                        Icon(Icons.chevron_right)
+//                                      ],
+//                                    ),
+//                                  ),
                                 )
                               ],
                             ),
