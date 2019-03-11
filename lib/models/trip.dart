@@ -1,11 +1,8 @@
-import 'package:madar_booking/DataStore.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripsSublocation.dart';
 import 'package:madar_booking/models/location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Trip {
-
   bool fromAirport;
   bool toAirport;
   bool inCity;
@@ -14,18 +11,19 @@ class Trip {
   DateTime endDate;
   Car car;
   String note;
+  String couponId;
+
   List<TripSublocation> tripSubLocations;
 
-  Trip({
-    this.fromAirport,
-    this.toAirport,
-    this.inCity,
-    this.location,
-    this.startDate,
-    this.endDate,
-    this.car,
-  });
-
+  Trip(
+      {this.fromAirport,
+      this.toAirport,
+      this.inCity,
+      this.location,
+      this.startDate,
+      this.endDate,
+      this.car,
+      this.couponId});
 
   Trip.init() {
     fromAirport = false;
@@ -39,18 +37,17 @@ class Trip {
     note = '';
   }
 
-
   addSubLocation(String id, int duration, int cost) {
     int allSubLocationDuration = 0;
-    tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
-    if(allSubLocationDuration <= tripDuration()) {
+    tripSubLocations.forEach(
+        (subLocation) => allSubLocationDuration += subLocation.duration);
+    if (allSubLocationDuration <= tripDuration()) {
       int index;
       if ((index =
-          tripSubLocations.indexWhere((location) => location.id ==
-              id)) == -1) {
-
-        tripSubLocations.add(
-            TripSublocation(id: id, duration: duration, cost: cost));
+              tripSubLocations.indexWhere((location) => location.id == id)) ==
+          -1) {
+        tripSubLocations
+            .add(TripSublocation(id: id, duration: duration, cost: cost));
       } else {
         tripSubLocations[index].id = id;
         tripSubLocations[index].duration = duration;
@@ -58,7 +55,6 @@ class Trip {
       }
     }
   }
-
 
   Map<String, dynamic> get keys {
     Map<String, dynamic> dates = {};
@@ -83,11 +79,12 @@ class Trip {
   int estimationPrice({bool withSubLocationPrice = false}) {
     int cost = 0;
     if (inCity) {
-      withSubLocationPrice ? cost += (tripDuration() - subLocationDuration()) * car.pricePerDay : cost += tripDuration() * car.pricePerDay;
+      withSubLocationPrice
+          ? cost += (tripDuration() - subLocationDuration()) * car.pricePerDay
+          : cost += tripDuration() * car.pricePerDay;
     }
     if (toAirport && !fromAirport) {
       cost += car.priceOneWay;
-
     }
     if (fromAirport && !toAirport) {
       cost += car.priceOneWay;
@@ -95,7 +92,6 @@ class Trip {
     if (fromAirport && toAirport) {
       cost += car.priceTowWay;
     }
-
 
     tripSubLocations.forEach((location) {
       cost += (location.duration * (location.cost == null ? 0 : location.cost));
@@ -109,16 +105,16 @@ class Trip {
 
   int subLocationDuration() {
     int allSubLocationDuration = 0;
-    tripSubLocations.forEach((subLocation) { allSubLocationDuration += subLocation.duration; });
+    tripSubLocations.forEach((subLocation) {
+      allSubLocationDuration += subLocation.duration;
+    });
     return allSubLocationDuration;
   }
 
   bool isMaxDuration() {
-
     int allSubLocationDuration = 0;
-    tripSubLocations.forEach((subLocation) => allSubLocationDuration += subLocation.duration);
+    tripSubLocations.forEach(
+        (subLocation) => allSubLocationDuration += subLocation.duration);
     return allSubLocationDuration == tripDuration();
-
   }
-
 }

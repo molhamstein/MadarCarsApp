@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/CheckCouponModel.dart';
+import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/location.dart';
@@ -21,6 +23,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   Gender gender;
   String productionDate;
   List<String> langFiltersIds;
+  String couponid ;
 
   Type type;
 
@@ -102,6 +105,28 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   pushLoading(bool load) => _loadingController.sink.add(load);
 
+
+
+  final _couponsController = BehaviorSubject<Coupon>();
+
+  get couponStream => _couponsController.stream;
+
+  fetchCoupon(String s) {
+
+    fetchCheckCoupon(token, s).then((coupon) {
+
+      _couponsController.sink.add(coupon);
+
+
+    }).catchError((e) {
+
+    });
+
+  }
+
+
+
+
   get navBackward {
     if (!trip.inCity) {
       if (index == 5) index = 3;
@@ -120,34 +145,47 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get navForward {
     if (_shouldNav()) {
-      if (index == 5) {
+      if (index == 6) {
+        print(index);
         hideNoteButton;
         _navigationController.sink.add(index);
       } else {
         _navigationController.sink.add(++index);
       }
+      print("index is $index" );
+
+
       done = false;
+
+      if(index == 5 ){
+        changeButtonText('done');
+        pushLoading(true);
+
+        done = true;
+
+      }
       if (index == 4) {
         showNoteButton;
-        done = false;
+        done =  true;
       }
       if (trip.inCity) {
         if (index == 4) {
-          pushLoading(true);
+          pushLoading(false);
           showNoteButton;
-          changeButtonText('done');
+          done = false;
+          changeButtonText('next');
         }
       } else {
         if (index == 3) {
-          changeButtonText('done');
-          pushLoading(true);
-          done = false;
           showNoteButton;
+          done = false;
+
           index = 4;
+
         }
       }
     } else {}
-    if (index == 0 || index == 1 || index == 2) {
+    if (index == 0 || index == 1 || index == 2 || index ==3) {
       done = false;
       pushLoading(false);
       changeButtonText('next');
@@ -227,6 +265,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   bool get isLocationIdNull => trip.location == null;
 
   submitTrip() {
+    print("Submitttttttttttttttttttttttttttttttttttttted");
     showFeedback = true;
     postTrip(trip, token, userId).then((d) {
       _loadingController.sink.add(false);
@@ -240,6 +279,7 @@ class TripPlaningBloc extends BaseBloc with Network {
       });
       _feedbackController.addError(e.toString());
     });
+
   }
 
   submitHelp() {
@@ -310,6 +350,8 @@ class TripPlaningBloc extends BaseBloc with Network {
     _languagesIdsController.close();
     _modalController.close();
     _productionDateController.close();
+    _couponsController.close();
+
   }
 
   selectProductionDate(String value) {

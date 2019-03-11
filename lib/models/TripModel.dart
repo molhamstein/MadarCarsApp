@@ -39,6 +39,7 @@ class TripModel {
   List<dynamic> predefinedTripsMedia;
   List<TripSublocation> predefinedTripsSublocations;
 
+
   TripModel({
     this.createdAt,
     this.duration,

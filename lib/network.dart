@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/CheckCouponModel.dart';
+import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/MyTrip.dart';
@@ -59,7 +60,7 @@ class Network {
   static String couponCode = "Burak";
 
   String checkCoupon =
-      "https://jawlatcom.com:3000/api/coupons/$couponCode/checkCoupon";
+      "https://jawlatcom.com/api/coupons/$couponCode/checkCoupon";
   String _checkNumber = "_baseUrl + /users/0988555365/checkUser";
 
 //  Future<UserResponse>
@@ -75,20 +76,21 @@ class Network {
     }
   }
 
-  Future<CheckCoupon> fetchCheckCoupon() async {
+  Future<Coupon> fetchCheckCoupon(String token , String s) async {
     print(checkCoupon);
 
-//    headers['Authorization'] = token;
-    print("Coupon token is :" );
+    headers['Authorization'] = token;
+    print("Coupon token is :" + token);
     var response = await http.get(
-      checkCoupon,
+      "$_baseUrl/coupons/$s/checkCoupon",
       headers: headers,
     );
 
     print(response.body);
     print("CheckCoupon is$response");
     if (response.statusCode == 200) {
-      return CheckCoupon.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      return Coupon.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       print("error_wrong_credentials");
 
@@ -486,6 +488,7 @@ class Network {
       "priceTowWay": trip.car.priceTowWay,
       "carId": trip.car.id,
       "note": trip.note,
+      "couponId":trip.couponId,
       "tripSublocations": trip.tripSubLocations.map((carSubLocation) {
         return {
           "sublocationId": carSubLocation.id,
