@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:madar_booking/SignUp.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/auth_page.dart';
 import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
+import 'package:madar_booking/ui/Chack_GSM.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
 
@@ -129,10 +131,17 @@ class LandingPageState extends State<LandingPage> {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacementNamed(HomePage.route);
             });
+
+
           } else {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacement(
-                  new MaterialPageRoute(builder: (context) => AuthPage()));
+                  new MaterialPageRoute(builder: (context) => CheckGsm()));
+
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(builder: (context) => CheckGsm()),
+//              );
             });
           }
         }

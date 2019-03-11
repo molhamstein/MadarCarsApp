@@ -50,6 +50,35 @@ class DataStore {
     _prefs.setString("user", userToJson(user));
   }
 
+
+  //////////////////////
+  saveStartDate(var date){
+     date = _prefs.setString("startDate", date);
+  }
+ saveEndDate(var date){
+     date = _prefs.setString("EndDate", date);
+  }
+  saveEstimCost(var estim)
+  {
+    estim =_prefs.setInt("Estim", estim);
+  }
+
+  saveCarName(var carName){
+     _prefs.setString("CarName", carName);
+  }
+
+  getCarName(){
+    var carName = _prefs.getString("CarName");
+    print(carName);
+    return carName;
+  }
+  saveCarPrice(var carPrice){
+    carPrice = _prefs.setString("CarPrice", carPrice);
+  }
+
+  saveAirportPickUp(){}
+//////////////////////
+
   setUserToken(String accessToken) {
     _prefs.setString('access_token', accessToken);
   }
@@ -70,6 +99,8 @@ class DataStore {
     return t;
   }
 
+
+
   myTripList(List<MyTrip> trips) {
     _prefs.setString("myTips", myTripToJson(trips));
   }
@@ -83,6 +114,8 @@ class DataStore {
   ourCars(List<Car> cars) {
     _prefs.setString("ourCars", carToJson(cars));
   }
+
+
 
   String get userImage => _prefs.getString('user_image');
   String get userISOCode => me.isoCode;

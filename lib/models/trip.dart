@@ -1,8 +1,11 @@
+import 'package:madar_booking/DataStore.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripsSublocation.dart';
 import 'package:madar_booking/models/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Trip {
+
   bool fromAirport;
   bool toAirport;
   bool inCity;
@@ -22,6 +25,7 @@ class Trip {
     this.endDate,
     this.car,
   });
+
 
   Trip.init() {
     fromAirport = false;
@@ -83,6 +87,7 @@ class Trip {
     }
     if (toAirport && !fromAirport) {
       cost += car.priceOneWay;
+
     }
     if (fromAirport && !toAirport) {
       cost += car.priceOneWay;

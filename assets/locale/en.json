@@ -115,5 +115,12 @@
   "number_of_seats": "Number of seats",
   "driver_gender": "Driver gender",
   "driver_language": "Driver language",
-  "apply": "Apply"
+  "apply": "Apply",
+  "Your_best_companion_for_a_comfortable_trip_to_turkey":"Your best companion for a comfortable trip to turkey",
+  "Summary":"Summary",
+  "Airport_Pick_up":"Airport Pick-up",
+  "Have_a_Coupon_Code":"Have a Coupon Code ?",
+  "Discount" : "Discount",
+  "Book_Now":"Book_Now",
+  "Enter_Your_Coupon" : "Enter Your Coupon"
 }

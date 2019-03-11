@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
-import 'package:madar_booking/car_card_widget.dart';
 import 'package:madar_booking/car_card_widget_small.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
@@ -337,104 +336,100 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 : _topShimmer(),
                                       ),
                                       isScreenLongEnough
-                                          ? carsSnapshot.hasData && carsSnapshot.data.isNotEmpty ? Align(
-                                              alignment: Alignment.center,
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height /
-                                                    11,
-                                                margin: EdgeInsets.only(
-                                                    bottom: 60),
-                                                child: carSnapshot.data != null
-                                                    ? ListView.builder(
-                                                        key: UniqueKey(),
-                                                        itemBuilder:
-                                                            (context, index) {
-                                                          return Material(
-                                                            color: Colors
-                                                                .transparent,
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(
-                                                                  MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            Gallery(
-                                                                              images: carSnapshot.data.carMedia,
-                                                                              initialIndex: index,
-                                                                            ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                              child: Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height /
-                                                                    12,
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .height /
-                                                                    12,
-                                                                margin:
+                                          ? carsSnapshot.hasData &&
+                                                  carsSnapshot.data.isNotEmpty
+                                              ? Align(
+                                                  alignment: Alignment.center,
+                                                  child: Container(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            11,
+                                                    margin: EdgeInsets.only(
+                                                        bottom: 60),
+                                                    child:
+                                                        carSnapshot.data != null
+                                                            ? ListView.builder(
+                                                                key:
+                                                                    UniqueKey(),
+                                                                itemBuilder:
+                                                                    (context,
+                                                                        index) {
+                                                                  return Material(
+                                                                    color: Colors
+                                                                        .transparent,
+                                                                    child:
+                                                                        InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        Navigator.of(context)
+                                                                            .push(
+                                                                          MaterialPageRoute(
+                                                                            builder: (context) =>
+                                                                                Gallery(
+                                                                                  images: carSnapshot.data.carMedia,
+                                                                                  initialIndex: index,
+                                                                                ),
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        width: MediaQuery.of(context).size.height /
+                                                                            12,
+                                                                        height:
+                                                                            MediaQuery.of(context).size.height /
+                                                                                12,
+                                                                        margin:
+                                                                            EdgeInsets.all(4),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(4),
+                                                                          boxShadow: [
+                                                                            BoxShadow(
+                                                                                blurRadius: 4,
+                                                                                color: Colors.black45)
+                                                                          ],
+                                                                        ),
+                                                                        child:
+                                                                            Hero(
+                                                                          tag: carSnapshot
+                                                                              .data
+                                                                              .carMedia[index]
+                                                                              .id,
+                                                                          child:
+                                                                              FadeInImage(
+                                                                            placeholder:
+                                                                                AssetImage('assets/images/logo.jpg'),
+                                                                            image:
+                                                                                NetworkImage(carSnapshot.data.carMedia[index].url),
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                                itemCount:
+                                                                    carSnapshot
+                                                                        .data
+                                                                        .carMedia
+                                                                        .length,
+                                                                scrollDirection:
+                                                                    Axis.horizontal,
+                                                                padding:
                                                                     EdgeInsets
                                                                         .all(4),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              4),
-                                                                  boxShadow: [
-                                                                    BoxShadow(
-                                                                        blurRadius:
-                                                                            4,
-                                                                        color: Colors
-                                                                            .black45)
-                                                                  ],
-                                                                ),
-                                                                child: Hero(
-                                                                  tag: carSnapshot
-                                                                      .data
-                                                                      .carMedia[
-                                                                          index]
-                                                                      .id,
-                                                                  child:
-                                                                      FadeInImage(
-                                                                    placeholder:
-                                                                        AssetImage(
-                                                                            'assets/images/logo.jpg'),
-                                                                    image: NetworkImage(carSnapshot
-                                                                        .data
-                                                                        .carMedia[
-                                                                            index]
-                                                                        .url),
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                        itemCount: carSnapshot
-                                                            .data
-                                                            .carMedia
-                                                            .length,
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        padding:
-                                                            EdgeInsets.all(4),
-                                                      )
-                                                    : Container(),
-                                              ),
-                                            )
-                                          : Container() : Container(),
-                                  Align(
+                                                              )
+                                                            : Container(),
+                                                  ),
+                                                )
+                                              : Container()
+                                          : Container(),
+                                      Align(
                                         alignment: Alignment.centerRight,
                                         child: Container(
                                           height: 30,
@@ -468,7 +463,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                     size: 18,
                                                   ),
                                                   Text(
-                                                    MadarLocalizations.of(context).trans('filters'),
+                                                    MadarLocalizations.of(
+                                                            context)
+                                                        .trans('filters'),
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                     ),

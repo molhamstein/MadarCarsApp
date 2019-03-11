@@ -129,7 +129,7 @@ class TripPlaningBloc extends BaseBloc with Network {
       done = false;
       if (index == 4) {
         showNoteButton;
-        done = true;
+        done = false;
       }
       if (trip.inCity) {
         if (index == 4) {
@@ -141,7 +141,7 @@ class TripPlaningBloc extends BaseBloc with Network {
         if (index == 3) {
           changeButtonText('done');
           pushLoading(true);
-          done = true;
+          done = false;
           showNoteButton;
           index = 4;
         }

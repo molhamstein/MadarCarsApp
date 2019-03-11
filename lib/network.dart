@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:async/async.dart';
 import 'package:country_code_picker/country_code.dart';
+import 'package:device_info/device_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/CheckCouponModel.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/MyTrip.dart';
@@ -17,7 +20,6 @@ import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:path/path.dart';
-import 'package:device_info/device_info.dart';
 
 class Network {
   Map<String, String> headers = {
@@ -42,7 +44,8 @@ class Network {
 
 //home page links
   final String _carsUrL = _baseUrl + 'cars';
-  final String _predifindTripsUrl = _baseUrl + 'predefinedTrips?filter[where][status]=active';
+  final String _predifindTripsUrl =
+      _baseUrl + 'predefinedTrips?filter[where][status]=active';
   final String _myTripsUrl = _baseUrl + 'trips/getMyTrip';
   final String _invoiceUrl = _baseUrl + 'outerBills/getouterBill/';
   final String _meUrl = _baseUrl + 'users/me';
@@ -53,6 +56,48 @@ class Network {
   final String _firbaseTokens = _baseUrl + '/firbaseTokens';
   final String _updateFirbaseTokens =
       _baseUrl + '/firbaseTokens/updateFirebaseToken';
+  static String couponCode = "Burak";
+
+  String checkCoupon =
+      "https://jawlatcom.com:3000/api/coupons/$couponCode/checkCoupon";
+  String _checkNumber = "_baseUrl + /users/0988555365/checkUser";
+
+//  Future<UserResponse>
+  checkNum() async {
+    final response = await http.get(_checkNumber, headers: headers);
+    if (response.statusCode == 200) {
+      return UserResponse.fromJson(json.decode(response.body));
+    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+      throw 'error_wrong_credentials';
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<CheckCoupon> fetchCheckCoupon() async {
+    print(checkCoupon);
+
+//    headers['Authorization'] = token;
+    print("Coupon token is :" );
+    var response = await http.get(
+      checkCoupon,
+      headers: headers,
+    );
+
+    print(response.body);
+    print("CheckCoupon is$response");
+    if (response.statusCode == 200) {
+      return CheckCoupon.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+      print("error_wrong_credentials");
+
+      throw 'error_wrong_credentials';
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
 
   Future<UserResponse> login(String phoneNumber, String password) async {
     final body = json.encode({
@@ -263,7 +308,9 @@ class Network {
     final response = await http.get(_languages, headers: headers);
     if (response.statusCode == 200) {
       print('asdasd' + json.decode(response.body).toString());
-      return (json.decode(response.body) as List).map((lang) => Language.fromJson(lang)).toList();
+      return (json.decode(response.body) as List)
+          .map((lang) => Language.fromJson(lang))
+          .toList();
     } else {
       print('asdasd' + json.decode(response.body).toString());
       throw json.decode(response.body);
@@ -331,8 +378,16 @@ class Network {
     }
   }
 
-  Future<List<Car>> fetchAvailableCars(String token, Trip trip, List<String> langIds, int numberOfSeats, String gender, String type, String productionDate) async {
+  Future<List<Car>> fetchAvailableCars(
+      String token,
+      Trip trip,
+      List<String> langIds,
+      int numberOfSeats,
+      String gender,
+      String type,
+      String productionDate) async {
     headers['Authorization'] = token;
+    print("Token is $token");
 
     String dates = '';
     if (trip.keys.keys.toList().length == 2)
@@ -345,32 +400,28 @@ class Network {
     String url = _avaiableCars +
         '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
 
-    if(langIds != null && langIds.isNotEmpty) {
+    if (langIds != null && langIds.isNotEmpty) {
       url += '&langFilter=${json.encode(langIds)}';
     }
-    if(gender != 'null' && gender != 'none') {
+    if (gender != 'null' && gender != 'none') {
       url += '&driverGender=$gender';
     }
 
     var filter = Map<String, dynamic>();
 
-    if(numberOfSeats != null) {
+    if (numberOfSeats != null) {
       filter['numOfSeat'] = numberOfSeats;
     }
-    if(type != null && type == 'vip') {
+    if (type != null && type == 'vip') {
       filter['isVip'] = true;
     }
-    if(productionDate != null) {
+    if (productionDate != null) {
       filter['productionDate'] = productionDate;
     }
 
-    var whereClause = '&filter=' + json.encode({
-      'where':filter
-    });
+    var whereClause = '&filter=' + json.encode({'where': filter});
 
     url += whereClause;
-
-
 
     print(url);
 
@@ -389,6 +440,7 @@ class Network {
   Future<List<SubLocationResponse>> fetchSubLocations(
       String token, Trip trip) async {
     headers['Authorization'] = token;
+    print("sub location token is : $token");
 
     var filter = {
       "where": {

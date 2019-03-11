@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:madar_booking/trip_planning/bloc/Summary_bloc.dart';
 
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
@@ -69,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Matrix4 transformation;
   BorderRadius borderRadius;
   FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+//  CouponBloc bloc ;
 
   void handelHeaderAnimation() {
     transformation = rotateBy_0;
@@ -141,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     homeBloc.predifindTrips();
     homeBloc.getCars();
 
+//    bloc.fetchCheckCoupon();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         print('on message $message');
