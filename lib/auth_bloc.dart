@@ -8,6 +8,7 @@ import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'validator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -193,7 +194,11 @@ class AuthBloc extends BaseBloc with Validators, Network {
       print(response);
       _uploadMediaContoller.sink.add(response);
       if (response != null) {
-        submitUpdateUser(userId, token, response.id);
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('user_image', response.url);
+          submitUpdateUser(userId, token, response.id);
+
+        });
       } else {
         stopLoading;
         //   pushUnlockTouchEvent;
@@ -298,22 +303,22 @@ class AuthBloc extends BaseBloc with Validators, Network {
   }
 
   dispose() {
-    _phoneLoginController.close();
-    _passwordLoginController.close();
-    _obscureSignUpPassword.close();
-    _obscureSignUpPasswordConfirmation.close();
-    _obscureLoginPasswordController.close();
-    _submitLoginController.close();
-    _lockTouchEventController.close();
-    _phoneSignUpController.close();
-    _nameSignUpController.close();
-    _passwordSignUpController.close();
-    _isoCodeSignUpController.close();
-    _submitSignUpController.close();
-    _SocialLoginController.close();
-    _loadingController.close();
-    _uploadMediaContoller.close();
-    _submitUpdateUserController.close();
+//    _phoneLoginController.close();
+//    _passwordLoginController.close();
+//    _obscureSignUpPassword.close();
+//    _obscureSignUpPasswordConfirmation.close();
+//    _obscureLoginPasswordController.close();
+//    _submitLoginController.close();
+//    _lockTouchEventController.close();
+//    _phoneSignUpController.close();
+//    _nameSignUpController.close();
+//    _passwordSignUpController.close();
+//    _isoCodeSignUpController.close();
+//    _submitSignUpController.close();
+//    _SocialLoginController.close();
+//    _loadingController.close();
+//    _uploadMediaContoller.close();
+//    _submitUpdateUserController.close();
   }
 }
 

@@ -17,6 +17,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart' as path;
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfileWidget extends StatefulWidget {
   @override
@@ -62,7 +63,6 @@ class EditProfileWidgetState extends State<EditProfileWidget>
     ).then((String value) {
       if (value != null) {
         setState(() {
-          print("cupertino");
           lastSelectedValue = value;
         });
       }
@@ -320,15 +320,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                 return MainButton(
                   text: MadarLocalizations.of(context).trans("update"),
                   onPressed: () {
-                    if ((!snapshot.hasData || !snapshot.data) &&
-                        bloc.shouldShowFeedBack) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        showInSnackBar(
-                            'Please provide valid information', context);
-                      });
-
-                      bloc.shouldShowFeedBack = false;
-                    } else if (_image != null) {
+                   if (_image != null) {
                       bloc.submitUpdateUserWithImage(_image, token, userId);
                     } else {
                       bloc.submitUpdateUser(userId, token, '');
@@ -336,8 +328,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   },
                   width: 150,
                   height: 50,
-                  loading: (snapshot.data == null ? false : snapshot.data) &&
-                      loadingSnapshot.data,
+                  loading: loadingSnapshot.data,
                 );
               });
         },
@@ -363,9 +354,13 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     showInSnackBar('success_message', context);
                   });
-                  Future.delayed(const Duration(milliseconds: 300), () {
-                    Navigator.pop(context);
+                  Future.delayed(const Duration(milliseconds: 1000), () {
+                  SharedPreferences.getInstance().then((prefs) {
+                    print('from prefs = ' + prefs.get('user_image'));
+                    Navigator.pop(context, prefs.get('user_image'));
                   });
+                  });
+
                 }
                 return Container(
                   constraints: BoxConstraints.expand(),

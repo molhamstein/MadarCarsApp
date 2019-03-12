@@ -25,6 +25,9 @@ class ChooseCityStepState extends State<ChooseCityStep>
   Animation<Offset> _offsetFloat;
   Animation<Offset> _citiesFloat;
 
+  final cityScrollController = ScrollController();
+  bool s = true;
+
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
@@ -266,7 +269,12 @@ class ChooseCityStepState extends State<ChooseCityStep>
         stream: bloc.indexStream,
         initialData: 0,
         builder: (context, snapshot) {
+          if(cityScrollController.hasClients && s) {
+            s = false;
+            cityScrollController.animateTo(snapshot.data * MediaQuery.of(context).size.width / 2.5, duration: Duration(milliseconds: 100), curve: Curves.elasticInOut);
+          }
           return ListView.builder(
+            controller: cityScrollController,
             padding: EdgeInsets.only(right: 32, left: 32, top: 16, bottom: 16),
             itemCount: locationsSnapshot.data.length,
             scrollDirection: Axis.horizontal,
@@ -275,6 +283,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
                 location: locationsSnapshot.data[index],
                 selected: index == snapshot.data,
                 onTap: (location) {
+                  s = true;
                   bloc.selectLocation(location, index);
                   planingBloc.cityId(location);
                 },
