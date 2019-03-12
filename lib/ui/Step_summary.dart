@@ -99,6 +99,12 @@ class StepSummaryState extends State<StepSummary>
 //    String sDate = startDate[0] ;
 //    List<String> endDate =  StepChooseDatePage.endDate.replaceAll("-", "/").split(" ");
 //    String eDate = endDate[0] ;
+List<String>  startDate =planingBloc.trip.startDate.toString().split(" ");
+String sDate = startDate[0];
+print(sDate);
+    List<String>  endDate =planingBloc.trip.endDate.toString().split(" ");
+    String eDate = endDate[0];
+print(endDate);
 
 
     final TextStyle infoLabelStyle = TextStyle(
@@ -176,7 +182,7 @@ class StepSummaryState extends State<StepSummary>
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
                                                   height: 0.5)),
-                                          Text("",
+                                          Text(sDate,
                                               style: TextStyle(
                                                   color: MadarColors.dark_grey,
                                                   fontWeight: FontWeight.w700))
@@ -203,7 +209,7 @@ class StepSummaryState extends State<StepSummary>
                                               ],
                                             ),
                                             Text(
-                                              "",
+                                              eDate,
                                               style: TextStyle(
                                                   color: MadarColors.dark_grey,
                                                   fontWeight: FontWeight.w700),
@@ -227,14 +233,14 @@ class StepSummaryState extends State<StepSummary>
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           new Text(
-                                            "Ford Mustang",
+                                            planingBloc.trip.car.name,
                                             style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.w700,
                                                 color: MadarColors.grey[800]),
                                           ),
                                           new Text(
-                                            "Mahmout orhan",
+                                            planingBloc.trip.car.driver.firstName +" "+ planingBloc.trip.car.driver.lastName,
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w700,
@@ -248,7 +254,7 @@ class StepSummaryState extends State<StepSummary>
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
                                               new Text(
-                                                "110",
+                                                planingBloc.trip.car.pricePerDay.toString(),
                                                 style: TextStyle(
                                                     fontSize: 22,
                                                     fontWeight: FontWeight.w700,
@@ -497,7 +503,7 @@ class StepSummaryState extends State<StepSummary>
                                             height: 0.5)),
                                     new Row(
                                       children: <Widget>[
-                                        new Text("200",
+                                        new Text(planingBloc.trip.estimationPrice().toString(),
                                             style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.w700,
