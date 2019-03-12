@@ -96,7 +96,7 @@ class Network {
 
       throw 'error_wrong_credentials';
     } else {
-      print(response.body);
+
       throw json.decode(response.body);
     }
   }

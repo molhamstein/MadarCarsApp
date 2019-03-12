@@ -17,6 +17,8 @@ import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/gallery.dart';
 import 'package:madar_booking/trip_planning/step_choose_date_page.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:madar_booking/feedback.dart';
+
 
 class StepSummary extends StatefulWidget {
   @override
@@ -26,7 +28,7 @@ class StepSummary extends StatefulWidget {
 }
 
 class StepSummaryState extends State<StepSummary>
-    with TickerProviderStateMixin , Network {
+    with TickerProviderStateMixin , Network  , UserFeedback{
 //  ChooseCarBloc bloc;
   TripPlaningBloc planingBloc;
   AnimationController _controller;
@@ -114,9 +116,8 @@ print(endDate);
         height: 0.8);
     final double iconSize = 18;
 
-    return SingleChildScrollView(
-      child: Material(
-        color: Colors.transparent,
+    return Scaffold(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
@@ -486,8 +487,8 @@ print(endDate);
                                         ],
                                       ),
                                     );}
-                                    else return Container();
-                                  }
+
+                                  else return Container();}
                                 ),
                                 new Row(
                                   mainAxisAlignment:
@@ -525,67 +526,82 @@ print(endDate);
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 420.0, right: 15),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25)),
-                              onPressed: () {
+                      StreamBuilder<Coupon>(
+                        stream: planingBloc.couponStream,
+                        builder: (context, snapshot) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 420.0, right: 15),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25)),
+                                  onPressed: () {
 //                                bloc.fetchCoupon();
 
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return Container(
-                                      padding: EdgeInsets.all(16),
-                                      color: Colors.white,
-                                      width: MediaQuery.of(context).size.width,
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom),
-                                            child: TextField(
-                                              controller: _haveCoponController,
-                                              onSubmitted: (s) {
-//                                                bloc.trip.note = s;
-                                                planingBloc.fetchCoupon(s);
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          padding: EdgeInsets.all(16),
+                                          color: Colors.white,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    bottom: MediaQuery.of(context)
+                                                        .viewInsets
+                                                        .bottom),
+                                                child: TextField(
+                                                  controller: _haveCoponController,
+                                                  onSubmitted: (s) {
+                                                    Navigator.pop(context);
 
-                                                Navigator.pop(context);
-                                              },
-                                              autofocus: true,
-                                              decoration: InputDecoration(
-                                                hasFloatingPlaceholder: true,
-                                                hintText: MadarLocalizations.of(
-                                                        context)
-                                                    .trans('Enter_Your_Coupon'),
-                                                border: OutlineInputBorder(),
+//                                                bloc.trip.note = s;
+                                                    planingBloc.fetchCoupon(s);
+
+
+                                                    if(!snapshot.hasData ||snapshot.error ){
+print("Errrrrrrrrrrrrrrror");
+//                                                    SnackBar(content: Text("Error"),backgroundColor: Colors.red,);
+
+
+//  showInSnackBar("Noooo way", context);
+}
+
+                                                  },
+                                                  autofocus: true,
+                                                  decoration: InputDecoration(
+                                                    hasFloatingPlaceholder: true,
+                                                    hintText: MadarLocalizations.of(
+                                                            context)
+                                                        .trans('Enter_Your_Coupon'),
+                                                    border: OutlineInputBorder(),
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        );
+                                      },
                                     );
                                   },
-                                );
-                              },
-                              child: new Text(
-                                  MadarLocalizations.of(context)
-                                      .trans("Have_a_Coupon_Code"),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      height: 0.5)),
-                              color: MadarColors.gradientDown,
+                                  child: new Text(
+                                      MadarLocalizations.of(context)
+                                          .trans("Have_a_Coupon_Code"),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          height: 0.5)),
+                                  color: MadarColors.gradientDown,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        }
                       ),
                     ],
                   ),
