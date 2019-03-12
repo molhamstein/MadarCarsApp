@@ -6,6 +6,7 @@ import 'package:madar_booking/date_picker.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
+import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
@@ -30,7 +31,7 @@ class StepSummaryState extends State<StepSummary>
   TripPlaningBloc planingBloc;
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
-  CouponBloc bloc ;
+//  CouponBloc bloc ;
   Trip trip;
 
 //  final productionDates = [
@@ -62,11 +63,13 @@ class StepSummaryState extends State<StepSummary>
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
+    print("Car name is : {$planingBloc.trip.car.name}");
+    print(planingBloc.trip.car.name);
 //    bloc = ChooseCarBloc(
 //        planingBloc.trip, BlocProvider.of<AppBloc>(context).token);
 //    bloc.fetchGetAvailableCars();
-    bloc =CouponBloc(BlocProvider.of<AppBloc>(context).token);
-    bloc.fetchCoupon();
+//    bloc =CouponBloc(BlocProvider.of<AppBloc>(context).token);
+//    bloc.fetchCoupon();
 
     _controller = AnimationController(
       vsync: this,
@@ -96,6 +99,12 @@ class StepSummaryState extends State<StepSummary>
 //    String sDate = startDate[0] ;
 //    List<String> endDate =  StepChooseDatePage.endDate.replaceAll("-", "/").split(" ");
 //    String eDate = endDate[0] ;
+List<String>  startDate =planingBloc.trip.startDate.toString().split(" ");
+String sDate = startDate[0];
+print(sDate);
+    List<String>  endDate =planingBloc.trip.endDate.toString().split(" ");
+    String eDate = endDate[0];
+print(endDate);
 
 
     final TextStyle infoLabelStyle = TextStyle(
@@ -173,7 +182,7 @@ class StepSummaryState extends State<StepSummary>
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
                                                   height: 0.5)),
-                                          Text("",
+                                          Text(sDate,
                                               style: TextStyle(
                                                   color: MadarColors.dark_grey,
                                                   fontWeight: FontWeight.w700))
@@ -200,7 +209,7 @@ class StepSummaryState extends State<StepSummary>
                                               ],
                                             ),
                                             Text(
-                                              "",
+                                              eDate,
                                               style: TextStyle(
                                                   color: MadarColors.dark_grey,
                                                   fontWeight: FontWeight.w700),
@@ -224,14 +233,14 @@ class StepSummaryState extends State<StepSummary>
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
                                           new Text(
-                                            "Ford Mustang",
+                                            planingBloc.trip.car.name,
                                             style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.w700,
                                                 color: MadarColors.grey[800]),
                                           ),
                                           new Text(
-                                            "Mahmout orhan",
+                                            planingBloc.trip.car.driver.firstName +" "+ planingBloc.trip.car.driver.lastName,
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w700,
@@ -245,7 +254,7 @@ class StepSummaryState extends State<StepSummary>
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
                                               new Text(
-                                                "110",
+                                                planingBloc.trip.car.pricePerDay.toString(),
                                                 style: TextStyle(
                                                     fontSize: 22,
                                                     fontWeight: FontWeight.w700,
@@ -440,37 +449,45 @@ class StepSummaryState extends State<StepSummary>
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 70.0),
-                                  child: new Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      new Text(
-                                          MadarLocalizations.of(context)
-                                              .trans("Discount"),
-                                          style: TextStyle(
-                                              color: Colors.black87,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
-                                              height: 0.5)),
-                                      new Row(
+                                StreamBuilder<Coupon>(
+                                  stream: planingBloc.couponStream,
+                                  builder: (context, snapshot) {
+                                    if(snapshot.hasData ){
+
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 70.0),
+                                      child: new Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          new Text("100",
+                                          new Text(
+                                              MadarLocalizations.of(context)
+                                                  .trans("Discount"),
                                               style: TextStyle(
-                                                  fontSize: 22,
+                                                  color: Colors.black87,
+                                                  fontSize: 18,
                                                   fontWeight: FontWeight.w700,
-                                                  color:
-                                                      MadarColors.grey[800])),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 15.0),
-                                            child: new Text("\$"),
-                                          ),
+                                                  height: 0.5)),
+                                          new Row(
+                                            children: <Widget>[
+                                              new Text("100",
+                                                  style: TextStyle(
+                                                      fontSize: 22,
+                                                      fontWeight: FontWeight.w700,
+                                                      color:
+                                                          MadarColors.grey[800])),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 15.0),
+                                                child: new Text("\$"),
+                                              ),
+                                            ],
+                                          )
                                         ],
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                    );}
+                                    else return Container();
+                                  }
                                 ),
                                 new Row(
                                   mainAxisAlignment:
@@ -486,7 +503,7 @@ class StepSummaryState extends State<StepSummary>
                                             height: 0.5)),
                                     new Row(
                                       children: <Widget>[
-                                        new Text("200",
+                                        new Text(planingBloc.trip.estimationPrice().toString(),
                                             style: TextStyle(
                                                 fontSize: 22,
                                                 fontWeight: FontWeight.w700,
@@ -519,7 +536,6 @@ class StepSummaryState extends State<StepSummary>
                                   borderRadius: BorderRadius.circular(25)),
                               onPressed: () {
 //                                bloc.fetchCoupon();
-                                bloc.fetchCoupon();
 
                                 showModalBottomSheet(
                                   context: context,
@@ -539,6 +555,8 @@ class StepSummaryState extends State<StepSummary>
                                               controller: _haveCoponController,
                                               onSubmitted: (s) {
 //                                                bloc.trip.note = s;
+                                                planingBloc.fetchCoupon(s);
+
                                                 Navigator.pop(context);
                                               },
                                               autofocus: true,

@@ -1,4 +1,5 @@
 import 'package:madar_booking/DataStore.dart';
+import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/trip.dart';
@@ -12,6 +13,8 @@ class ChooseCarBloc extends BaseBloc with Network {
   final String token;
 
   SharedPreferences _prefs;
+  AppBloc bloc;
+
   DataStore dataStore;
 
   ChooseCarBloc(this.trip, this.token);
@@ -30,6 +33,7 @@ class ChooseCarBloc extends BaseBloc with Network {
     trip.car = car;
     print(trip.car.id);
     print("car name is : " +trip.car.name);
+
 //    dataStore.saveCarName(trip.car.name);
 
     _selectedCarController.sink.add(car);

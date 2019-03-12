@@ -64,7 +64,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       bloc: bloc,
       child: WillPopScope(
         onWillPop: () async {
-          if (bloc.index == 0 || bloc.index == 5) {
+          if (bloc.index == 0 || bloc.index == 6) {
             Navigator.of(context).pop();
             return false;
           } else {
@@ -171,7 +171,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                         .trans(snapshot.data),
                                     loading: loadingSnapshot.data,
                                     onPressed: () {
-                                      if (bloc.index == 5) {
+                                      if (bloc.index == 6) {
                                         Navigator.of(context).pop();
                                       } else if (bloc.done) {
                                         bloc.submitTrip();

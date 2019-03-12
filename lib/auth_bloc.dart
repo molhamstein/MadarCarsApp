@@ -103,6 +103,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<bool> get submitValidLogin => Observable.combineLatest2(
       phoneLoginStream, passwordLoginStream, (a, b) => true);
 
+
+
   Stream<bool> get submitValidSignUp => Observable.combineLatest3(
       phoneSignUpStream,
       passwordSignUpStream,
