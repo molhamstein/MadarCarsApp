@@ -40,8 +40,8 @@ class HomeBloc extends BaseBloc with Network {
     });
   }
 
-  updateFirebaseToken(String firebaseToken) {
-    updateFirebaseTokens(token, firebaseToken);
+  updateFirebaseToken(String firebaseToken, String deviceId) {
+    updateFirebaseTokens(token, firebaseToken, deviceId);
   }
 
   postFirebaseToken(String firebaseToken, String deviceId) {
