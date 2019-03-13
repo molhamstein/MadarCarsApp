@@ -125,98 +125,116 @@ class _CheckGsmState extends State<CheckGsm>
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 23.0),
-                      child: Column(
-                        children: <Widget>[
-                          Stack(
-                            alignment: Alignment.topCenter,
-                            overflow: Overflow.visible,
-                            children: <Widget>[
-                              Card(
-                                elevation: 2.0,
-                                color: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                      child: StreamBuilder<bool>(
+                          stream: bloc.checkNumStream,
+                          builder: (context, snapshot) {
+                            var valid = (snapshot.hasData && snapshot.data);
+                            return Column(
+                              /// Suronded coulnm
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    Stack(
+                                      alignment: Alignment.topCenter,
+                                      overflow: Overflow.visible,
+                                      children: <Widget>[
+                                        Card(
+                                          elevation: 2.0,
+                                          color: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          child: Container(
+                                            width: 300.0,
+                                            height: 180.0,
+                                            child: Column(
+                                              children: <Widget>[
+                                                phoneTextField(),
+                                                Container(
+                                                  width: 250.0,
+                                                  height: 1.0,
+                                                  color: Colors.grey[400],
+                                                ),
+                                                valid
+                                                    ? passwordTextField()
+                                                    : Container(),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                child: Container(
-                                  width: 300.0,
-                                  height: 180.0,
-                                  child: Column(
-                                    children: <Widget>[
-                                      phoneTextField(),
-                                      Container(
-                                        width: 250.0,
-                                        height: 1.0,
-                                        color: Colors.grey[400],
-                                      ),
-                                      passwordTextField(),
-                                    ],
-                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 50.0, bottom: 30),
+                                  child: valid ?  loginBtn() : checkBtn(),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              ],
+                            );
+                          }),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 150.0, top: 8),
-                      child: new Text(
-                        "Forget password ?",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontFamily: "WorkSansMedium",
-                            decoration: TextDecoration.none),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 50.0, bottom: 30),
-                      child: loginBtn(),
-                    ),
-                    checkBtn(),
+//                    Padding(
+//                      padding: const EdgeInsets.only(left: 150.0, top: 8),
+//                      child: new Text(
+//                        "Forget password ?",
+//                        style: TextStyle(
+//                            color: Colors.white,
+//                            fontSize: 16.0,
+//                            fontFamily: "WorkSansMedium",
+//                            decoration: TextDecoration.none),
+//                      ),
+//                    ),
+//                    Padding(
+//                      padding: const EdgeInsets.only(top: 50.0, bottom: 30),
+//                      child: loginBtn(),
+//                    ),
+//                    checkBtn(),
 //                    StreamBuilder<String>(
 //                        stream: bloc.checkNumStream,
 //                        builder: (context, snapshot) {
-                    TextField(
-                      controller: _controller,
-//                            onSubmitted: (s) {
-//                              bloc.fetchCheckNum(s);
-////                            StreamBuilder<String>(  stream: bloc.checkNumStream,
-////                                builder: (context, snapshot) {
-////                                  print("i'm in"+ snapshot.data.toString());
+//                    TextField(
+//                      controller: _controller,
+////                            onSubmitted: (s) {
+////                              bloc.fetchCheckNum(s);
+//////                            StreamBuilder<String>(  stream: bloc.checkNumStream,
+//////                                builder: (context, snapshot) {
+//////                                  print("i'm in"+ snapshot.data.toString());
+//////
 ////
+////                              if (snapshot.hasData) {
+////                                print("data");
+////                                print("data is " + snapshot.data.toString());
+////                                if (snapshot.data.toString() == "true") {
+////                                  print("i'm true");
+////                                } else if (snapshot.data.toString() ==
+////                                    "false") {
+////                                  Navigator.of(context).pushReplacement(
+////                                      new MaterialPageRoute(
+////                                          builder: (context) => SignUp()));
+////                                }
+////                              } else
+////                                print("No data");
+//////                            });
+//////                            print("blooooc valll "  +  bloc.checkNumStream.toString());
+////
+//////                        print("M" +Network.M);
+//////                        if(Network.M == "true")
+//////                          {print("truuuuuuuuuuuuuuue");}
+////                            },
+//                    ),
 //
-//                              if (snapshot.hasData) {
-//                                print("data");
-//                                print("data is " + snapshot.data.toString());
-//                                if (snapshot.data.toString() == "true") {
-//                                  print("i'm true");
-//                                } else if (snapshot.data.toString() ==
-//                                    "false") {
-//                                  Navigator.of(context).pushReplacement(
-//                                      new MaterialPageRoute(
-//                                          builder: (context) => SignUp()));
-//                                }
-//                              } else
-//                                print("No data");
-////                            });
-////                            print("blooooc valll "  +  bloc.checkNumStream.toString());
-//
-////                        print("M" +Network.M);
-////                        if(Network.M == "true")
-////                          {print("truuuuuuuuuuuuuuue");}
-//                            },
-                    ),
-
-                    StreamBuilder<String>(
-                        stream: bloc.checkNumStream,
-                        builder: (context, snapshot) {
-                          print(snapshot.data);
-                          if (snapshot.hasData)
-                            return Text("Yes");
-                          else
-                            return Text("No");
-                        }),
+//                    StreamBuilder<String>(
+//                        stream: bloc.checkNumStream,
+//                        builder: (context, snapshot) {
+//                          print(snapshot.data);
+//                          if (snapshot.hasData)
+//                            return Text("Yes");
+//                          else
+//                            return Text("Noooo");
+//                        }),
 //                        }),
                   ],
                 ),
@@ -227,18 +245,26 @@ class _CheckGsmState extends State<CheckGsm>
   }
 
   Widget checkBtn() {
-    return StreamBuilder<String>(
-      stream: bloc.checkNumStream,
-      builder: (context, snapshot) {
-        return SubmitButton(
-          text: "check",
-          onPressed: () {
-            bloc.checkNum(loginEmailController.text);
-          },
-
-        );
-      },
-    );
+    return StreamBuilder<bool>(
+        stream: bloc.loadingStream,
+        initialData: true,
+        builder: (context, loadingSnapshot) {
+          return SubmitButton(
+            text: MadarLocalizations.of(context).trans('submit'),
+            onPressed: () {
+              if (!(loginEmailController.text.isNotEmpty)) {
+                showInSnackBar('error_provide_valid_info', context,
+                    color: Colors.redAccent);
+                bloc.shouldShowFeedBack = false;
+              } else {
+                bloc.fetchCheckNum();
+              }
+            },
+            width: 150,
+            height: 50,
+            loading: loadingSnapshot.data,
+          );
+        });
   }
 
   Widget loginBtn() {
@@ -257,8 +283,9 @@ class _CheckGsmState extends State<CheckGsm>
                     showInSnackBar('error_provide_valid_info', context,
                         color: Colors.redAccent);
                     bloc.shouldShowFeedBack = false;
-                  } else
+                  } else {
                     bloc.submitLogin();
+                  }
                 },
                 width: 150,
                 height: 50,

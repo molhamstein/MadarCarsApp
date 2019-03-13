@@ -106,6 +106,8 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
 
 
+
+
   Stream<bool> get submitValidSignUp => Observable.combineLatest3(
       phoneSignUpStream,
       passwordSignUpStream,
@@ -131,25 +133,25 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   get stopLoading => _loadingController.sink.add(false);
 
-
-  checkNumber(){
-    final validPhoneNumber = _phoneLoginController.value;
-    final validIsoCode = _isoCodeSignUpController.value;
-    checkNum(validIsoCode.dialCode+validPhoneNumber).then((s) {
-      _checkNumController.sink.add(s);
-      stopLoading;
-    }).catchError((e) {
-      shouldShowFeedBack = true;
-      print(e);
-      pushUnlockTouchEvent;
-      _checkNumController.sink.addError(e);
-      stopLoading;
-      Future.delayed(Duration(milliseconds: 100)).then((_) {
-        startLoading;
-      });
-    });
-
-  }
+//
+//  checkNumber(){
+//    final validPhoneNumber = _phoneLoginController.value;
+//    final validIsoCode = _isoCodeSignUpController.value;
+//    checkNum(validIsoCode.dialCode+validPhoneNumber).then((s) {
+//      _checkNumController.sink.add(s);
+//      stopLoading;
+//    }).catchError((e) {
+//      shouldShowFeedBack = true;
+//      print(e);
+//      pushUnlockTouchEvent;
+//      _checkNumController.sink.addError(e);
+//      stopLoading;
+//      Future.delayed(Duration(milliseconds: 100)).then((_) {
+//        startLoading;
+//      });
+//    });
+//
+//  }
 
 
   submitLogin() {
@@ -177,18 +179,29 @@ class AuthBloc extends BaseBloc with Validators, Network {
   }
 
 
-  final _checkNumController = PublishSubject<String>();
+  final _checkNumController = BehaviorSubject<bool>();
 
 
 //  Observable<String> get checkNumStream => _checkNumController.stream;
 
   get checkNumStream => _checkNumController.stream;
 
-    fetchCheckNum(String s) {
 
-    checkNum(s).then((num) {
 
-      _checkNumController.sink.add(num);
+
+
+    fetchCheckNum() {
+      final validPhoneNumber = _phoneLoginController.value;
+      final validIsoCode = _isoCodeSignUpController.value;
+    startLoading;
+    checkNum(validIsoCode.dialCode + validPhoneNumber).then((result) {
+
+
+      if (result == "true")
+      _checkNumController.sink.add(true);
+      else
+        _checkNumController.sink.add(false);
+
       stopLoading();
 
 
