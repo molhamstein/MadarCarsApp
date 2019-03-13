@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/check.dart';
 import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/models/user.dart';
@@ -130,6 +131,27 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   get stopLoading => _loadingController.sink.add(false);
 
+
+  checkNumber(){
+    final validPhoneNumber = _phoneLoginController.value;
+    final validIsoCode = _isoCodeSignUpController.value;
+    checkNum(validIsoCode.dialCode+validPhoneNumber).then((s) {
+      _checkNumController.sink.add(s);
+      stopLoading;
+    }).catchError((e) {
+      shouldShowFeedBack = true;
+      print(e);
+      pushUnlockTouchEvent;
+      _checkNumController.sink.addError(e);
+      stopLoading;
+      Future.delayed(Duration(milliseconds: 100)).then((_) {
+        startLoading;
+      });
+    });
+
+  }
+
+
   submitLogin() {
     final validPhoneNumber = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
@@ -153,6 +175,29 @@ class AuthBloc extends BaseBloc with Validators, Network {
       });
     });
   }
+
+
+  final _checkNumController = PublishSubject<String>();
+
+
+//  Observable<String> get checkNumStream => _checkNumController.stream;
+
+  get checkNumStream => _checkNumController.stream;
+
+    fetchCheckNum(String s) {
+
+    checkNum(s).then((num) {
+
+      _checkNumController.sink.add(num);
+      stopLoading();
+
+
+    }).catchError((e) {
+
+    });
+
+  }
+
 
   submitSignUp() {
     final validUserName = _nameSignUpController.value;
@@ -319,6 +364,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
 //    _loadingController.close();
 //    _uploadMediaContoller.close();
 //    _submitUpdateUserController.close();
+    _checkNumController.close();
   }
 }
 

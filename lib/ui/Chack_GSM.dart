@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madar_booking/SignUp.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
@@ -10,6 +11,7 @@ import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/UserResponse.dart';
+import 'package:madar_booking/network.dart';
 import 'package:madar_booking/submitButton.dart';
 
 class CheckGsm extends StatefulWidget {
@@ -17,7 +19,8 @@ class CheckGsm extends StatefulWidget {
   _CheckGsmState createState() => _CheckGsmState();
 }
 
-class _CheckGsmState extends State<CheckGsm> with UserFeedback , SingleTickerProviderStateMixin {
+class _CheckGsmState extends State<CheckGsm>
+    with UserFeedback, SingleTickerProviderStateMixin, Network {
   AuthBloc bloc;
   AppBloc appBloc;
 
@@ -32,14 +35,18 @@ class _CheckGsmState extends State<CheckGsm> with UserFeedback , SingleTickerPro
   TextEditingController loginEmailController = new TextEditingController();
 
   TextEditingController loginPasswordController = new TextEditingController();
+  TextEditingController _controller = new TextEditingController();
 
   @override
   void initState() {
     bloc = AuthBloc();
     appBloc = BlocProvider.of<AppBloc>(context);
 
-    animationController = AnimationController(vsync: this , duration: Duration(seconds: 5) ) ;
-    animation = Tween(begin: 0,end:500.0 ).animate(animationController);
+    animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 5));
+    animation = Tween(begin: 0, end: 500.0).animate(animationController);
+//    checkNum();
+
     super.initState();
   }
 
@@ -61,8 +68,10 @@ class _CheckGsmState extends State<CheckGsm> with UserFeedback , SingleTickerPro
             }
             if (snapshot.hasError && bloc.shouldShowFeedBack) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                showInSnackBar(snapshot.error.toString(), context,
-                    color: Colors.redAccent);
+//                showInSnackBar(snapshot.error.toString(), context,
+//                    color: Colors.redAccent);
+                Navigator.of(context).pushReplacement(
+                    new MaterialPageRoute(builder: (context) => SignUp()));
                 bloc.shouldShowFeedBack = false;
               });
             }
@@ -164,11 +173,71 @@ class _CheckGsmState extends State<CheckGsm> with UserFeedback , SingleTickerPro
                       padding: const EdgeInsets.only(top: 50.0, bottom: 30),
                       child: loginBtn(),
                     ),
+                    checkBtn(),
+//                    StreamBuilder<String>(
+//                        stream: bloc.checkNumStream,
+//                        builder: (context, snapshot) {
+                    TextField(
+                      controller: _controller,
+//                            onSubmitted: (s) {
+//                              bloc.fetchCheckNum(s);
+////                            StreamBuilder<String>(  stream: bloc.checkNumStream,
+////                                builder: (context, snapshot) {
+////                                  print("i'm in"+ snapshot.data.toString());
+////
+//
+//                              if (snapshot.hasData) {
+//                                print("data");
+//                                print("data is " + snapshot.data.toString());
+//                                if (snapshot.data.toString() == "true") {
+//                                  print("i'm true");
+//                                } else if (snapshot.data.toString() ==
+//                                    "false") {
+//                                  Navigator.of(context).pushReplacement(
+//                                      new MaterialPageRoute(
+//                                          builder: (context) => SignUp()));
+//                                }
+//                              } else
+//                                print("No data");
+////                            });
+////                            print("blooooc valll "  +  bloc.checkNumStream.toString());
+//
+////                        print("M" +Network.M);
+////                        if(Network.M == "true")
+////                          {print("truuuuuuuuuuuuuuue");}
+//                            },
+                    ),
+
+                    StreamBuilder<String>(
+                        stream: bloc.checkNumStream,
+                        builder: (context, snapshot) {
+                          print(snapshot.data);
+                          if (snapshot.hasData)
+                            return Text("Yes");
+                          else
+                            return Text("No");
+                        }),
+//                        }),
                   ],
                 ),
               ),
             );
           }),
+    );
+  }
+
+  Widget checkBtn() {
+    return StreamBuilder<String>(
+      stream: bloc.checkNumStream,
+      builder: (context, snapshot) {
+        return SubmitButton(
+          text: "check",
+          onPressed: () {
+            bloc.checkNum(loginEmailController.text);
+          },
+
+        );
+      },
     );
   }
 

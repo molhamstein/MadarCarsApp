@@ -76,6 +76,18 @@ class Trip {
     return dates;
   }
 
+  double estimationPriceWithPercentageDiscount(int percentage ){
+    double num = (1-(percentage/100))*estimationPrice();
+    return num;
+  }
+
+
+  int estimationPriceWithFixedDiscount(int discount ){
+    int num = estimationPrice()-discount;
+    return num;
+  }
+
+
   int estimationPrice({bool withSubLocationPrice = false}) {
     int cost = 0;
     if (inCity) {

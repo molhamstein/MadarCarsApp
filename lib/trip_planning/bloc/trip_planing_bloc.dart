@@ -107,6 +107,10 @@ class TripPlaningBloc extends BaseBloc with Network {
 
 
 
+
+
+
+
   final _couponsController = BehaviorSubject<Coupon>();
 
   get couponStream => _couponsController.stream;
@@ -128,19 +132,40 @@ class TripPlaningBloc extends BaseBloc with Network {
 
 
   get navBackward {
+//    if(trip.inCity){
+//      if(index == 4 ) {index =3 ;done = false;
+//      pushLoading(false);
+//      changeButtonText('next'); }
+//    }
     if (!trip.inCity) {
-      if (index == 5) index = 3;
-      if (index == 4) index = 3;
+      if (index == 4) index =3 ;
+      if (index == 5 ) index =4;
+//      if (index == 4) index = 3;
       _navigationController.sink.add(--index);
     } else {
       _navigationController.sink.add(--index);
+      if(index ==3){
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+      }
+      if(index == 6)
+        {
+          hideNoteButton;
+
+        }
     }
-    if (index == 0 || index == 1 || index == 2) {
+    if (index == 0 || index == 1 || index == 2 ) {
       done = false;
       pushLoading(false);
       changeButtonText('next');
       hideNoteButton;
     }
+//    if(index == 6)
+//      {
+//        hideNoteButton;
+//      }
   }
 
   get navForward {

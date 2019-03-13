@@ -1,24 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
-import 'package:madar_booking/date_picker.dart';
+import 'package:madar_booking/feedback.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/CouponModel.dart';
-import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/trip.dart';
-import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/network.dart';
-import 'package:madar_booking/trip_planning/bloc/Summary_bloc.dart';
-import 'package:madar_booking/trip_planning/bloc/choose_car_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
-import 'package:madar_booking/trip_planning/gallery.dart';
-import 'package:madar_booking/trip_planning/step_choose_date_page.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:madar_booking/feedback.dart';
-
 
 class StepSummary extends StatefulWidget {
   @override
@@ -28,11 +17,12 @@ class StepSummary extends StatefulWidget {
 }
 
 class StepSummaryState extends State<StepSummary>
-    with TickerProviderStateMixin , Network  , UserFeedback{
+    with TickerProviderStateMixin, Network, UserFeedback {
 //  ChooseCarBloc bloc;
   TripPlaningBloc planingBloc;
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
+
 //  CouponBloc bloc ;
   Trip trip;
 
@@ -94,20 +84,19 @@ class StepSummaryState extends State<StepSummary>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext mContext) {
     TextEditingController _haveCoponController = new TextEditingController();
 
 //    List<String> startDate =  StepChooseDatePage.startDate.replaceAll("-", "/").split(" ");
 //    String sDate = startDate[0] ;
 //    List<String> endDate =  StepChooseDatePage.endDate.replaceAll("-", "/").split(" ");
 //    String eDate = endDate[0] ;
-List<String>  startDate =planingBloc.trip.startDate.toString().split(" ");
-String sDate = startDate[0];
-print(sDate);
-    List<String>  endDate =planingBloc.trip.endDate.toString().split(" ");
-    String eDate = endDate[0];
-print(endDate);
-
+    List<String> startDate = planingBloc.trip.startDate.toString().split(" ");
+    String sDate = startDate[0].replaceAll("-", "/");
+    print(sDate);
+    List<String> endDate = planingBloc.trip.endDate.toString().split(" ");
+    String eDate = endDate[0].replaceAll("-", "/");
+    print(endDate);
 
     final TextStyle infoLabelStyle = TextStyle(
         color: Colors.grey[700],
@@ -115,7 +104,6 @@ print(endDate);
         fontWeight: FontWeight.w700,
         height: 0.8);
     final double iconSize = 18;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -174,6 +162,8 @@ print(endDate);
                                   child: Row(
                                     children: <Widget>[
                                       new Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: <Widget>[
                                           new Text(
                                               MadarLocalizations.of(context)
@@ -193,6 +183,8 @@ print(endDate);
                                         padding:
                                             const EdgeInsets.only(left: 8.0),
                                         child: new Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Row(
                                               children: <Widget>[
@@ -233,39 +225,68 @@ print(endDate);
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          new Text(
-                                            planingBloc.trip.car.name,
-                                            style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w700,
-                                                color: MadarColors.grey[800]),
-                                          ),
-                                          new Text(
-                                            planingBloc.trip.car.driver.firstName +" "+ planingBloc.trip.car.driver.lastName,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700,
-                                                color: MadarColors.grey[600]),
-                                          )
-                                        ],
-                                      ),
-                                      Column(
-                                        children: <Widget>[
-                                          new Row(
-                                            mainAxisSize: MainAxisSize.min,
+                                          Stack(
                                             children: <Widget>[
                                               new Text(
-                                                planingBloc.trip.car.pricePerDay.toString(),
+                                                planingBloc.trip.car.name,
                                                 style: TextStyle(
                                                     fontSize: 22,
                                                     fontWeight: FontWeight.w700,
                                                     color:
                                                         MadarColors.grey[800]),
                                               ),
-                                              new Text("\$")
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 25.0),
+                                                child: new Text(
+                                                  planingBloc.trip.car.driver
+                                                          .firstName +
+                                                      " " +
+                                                      planingBloc.trip.car
+                                                          .driver.lastName,
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: MadarColors
+                                                          .grey[600]),
+                                                ),
+                                              )
                                             ],
                                           ),
-                                          new Text("/day")
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Stack(
+                                            children: <Widget>[
+                                              new Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: <Widget>[
+                                                  new Text(
+                                                    planingBloc
+                                                        .trip.car.pricePerDay
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 22,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: MadarColors
+                                                            .grey[800]),
+                                                  ),
+                                                  new Text("\$")
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 25.0),
+                                                child: Container(
+                                                    child: new Text("/day")),
+                                              )
+                                            ],
+                                          ),
                                         ],
                                       )
                                     ],
@@ -301,6 +322,106 @@ print(endDate);
                                       ),
                                     ),
 
+//                                    ////////////////
+//                                    Padding(
+//                                      padding: const EdgeInsets.only(top: 8.0),
+//                                      child: Row(
+//                                        mainAxisAlignment:
+//                                        MainAxisAlignment.spaceBetween,
+//                                        children: <Widget>[
+//                                          new Text("Istanbul",
+//                                              style: TextStyle(
+//                                                  color: Colors.grey[800],
+//                                                  fontSize: 18,
+//                                                  fontWeight: FontWeight.w700,
+//                                                  height: 0.5)),
+//                                          Row(
+//                                            children: <Widget>[
+//                                              new Text("2",
+//                                                  style: TextStyle(
+//                                                      color: Colors.grey[800],
+//                                                      fontSize: 18,
+//                                                      fontWeight:
+//                                                      FontWeight.w700,
+//                                                      height: 0.5)),
+//                                              new Text("days",
+//                                                  style: TextStyle(
+//                                                      color: Colors.grey[800],
+//                                                      fontSize: 18,
+//                                                      fontWeight:
+//                                                      FontWeight.w700,
+//                                                      height: 0.5)),
+//                                            ],
+//                                          )
+//                                        ],
+//                                      ),
+//                                    ),
+//                                    Padding(
+//                                      padding: const EdgeInsets.only(top: 8.0),
+//                                      child: Container(
+//                                        width: (MediaQuery
+//                                            .of(context)
+//                                            .size
+//                                            .width) -
+//                                            32,
+//                                        alignment: Alignment.center,
+//                                        height: 1.0,
+//                                        decoration: BoxDecoration(
+//                                            color: Colors.black,
+//                                            borderRadius:
+//                                            BorderRadius.circular(14.0)),
+//                                      ),
+//                                    ),
+//                                    ////////////////
+//                                    Padding(
+//                                      padding: const EdgeInsets.only(top: 8.0),
+//                                      child: Row(
+//                                        mainAxisAlignment:
+//                                        MainAxisAlignment.spaceBetween,
+//                                        children: <Widget>[
+//                                          new Text("Busra",
+//                                              style: TextStyle(
+//                                                  color: Colors.grey[800],
+//                                                  fontSize: 18,
+//                                                  fontWeight: FontWeight.w700,
+//                                                  height: 0.5)),
+//                                          Row(
+//                                            children: <Widget>[
+//                                              new Text("2",
+//                                                  style: TextStyle(
+//                                                      color: Colors.grey[800],
+//                                                      fontSize: 18,
+//                                                      fontWeight:
+//                                                      FontWeight.w700,
+//                                                      height: 0.5)),
+//                                              new Text("days",
+//                                                  style: TextStyle(
+//                                                      color: Colors.grey[800],
+//                                                      fontSize: 18,
+//                                                      fontWeight:
+//                                                      FontWeight.w700,
+//                                                      height: 0.5)),
+//                                            ],
+//                                          )
+//                                        ],
+//                                      ),
+//                                    ),
+//                                    Padding(
+//                                      padding: const EdgeInsets.only(top: 8.0),
+//                                      child: Container(
+//                                        width: (MediaQuery
+//                                            .of(context)
+//                                            .size
+//                                            .width) -
+//                                            32,
+//                                        alignment: Alignment.center,
+//                                        height: 1.0,
+//                                        decoration: BoxDecoration(
+//                                            color: Colors.black,
+//                                            borderRadius:
+//                                            BorderRadius.circular(14.0)),
+//                                      ),
+//                                    ),
                                     ////////////////
                                     Padding(
                                       padding: const EdgeInsets.only(top: 8.0),
@@ -308,7 +429,10 @@ print(endDate);
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          new Text("Istanbul",
+                                          new Text(
+                                              planingBloc.trip.location.name(
+                                                  MadarLocalizations.of(context)
+                                                      .locale),
                                               style: TextStyle(
                                                   color: Colors.grey[800],
                                                   fontSize: 18,
@@ -316,105 +440,10 @@ print(endDate);
                                                   height: 0.5)),
                                           Row(
                                             children: <Widget>[
-                                              new Text("2",
-                                                  style: TextStyle(
-                                                      color: Colors.grey[800],
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      height: 0.5)),
-                                              new Text("days",
-                                                  style: TextStyle(
-                                                      color: Colors.grey[800],
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      height: 0.5)),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Container(
-                                        width: (MediaQuery.of(context)
-                                                .size
-                                                .width) -
-                                            32,
-                                        alignment: Alignment.center,
-                                        height: 1.0,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius:
-                                                BorderRadius.circular(14.0)),
-                                      ),
-                                    ),
-                                    ////////////////
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          new Text("Busra",
-                                              style: TextStyle(
-                                                  color: Colors.grey[800],
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                  height: 0.5)),
-                                          Row(
-                                            children: <Widget>[
-                                              new Text("2",
-                                                  style: TextStyle(
-                                                      color: Colors.grey[800],
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      height: 0.5)),
-                                              new Text("days",
-                                                  style: TextStyle(
-                                                      color: Colors.grey[800],
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      height: 0.5)),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Container(
-                                        width: (MediaQuery.of(context)
-                                                .size
-                                                .width) -
-                                            32,
-                                        alignment: Alignment.center,
-                                        height: 1.0,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius:
-                                                BorderRadius.circular(14.0)),
-                                      ),
-                                    ),
-                                    ////////////////
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          new Text("Ankara",
-                                              style: TextStyle(
-                                                  color: Colors.grey[800],
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                  height: 0.5)),
-                                          Row(
-                                            children: <Widget>[
-                                              new Text("1",
+                                              new Text(
+                                                  planingBloc.trip
+                                                      .tripDuration()
+                                                      .toString(),
                                                   style: TextStyle(
                                                       color: Colors.grey[800],
                                                       fontSize: 18,
@@ -451,75 +480,153 @@ print(endDate);
                                   ],
                                 ),
                                 StreamBuilder<Coupon>(
-                                  stream: planingBloc.couponStream,
-                                  builder: (context, snapshot) {
-                                    if(snapshot.hasData ){
-
-                                    return Padding(
-                                      padding: const EdgeInsets.only(top: 70.0),
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          new Text(
-                                              MadarLocalizations.of(context)
-                                                  .trans("Discount"),
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                  height: 0.5)),
-                                          new Row(
+                                    stream: planingBloc.couponStream,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        planingBloc.trip.couponId = snapshot.data.id ;
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 0.0),
+                                          child: Column(
                                             children: <Widget>[
-                                              new Text("100",
-                                                  style: TextStyle(
-                                                      fontSize: 22,
-                                                      fontWeight: FontWeight.w700,
-                                                      color:
-                                                          MadarColors.grey[800])),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 15.0),
-                                                child: new Text("\$"),
+                                              new Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  new Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans("Discount"),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          height: 0.5)),
+                                                  new Row(
+                                                    children: <Widget>[
+                                                      new Text(
+                                                          (snapshot.data.value)
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 22,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              color: MadarColors
+                                                                  .grey[800])),
+                                                      Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 15.0),
+                                                          child: snapshot.data
+                                                                      .type ==
+                                                                  "percentage"
+                                                              ? new Text("%")
+                                                              : new Text("\$")),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                              new Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: <Widget>[
+                                                  new Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans("estim_cost"),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          height: 0.5)),
+                                                  new Row(
+                                                    children: <Widget>[
+                                                      snapshot.data.type ==
+                                                              "percentage"
+                                                          ? new Text(
+                                                              (planingBloc.trip
+                                                                      .estimationPriceWithPercentageDiscount(snapshot
+                                                                          .data
+                                                                          .value))
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: MadarColors
+                                                                          .grey[
+                                                                      800]))
+                                                          : (trip.estimationPrice() -
+                                                                  snapshot.data
+                                                                      .value)
+                                                              .toString(),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 15.0),
+                                                        child: new Text("\$"),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
                                               ),
                                             ],
-                                          )
-                                        ],
-                                      ),
-                                    );}
-
-                                  else return Container();}
-                                ),
-                                new Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    new Text(
-                                        MadarLocalizations.of(context)
-                                            .trans("estim_cost"),
-                                        style: TextStyle(
-                                            color: Colors.black87,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700,
-                                            height: 0.5)),
-                                    new Row(
-                                      children: <Widget>[
-                                        new Text(planingBloc.trip.estimationPrice().toString(),
-                                            style: TextStyle(
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.w700,
-                                                color: MadarColors.grey[800])),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 15.0),
-                                          child: new Text("\$"),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                          ),
+                                        );
+                                      } else
+                                        return Column(
+                                          children: <Widget>[
+//                                            new SizedBox(height: 80,),
+                                            new Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                new Text(
+                                                    MadarLocalizations.of(
+                                                            context)
+                                                        .trans("estim_cost"),
+                                                    style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        height: 0.5)),
+                                                new Row(
+                                                  children: <Widget>[
+                                                    new Text(
+                                                        planingBloc.trip
+                                                            .estimationPrice()
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            color: MadarColors
+                                                                .grey[800])),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 15.0),
+                                                      child: new Text("\$"),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                    }),
                                 SizedBox(
-                                  height: 120,
+                                  height: 300,
                                 ),
                               ],
                             ),
@@ -527,82 +634,100 @@ print(endDate);
                         ],
                       ),
                       StreamBuilder<Coupon>(
-                        stream: planingBloc.couponStream,
-                        builder: (context, snapshot) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 420.0, right: 15),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                RaisedButton(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25)),
-                                  onPressed: () {
+                          stream: planingBloc.couponStream,
+                          builder: (context, snapshot) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 420.0, right: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  RaisedButton(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    onPressed: () {
 //                                bloc.fetchCoupon();
 
-                                    showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return Container(
-                                          padding: EdgeInsets.all(16),
-                                          color: Colors.white,
-                                          width: MediaQuery.of(context).size.width,
-                                          child: Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom: MediaQuery.of(context)
-                                                        .viewInsets
-                                                        .bottom),
-                                                child: TextField(
-                                                  controller: _haveCoponController,
-                                                  onSubmitted: (s) {
-                                                    Navigator.pop(context);
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return Container(
+                                            padding: EdgeInsets.all(16),
+                                            color: Colors.white,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                  child: TextField(
+                                                    controller:
+                                                        _haveCoponController,
+                                                    onSubmitted: (s) {
+                                                      Navigator.pop(context);
 
 //                                                bloc.trip.note = s;
-                                                    planingBloc.fetchCoupon(s);
+                                                      planingBloc
+                                                          .fetchCoupon(s);
 
+                                                      if (!snapshot.hasData ||
+                                                          snapshot.error) {
+                                                        print(
+                                                            "Errrrrrrrrrrrrrrror");
+                                                        WidgetsBinding.instance
+                                                            .addPostFrameCallback(
+                                                                (_) {
+                                                          showInSnackBar(
+                                                              'Wrong_Coupon_Code',
+                                                              mContext,
+                                                              color:
+                                                                  Colors.red);
+                                                        });
 
-                                                    if(!snapshot.hasData ||snapshot.error ){
-print("Errrrrrrrrrrrrrrror");
 //                                                    SnackBar(content: Text("Error"),backgroundColor: Colors.red,);
 
-
 //  showInSnackBar("Noooo way", context);
-}
-
-                                                  },
-                                                  autofocus: true,
-                                                  decoration: InputDecoration(
-                                                    hasFloatingPlaceholder: true,
-                                                    hintText: MadarLocalizations.of(
-                                                            context)
-                                                        .trans('Enter_Your_Coupon'),
-                                                    border: OutlineInputBorder(),
+                                                      }
+                                                    },
+                                                    autofocus: true,
+                                                    decoration: InputDecoration(
+                                                      hasFloatingPlaceholder:
+                                                          true,
+                                                      hintText: MadarLocalizations
+                                                              .of(context)
+                                                          .trans(
+                                                              'Enter_Your_Coupon'),
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: new Text(
-                                      MadarLocalizations.of(context)
-                                          .trans("Have_a_Coupon_Code"),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          height: 0.5)),
-                                  color: MadarColors.gradientDown,
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: new Text(
+                                        MadarLocalizations.of(context)
+                                            .trans("Have_a_Coupon_Code"),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            height: 0.5)),
+                                    color: MadarColors.gradientDown,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
                     ],
                   ),
 

@@ -15,6 +15,7 @@ import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
+import 'package:madar_booking/models/check.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
@@ -58,16 +59,21 @@ class Network {
   final String _updateFirbaseTokens =
       _baseUrl + '/firbaseTokens/updateFirebaseToken';
   static String couponCode = "Burak";
+  static String M = "" ;
 
   String checkCoupon =
       "https://jawlatcom.com/api/coupons/$couponCode/checkCoupon";
-  String _checkNumber = "_baseUrl + /users/0988555365/checkUser";
+//  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
 
-//  Future<UserResponse>
-  checkNum() async {
-    final response = await http.get(_checkNumber, headers: headers);
+  Future<String>
+  checkNum(String num) async {
+    final response = await http.get("$_baseUrl/users/$num/checkUser"
+
+        , headers: headers);
     if (response.statusCode == 200) {
-      return UserResponse.fromJson(json.decode(response.body));
+      print(response.body.toString());
+
+      return (response.body);
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       throw 'error_wrong_credentials';
     } else {

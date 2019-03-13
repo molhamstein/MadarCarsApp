@@ -121,7 +121,8 @@
   "Have_a_Coupon_Code":"لديك رقم قسيمة ؟",
   "Discount" : "حسم",
   "Book_Now":"احجز الآن",
-  "Enter_Your_Coupon" : "ادخل رقم القسيمة"
+  "Enter_Your_Coupon" : "ادخل رقم القسيمة",
+  "Wrong_Coupon_Code":"رقم قسيمة خاطئ"
 
 
 }
