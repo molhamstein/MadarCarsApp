@@ -8,6 +8,7 @@ import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/TripModel.dart';
+import 'package:madar_booking/trip_planning/step_airport.dart';
 import 'package:madar_booking/ui/Step_summary.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/final_step.dart';
@@ -34,6 +35,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
   final steps = [
     ChooseCityStep(),
     TripTypeStep(),
+    AirportStep(),
     StepChooseDatePage(),
     StepChooseCar(),
     StepChooseSubCity(),
@@ -60,7 +62,6 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       bloc: bloc,
       child: WillPopScope(

@@ -53,11 +53,11 @@ class Network {
   final String _meUrl = _baseUrl + 'users/me';
   final String _userUrl = _baseUrl + 'users/';
   final String _uploadMediaUrl = _baseUrl + 'uploadFiles/image/upload';
-  final String _needHelp = _baseUrl + '/adminNotifications/needHelp';
-  final String _rate = _baseUrl + '/rates/makeRate';
-  final String _firbaseTokens = _baseUrl + '/firbaseTokens';
+  final String _needHelp = _baseUrl + 'adminNotifications/needHelp';
+  final String _rate = _baseUrl + 'rates/makeRate';
+  final String _firbaseTokens = _baseUrl + 'firbaseTokens';
   final String _updateFirbaseTokens =
-      _baseUrl + '/firbaseTokens/updateFirebaseToken';
+      _baseUrl + 'firbaseTokens/updateFirebaseToken';
   static String couponCode = "Burak";
   static String M = "" ;
 
@@ -82,13 +82,13 @@ class Network {
     }
   }
 
-  Future<Coupon> fetchCheckCoupon(String token , String s) async {
+  Future<Coupon> fetchCheckCoupon(String token, String s) async {
     print(checkCoupon);
 
     headers['Authorization'] = token;
     print("Coupon token is :" + token);
     var response = await http.get(
-      "$_baseUrl/coupons/$s/checkCoupon",
+      "{$_baseUrl}coupons/$s/checkCoupon",
       headers: headers,
     );
 
@@ -96,7 +96,6 @@ class Network {
     print("CheckCoupon is$response");
     if (response.statusCode == 200) {
       return Coupon.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       print("error_wrong_credentials");
 
@@ -371,11 +370,10 @@ class Network {
     }
   }
 
-  Future<void> updateFirebaseTokens(String token, String firebaseToken) async {
+  Future<void> updateFirebaseTokens(
+      String token, String firebaseToken, String deviceId) async {
     headers['Authorization'] = token;
-    final body = json.encode({
-      "token": firebaseToken,
-    });
+    final body = json.encode({"token": firebaseToken, "deviceId": deviceId});
     final response =
         await http.put(_updateFirbaseTokens, headers: headers, body: body);
     if (response.statusCode == 200) {
@@ -494,7 +492,7 @@ class Network {
       "priceTowWay": trip.car.priceTowWay,
       "carId": trip.car.id,
       "note": trip.note,
-      "couponId":trip.couponId,
+      "couponId": trip.couponId,
       "tripSublocations": trip.tripSubLocations.map((carSubLocation) {
         return {
           "sublocationId": carSubLocation.id,

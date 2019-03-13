@@ -118,20 +118,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _navbarOffsetFloat =
         Tween<Offset>(begin: Offset(0.0, -100.0), end: Offset.zero)
             .animate(curvedAnimation);
-    _carsOffsetFloat.addListener(() {
-      setState(() {});
-    });
+    // _carsOffsetFloat.addListener(() {
+    //   // setState(() {});
+    // });
 
-    _tripsOffsetFloat.addListener(() {
-      setState(() {});
-    });
-    _tripsButtonOffsetFloat.addListener(() {
-      setState(() {});
-    });
+    // _tripsOffsetFloat.addListener(() {
+    //   // setState(() {});
+    // });
+    // _tripsButtonOffsetFloat.addListener(() {
+    //   // setState(() {});
+    // });
 
-    _navbarOffsetFloat.addListener(() {
-      setState(() {});
-    });
+    // _navbarOffsetFloat.addListener(() {
+    //   setState(() {});
+    // });
     _controller.forward();
   }
 
@@ -196,7 +196,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     _firebaseMessaging.onTokenRefresh.listen((token) {
       print('token =  $token');
-      homeBloc.updateFirebaseToken(token);
+      final deviceInfo = DeviceInfoPlugin();
+      if (Platform.isAndroid) {
+        deviceInfo.androidInfo.then((info) {
+          homeBloc.updateFirebaseToken(token, info.androidId);
+        });
+      } else {
+        deviceInfo.iosInfo.then((info) {
+          homeBloc.updateFirebaseToken(token, info.identifierForVendor);
+        });
+      }
     });
 
     _firebaseMessaging.requestNotificationPermissions(
