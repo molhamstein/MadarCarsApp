@@ -483,7 +483,8 @@ class StepSummaryState extends State<StepSummary>
                                     stream: planingBloc.couponStream,
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        planingBloc.trip.couponId = snapshot.data.id ;
+                                        planingBloc.trip.couponId =
+                                            snapshot.data.id;
                                         return Padding(
                                           padding:
                                               const EdgeInsets.only(top: 0.0),
@@ -637,16 +638,14 @@ class StepSummaryState extends State<StepSummary>
                           stream: planingBloc.couponStream,
                           builder: (context, snapshot) {
                             return Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 420.0, right: 15),
+                              padding: const EdgeInsets.only(top: 420.0, right: 15),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   RaisedButton(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
+                                        borderRadius: BorderRadius.circular(25)),
                                     onPressed: () {
 //                                bloc.fetchCoupon();
 
@@ -677,24 +676,24 @@ class StepSummaryState extends State<StepSummary>
                                                       planingBloc
                                                           .fetchCoupon(s);
 
-                                                      if (!snapshot.hasData ||
-                                                          snapshot.error) {
-                                                        print(
-                                                            "Errrrrrrrrrrrrrrror");
-                                                        WidgetsBinding.instance
-                                                            .addPostFrameCallback(
-                                                                (_) {
-                                                          showInSnackBar(
-                                                              'Wrong_Coupon_Code',
-                                                              mContext,
-                                                              color:
-                                                                  Colors.red);
-                                                        });
-
-//                                                    SnackBar(content: Text("Error"),backgroundColor: Colors.red,);
-
-//  showInSnackBar("Noooo way", context);
-                                                      }
+//                                                      if (!snapshot.hasData ||
+//                                                          snapshot.error) {
+//                                                        print(
+//                                                            "Errrrrrrrrrrrrrrror");
+//                                                        WidgetsBinding.instance
+//                                                            .addPostFrameCallback(
+//                                                                (_) {
+//                                                          showInSnackBar(
+//                                                              'Wrong_Coupon_Code',
+//                                                              mContext,
+//                                                              color:
+//                                                                  Colors.red);
+//                                                        });
+//
+////                                                    SnackBar(content: Text("Error"),backgroundColor: Colors.red,);
+//
+////  showInSnackBar("Noooo way", context);
+//                                                      }
                                                     },
                                                     autofocus: true,
                                                     decoration: InputDecoration(

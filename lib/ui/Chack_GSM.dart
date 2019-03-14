@@ -77,6 +77,7 @@ class _CheckGsmState extends State<CheckGsm>
             }
             return SingleChildScrollView(
               child: Container(
+                height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
                 decoration: new BoxDecoration(
                   gradient: new LinearGradient(
@@ -129,6 +130,10 @@ class _CheckGsmState extends State<CheckGsm>
                           stream: bloc.checkNumStream,
                           builder: (context, snapshot) {
                             var valid = (snapshot.hasData && snapshot.data);
+                            print(valid);
+
+
+
                             return Column(
                               /// Suronded coulnm
                               children: <Widget>[
@@ -146,19 +151,34 @@ class _CheckGsmState extends State<CheckGsm>
                                                 BorderRadius.circular(8.0),
                                           ),
                                           child: Container(
-                                            width: 300.0,
-                                            height: 180.0,
+                                            width: 300,
                                             child: Column(
                                               children: <Widget>[
-                                                phoneTextField(),
+                                                Container(
+                                                    child: phoneTextField()),
                                                 Container(
                                                   width: 250.0,
                                                   height: 1.0,
                                                   color: Colors.grey[400],
                                                 ),
-                                                valid
-                                                    ? passwordTextField()
-                                                    : Container(),
+                                                StreamBuilder<bool>(
+                                                  stream: bloc.checkNumStream,
+                                                  builder: (context, snapshot) {
+                                                    if(snapshot.hasData && snapshot.data == true)
+                                                   {   print ("data is true");
+                                                    return passwordTextField();}
+                                                       else if (snapshot.hasData && snapshot.data == false){
+                                                    print("data is false");
+                                                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                                                      Navigator.of(context).pushReplacement(
+                                                          new MaterialPageRoute(builder: (context) => SignUp()));
+
+                                                    });
+                                                  }
+                                                  else {return Container();}
+                                                  }
+                                                )
+
                                               ],
                                             ),
                                           ),
@@ -170,7 +190,7 @@ class _CheckGsmState extends State<CheckGsm>
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 50.0, bottom: 30),
-                                  child: valid ?  loginBtn() : checkBtn(),
+                                  child: valid ? loginBtn() : checkBtn(),
                                 ),
                               ],
                             );
@@ -242,6 +262,13 @@ class _CheckGsmState extends State<CheckGsm>
             );
           }),
     );
+  }
+
+  _navigateToSignUp() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => CheckGsm()));
+    });
   }
 
   Widget checkBtn() {

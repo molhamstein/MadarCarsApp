@@ -62,7 +62,7 @@ class Network {
   static String M = "";
 
   String checkCoupon =
-      "https://jawlatcom.com/api/coupons/$couponCode/checkCoupon";
+      _baseUrl+"coupons/$couponCode/checkCoupon";
 //  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
 
   Future<String> checkNum(String num) async {
@@ -81,7 +81,6 @@ class Network {
   }
 
   Future<Coupon> fetchCheckCoupon(String token, String s) async {
-    print(checkCoupon);
 
     headers['Authorization'] = token;
     print("Coupon token is :" + token);
@@ -99,6 +98,7 @@ class Network {
 
       throw 'error_wrong_credentials';
     } else {
+print(json.decode(response.body));
       throw json.decode(response.body);
     }
   }

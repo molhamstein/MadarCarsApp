@@ -198,9 +198,15 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
 
       if (result == "true")
+     {   print("resulte is :" +result);
       _checkNumController.sink.add(true);
+      }
       else
-        _checkNumController.sink.add(false);
+
+       {
+       print("resulte is :"+result);_checkNumController.sink.add(false);
+       }
+
 
       stopLoading();
 
