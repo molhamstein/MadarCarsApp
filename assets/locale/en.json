@@ -123,5 +123,7 @@
   "Discount": "Discount",
   "Book_Now": "Book_Now",
   "Enter_Your_Coupon": "Enter Your Coupon",
-  "airport_step_title": "Which one is your airport?"
-,"Wrong_Coupon_Code":"Wrong Coupon Code"}
+  "airport_step_title": "Which one is your airport?",
+  "Wrong_Coupon_Code": "Wrong Coupon Code",
+  "Check": "Check"
+}

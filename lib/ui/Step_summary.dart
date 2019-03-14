@@ -146,8 +146,8 @@ class StepSummaryState extends State<StepSummary>
                                           ],
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 8.0),
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, right: 8),
                                           child: new Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
@@ -256,7 +256,15 @@ class StepSummaryState extends State<StepSummary>
                                                       const EdgeInsets.only(
                                                           top: 25.0),
                                                   child: Container(
-                                                      child: new Text("/day")),
+                                                      child: Row(
+                                                    children: <Widget>[
+                                                      new Text("/"),
+                                                      new Text(
+                                                          MadarLocalizations.of(
+                                                                  context)
+                                                              .trans("day")),
+                                                    ],
+                                                  )),
                                                 )
                                               ],
                                             ),
@@ -266,7 +274,7 @@ class StepSummaryState extends State<StepSummary>
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 400,
+                                    height: 500,
                                   ),
                                 ],
                               ),
@@ -274,7 +282,7 @@ class StepSummaryState extends State<StepSummary>
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 270.0),
+                          padding: const EdgeInsets.only(top: 250.0),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -338,7 +346,8 @@ class StepSummaryState extends State<StepSummary>
                                                       .trip
                                                       .tripSubLocations[index];
                                                   return citiesListRow(
-                                                      location.cost.toString(),
+                                                      location
+                                                          .subLocation.nameTr,
                                                       '${location.duration}');
                                                 }),
                                           ],
@@ -367,8 +376,6 @@ class StepSummaryState extends State<StepSummary>
                                                 borderRadius:
                                                     BorderRadius.circular(25)),
                                             onPressed: () {
-//                                bloc.fetchCoupon();
-
                                               showModalBottomSheet(
                                                 context: context,
                                                 builder: (context) {
@@ -395,10 +402,15 @@ class StepSummaryState extends State<StepSummary>
                                                                         .size
                                                                         .width /
                                                                     1.5,
-                                                                child:
-                                                                    TextField(
-                                                                  controller:
-                                                                      _haveCoponController,
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 8.0,
+                                                                      right: 8),
+                                                                  child:
+                                                                      TextField(
+                                                                    controller:
+                                                                        _haveCoponController,
 //                                                          onSubmitted: (s) {
 //
 //
@@ -421,44 +433,39 @@ class StepSummaryState extends State<StepSummary>
 //////  showInSnackBar("Noooo way", context);
 ////                                                      }
 //                                                          },
-                                                                  autofocus:
-                                                                      true,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    hasFloatingPlaceholder:
+                                                                    autofocus:
                                                                         true,
-                                                                    hintText: MadarLocalizations.of(
-                                                                            context)
-                                                                        .trans(
-                                                                            'Enter_Your_Coupon'),
-                                                                    border:
-                                                                        OutlineInputBorder(),
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      hasFloatingPlaceholder:
+                                                                          true,
+                                                                      hintText: MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              'Enter_Your_Coupon'),
+                                                                      border:
+                                                                          OutlineInputBorder(),
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            12.0),
-                                                                child:
-                                                                    RaisedButton(
-                                                                  child: new Text(
-                                                                      "Check"),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    planingBloc.fetchCoupon(
-                                                                        _haveCoponController
-                                                                            .text);
-                                                                    print("data is " +
-                                                                        snapshot
-                                                                            .data
-                                                                            .id);
-                                                                  },
-                                                                ),
+                                                              RaisedButton(
+                                                                child: new Text(
+                                                                    MadarLocalizations.of(
+                                                                            context)
+                                                                        .trans(
+                                                                            'Check')),
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  planingBloc.fetchCoupon(
+                                                                      _haveCoponController
+                                                                          .text);
+                                                                  print("data is " +
+                                                                      snapshot
+                                                                          .data
+                                                                          .id);
+                                                                },
                                                               )
                                                             ],
                                                           ),
@@ -489,11 +496,6 @@ class StepSummaryState extends State<StepSummary>
                                 child: StreamBuilder<Coupon>(
                                     stream: planingBloc.couponStream,
                                     builder: (context, snapshot) {
-                                      if (snapshot.hasError &&
-                                          snapshot.error.hashCode == 462) {
-                                        print(("That's itt"));
-                                      }
-
                                       if (snapshot.hasData) {
                                         planingBloc.trip.couponId =
                                             snapshot.data.id;
@@ -595,49 +597,48 @@ class StepSummaryState extends State<StepSummary>
                                           ),
                                         );
                                       } else
-                                        print("Erooooooooooooooooorrrrrrrrrrrrrrrrrrrrrrrrrr") ;
-                                        return Column(
-                                          children: <Widget>[
+                                        print(
+                                            "Erooooooooooooooooorrrrrrrrrrrrrrrrrrrrrrrrrr");
+                                      return Column(
+                                        children: <Widget>[
 //                                            new SizedBox(height: 80,),
-                                            new Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                new Text(
-                                                    MadarLocalizations.of(
-                                                            context)
-                                                        .trans("estim_cost"),
-                                                    style: TextStyle(
-                                                        color: Colors.black87,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        height: 0.5)),
-                                                new Row(
-                                                  children: <Widget>[
-                                                    new Text(
-                                                        planingBloc.trip
-                                                            .estimationPrice()
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 22,
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: MadarColors
-                                                                .grey[800])),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 15.0),
-                                                      child: new Text("\$"),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        );
+                                          new Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              new Text(
+                                                  MadarLocalizations.of(context)
+                                                      .trans("estim_cost"),
+                                                  style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      height: 0.5)),
+                                              new Row(
+                                                children: <Widget>[
+                                                  new Text(
+                                                      planingBloc.trip
+                                                          .estimationPrice()
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 22,
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: MadarColors
+                                                              .grey[800])),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 15.0),
+                                                    child: new Text("\$"),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      );
                                     }),
                               )
                             ],
@@ -676,7 +677,7 @@ class StepSummaryState extends State<StepSummary>
               child: Container(),
             ),
             Text(
-              days,
+              days + " " + MadarLocalizations.of(context).trans("day"),
               style: AppTextStyle.meduimTextStyleBlack,
             ),
           ],

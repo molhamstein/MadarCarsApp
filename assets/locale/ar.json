@@ -119,10 +119,10 @@
   "Summary": "ملخص",
   "Airport_Pick_up": "المطارات المختارة",
   "Have_a_Coupon_Code": "لديك رقم قسيمة ؟",
-  "Discount": "حسم",
+  "Discount": "الحسم",
   "Book_Now": "احجز الآن",
   "Enter_Your_Coupon": "ادخل رقم القسيمة",
   "airport_step_title": "اي مطار هو مطارك؟",
-
-  "Wrong_Coupon_Code":"رقم قسيمة خاطئ"
+  "Wrong_Coupon_Code": "رقم قسيمة خاطئ",
+  "Check": "اختبار"
 }
