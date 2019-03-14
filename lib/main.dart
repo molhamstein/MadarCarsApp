@@ -130,9 +130,9 @@ class LandingPageState extends State<LandingPage> {
         if (snapshot.hasData) {
           if (snapshot.data) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-//              Navigator.of(context).pushReplacementNamed(HomePage.route);
-              Navigator.of(context).pushReplacement(
-                  new MaterialPageRoute(builder: (context) => CheckGsm()));
+              Navigator.of(context).pushReplacementNamed(HomePage.route);
+//              Navigator.of(context).pushReplacement(
+//                  new MaterialPageRoute(builder: (context) => CheckGsm()));
             });
 
 
