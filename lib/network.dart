@@ -38,7 +38,7 @@ class Network {
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
   final String _googleLoginUrl = _baseUrl + 'users/googleLogin';
   final String _locations = _baseUrl +
-      'locations?filter[include]=subLocations&filter[where][status]=active';
+      'locations?filter[include]=subLocations&filter[include]=airports&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
   final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
   final String _trip = _baseUrl + 'trips';
@@ -59,17 +59,15 @@ class Network {
   final String _updateFirbaseTokens =
       _baseUrl + 'firbaseTokens/updateFirebaseToken';
   static String couponCode = "Burak";
-  static String M = "" ;
+  static String M = "";
 
   String checkCoupon =
       "https://jawlatcom.com/api/coupons/$couponCode/checkCoupon";
 //  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
 
-  Future<String>
-  checkNum(String num) async {
-    final response = await http.get("$_baseUrl/users/$num/checkUser"
-
-        , headers: headers);
+  Future<String> checkNum(String num) async {
+    final response =
+        await http.get("$_baseUrl/users/$num/checkUser", headers: headers);
     if (response.statusCode == 200) {
       print(response.body.toString());
 
@@ -101,7 +99,6 @@ class Network {
 
       throw 'error_wrong_credentials';
     } else {
-
       throw json.decode(response.body);
     }
   }
@@ -301,6 +298,7 @@ class Network {
 
   Future<LocationsResponse> fetchLocations(String token) async {
     headers['Authorization'] = token;
+
     final response = await http.get(_locations, headers: headers);
     if (response.statusCode == 200) {
       return LocationsResponse.fromJson(json.decode(response.body));

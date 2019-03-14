@@ -47,8 +47,10 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
           appBloc.saveUser(snapshot.data.user);
           appBloc.saveToken(snapshot.data.token);
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacement(
-                new MaterialPageRoute(builder: (context) => HomePage(afterLogin: true,)));
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (context) => HomePage(
+                      afterLogin: true,
+                    )));
           });
         }
         if (snapshot.hasError && bloc.shouldShowFeedBack) {
@@ -59,154 +61,161 @@ class LoginWidgetState extends State<LoginWidget> with UserFeedback {
           });
         }
 
-        return Container(
-          padding: EdgeInsets.only(top: 23.0),
-          child: Column(
-            children: <Widget>[
-              Stack(
-                alignment: Alignment.topCenter,
-                overflow: Overflow.visible,
-                children: <Widget>[
-                  Card(
-                    elevation: 2.0,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Container(
-                      width: 300.0,
-                      height: 180.0,
-                      child: Column(
-                        children: <Widget>[
-                          phoneTextField(),
-                          Container(
-                            width: 250.0,
-                            height: 1.0,
-                            color: Colors.grey[400],
-                          ),
-                          passwordTextField(),
-                        ],
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Container(
+            padding: EdgeInsets.only(top: 23.0),
+            child: Column(
+              children: <Widget>[
+                Stack(
+                  alignment: Alignment.topCenter,
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    Card(
+                      elevation: 2.0,
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: Container(
+                        width: 300.0,
+                        height: 180.0,
+                        child: Column(
+                          children: <Widget>[
+                            phoneTextField(),
+                            Container(
+                              width: 250.0,
+                              height: 1.0,
+                              color: Colors.grey[400],
+                            ),
+                            passwordTextField(),
+                          ],
+                        ),
                       ),
                     ),
+                    loginBtn(),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: new LinearGradient(
+                              colors: [
+                                Colors.white10,
+                                Colors.white,
+                              ],
+                              begin: const FractionalOffset(0.0, 0.0),
+                              end: const FractionalOffset(1.0, 1.0),
+                              stops: [0.0, 1.0],
+                              tileMode: TileMode.clamp),
+                        ),
+                        width: 100.0,
+                        height: 1.0,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                        child: Text(
+                          MadarLocalizations.of(context).trans('or'),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontFamily: "WorkSansMedium"),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: new LinearGradient(
+                              colors: [
+                                Colors.white,
+                                Colors.white10,
+                              ],
+                              begin: const FractionalOffset(0.0, 0.0),
+                              end: const FractionalOffset(1.0, 1.0),
+                              stops: [0.0, 1.0],
+                              tileMode: TileMode.clamp),
+                        ),
+                        width: 100.0,
+                        height: 1.0,
+                      ),
+                    ],
                   ),
-                  loginBtn(),
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Row(
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: new LinearGradient(
-                            colors: [
-                              Colors.white10,
-                              Colors.white,
-                            ],
-                            begin: const FractionalOffset(0.0, 0.0),
-                            end: const FractionalOffset(1.0, 1.0),
-                            stops: [0.0, 1.0],
-                            tileMode: TileMode.clamp),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 10.0, right: 40.0, left: 40),
+                      child: GestureDetector(
+                        onTap: () => bloc.loginWithFacebook(),
+                        child: StreamBuilder<SocialUser>(
+                            stream: bloc.facebookUserStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                WidgetsBinding.instance.addPostFrameCallback(
+                                  (_) {
+                                    showInSnackBar(
+                                        snapshot.error.toString(), context);
+                                  },
+                                );
+                              }
+                              if (snapshot.hasData) {
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) {
+                                    return Step2SignUp(
+                                      user: snapshot.data,
+                                    );
+                                  }));
+                                });
+                                return CircularProgressIndicator();
+                              }
+                              return Container(
+                                padding: const EdgeInsets.all(15.0),
+                                decoration: new BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                ),
+                                child: new Icon(
+                                  FontAwesomeIcons.facebookF,
+                                  color: Color(0xFF0084ff),
+                                ),
+                              );
+                            }),
                       ),
-                      width: 100.0,
-                      height: 1.0,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Text(
-                        MadarLocalizations.of(context).trans('or'),
-                        style: TextStyle(
+                      padding: EdgeInsets.only(
+                        top: 10.0,
+                        left: 40,
+                        right: 40.0,
+                      ),
+                      child: GestureDetector(
+                        onTap: () => bloc.loginWithGoogle(),
+                        child: Container(
+                          padding: const EdgeInsets.all(15.0),
+                          decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
                             color: Colors.white,
-                            fontSize: 16.0,
-                            fontFamily: "WorkSansMedium"),
+                          ),
+                          child: new Icon(
+                            FontAwesomeIcons.google,
+                            color: Color(0xFF0084ff),
+                          ),
+                        ),
                       ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: new LinearGradient(
-                            colors: [
-                              Colors.white,
-                              Colors.white10,
-                            ],
-                            begin: const FractionalOffset(0.0, 0.0),
-                            end: const FractionalOffset(1.0, 1.0),
-                            stops: [0.0, 1.0],
-                            tileMode: TileMode.clamp),
-                      ),
-                      width: 100.0,
-                      height: 1.0,
                     ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 10.0, right: 40.0, left: 40),
-                    child: GestureDetector(
-                      onTap: () => bloc.loginWithFacebook(),
-                      child: StreamBuilder<SocialUser>(
-                          stream: bloc.facebookUserStream,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              WidgetsBinding.instance.addPostFrameCallback(
-                                (_) {
-                                  showInSnackBar(
-                                      snapshot.error.toString(), context);
-                                },
-                              );
-                            }
-                            if (snapshot.hasData) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(builder: (context) {
-                                  return Step2SignUp(
-                                   user: snapshot.data,
-                                  );
-                                }));
-                              });
-                              return CircularProgressIndicator();
-                            }
-                            return Container(
-                              padding: const EdgeInsets.all(15.0),
-                              decoration: new BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                              ),
-                              child: new Icon(
-                                FontAwesomeIcons.facebookF,
-                                color: Color(0xFF0084ff),
-                              ),
-                            );
-                          }),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 10.0,
-                      left: 40,
-                      right: 40.0,
-                    ),
-                    child: GestureDetector(
-                      onTap: () => bloc.loginWithGoogle(),
-                      child: Container(
-                        padding: const EdgeInsets.all(15.0),
-                        decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                        ),
-                        child: new Icon(
-                          FontAwesomeIcons.google,
-                          color: Color(0xFF0084ff),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
