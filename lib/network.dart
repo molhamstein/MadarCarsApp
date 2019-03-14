@@ -61,8 +61,7 @@ class Network {
   static String couponCode = "Burak";
   static String M = "";
 
-  String checkCoupon =
-      _baseUrl+"coupons/$couponCode/checkCoupon";
+  String checkCoupon = _baseUrl + "coupons/$couponCode/checkCoupon";
 //  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
 
   Future<String> checkNum(String num) async {
@@ -81,7 +80,6 @@ class Network {
   }
 
   Future<Coupon> fetchCheckCoupon(String token, String s) async {
-
     headers['Authorization'] = token;
     print("Coupon token is :" + token);
     var response = await http.get(
@@ -98,7 +96,7 @@ class Network {
 
       throw 'error_wrong_credentials';
     } else {
-print(json.decode(response.body));
+      print(json.decode(response.body));
       throw json.decode(response.body);
     }
   }
@@ -300,6 +298,8 @@ print(json.decode(response.body));
     headers['Authorization'] = token;
 
     final response = await http.get(_locations, headers: headers);
+    print("locaaations");
+    print(response.body);
     if (response.statusCode == 200) {
       return LocationsResponse.fromJson(json.decode(response.body));
     } else {
