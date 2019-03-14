@@ -8,14 +8,12 @@ import 'package:device_info/device_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
-import 'package:madar_booking/models/CheckCouponModel.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
-import 'package:madar_booking/models/check.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
@@ -59,17 +57,15 @@ class Network {
   final String _updateFirbaseTokens =
       _baseUrl + 'firbaseTokens/updateFirebaseToken';
   static String couponCode = "Burak";
-  static String M = "" ;
+  static String M = "";
 
-  String checkCoupon =
-      _baseUrl+"coupons/$couponCode/checkCoupon";
+  String checkCoupon = _baseUrl + "coupons/$couponCode/checkCoupon";
+
 //  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
 
-  Future<String>
-  checkNum(String num) async {
-    final response = await http.get("$_baseUrl/users/$num/checkUser"
-
-        , headers: headers);
+  Future<String> checkNum(String num) async {
+    final response =
+        await http.get("$_baseUrl/users/$num/checkUser", headers: headers);
     if (response.statusCode == 200) {
       print(response.body.toString());
 
@@ -83,11 +79,10 @@ class Network {
   }
 
   Future<Coupon> fetchCheckCoupon(String token, String s) async {
-
     headers['Authorization'] = token;
     print("Coupon token is :" + token);
     var response = await http.get(
-      "{$_baseUrl}coupons/$s/checkCoupon",
+      "${_baseUrl}coupons/$s/checkCoupon",
       headers: headers,
     );
 
@@ -100,7 +95,7 @@ class Network {
 
       throw 'error_wrong_credentials';
     } else {
-print(json.decode(response.body));
+      print(json.decode(response.body));
       throw json.decode(response.body);
     }
   }

@@ -13,7 +13,7 @@ class Trip {
   String note;
   String couponId;
 
-  List<TripSublocation> tripSubLocations;
+  List<TripSublocation>  tripSubLocations;
 
   Trip(
       {this.fromAirport,
