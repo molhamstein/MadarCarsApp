@@ -69,10 +69,10 @@ class _CheckGsmState extends State<CheckGsm>
             }
             if (snapshot.hasError && bloc.shouldShowFeedBack) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-//                showInSnackBar(snapshot.error.toString(), context,
-//                    color: Colors.redAccent);
-                Navigator.of(context).pushReplacement(
-                    new MaterialPageRoute(builder: (context) => SignUp()));
+                showInSnackBar(snapshot.error.toString(), context,
+                    color: Colors.redAccent);
+//                Navigator.of(context).pushReplacement(
+//                    new MaterialPageRoute(builder: (context) => SignUp()));
                 bloc.shouldShowFeedBack = false;
               });
             }
