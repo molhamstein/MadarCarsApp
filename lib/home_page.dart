@@ -657,7 +657,7 @@ class AvailbleCarState extends State<AvailbleCar> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return StreamBuilder<List<Car>>(
-      // initialData: temp,
+      initialData: widget.appBloc.ourCars != null ? widget.appBloc.ourCars : [],
       stream: widget.homeBloc.availableCarsStream,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {

@@ -36,7 +36,7 @@ class Network {
   final String _facebookLoginUrl = _baseUrl + 'users/facebookLogin';
   final String _googleLoginUrl = _baseUrl + 'users/googleLogin';
   final String _locations = _baseUrl +
-      'locations?filter[include]=subLocations&filter[where][status]=active';
+      'locations?filter[include]=subLocations&filter[include]=airports&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
   final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
   final String _trip = _baseUrl + 'trips';
@@ -295,7 +295,10 @@ class Network {
 
   Future<LocationsResponse> fetchLocations(String token) async {
     headers['Authorization'] = token;
+
     final response = await http.get(_locations, headers: headers);
+    print("locaaations");
+    print(response.body);
     if (response.statusCode == 200) {
       return LocationsResponse.fromJson(json.decode(response.body));
     } else {

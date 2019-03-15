@@ -134,8 +134,6 @@ class _CheckGsmState extends State<CheckGsm>
                             var valid = (snapshot.hasData && snapshot.data);
                             print(valid);
 
-
-
                             return Column(
                               /// Suronded coulnm
                               children: <Widget>[
@@ -164,23 +162,33 @@ class _CheckGsmState extends State<CheckGsm>
                                                   color: Colors.grey[400],
                                                 ),
                                                 StreamBuilder<bool>(
-                                                  stream: bloc.checkNumStream,
-                                                  builder: (context, snapshot) {
-                                                    if(snapshot.hasData && snapshot.data == true)
-                                                   {   print ("data is true");
-                                                    return passwordTextField();}
-                                                       else if (snapshot.hasData && snapshot.data == false){
-                                                    print("data is false");
-                                                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                                                      Navigator.of(context).pushReplacement(
-                                                          new MaterialPageRoute(builder: (context) => SignUp()));
-
-                                                    });
-                                                  }
-                                                  else {return Container();}
-                                                  }
-                                                )
-
+                                                    stream: bloc.checkNumStream,
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot.hasData &&
+                                                          snapshot.data ==
+                                                              true) {
+                                                        print("data is true");
+                                                        return passwordTextField();
+                                                      } else if (snapshot
+                                                              .hasData &&
+                                                          snapshot.data ==
+                                                              false) {
+                                                        print("data is false");
+                                                        WidgetsBinding.instance
+                                                            .addPostFrameCallback(
+                                                                (_) {
+                                                          Navigator.of(context)
+                                                              .pushReplacement(
+                                                                  new MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              SignUp()));
+                                                        });
+                                                      } else {
+                                                        return Container();
+                                                      }
+                                                    })
                                               ],
                                             ),
                                           ),
@@ -276,7 +284,7 @@ class _CheckGsmState extends State<CheckGsm>
   Widget checkBtn() {
     return StreamBuilder<bool>(
         stream: bloc.loadingStream,
-        initialData: true,
+        initialData: false,
         builder: (context, loadingSnapshot) {
           return SubmitButton(
             text: MadarLocalizations.of(context).trans('submit'),

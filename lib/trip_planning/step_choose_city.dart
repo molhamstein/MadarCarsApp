@@ -103,7 +103,8 @@ class ChooseCityStepState extends State<ChooseCityStep>
                       planingBloc.cityId(locationsSnapshot
                           .data[0]); // initial location (pre selected)
 
-                    if (locationsSnapshot.hasData && planingBloc.trip.location != null) {
+                    if (locationsSnapshot.hasData &&
+                        planingBloc.trip.location != null) {
                       bloc.selectLocation(
                           locationsSnapshot.data.firstWhere((location) =>
                               location.id == planingBloc.trip.location.id),
@@ -269,9 +270,12 @@ class ChooseCityStepState extends State<ChooseCityStep>
         stream: bloc.indexStream,
         initialData: 0,
         builder: (context, snapshot) {
-          if(cityScrollController.hasClients && s) {
+          if (cityScrollController.hasClients && s) {
             s = false;
-            cityScrollController.animateTo(snapshot.data * MediaQuery.of(context).size.width / 2.5, duration: Duration(milliseconds: 100), curve: Curves.elasticInOut);
+            cityScrollController.animateTo(
+                snapshot.data * MediaQuery.of(context).size.width / 2.5,
+                duration: Duration(milliseconds: 100),
+                curve: Curves.elasticInOut);
           }
           return ListView.builder(
             controller: cityScrollController,
@@ -297,8 +301,8 @@ class ChooseCityStepState extends State<ChooseCityStep>
 
   @override
   void dispose() {
-    bloc.dispose();
-    _mainController.dispose();
+    // bloc.dispose();
+    // _mainController.dispose();
     super.dispose();
   }
 }
