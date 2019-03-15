@@ -275,7 +275,7 @@ class TripPlaningBloc extends BaseBloc with Network {
     trip.car = car;
   }
 
-  Function(String, int, int) get addSubLocation => trip.addSubLocation;
+  Function(String, int, int ,String ) get addSubLocation => trip.addSubLocation;
 
   get pushEstimationCost => _estimationCostController.sink
       .add(trip.estimationPrice(withSubLocationPrice: true));
@@ -290,7 +290,6 @@ class TripPlaningBloc extends BaseBloc with Network {
   bool get isLocationIdNull => trip.location == null;
 
   submitTrip() {
-    print("Submitttttttttttttttttttttttttttttttttttttted");
     showFeedback = true;
     postTrip(trip, token, userId).then((d) {
       _loadingController.sink.add(false);

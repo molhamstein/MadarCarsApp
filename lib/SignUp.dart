@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
@@ -72,6 +73,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
             return  SingleChildScrollView(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   decoration: new BoxDecoration(
                     gradient: new LinearGradient(
                         colors: [MadarColors.gradientUp, MadarColors.gradientDown],
@@ -86,7 +88,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
                         padding: EdgeInsets.only(top: 75.0),
                         child: Container(
                           width: 250.0,
-                          height: 191.0,
+                          height: 170.0,
                           child: Image.asset(
                             'assets/images/logo.png',
                             width: 50,
@@ -110,7 +112,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
                                   ),
                                   child: Container(
                                     width: 300.0,
-                                    height: 360.0,
                                     child: Column(
                                       children: <Widget>[
                                         nameTextField(),
@@ -126,12 +127,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
                                           color: Colors.grey[400],
                                         ),
                                         passwordTextField(),
-                                        Container(
-                                          width: 250.0,
-                                          height: 1.0,
-                                          color: Colors.grey[400],
-                                        ),
-                                        isoCodePicker(),
+
                                       ],
                                     ),
                                   ),
@@ -195,28 +191,26 @@ class SignUpState extends State<SignUp> with UserFeedback {
                     return
 //
 
-                        TextField(
+                        Localizations(delegates: [  GlobalMaterialLocalizations.delegate,GlobalWidgetsLocalizations.delegate,],locale: Locale('en', ''),
+                          child: TextField(
                       focusNode: myFocusNodeEmail,
                       controller: signupEmailController,
                       keyboardType: TextInputType.phone,
                       onChanged: bloc.changeSignUpPhone,
                       style: TextStyle(
-                          fontFamily: "WorkSansSemiBold",
-                          fontSize: 16.0,
-                          color: Colors.black),
+                            fontFamily: "WorkSansSemiBold",
+                            fontSize: 16.0,
+                            color: Colors.black),
                       textDirection: TextDirection.ltr,
                       decoration: InputDecoration(
-                        errorText: MadarLocalizations.of(context)
-                            .trans(phoneSnapshot.error),
-                        errorStyle: TextStyle(height: 0.1),
-                        prefixText: snapshot.data.dialCode,
-                        border: InputBorder.none,
-                        icon: Icon(
-                          FontAwesomeIcons.mobile,
-                          color: Colors.black,
-                        ),
+                          errorText: MadarLocalizations.of(context)
+                              .trans(phoneSnapshot.error),
+                          errorStyle: TextStyle(height: 0.1),
+                          border: InputBorder.none,
+                          icon: isoCodePicker(),
                       ),
-                    );
+                    ),
+                        );
                   }));
         });
   }
@@ -261,16 +255,26 @@ class SignUpState extends State<SignUp> with UserFeedback {
     );
   }
 
+
+
   Widget isoCodePicker() {
-    return Padding(
-        padding:
-            EdgeInsets.only(top: 6.0, bottom: 20.0, left: 25.0, right: 25.0),
-        child: CountryCodePicker(
-          favorite: ['SA', 'TR', 'KW', 'AE'],
-          initialSelection: 'SA',
-          onChanged: bloc.changeSignUpIsoCode,
-        ));
+    return CountryCodePicker(
+      favorite: ['SA', 'TR', 'KW', 'AE'],
+      initialSelection: 'SA',
+      onChanged: bloc.changeSignUpIsoCode,
+    );
   }
+
+//  Widget isoCodePicker() {
+//    return Padding(
+//        padding:
+//            EdgeInsets.only(top: 6.0, bottom: 20.0, left: 25.0, right: 25.0),
+//        child: CountryCodePicker(
+//          favorite: ['SA', 'TR', 'KW', 'AE'],
+//          initialSelection: 'SA',
+//          onChanged: bloc.changeSignUpIsoCode,
+//        ));
+//  }
 
   Widget signUpBtn() {
     return Container(

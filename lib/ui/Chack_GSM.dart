@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/SignUp.dart';
 import 'package:madar_booking/app_bloc.dart';
@@ -96,7 +97,7 @@ class _CheckGsmState extends State<CheckGsm>
                       padding: EdgeInsets.only(top: 75.0),
                       child: Container(
                         width: 250.0,
-                        height: 191.0,
+                        height: 170.0,
                         child: Image.asset(
                           'assets/images/logo.png',
                           width: 50,
@@ -110,7 +111,7 @@ class _CheckGsmState extends State<CheckGsm>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            width: 250,
+                            width: MediaQuery.of(context).size.width,
                             child: new Text(
                               MadarLocalizations.of(context).trans(
                                   'Your_best_companion_for_a_comfortable_trip_to_turkey'),
@@ -424,23 +425,25 @@ class _CheckGsmState extends State<CheckGsm>
               EdgeInsets.only(top: 20.0, bottom: 8.0, left: 25.0, right: 25.0),
           child: Container(
             height: 60,
-            child: TextField(
-              focusNode: myFocusNodeEmailLogin,
-              controller: loginEmailController,
-              keyboardType: TextInputType.phone,
-              onChanged: bloc.changeLoginPhone,
-              style: TextStyle(
-                  fontFamily: "WorkSansSemiBold",
-                  fontSize: 16.0,
-                  color: Colors.black),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                errorText: MadarLocalizations.of(context).trans(snapshot.error),
-                errorStyle: TextStyle(height: 0.1, fontSize: 12),
-                icon: isoCodePicker(),
-                hintText: MadarLocalizations.of(context).trans('phone_number'),
-                hintStyle:
-                    TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+            child: Localizations(delegates: [  GlobalMaterialLocalizations.delegate,GlobalWidgetsLocalizations.delegate,],locale: Locale('en', '') ,
+              child: TextField(
+                focusNode: myFocusNodeEmailLogin,
+                controller: loginEmailController,
+                keyboardType: TextInputType.phone,
+                onChanged: bloc.changeLoginPhone,
+                style: TextStyle(
+                    fontFamily: "WorkSansSemiBold",
+                    fontSize: 16.0,
+                    color: Colors.black),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  errorText: MadarLocalizations.of(context).trans(snapshot.error),
+                  errorStyle: TextStyle(height: 0.1, fontSize: 12),
+                  icon: isoCodePicker(),
+                  hintText: MadarLocalizations.of(context).trans('phone_number'),
+                  hintStyle:
+                      TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+                ),
               ),
             ),
           ),

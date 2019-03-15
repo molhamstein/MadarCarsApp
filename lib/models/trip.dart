@@ -13,7 +13,7 @@ class Trip {
   String note;
   String couponId;
 
-  List<TripSublocation> tripSubLocations;
+  List<TripSublocation>  tripSubLocations;
 
   Trip(
       {this.fromAirport,
@@ -37,7 +37,7 @@ class Trip {
     note = '';
   }
 
-  addSubLocation(String id, int duration, int cost) {
+  addSubLocation(String id, int duration, int cost , String subName) {
     int allSubLocationDuration = 0;
     tripSubLocations.forEach(
         (subLocation) => allSubLocationDuration += subLocation.duration);
@@ -47,11 +47,12 @@ class Trip {
               tripSubLocations.indexWhere((location) => location.id == id)) ==
           -1) {
         tripSubLocations
-            .add(TripSublocation(id: id, duration: duration, cost: cost));
+            .add(TripSublocation(id: id, duration: duration, cost: cost , subLocation: SubLocation(nameTr: subName)));
       } else {
         tripSubLocations[index].id = id;
         tripSubLocations[index].duration = duration;
         tripSubLocations[index].cost = cost;
+        tripSubLocations[index].subLocation.nameEn  = subName;
       }
     }
   }

@@ -10,7 +10,7 @@ import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
 class SubCityTile extends StatefulWidget {
   final SubLocationResponse subLocationResponse;
-  final Function(String, int, int) onCounterChanged;
+  final Function(String, int, int , String) onCounterChanged;
 
   const SubCityTile(
       {Key key,
@@ -92,7 +92,9 @@ class SubCityTileState extends State<SubCityTile> {
                               widget.onCounterChanged(
                                   widget.subLocationResponse.subLocation.id,
                                   _counter,
-                                  widget.subLocationResponse.cost);
+                                  widget.subLocationResponse.cost,widget.subLocationResponse.subLocation.name(  MadarLocalizations.of(
+                                  context)
+                                  .locale));
                               bloc.pushEstimationCost;
                             }
                           });
@@ -137,7 +139,9 @@ class SubCityTileState extends State<SubCityTile> {
                                 widget.onCounterChanged(
                                     widget.subLocationResponse.subLocation.id,
                                     _counter,
-                                    widget.subLocationResponse.cost);
+                                    widget.subLocationResponse.cost , widget.subLocationResponse.subLocation.name(  MadarLocalizations.of(
+                                    context)
+                                    .locale));
                                 bloc.pushEstimationCost;
                               }
                             },

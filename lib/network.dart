@@ -8,14 +8,12 @@ import 'package:device_info/device_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
-import 'package:madar_booking/models/CheckCouponModel.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/models/UserResponse.dart';
-import 'package:madar_booking/models/check.dart';
 import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
@@ -62,6 +60,7 @@ class Network {
   static String M = "";
 
   String checkCoupon = _baseUrl + "coupons/$couponCode/checkCoupon";
+
 //  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
 
   Future<String> checkNum(String num) async {
@@ -83,7 +82,7 @@ class Network {
     headers['Authorization'] = token;
     print("Coupon token is :" + token);
     var response = await http.get(
-      "{$_baseUrl}coupons/$s/checkCoupon",
+      "${_baseUrl}coupons/$s/checkCoupon",
       headers: headers,
     );
 
@@ -91,10 +90,10 @@ class Network {
     print("CheckCoupon is$response");
     if (response.statusCode == 200) {
       return Coupon.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
-      print("error_wrong_credentials");
+    } else if (response.statusCode == ErrorCodes.COUPON_NOT_AVAILABILE) {
+      print("Coupn_not_available");
 
-      throw 'error_wrong_credentials';
+      throw 'Coupn_not_available';
     } else {
       print(json.decode(response.body));
       throw json.decode(response.body);
@@ -676,4 +675,5 @@ mixin ErrorCodes {
   static const int NOT_COMPLETED_SN_LOGIN = 450;
   static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
   static const int CAR_NOT_AVAILABLE = 457;
+  static const int COUPON_NOT_AVAILABILE = 462 ;
 }

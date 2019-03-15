@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:country_code_picker/country_code.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:madar_booking/bloc_provider.dart';
-import 'package:madar_booking/models/check.dart';
-import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/UserResponse.dart';
+import 'package:madar_booking/models/media.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'validator.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthBloc extends BaseBloc with Validators, Network {
   bool shouldShowFeedBack;
@@ -44,11 +45,13 @@ class AuthBloc extends BaseBloc with Validators, Network {
   final _updateSuccessController = BehaviorSubject<bool>();
 
   get pushUpdateSuccessEvent => _updateSuccessController.sink.add(true);
+
   get pushUpdateFaildEvent => _updateSuccessController.sink.add(false);
 
   Stream<SocialUser> get facebookUserStream => _SocialLoginController.stream;
 
   get pushLockTouchEvent => _lockTouchEventController.sink.add(true);
+
   get pushUnlockTouchEvent => _lockTouchEventController.sink.add(false);
 
   Function(String) get changeLoginPhone => _phoneLoginController.sink.add;
@@ -121,6 +124,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<User> get submitUpdteUserStream => _submitUpdateUserController.stream;
 
   Stream<bool> get lockTouchEventStream => _lockTouchEventController.stream;
+
   Stream<bool> get userUpdateStream => _updateSuccessController.stream;
 
   Stream<bool> get loadingStream => _loadingController.stream;
@@ -174,8 +178,6 @@ class AuthBloc extends BaseBloc with Validators, Network {
   }
 
   final _checkNumController = BehaviorSubject<bool>();
-
-//  Observable<String> get checkNumStream => _checkNumController.stream;
 
   get checkNumStream => _checkNumController.stream;
 
