@@ -105,25 +105,26 @@ class _CheckGsmState extends State<CheckGsm>
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 50.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: new Text(
-                              MadarLocalizations.of(context).trans(
-                                  'Your_best_companion_for_a_comfortable_trip_to_turkey'),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                  fontFamily: "WorkSansMedium",
-                                  decoration: TextDecoration.none),
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              new Text(
+                                MadarLocalizations.of(context).trans(
+                                    'Your_best_companion_for_a_comfortable_trip_to_turkey'),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontFamily: "WorkSansMedium",
+                                    decoration: TextDecoration.none),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 23.0),
