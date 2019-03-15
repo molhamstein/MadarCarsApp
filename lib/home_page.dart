@@ -129,9 +129,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     //   // setState(() {});
     // });
 
-    // _navbarOffsetFloat.addListener(() {
-    //   setState(() {});
-    // });
+    _navbarOffsetFloat.addListener(() {
+      setState(() {});
+    });
     _controller.forward();
   }
 

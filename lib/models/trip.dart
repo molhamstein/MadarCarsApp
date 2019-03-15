@@ -1,3 +1,4 @@
+import 'package:madar_booking/models/Airport.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripsSublocation.dart';
 import 'package:madar_booking/models/location.dart';
@@ -12,8 +13,10 @@ class Trip {
   Car car;
   String note;
   String couponId;
+  Airport airport;
+  bool hasManyAirport;
 
-  List<TripSublocation>  tripSubLocations;
+  List<TripSublocation> tripSubLocations;
 
   Trip(
       {this.fromAirport,
@@ -23,7 +26,9 @@ class Trip {
       this.startDate,
       this.endDate,
       this.car,
-      this.couponId});
+      this.couponId,
+      this.hasManyAirport,
+      this.airport});
 
   Trip.init() {
     fromAirport = false;
@@ -34,10 +39,11 @@ class Trip {
     endDate = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 23);
     tripSubLocations = [];
+    hasManyAirport = false;
     note = '';
   }
 
-  addSubLocation(String id, int duration, int cost , String subName) {
+  addSubLocation(String id, int duration, int cost, String subName) {
     int allSubLocationDuration = 0;
     tripSubLocations.forEach(
         (subLocation) => allSubLocationDuration += subLocation.duration);
@@ -46,13 +52,16 @@ class Trip {
       if ((index =
               tripSubLocations.indexWhere((location) => location.id == id)) ==
           -1) {
-        tripSubLocations
-            .add(TripSublocation(id: id, duration: duration, cost: cost , subLocation: SubLocation(nameTr: subName)));
+        tripSubLocations.add(TripSublocation(
+            id: id,
+            duration: duration,
+            cost: cost,
+            subLocation: SubLocation(nameTr: subName)));
       } else {
         tripSubLocations[index].id = id;
         tripSubLocations[index].duration = duration;
         tripSubLocations[index].cost = cost;
-        tripSubLocations[index].subLocation.nameEn  = subName;
+        tripSubLocations[index].subLocation.nameEn = subName;
       }
     }
   }
@@ -77,17 +86,15 @@ class Trip {
     return dates;
   }
 
-  double estimationPriceWithPercentageDiscount(int percentage ){
-    double num = (1-(percentage/100))*estimationPrice();
+  double estimationPriceWithPercentageDiscount(int percentage) {
+    double num = (1 - (percentage / 100)) * estimationPrice();
     return num;
   }
 
-
-  int estimationPriceWithFixedDiscount(int discount ){
-    int num = estimationPrice()-discount;
+  int estimationPriceWithFixedDiscount(int discount) {
+    int num = estimationPrice() - discount;
     return num;
   }
-
 
   int estimationPrice({bool withSubLocationPrice = false}) {
     int cost = 0;

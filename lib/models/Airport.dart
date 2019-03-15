@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:madar_booking/models/Location.dart';
 
 class Airport {
@@ -40,4 +42,11 @@ class Airport {
         "locationId": locationId == null ? null : locationId,
         "location": location == null ? null : location.toJson(),
       };
+
+  String name(Locale locale) {
+    if (locale.languageCode == 'en') {
+      return nameEn;
+    }
+    return nameAr;
+  }
 }

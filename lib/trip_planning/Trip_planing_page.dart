@@ -32,19 +32,32 @@ class TripPlanningPage extends StatefulWidget {
 }
 
 class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
-  final steps = [
-    ChooseCityStep(),
-    TripTypeStep(),
-    // AirportStep(),
-    StepChooseDatePage(),
-    StepChooseCar(),
-    StepChooseSubCity(),
-    StepSummary(),
-    FinalStep(),
-  ];
-
   TripPlaningBloc bloc;
   TextEditingController _noteController;
+  var cityStep = ChooseCityStep();
+  var typeStep = TripTypeStep();
+  getStep(Steps step) {
+    switch (step) {
+      case Steps.chooseCity:
+        return cityStep;
+      case Steps.chooseType:
+        return typeStep;
+      case Steps.chooseAirports:
+        return AirportStep();
+      case Steps.chooseDate:
+        return StepChooseDatePage();
+      case Steps.chooseCar:
+        return StepChooseCar();
+      case Steps.chooseSuplocations:
+        return StepChooseSubCity();
+      case Steps.summary:
+        return StepSummary();
+      case Steps.finalstep:
+        return FinalStep();
+      default:
+        return Container();
+    }
+  }
 
   @override
   void initState() {
@@ -66,7 +79,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       bloc: bloc,
       child: WillPopScope(
         onWillPop: () async {
-          if (bloc.index == 0 || bloc.index == 6) {
+          if (bloc.step == Steps.chooseCity || bloc.step == Steps.finalstep) {
             Navigator.of(context).pop();
             return false;
           } else {
@@ -115,27 +128,28 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                 width: MediaQuery.of(context).size.width,
                                 // decoration: BoxDecoration(
                                 //     gradient: MadarColors.gradiant_decoration),
-                                child: StreamBuilder<int>(
+                                child: StreamBuilder<Steps>(
                                     stream: bloc.navigationStream,
-                                    initialData: 0,
+                                    initialData: Steps.chooseCity,
                                     builder: (context, snapshot) {
                                       return Scaffold(
+                                        backgroundColor: Colors.transparent,
+                                        appBar: AppBar(
+                                          iconTheme: IconThemeData(
+                                              color: Colors.black87),
                                           backgroundColor: Colors.transparent,
-                                          appBar: AppBar(
-                                            iconTheme: IconThemeData(
-                                                color: Colors.black87),
-                                            backgroundColor: Colors.transparent,
-                                            centerTitle: true,
-                                            elevation: 0,
-                                            title: Text(
-                                              title(snapshot.data),
-                                              style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 22,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
+                                          centerTitle: true,
+                                          elevation: 0,
+                                          title: Text(
+                                            title(snapshot.data),
+                                            style: TextStyle(
+                                                color: Colors.black87,
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w700),
                                           ),
-                                          body: steps[snapshot.data]);
+                                        ),
+                                        body: getStep(snapshot.data),
+                                      );
                                     }),
                               ),
                               StreamBuilder<bool>(
@@ -173,7 +187,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                         .trans(snapshot.data),
                                     loading: loadingSnapshot.data,
                                     onPressed: () {
-                                      if (bloc.index == 6) {
+                                      if (bloc.step == Steps.finalstep) {
                                         Navigator.of(context).pop();
                                       } else if (bloc.done) {
                                         bloc.submitTrip();

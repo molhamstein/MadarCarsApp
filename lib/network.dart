@@ -298,7 +298,9 @@ class Network {
 
     final response = await http.get(_locations, headers: headers);
     print("locaaations");
+
     print(response.body);
+    print(_locations);
     if (response.statusCode == 200) {
       return LocationsResponse.fromJson(json.decode(response.body));
     } else {
@@ -675,5 +677,5 @@ mixin ErrorCodes {
   static const int NOT_COMPLETED_SN_LOGIN = 450;
   static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
   static const int CAR_NOT_AVAILABLE = 457;
-  static const int COUPON_NOT_AVAILABILE = 462 ;
+  static const int COUPON_NOT_AVAILABILE = 462;
 }
