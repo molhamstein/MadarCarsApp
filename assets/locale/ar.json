@@ -124,5 +124,6 @@
   "Enter_Your_Coupon": "ادخل رقم القسيمة",
   "airport_step_title": "اي مطار هو مطارك؟",
   "Wrong_Coupon_Code": "رقم قسيمة خاطئ",
-  "Check": "اختبار"
+  "Check": "اختبار",
+  "choose_AirPort":"اختر مطار"
 }
