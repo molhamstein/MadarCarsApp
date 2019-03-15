@@ -104,10 +104,6 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<bool> get submitValidLogin => Observable.combineLatest2(
       phoneLoginStream, passwordLoginStream, (a, b) => true);
 
-
-
-
-
   Stream<bool> get submitValidSignUp => Observable.combineLatest3(
       phoneSignUpStream,
       passwordSignUpStream,
@@ -153,7 +149,6 @@ class AuthBloc extends BaseBloc with Validators, Network {
 //
 //  }
 
-
   submitLogin() {
     final validPhoneNumber = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
@@ -178,45 +173,28 @@ class AuthBloc extends BaseBloc with Validators, Network {
     });
   }
 
-
   final _checkNumController = BehaviorSubject<bool>();
-
 
 //  Observable<String> get checkNumStream => _checkNumController.stream;
 
   get checkNumStream => _checkNumController.stream;
 
-
-
-
-
-    fetchCheckNum() {
-      final validPhoneNumber = _phoneLoginController.value;
-      final validIsoCode = _isoCodeSignUpController.value;
+  fetchCheckNum() {
+    final validPhoneNumber = _phoneLoginController.value;
+    final validIsoCode = _isoCodeSignUpController.value;
     startLoading;
     checkNum(validIsoCode.dialCode + validPhoneNumber).then((result) {
-
-
-      if (result == "true")
-     {   print("resulte is :" +result);
-      _checkNumController.sink.add(true);
+      if (result == "true") {
+        print("resulte is :" + result);
+        _checkNumController.sink.add(true);
+      } else {
+        print("resulte is :" + result);
+        _checkNumController.sink.add(false);
       }
-      else
-
-       {
-       print("resulte is :"+result);_checkNumController.sink.add(false);
-       }
-
 
       stopLoading();
-
-
-    }).catchError((e) {
-
-    });
-
+    }).catchError((e) {});
   }
-
 
   submitSignUp() {
     final validUserName = _nameSignUpController.value;
@@ -261,7 +239,6 @@ class AuthBloc extends BaseBloc with Validators, Network {
         SharedPreferences.getInstance().then((prefs) {
           prefs.setString('user_image', response.url);
           submitUpdateUser(userId, token, response.id);
-
         });
       } else {
         stopLoading;
