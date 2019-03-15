@@ -290,7 +290,6 @@ class TripPlaningBloc extends BaseBloc with Network {
   bool get isLocationIdNull => trip.location == null;
 
   submitTrip() {
-    print("Submitttttttttttttttttttttttttttttttttttttted");
     showFeedback = true;
     postTrip(trip, token, userId).then((d) {
       _loadingController.sink.add(false);

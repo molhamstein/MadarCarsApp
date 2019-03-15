@@ -90,10 +90,10 @@ class Network {
     print("CheckCoupon is$response");
     if (response.statusCode == 200) {
       return Coupon.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
-      print("error_wrong_credentials");
+    } else if (response.statusCode == ErrorCodes.COUPON_NOT_AVAILABILE) {
+      print("Coupn_not_available");
 
-      throw 'error_wrong_credentials';
+      throw 'Coupn_not_available';
     } else {
       print(json.decode(response.body));
       throw json.decode(response.body);
@@ -672,4 +672,5 @@ mixin ErrorCodes {
   static const int NOT_COMPLETED_SN_LOGIN = 450;
   static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
   static const int CAR_NOT_AVAILABLE = 457;
+  static const int COUPON_NOT_AVAILABILE = 462 ;
 }

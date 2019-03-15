@@ -35,7 +35,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
   final steps = [
     ChooseCityStep(),
     TripTypeStep(),
-//    AirportStep(),
+    AirportStep(),
     StepChooseDatePage(),
     StepChooseCar(),
     StepChooseSubCity(),

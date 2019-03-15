@@ -597,8 +597,9 @@ class StepSummaryState extends State<StepSummary>
                                           ),
                                         );
                                       } else
-                                        print(
-                                            "Erooooooooooooooooorrrrrrrrrrrrrrrrrrrrrrrrrr");
+                                      if(snapshot.hashCode == snapshot.error){
+                                        print("I'm heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere") ;
+                                      }else
                                       return Column(
                                         children: <Widget>[
 //                                            new SizedBox(height: 80,),
