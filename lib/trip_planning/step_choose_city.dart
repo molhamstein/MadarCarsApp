@@ -277,6 +277,17 @@ class ChooseCityStepState extends State<ChooseCityStep>
                 duration: Duration(milliseconds: 100),
                 curve: Curves.elasticInOut);
           }
+
+          if (locationsSnapshot.data[snapshot.data].airports != null) {
+            planingBloc.airports =
+                locationsSnapshot.data[snapshot.data].airports;
+            planingBloc.trip.hasManyAirport =
+                locationsSnapshot.data[snapshot.data].airports.length > 1;
+            if (locationsSnapshot.data[snapshot.data].airports.length == 1) {
+              planingBloc.trip.airport =
+                  locationsSnapshot.data[snapshot.data].airports[0];
+            }
+          }
           return ListView.builder(
             controller: cityScrollController,
             padding: EdgeInsets.only(right: 32, left: 32, top: 16, bottom: 16),

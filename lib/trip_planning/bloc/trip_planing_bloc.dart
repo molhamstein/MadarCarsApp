@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/Airport.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/CheckCouponModel.dart';
 import 'package:madar_booking/models/CouponModel.dart';
@@ -11,9 +12,21 @@ import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';
 import 'package:rxdart/rxdart.dart';
 
+enum Steps {
+  chooseCity,
+  chooseType,
+  chooseAirports,
+  chooseDate,
+  chooseCar,
+  chooseSuplocations,
+  summary,
+  finalstep
+}
+
 class TripPlaningBloc extends BaseBloc with Network {
   Trip trip;
-  int index;
+  // int index;
+  Steps step;
   bool done;
   String token;
   String userId;
@@ -23,7 +36,9 @@ class TripPlaningBloc extends BaseBloc with Network {
   Gender gender;
   String productionDate;
   List<String> langFiltersIds;
-  String couponid ;
+  String couponid;
+
+  List<Airport> airports;
 
   Type type;
 
@@ -41,7 +56,8 @@ class TripPlaningBloc extends BaseBloc with Network {
           .toList();
       trip.endDate = trip.endDate.add(Duration(days: tripModel.duration));
     }
-    index = 0;
+    // index = 0;
+    step = Steps.chooseCity;
     done = false;
     this.token = token;
     this.userId = userId;
@@ -49,9 +65,10 @@ class TripPlaningBloc extends BaseBloc with Network {
     numberOfSeats = 1;
     langFiltersIds = [];
     _languagesIdsController.sink.add(langFiltersIds);
+    airports = [];
   }
 
-  final _navigationController = BehaviorSubject<int>();
+  final _navigationController = BehaviorSubject<Steps>();
   final _tripController = BehaviorSubject<Trip>();
   final _estimationCostController = BehaviorSubject<int>();
   final _mainButtonTextController = BehaviorSubject<String>();
@@ -100,153 +117,265 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get productionDateStream => _productionDateController.stream;
 
-
   changeButtonText(String text) => _mainButtonTextController.sink.add(text);
 
   pushLoading(bool load) => _loadingController.sink.add(load);
-
-
-
-
-
-
 
   final _couponsController = BehaviorSubject<Coupon>();
 
   get couponStream => _couponsController.stream;
 
   fetchCoupon(String s) {
-
     fetchCheckCoupon(token, s).then((coupon) {
-
       _couponsController.sink.add(coupon);
-
-
-    }).catchError((e) {
-
-    });
-
+    }).catchError((e) {});
   }
 
-
-
-
   get navBackward {
-//    if(trip.inCity){
-//      if(index == 4 ) {index =3 ;done = false;
-//      pushLoading(false);
-//      changeButtonText('next'); }
-//    }
-    if (!trip.inCity) {
-      if (index == 4) index =3 ;
-      if (index == 5 ) index =4;
-//      if (index == 4) index = 3;
-      _navigationController.sink.add(--index);
-    } else {
-      _navigationController.sink.add(--index);
-      if(index ==3){
-        done = false;
-        pushLoading(false);
-        changeButtonText('next');
-        hideNoteButton;
-      }
-      if(index == 6)
-        {
-          hideNoteButton;
-
-        }
-    }
-    if (index == 0 || index == 1 || index == 2 ) {
-      done = false;
-      pushLoading(false);
-      changeButtonText('next');
-      hideNoteButton;
-    }
+// //    if(trip.inCity){
+// //      if(index == 4 ) {index =3 ;done = false;
+// //      pushLoading(false);
+// //      changeButtonText('next'); }
+// //    }
+//     if (!trip.inCity) {
+//       if (index == 4) index = 3;
+//       if (index == 5) index = 4;
+// //      if (index == 4) index = 3;
+//       _navigationController.sink.add(--index);
+//     } else {
+//       _navigationController.sink.add(--index);
+//       if (index == 3) {
+//         done = false;
+//         pushLoading(false);
+//         changeButtonText('next');
+//         hideNoteButton;
+//       }
+//       if (index == 6) {
+//         hideNoteButton;
+//       }
+//     }
+//     if (index == 0 || index == 1 || index == 2) {
+//       done = false;
+//       pushLoading(false);
+//       changeButtonText('next');
+//       hideNoteButton;
+//     }
 //    if(index == 6)
 //      {
 //        hideNoteButton;
 //      }
+
+    switch (step) {
+      case Steps.chooseCity:
+        // step = Steps.chooseType;
+        break;
+      case Steps.chooseType:
+        step = Steps.chooseCity;
+        break;
+      case Steps.chooseAirports:
+        step = Steps.chooseType;
+        break;
+      case Steps.chooseDate:
+        if ((trip.toAirport || trip.fromAirport) && trip.hasManyAirport) {
+          step = Steps.chooseAirports;
+        } else {
+          step = Steps.chooseType;
+        }
+        break;
+      case Steps.chooseCar:
+        step = Steps.chooseDate;
+        break;
+      case Steps.chooseSuplocations:
+        step = Steps.chooseCar;
+        break;
+      case Steps.summary:
+        if (trip.inCity) {
+          step = Steps.chooseSuplocations;
+        } else {
+          step = Steps.chooseCar;
+        }
+        break;
+      case Steps.finalstep:
+        break;
+      default:
+    }
+    _navigationController.sink.add(step);
+    setState();
   }
 
   get navForward {
-    if (_shouldNav()) {
-      if (index == 6) {
-        print(index);
-        hideNoteButton;
-        _navigationController.sink.add(index);
-      } else {
-        _navigationController.sink.add(++index);
-      }
-      print("index is $index" );
+    // if (index == 6) {
+    //   changeButtonText('done');
+    //   pushLoading(true);
+    //   done = true;
+    // }
+    // if (index == 4) {
+    //   showNoteButton;
+    //   done = true;
+    // }
+    // if (trip.inCity) {
+    //   if (index == 4) {
+    //     pushLoading(false);
+    //     showNoteButton;
+    //     done = false;
+    //     changeButtonText('next');
+    //   }
+    // } else {
+    //   if (index == 3) {
+    //     showNoteButton;
+    //     done = false;
 
-
-      done = false;
-
-      if(index == 5 ){
-        changeButtonText('done');
-        pushLoading(true);
-
-        done = true;
-
-      }
-      if (index == 4) {
-        showNoteButton;
-        done =  true;
-      }
-      if (trip.inCity) {
-        if (index == 4) {
-          pushLoading(false);
-          showNoteButton;
-          done = false;
-          changeButtonText('next');
+    //     index = 4;
+    //   }
+    // }
+    if (!_shouldNav()) return;
+    switch (step) {
+      case Steps.chooseCity:
+        step = Steps.chooseType;
+        break;
+      case Steps.chooseType:
+        if ((trip.toAirport || trip.fromAirport) && trip.hasManyAirport) {
+          step = Steps.chooseAirports;
+        } else {
+          step = Steps.chooseDate;
         }
-      } else {
-        if (index == 3) {
-          showNoteButton;
-          done = false;
-
-          index = 4;
-
+        break;
+      case Steps.chooseAirports:
+        step = Steps.chooseDate;
+        break;
+      case Steps.chooseDate:
+        step = Steps.chooseCar;
+        break;
+      case Steps.chooseCar:
+        if (trip.inCity) {
+          step = Steps.chooseSuplocations;
+        } else {
+          step = Steps.summary;
         }
-      }
-    } else {}
-    if (index == 0 || index == 1 || index == 2 || index ==3) {
-      done = false;
-      pushLoading(false);
-      changeButtonText('next');
+        break;
+      case Steps.chooseSuplocations:
+        step = Steps.summary;
+        break;
+      case Steps.summary:
+        step = Steps.finalstep;
+        break;
+      case Steps.finalstep:
+        break;
+      default:
     }
+    _navigationController.sink.add(step);
+    setState();
   }
 
   _shouldNav() {
-    if (index == 0) {
-      if (trip.location != null) {
-        return true;
-      }
-      return false;
-    } else if (index == 1) {
-      if (!trip.toAirport && !trip.fromAirport && !trip.inCity) {
-        showFeedback = true;
-        _feedbackController.sink.addError('error_fill_missing');
+    switch (step) {
+      case Steps.chooseCity:
+        if (trip.location != null) {
+          return true;
+        }
         return false;
-      }
-      return true;
-    } else if (trip.endDate.isBefore(trip.startDate)) {
-      showFeedback = true;
-      _feedbackController.sink.addError('error_end_date_before_start_date');
-      return false;
-    } else if (index == 3) {
-      if (trip.car != null) {
+      case Steps.chooseType:
+        if (!trip.toAirport && !trip.fromAirport && !trip.inCity) {
+          showFeedback = true;
+          _feedbackController.sink.addError('error_fill_missing');
+          return false;
+        }
         return true;
-      } else {
-        showFeedback = true;
-        _feedbackController.sink.addError('error_fill_missing');
-      }
-      return false;
-    } else {
-      return true;
+      case Steps.chooseAirports:
+        if (trip.airport == null) {
+          showFeedback = true;
+          _feedbackController.sink.addError('error_fill_missing');
+          return false;
+        }
+        return true;
+      case Steps.chooseDate:
+        if (trip.endDate.isBefore(trip.startDate)) {
+          showFeedback = true;
+          _feedbackController.sink.addError('error_end_date_before_start_date');
+          return false;
+        }
+        return true;
+      case Steps.chooseCar:
+        if (trip.car != null) {
+          return true;
+        } else {
+          showFeedback = true;
+          _feedbackController.sink.addError('error_fill_missing');
+        }
+        return false;
+      case Steps.chooseSuplocations:
+        return true;
+      case Steps.summary:
+        return true;
+      case Steps.finalstep:
+        return true;
+      default:
+        return true;
     }
   }
 
+  setState() {
+    done = false;
+    showFeedback = false;
+    switch (step) {
+      case Steps.chooseCity:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseType:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseAirports:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseDate:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseCar:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        showNoteButton;
+        break;
+      case Steps.chooseSuplocations:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        showNoteButton;
+        break;
+      case Steps.summary:
+        changeButtonText('done');
+        pushLoading(true);
+        done = true;
+        showNoteButton;
+        break;
+      case Steps.finalstep:
+        changeButtonText('done');
+        hideNoteButton;
+        break;
+      default:
+    }
+  }
+
+//       case Steps.chooseCity:
+//       case Steps.chooseType:
+//       case Steps.chooseAirports:
+//       case Steps.chooseDate:
+//       case Steps.chooseCar:
+//       case Steps.chooseSuplocations:
+//       case Steps.summary:
+//       case Steps.finalstep:
   toAirport(to) {
     trip.toAirport = to;
   }
@@ -275,7 +404,7 @@ class TripPlaningBloc extends BaseBloc with Network {
     trip.car = car;
   }
 
-  Function(String, int, int ,String ) get addSubLocation => trip.addSubLocation;
+  Function(String, int, int, String) get addSubLocation => trip.addSubLocation;
 
   get pushEstimationCost => _estimationCostController.sink
       .add(trip.estimationPrice(withSubLocationPrice: true));
@@ -298,12 +427,11 @@ class TripPlaningBloc extends BaseBloc with Network {
     }).catchError((e) {
       _loadingController.sink.add(false);
       Future.delayed(Duration(milliseconds: 10)).then((s) {
-        if ((index == 3 && !trip.inCity) || index == 4)
-          _loadingController.sink.add(true);
+        if ((step == Steps.chooseCar && !trip.inCity) ||
+            step == Steps.chooseSuplocations) _loadingController.sink.add(true);
       });
       _feedbackController.addError(e.toString());
     });
-
   }
 
   submitHelp() {
@@ -375,7 +503,6 @@ class TripPlaningBloc extends BaseBloc with Network {
     _modalController.close();
     _productionDateController.close();
     _couponsController.close();
-
   }
 
   selectProductionDate(String value) {
@@ -387,7 +514,6 @@ class TripPlaningBloc extends BaseBloc with Network {
     productionDate = null;
     _productionDateController.sink.add(productionDate);
   }
-
 }
 
 enum Gender { male, female, none }

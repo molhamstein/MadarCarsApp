@@ -1,6 +1,7 @@
 import 'package:madar_booking/DataStore.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/models/Airport.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';
@@ -21,27 +22,30 @@ class ChooseAirportBloc extends BaseBloc with Network {
 
   final _carsController = BehaviorSubject<List<Car>>();
   final _selectedAirportIndexController = BehaviorSubject<int>();
-  final _selectedCarController = BehaviorSubject<Car>();
+  final _selectedAirportController = BehaviorSubject<Airport>();
 
   Stream<List<Car>> get carsStream => _carsController.stream;
 
   Stream<int> get indexStream => _selectedAirportIndexController.stream;
 
-  Stream<Car> get selectedCarStream => _selectedCarController.stream;
+  Stream<Airport> get selectedAirportStream =>
+      _selectedAirportController.stream;
 
-  selectCar(Car car, int index) {
-    trip.car = car;
-    print(trip.car.id);
-    print("car name is : " + trip.car.name);
+//   selectCar(Car car, int index) {
+//     trip.car = car;
+//     print(trip.car.id);
+//     print("car name is : " + trip.car.name);
 
-//    dataStore.saveCarName(trip.car.name);
+// //    dataStore.saveCarName(trip.car.name);
 
-    _selectedCarController.sink.add(car);
-    _selectedAirportIndexController.sink.add(index);
-  }
+//     _selectedCarController.sink.add(car);
+//     _selectedAirportIndexController.sink.add(index);
+//   }
 
-  selectAirpory(int index) {
+  selectAirport(Airport airport, int index) {
     // _selectedCarController.sink.add(car);
+    trip.airport = airport;
+    _selectedAirportController.sink.add(airport);
     _selectedAirportIndexController.sink.add(index);
   }
 
@@ -70,6 +74,6 @@ class ChooseAirportBloc extends BaseBloc with Network {
   void dispose() {
     _carsController.close();
     _selectedAirportIndexController.close();
-    _selectedCarController.close();
+    _selectedAirportController.close();
   }
 }

@@ -402,7 +402,7 @@ class StepChooseCarState extends State<StepChooseCar>
                                                                           child:
                                                                               FadeInImage(
                                                                             placeholder:
-                                                                                AssetImage('assets/images/logo.jpg'),
+                                                                                AssetImage('assets/images/logo.png'),
                                                                             image:
                                                                                 NetworkImage(carSnapshot.data.carMedia[index].url),
                                                                             fit:
