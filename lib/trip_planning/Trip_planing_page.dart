@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/feedback.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
-import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/TripModel.dart';
-import 'package:madar_booking/trip_planning/step_airport.dart';
-import 'package:madar_booking/ui/Step_summary.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/trip_planning/final_step.dart';
 import 'package:madar_booking/trip_planning/need_help_page.dart';
+import 'package:madar_booking/trip_planning/step_airport.dart';
 import 'package:madar_booking/trip_planning/step_choose_city.dart';
 import 'package:madar_booking/trip_planning/step_choose_date_page.dart';
 import 'package:madar_booking/trip_planning/step_choose_sub_city.dart';
 import 'package:madar_booking/trip_planning/step_chosse_car.dart';
 import 'package:madar_booking/trip_planning/step_trip_type.dart';
-import 'package:madar_booking/feedback.dart';
+import 'package:madar_booking/ui/Step_summary.dart';
 
 class TripPlanningPage extends StatefulWidget {
   final TripModel tripModel;
@@ -36,6 +34,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
   TextEditingController _noteController;
   var cityStep = ChooseCityStep();
   var typeStep = TripTypeStep();
+
   getStep(Steps step) {
     switch (step) {
       case Steps.chooseCity:
@@ -251,19 +250,24 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
     );
   }
 
-  title(i) {
-    if (i == 0) {
-      return MadarLocalizations.of(context).trans('choose_city');
-    } else if (i == 1) {
-      return MadarLocalizations.of(context).trans('choose_type');
-    } else if (i == 2) {
-      return MadarLocalizations.of(context).trans('choose_date');
-    } else if (i == 3) {
-      return MadarLocalizations.of(context).trans('choose_car');
-    } else if (i == 4) {
-      return MadarLocalizations.of(context).trans('extend_your_trip');
-    } else {
-      return '';
+  title(Steps step) {
+    switch (step) {
+      case Steps.chooseCity:
+        return MadarLocalizations.of(context).trans('choose_city');
+      case Steps.chooseType:
+        return MadarLocalizations.of(context).trans('choose_type');
+      case Steps.chooseAirports:
+        return MadarLocalizations.of(context).trans('choose_AirPort');
+      case Steps.chooseDate:
+        return MadarLocalizations.of(context).trans('choose_date');
+      case Steps.chooseCar:
+        return MadarLocalizations.of(context).trans('choose_car');
+      case Steps.chooseSuplocations:
+        return MadarLocalizations.of(context).trans('extend_your_trip');
+      case Steps.summary:
+        return MadarLocalizations.of(context).trans('Summary');
+      default:
+        return "";
     }
   }
 }
