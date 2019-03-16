@@ -121,68 +121,78 @@ class _AuthPageState extends State<AuthPage>
           overscroll.disallowGlow();
         },
         child: SingleChildScrollView(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height >= 775.0
-                ? MediaQuery.of(context).size.height
-                : 800.0,
-            decoration: new BoxDecoration(
-              gradient: new LinearGradient(
-                  colors: [MadarColors.gradientUp, MadarColors.gradientDown],
-                  begin: const FractionalOffset(0.0, 0.0),
-                  end: const FractionalOffset(1.0, 1.0),
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 75.0),
-                  child: Container(
-                    width: 250.0,
-                    height: 191.0,
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: 50,
-                      height: 50,
+          child: GestureDetector(
+            onTap: () {
+              print("preessed");
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height >= 775.0
+                  ? MediaQuery.of(context).size.height
+                  : 800.0,
+              decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+                    colors: [MadarColors.gradientUp, MadarColors.gradientDown],
+                    begin: const FractionalOffset(0.0, 0.0),
+                    end: const FractionalOffset(1.0, 1.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  print("preessed");
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 75.0),
+                      child: Container(
+                        width: 250.0,
+                        height: 191.0,
+                        child: Image.asset(
+                          'assets/images/logo.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: _buildMenuBar(context),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (i) {
-                      if (i == 0) {
-                        setState(() {
-                          right = Colors.white;
-                          left = Colors.black;
-                        });
-                      } else if (i == 1) {
-                        setState(() {
-                          right = Colors.black;
-                          left = Colors.white;
-                        });
-                      }
-                    },
-                    children: <Widget>[
-                      new ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: LoginWidget(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: _buildMenuBar(context),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (i) {
+                          if (i == 0) {
+                            setState(() {
+                              right = Colors.white;
+                              left = Colors.black;
+                            });
+                          } else if (i == 1) {
+                            setState(() {
+                              right = Colors.black;
+                              left = Colors.white;
+                            });
+                          }
+                        },
+                        children: <Widget>[
+                          new ConstrainedBox(
+                            constraints: const BoxConstraints.expand(),
+                            child: LoginWidget(),
+                          ),
+                          new ConstrainedBox(
+                            constraints: const BoxConstraints.expand(),
+                            child: SignUpWidget(),
+                          ),
+                        ],
                       ),
-                      new ConstrainedBox(
-                        constraints: const BoxConstraints.expand(),
-                        child: SignUpWidget(),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

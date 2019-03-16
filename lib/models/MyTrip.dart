@@ -3,10 +3,8 @@
 //     final myTrip = myTripFromJson(jsonString);
 
 import 'dart:convert';
-import 'package:intl/intl.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/TravelAgency.dart';
-
 import 'TripsSublocation.dart';
 import 'Car.dart';
 import 'user.dart';
@@ -136,8 +134,8 @@ class MyTrip {
             : Location.fromJson(json["location"]),
         tripSublocations: json["tripSublocations"] == null
             ? null
-            : new List<TripSublocation>.from(
-                json["tripSublocations"].map((x) => x)),
+            : new List<TripSublocation>.from(json["tripSublocations"]
+                .map((x) => TripSublocation.fromJson(x))),
         driver: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
         coupon: json["coupon"] == null ? null : Coupon.fromJson(json["coupon"]),
         travelAgency: json["travelAgency"] == null
@@ -176,7 +174,7 @@ class MyTrip {
         "location": location == null ? null : location.toJson(),
         "tripSublocations": tripSublocations == null
             ? null
-            : new List<TripSublocation>.from(tripSublocations.map((x) => x)),
+            : new List<dynamic>.from(tripSublocations.map((x) => x.toJson())),
         "driver": driver == null ? null : driver.toJson(),
         "coupon": coupon == null ? null : coupon.toJson(),
         "travelAgency": travelAgency == null ? null : travelAgency.toJson(),

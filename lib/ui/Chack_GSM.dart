@@ -77,196 +77,149 @@ class _CheckGsmState extends State<CheckGsm>
               });
             }
             return SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [
-                        MadarColors.gradientUp,
-                        MadarColors.gradientDown
-                      ],
-                      begin: const FractionalOffset(0.0, 0.0),
-                      end: const FractionalOffset(1.0, 1.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 75.0),
-                      child: Container(
-                        width: 250.0,
-                        height: 170.0,
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 50,
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Row(crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              new Text(
-                                MadarLocalizations.of(context).trans(
-                                    'Your_best_companion_for_a_comfortable_trip_to_turkey'),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                    fontFamily: "WorkSansMedium",
-                                    decoration: TextDecoration.none),
-                              ),
-                            ],
+              child: GestureDetector(
+                onTap: () {
+                  print("preessed");
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: new BoxDecoration(
+                    gradient: new LinearGradient(
+                        colors: [
+                          MadarColors.gradientUp,
+                          MadarColors.gradientDown
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 1.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(top: 75.0),
+                        child: Container(
+                          width: 250.0,
+                          height: 170.0,
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            width: 50,
+                            height: 50,
                           ),
                         ),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 23.0),
-                      child: StreamBuilder<bool>(
-                          stream: bloc.checkNumStream,
-                          builder: (context, snapshot) {
-                            var valid = (snapshot.hasData && snapshot.data);
-                            print(valid);
-
-                            return Column(
-                              /// Suronded coulnm
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Stack(
-                                      alignment: Alignment.topCenter,
-                                      overflow: Overflow.visible,
-                                      children: <Widget>[
-                                        Card(
-                                          elevation: 2.0,
-                                          color: Colors.white,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          child: Container(
-                                            width: 300,
-                                            child: Column(
-                                              children: <Widget>[
-                                                Container(
-                                                    child: phoneTextField()),
-                                                Container(
-                                                  width: 250.0,
-                                                  height: 1.0,
-                                                  color: Colors.grey[400],
-                                                ),
-                                                StreamBuilder<bool>(
-                                                    stream: bloc.checkNumStream,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (snapshot.hasData &&
-                                                          snapshot.data ==
-                                                              true) {
-                                                        print("data is true");
-                                                        return passwordTextField();
-                                                      } else if (snapshot
-                                                              .hasData &&
-                                                          snapshot.data ==
-                                                              false) {
-                                                        print("data is false");
-                                                        WidgetsBinding.instance
-                                                            .addPostFrameCallback(
-                                                                (_) {
-                                                          Navigator.of(context)
-                                                              .pushReplacement(
-                                                                  new MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              SignUp()));
-                                                        });
-                                                      } else {
-                                                        return Container();
-                                                      }
-                                                    })
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 50.0, bottom: 30),
-                                  child: valid ? loginBtn() : checkBtn(),
+                                new Text(
+                                  MadarLocalizations.of(context).trans(
+                                      'Your_best_companion_for_a_comfortable_trip_to_turkey'),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                      fontFamily: "WorkSansMedium",
+                                      decoration: TextDecoration.none),
                                 ),
                               ],
-                            );
-                          }),
-                    ),
-//                    Padding(
-//                      padding: const EdgeInsets.only(left: 150.0, top: 8),
-//                      child: new Text(
-//                        "Forget password ?",
-//                        style: TextStyle(
-//                            color: Colors.white,
-//                            fontSize: 16.0,
-//                            fontFamily: "WorkSansMedium",
-//                            decoration: TextDecoration.none),
-//                      ),
-//                    ),
-//                    Padding(
-//                      padding: const EdgeInsets.only(top: 50.0, bottom: 30),
-//                      child: loginBtn(),
-//                    ),
-//                    checkBtn(),
-//                    StreamBuilder<String>(
-//                        stream: bloc.checkNumStream,
-//                        builder: (context, snapshot) {
-//                    TextField(
-//                      controller: _controller,
-////                            onSubmitted: (s) {
-////                              bloc.fetchCheckNum(s);
-//////                            StreamBuilder<String>(  stream: bloc.checkNumStream,
-//////                                builder: (context, snapshot) {
-//////                                  print("i'm in"+ snapshot.data.toString());
-//////
-////
-////                              if (snapshot.hasData) {
-////                                print("data");
-////                                print("data is " + snapshot.data.toString());
-////                                if (snapshot.data.toString() == "true") {
-////                                  print("i'm true");
-////                                } else if (snapshot.data.toString() ==
-////                                    "false") {
-////                                  Navigator.of(context).pushReplacement(
-////                                      new MaterialPageRoute(
-////                                          builder: (context) => SignUp()));
-////                                }
-////                              } else
-////                                print("No data");
-//////                            });
-//////                            print("blooooc valll "  +  bloc.checkNumStream.toString());
-////
-//////                        print("M" +Network.M);
-//////                        if(Network.M == "true")
-//////                          {print("truuuuuuuuuuuuuuue");}
-////                            },
-//                    ),
-//
-//                    StreamBuilder<String>(
-//                        stream: bloc.checkNumStream,
-//                        builder: (context, snapshot) {
-//                          print(snapshot.data);
-//                          if (snapshot.hasData)
-//                            return Text("Yes");
-//                          else
-//                            return Text("Noooo");
-//                        }),
-//                        }),
-                  ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 23.0),
+                        child: StreamBuilder<bool>(
+                            stream: bloc.checkNumStream,
+                            builder: (context, snapshot) {
+                              var valid = (snapshot.hasData && snapshot.data);
+                              print(valid);
+
+                              return Column(
+                                /// Suronded coulnm
+                                children: <Widget>[
+                                  Column(
+                                    children: <Widget>[
+                                      Stack(
+                                        alignment: Alignment.topCenter,
+                                        overflow: Overflow.visible,
+                                        children: <Widget>[
+                                          Card(
+                                            elevation: 2.0,
+                                            color: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: Container(
+                                              width: 300,
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                      child: phoneTextField()),
+                                                  Container(
+                                                    width: 250.0,
+                                                    height: 1.0,
+                                                    color: Colors.grey[400],
+                                                  ),
+                                                  StreamBuilder<bool>(
+                                                      stream:
+                                                          bloc.checkNumStream,
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        if (snapshot.hasData &&
+                                                            snapshot.data ==
+                                                                true) {
+                                                          print("data is true");
+                                                          return passwordTextField();
+                                                        }
+                                                        if (snapshot.hasData &&
+                                                            snapshot.data ==
+                                                                false &&
+                                                            bloc.shouldNavgateToSignUp) {
+                                                          print(
+                                                              "data is false");
+                                                          bloc.shouldNavgateToSignUp =
+                                                              false;
+                                                          WidgetsBinding
+                                                              .instance
+                                                              .addPostFrameCallback(
+                                                                  (_) {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .push(new MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            SignUp()));
+                                                          });
+                                                        }
+                                                        return Container();
+                                                      })
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 50.0, bottom: 30),
+                                    child: valid ? loginBtn() : checkBtn(),
+                                  ),
+                                ],
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -334,37 +287,6 @@ class _CheckGsmState extends State<CheckGsm>
     );
   }
 
-//
-//  Widget loginBtn() {
-////    return StreamBuilder<bool>(
-////      stream: bloc.submitValidLogin,
-////      initialData: false,
-////      builder: (context, snapshot) {
-////        return StreamBuilder<bool>(
-////            stream: bloc.loadingStream,
-////            initialData: true,
-////            builder: (context, loadingSnapshot) {
-//    return SubmitButton(
-//      text: MadarLocalizations.of(context).trans('submit'),
-//                onPressed: () {
-//                  if ((!snapshot.hasData || !snapshot.data)) {
-//                    showInSnackBar('error_provide_valid_info', context,
-//                        color: Colors.redAccent);
-//                    bloc.shouldShowFeedBack = false;
-//                  } else
-//                    bloc.submitLogin();
-//                },
-//      width: 150,
-//      height: 50,
-//    ),
-//                loading: (snapshot.data == null ? false : snapshot.data) &&
-//                    loadingSnapshot.data,
-//              );
-//            });
-//      },
-//    );
-//  }
-
   Widget passwordTextField() {
     return StreamBuilder<String>(
       stream: bloc.passwordLoginStream,
@@ -426,22 +348,33 @@ class _CheckGsmState extends State<CheckGsm>
               EdgeInsets.only(top: 20.0, bottom: 8.0, left: 25.0, right: 25.0),
           child: Container(
             height: 60,
-            child: Localizations(delegates: [  GlobalMaterialLocalizations.delegate,GlobalWidgetsLocalizations.delegate,],locale: Locale('en', '') ,
+            child: Localizations(
+              delegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              locale: Locale('en', ''),
               child: TextField(
                 focusNode: myFocusNodeEmailLogin,
                 controller: loginEmailController,
                 keyboardType: TextInputType.phone,
-                onChanged: bloc.changeLoginPhone,
+                onChanged: (phone) {
+                  bloc.shouldNavgateToSignUp = false;
+                  bloc.checkNumStream.add(false);
+                  bloc.changeLoginPhone(phone);
+                },
                 style: TextStyle(
                     fontFamily: "WorkSansSemiBold",
                     fontSize: 16.0,
                     color: Colors.black),
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  errorText: MadarLocalizations.of(context).trans(snapshot.error),
+                  errorText:
+                      MadarLocalizations.of(context).trans(snapshot.error),
                   errorStyle: TextStyle(height: 0.1, fontSize: 12),
                   icon: isoCodePicker(),
-                  hintText: MadarLocalizations.of(context).trans('phone_number'),
+                  hintText:
+                      MadarLocalizations.of(context).trans('phone_number'),
                   hintStyle:
                       TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                 ),

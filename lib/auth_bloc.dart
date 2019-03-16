@@ -16,8 +16,9 @@ import 'validator.dart';
 
 class AuthBloc extends BaseBloc with Validators, Network {
   bool shouldShowFeedBack;
-
-  AuthBloc({this.shouldShowFeedBack = true});
+  bool shouldNavgateToSignUp;
+  AuthBloc(
+      {this.shouldShowFeedBack = true, this.shouldNavgateToSignUp = false});
 
   final _phoneLoginController = BehaviorSubject<String>();
   final _passwordLoginController = BehaviorSubject<String>();
@@ -159,7 +160,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
     final validIsoCode = _isoCodeSignUpController.value;
 
     pushLockTouchEvent;
-
+    startLoading;
     login(validIsoCode.dialCode + validPhoneNumber, validPassword)
         .then((response) {
       print(response.token);
@@ -189,9 +190,11 @@ class AuthBloc extends BaseBloc with Validators, Network {
       if (result == "true") {
         print("resulte is :" + result);
         _checkNumController.sink.add(true);
+        shouldNavgateToSignUp = false;
       } else {
         print("resulte is :" + result);
         _checkNumController.sink.add(false);
+        shouldNavgateToSignUp = true;
       }
 
       stopLoading();

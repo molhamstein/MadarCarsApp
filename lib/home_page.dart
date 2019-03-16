@@ -320,7 +320,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ),
                 ),
                 StreamBuilder<List<TripModel>>(
-                         initialData: temp,
+                  initialData: temp,
                   stream: homeBloc.predefindTripsStream,
                   builder: (context, snapshot) {
                     // switch (snapshot.connectionState) {
@@ -657,68 +657,40 @@ class AvailbleCarState extends State<AvailbleCar> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return StreamBuilder<List<Car>>(
-      initialData: widget.appBloc.ourCars != null ? widget.appBloc.ourCars : [],
-      stream: widget.homeBloc.availableCarsStream,
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return ListTile(
-              title: IconButton(
-                onPressed: () {
-                  widget.homeBloc.getCars();
-                },
-                icon: Icon(Icons.restore),
-              ),
-              subtitle: Text(
-                  MadarLocalizations.of(context).trans('connection_error')),
-            );
-          case ConnectionState.waiting:
-            return Container(
-                constraints: BoxConstraints.expand(
-                    height: MediaQuery.of(context).size.height / 3.2),
-                color: Colors.transparent,
-                child: Center(child: CircularProgressIndicator()));
-          case ConnectionState.active:
-            print("gettt caaarss");
-            if (snapshot.hasData) {
-              this.cars = snapshot.data;
-              widget.appBloc.saveOurCars(this.cars);
+        initialData:
+            widget.appBloc.ourCars != null ? widget.appBloc.ourCars : [],
+        stream: widget.homeBloc.availableCarsStream,
+        builder: (context, snapshot) {
+          print("gettt caaarss");
+          if (snapshot.hasData) {
+            this.cars = snapshot.data;
+            widget.appBloc.saveOurCars(this.cars);
+            return _cardContainerList();
+          } else if (snapshot.hasError) {
+            if (widget.appBloc.ourCars != null) {
               return _cardContainerList();
-            } else if (snapshot.hasError) {
-              if (widget.appBloc.ourCars != null) {
-                return _cardContainerList();
-              } else {
-                return Container(
-                    constraints: BoxConstraints.expand(
-                        height: MediaQuery.of(context).size.height / 3.2),
-                    child: ListTile(
-                      title: IconButton(
-                        onPressed: () {
-                          widget.homeBloc.getCars();
-                        },
-                        icon: Icon(Icons.restore),
-                      ),
-                      subtitle: Text(MadarLocalizations.of(context)
-                          .trans('connection_error')),
-                    ));
-              }
             } else {
               return Container(
                   constraints: BoxConstraints.expand(
                       height: MediaQuery.of(context).size.height / 3.2),
-                  color: Colors.transparent,
-                  child: Center(child: CircularProgressIndicator()));
+                  child: ListTile(
+                    title: IconButton(
+                      onPressed: () {
+                        widget.homeBloc.getCars();
+                      },
+                      icon: Icon(Icons.restore),
+                    ),
+                    subtitle: Text(MadarLocalizations.of(context)
+                        .trans('connection_error')),
+                  ));
             }
-            break;
-          // }
-          default:
+          } else {
             return Container(
                 constraints: BoxConstraints.expand(
                     height: MediaQuery.of(context).size.height / 3.2),
                 color: Colors.transparent,
                 child: Center(child: CircularProgressIndicator()));
-        }
-      },
-    );
+          }
+        });
   }
 }

@@ -376,6 +376,7 @@ class Network {
     final response =
         await http.put(_updateFirbaseTokens, headers: headers, body: body);
     if (response.statusCode == 200) {
+      print(response.body);
       return;
     } else {
       print(response.body);

@@ -50,103 +50,116 @@ class SignUpState extends State<SignUp> with UserFeedback {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<UserResponse>(
-          stream: bloc.submitSignUpStream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError && bloc.shouldShowFeedBack) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                showInSnackBar(snapshot.error.toString(), context,
-                    color: Colors.redAccent);
-              });
-              bloc.shouldShowFeedBack = false;
-            }
-            if (snapshot.hasData) {
-              appBloc.saveUser(snapshot.data.user);
-              appBloc.saveToken(snapshot.data.token);
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                    builder: (context) => HomePage(
-                          afterLogin: true,
-                        )));
-              });
-            }
-            return  SingleChildScrollView(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: new BoxDecoration(
-                    gradient: new LinearGradient(
-                        colors: [MadarColors.gradientUp, MadarColors.gradientDown],
-                        begin: const FractionalOffset(0.0, 0.0),
-                        end: const FractionalOffset(1.0, 1.0),
-                        stops: [0.0, 1.0],
-                        tileMode: TileMode.clamp),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(top: 75.0),
-                        child: Container(
-                          width: 250.0,
-                          height: 170.0,
-                          child: Image.asset(
-                            'assets/images/logo.png',
-                            width: 50,
-                            height: 50,
+      body: Stack(
+        children: <Widget>[
+          StreamBuilder<UserResponse>(
+              stream: bloc.submitSignUpStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError && bloc.shouldShowFeedBack) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    showInSnackBar(snapshot.error.toString(), context,
+                        color: Colors.redAccent);
+                  });
+                  bloc.shouldShowFeedBack = false;
+                }
+                if (snapshot.hasData) {
+                  appBloc.saveUser(snapshot.data.user);
+                  appBloc.saveToken(snapshot.data.token);
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                        builder: (context) => HomePage(
+                              afterLogin: true,
+                            )));
+                  });
+                }
+                return SingleChildScrollView(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: new BoxDecoration(
+                      gradient: new LinearGradient(
+                          colors: [
+                            MadarColors.gradientUp,
+                            MadarColors.gradientDown
+                          ],
+                          begin: const FractionalOffset(0.0, 0.0),
+                          end: const FractionalOffset(1.0, 1.0),
+                          stops: [0.0, 1.0],
+                          tileMode: TileMode.clamp),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(top: 75.0),
+                          child: Container(
+                            width: 250.0,
+                            height: 170.0,
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              width: 50,
+                              height: 50,
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(top: 23.0),
-                        child: Column(
-                          children: <Widget>[
-                            Stack(
-                              alignment: Alignment.topCenter,
-                              overflow: Overflow.visible,
-                              children: <Widget>[
-                                Card(
-                                  elevation: 2.0,
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Container(
-                                    width: 300.0,
-                                    child: Column(
-                                      children: <Widget>[
-                                        nameTextField(),
-                                        Container(
-                                          width: 250.0,
-                                          height: 1.0,
-                                          color: Colors.grey[400],
-                                        ),
-                                        phoneTextField(),
-                                        Container(
-                                          width: 250.0,
-                                          height: 1.0,
-                                          color: Colors.grey[400],
-                                        ),
-                                        passwordTextField(),
-
-                                      ],
+                        Container(
+                          padding: EdgeInsets.only(top: 23.0),
+                          child: Column(
+                            children: <Widget>[
+                              Stack(
+                                alignment: Alignment.topCenter,
+                                overflow: Overflow.visible,
+                                children: <Widget>[
+                                  Card(
+                                    elevation: 2.0,
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Container(
+                                      width: 300.0,
+                                      child: Column(
+                                        children: <Widget>[
+                                          nameTextField(),
+                                          Container(
+                                            width: 250.0,
+                                            height: 1.0,
+                                            color: Colors.grey[400],
+                                          ),
+                                          phoneTextField(),
+                                          Container(
+                                            width: 250.0,
+                                            height: 1.0,
+                                            color: Colors.grey[400],
+                                          ),
+                                          passwordTextField(),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 0.0, bottom: 30),
-                        child: signUpBtn(),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.0, bottom: 30),
+                          child: signUpBtn(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            
-          }),
+                );
+              }),
+          Positioned(
+              top: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: AppBar(
+                elevation: 0.0,
+                backgroundColor: Colors.transparent,
+              ))
+        ],
+      ),
     );
   }
 
@@ -191,26 +204,31 @@ class SignUpState extends State<SignUp> with UserFeedback {
                     return
 //
 
-                        Localizations(delegates: [  GlobalMaterialLocalizations.delegate,GlobalWidgetsLocalizations.delegate,],locale: Locale('en', ''),
-                          child: TextField(
-                      focusNode: myFocusNodeEmail,
-                      controller: signupEmailController,
-                      keyboardType: TextInputType.phone,
-                      onChanged: bloc.changeSignUpPhone,
-                      style: TextStyle(
+                        Localizations(
+                      delegates: [
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                      ],
+                      locale: Locale('en', ''),
+                      child: TextField(
+                        focusNode: myFocusNodeEmail,
+                        controller: signupEmailController,
+                        keyboardType: TextInputType.phone,
+                        onChanged: bloc.changeSignUpPhone,
+                        style: TextStyle(
                             fontFamily: "WorkSansSemiBold",
                             fontSize: 16.0,
                             color: Colors.black),
-                      textDirection: TextDirection.ltr,
-                      decoration: InputDecoration(
+                        textDirection: TextDirection.ltr,
+                        decoration: InputDecoration(
                           errorText: MadarLocalizations.of(context)
                               .trans(phoneSnapshot.error),
                           errorStyle: TextStyle(height: 0.1),
                           border: InputBorder.none,
                           icon: isoCodePicker(),
+                        ),
                       ),
-                    ),
-                        );
+                    );
                   }));
         });
   }
@@ -254,8 +272,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
       },
     );
   }
-
-
 
   Widget isoCodePicker() {
     return CountryCodePicker(

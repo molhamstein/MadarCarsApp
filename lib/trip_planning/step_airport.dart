@@ -76,97 +76,118 @@ class AirportStepState extends State<AirportStep>
                     stream: airportBloc.indexStream,
                     // initialData: 0,
                     builder: (context, snapshot) {
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        itemCount: bloc.airports.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var _checked = index == snapshot.data;
-                          return GestureDetector(
-                              onTap: () {
-                                print("taaped");
-                                airportBloc.selectAirport(
-                                    bloc.airports[index], index);
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height / 10,
-                                margin: EdgeInsets.only(
-                                    left: 16, right: 16, top: 8, bottom: 8),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: 15,
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(16),
-                                    child: Stack(
-                                      children: <Widget>[
-                                        _checked
-                                            ? Align(
-                                                alignment:
-                                                    MadarLocalizations.of(
-                                                                    context)
-                                                                .locale
-                                                                .languageCode ==
-                                                            'en'
-                                                        ? Alignment.topRight
-                                                        : Alignment.topLeft,
-                                                child: Icon(
-                                                  FontAwesomeIcons
-                                                      .solidCheckCircle,
-                                                  color: Colors.yellow[700],
-                                                ),
-                                              )
-                                            : Container(),
-                                        Center(
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              Icon(FontAwesomeIcons
-                                                  .planeArrival),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 32.0, right: 32),
-                                                child: Text(
-                                                  bloc.airports[index].name(
-                                                      MadarLocalizations.of(
-                                                              context)
-                                                          .locale),
-                                                  style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                ),
+                      return AnimatedBuilder(
+                          animation: _offsetFloat,
+                          builder: (context, widget) {
+                            return ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              itemCount: bloc.airports.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var _checked = index == snapshot.data;
+                                return GestureDetector(
+                                    onTap: () {
+                                      print("taaped");
+                                      airportBloc.selectAirport(
+                                          bloc.airports[index], index);
+                                    },
+                                    child: Transform.translate(
+                                      offset: _offsetFloat.value,
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                10,
+                                        margin: EdgeInsets.only(
+                                            left: 16,
+                                            right: 16,
+                                            top: 8,
+                                            bottom: 8),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 15,
                                               ),
                                             ],
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Material(
+                                          color: Colors.transparent,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(16),
+                                            child: Stack(
+                                              children: <Widget>[
+                                                _checked
+                                                    ? Align(
+                                                        alignment: MadarLocalizations.of(
+                                                                        context)
+                                                                    .locale
+                                                                    .languageCode ==
+                                                                'en'
+                                                            ? Alignment.topRight
+                                                            : Alignment.topLeft,
+                                                        child: Icon(
+                                                          FontAwesomeIcons
+                                                              .solidCheckCircle,
+                                                          color: Colors
+                                                              .yellow[700],
+                                                        ),
+                                                      )
+                                                    : Container(),
+                                                Center(
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Icon(FontAwesomeIcons
+                                                          .planeArrival),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 32.0,
+                                                                right: 32),
+                                                        child: Text(
+                                                          bloc.airports[index].name(
+                                                              MadarLocalizations
+                                                                      .of(context)
+                                                                  .locale),
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                              //   Text(
-                              // bloc.airports[index].nameAr,
-                              // style: TextStyle(
-                              //     color: index == snapshot.data
-                              //         ? Colors.red
-                              //         : Colors.white)),
-                              );
-                        },
-                      );
+                                        ),
+                                      ),
+                                    )
+                                    //   Text(
+                                    // bloc.airports[index].nameAr,
+                                    // style: TextStyle(
+                                    //     color: index == snapshot.data
+                                    //         ? Colors.red
+                                    //         : Colors.white)),
+                                    );
+                              },
+                            );
+                          });
                     }),
               ],
             );
