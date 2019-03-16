@@ -521,8 +521,11 @@ class StepSummaryState extends State<StepSummary>
                                                           height: 0.5)),
                                                   new Row(
                                                     children: <Widget>[
-                                                      new Text(
-                                                          (snapshot.data.value)
+                                                      snapshot.data.type == "percentage"  ?
+
+
+                                                      Text(
+                                                          ((snapshot.data.value/100)*planingBloc.trip.estimationPrice())
                                                               .toString(),
                                                           style: TextStyle(
                                                               fontSize: 22,
@@ -530,17 +533,24 @@ class StepSummaryState extends State<StepSummary>
                                                                   FontWeight
                                                                       .w700,
                                                               color: MadarColors
+                                                                  .grey[800])):
+                                                      Text(
+                                                          ((snapshot.data.value))
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 22,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w700,
+                                                              color: MadarColors
                                                                   .grey[800])),
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(
                                                                   bottom: 15.0),
-                                                          child: snapshot.data
-                                                                      .type ==
-                                                                  "percentage"
-                                                              ? new Text("%")
-                                                              : new Text("\$")),
+                                                          child: new Text("\$"))
+                                                              ,
                                                     ],
                                                   )
                                                 ],
