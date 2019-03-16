@@ -362,6 +362,7 @@ class TripPlaningBloc extends BaseBloc with Network {
         break;
       case Steps.finalstep:
         changeButtonText('done');
+        pushLoading(false);
         hideNoteButton;
         break;
       default:

@@ -320,7 +320,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   ),
                 ),
                 StreamBuilder<List<TripModel>>(
-                  //        initialData: temp,
+                         initialData: temp,
                   stream: homeBloc.predefindTripsStream,
                   builder: (context, snapshot) {
                     // switch (snapshot.connectionState) {

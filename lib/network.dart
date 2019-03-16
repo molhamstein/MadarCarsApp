@@ -403,7 +403,7 @@ class Network {
           '{"${trip.keys.keys.toList()[0]}":"${trip.startDate.toUtc().toIso8601String()}"}';
 
     String url = _avaiableCars +
-        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=${dates}&locationId=${trip.location.id}';
+        '?flags={"fromAirport":${trip.fromAirport},"toAirport":${trip.toAirport},"inCity":${trip.inCity}}&dates=$dates&locationId=${trip.location.id}';
 
     if (langIds != null && langIds.isNotEmpty) {
       url += '&langFilter=${json.encode(langIds)}';
@@ -431,6 +431,7 @@ class Network {
     print(url);
 
     final response = await http.get(url, headers: headers);
+    print(response.body);
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return (json.decode(response.body) as List)
@@ -528,6 +529,7 @@ class Network {
       this._carsUrL,
       headers: headers,
     );
+
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return carFromJson(response.body);

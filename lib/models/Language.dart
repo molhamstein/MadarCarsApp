@@ -25,6 +25,4 @@ class Language {
   String toString() {
     return 'Language{name: $name, code: $code, id: $id}';
   }
-
-
 }

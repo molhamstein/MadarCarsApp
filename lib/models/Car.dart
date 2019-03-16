@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 import 'dart:ui';
+import 'package:madar_booking/models/Airport.dart';
 import 'package:madar_booking/models/Brand.dart';
 import 'package:madar_booking/models/Driver.dart';
 import 'package:madar_booking/models/media.dart';
@@ -49,37 +50,38 @@ class Car {
   List<Media> carMedia;
   List<CarSublocation> carSublocations;
   Media media;
+  List<CarsAirport> carsAirport;
 
-  Car({
-    this.name,
-    this.rate,
-    this.numRateing,
-    this.numOfSeat,
-    this.isVip,
-    this.pricePerDay,
-    this.priceOneWay,
-    this.priceTowWay,
-    this.productionDate,
-    this.engineType,
-    this.type,
-    this.isAirportCar,
-    this.isCityCar,
-    this.status,
-    this.createdAt,
-    this.id,
-    this.brandId,
-    this.mediaId,
-    this.locationId,
-    this.driverId,
-    this.color1,
-    this.color2,
-    this.brand,
-    this.location,
-    this.driver,
-    this.carMedia,
-    this.carSublocations,
-    this.media,
-  });
+  Car(
+      {this.name,
+      this.rate,
+      this.numRateing,
+      this.numOfSeat,
+      this.isVip,
+      this.pricePerDay,
+      this.priceOneWay,
+      this.priceTowWay,
+      this.productionDate,
+      this.engineType,
+      this.type,
+      this.isAirportCar,
+      this.isCityCar,
+      this.status,
+      this.createdAt,
+      this.id,
+      this.brandId,
+      this.mediaId,
+      this.locationId,
+      this.driverId,
+      this.color1,
+      this.color2,
+      this.brand,
+      this.location,
+      this.driver,
+      this.carMedia,
+      this.carSublocations,
+      this.media,
+      this.carsAirport});
 
   factory Car.fromJson(Map<String, dynamic> json) => new Car(
         name: json["name"] == null ? null : json["name"],
@@ -113,12 +115,17 @@ class Car {
         driver: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
         carMedia: json["carMedia"] == null
             ? null
-            : new List<Media>.from(json["carMedia"].map((x) => Media.fromJson(x))),
+            : new List<Media>.from(
+                json["carMedia"].map((x) => Media.fromJson(x))),
         carSublocations: json["carSublocations"] == null
             ? null
             : new List<CarSublocation>.from(
                 json["carSublocations"].map((x) => CarSublocation.fromJson(x))),
         media: json["media"] == null ? null : Media.fromJson(json["media"]),
+        carsAirport: json["carsAirport"] == null
+            ? null
+            : new List<CarsAirport>.from(
+                json["carsAirport"].map((x) => CarsAirport.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -154,6 +161,9 @@ class Car {
             ? null
             : new List<dynamic>.from(carSublocations.map((x) => x.toJson())),
         "media": media == null ? null : media.toJson(),
+        "carsAirport": carsAirport == null
+            ? null
+            : new List<dynamic>.from(carsAirport.map((x) => x.toJson())),
       };
 }
 
@@ -274,4 +284,41 @@ class EnumValues<T> {
     }
     return reverseMap;
   }
+}
+
+class CarsAirport {
+  int priceOneWay;
+  int priceTowWay;
+  String id;
+  String carId;
+  String airportId;
+  Airport airport;
+
+  CarsAirport({
+    this.priceOneWay,
+    this.priceTowWay,
+    this.id,
+    this.carId,
+    this.airportId,
+    this.airport,
+  });
+
+  factory CarsAirport.fromJson(Map<String, dynamic> json) => new CarsAirport(
+        priceOneWay: json["priceOneWay"] == null ? null : json["priceOneWay"],
+        priceTowWay: json["priceTowWay"] == null ? null : json["priceTowWay"],
+        id: json["id"] == null ? null : json["id"],
+        carId: json["carId"] == null ? null : json["carId"],
+        airportId: json["airportId"] == null ? null : json["airportId"],
+        airport:
+            json["airport"] == null ? null : Airport.fromJson(json["airport"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "priceOneWay": priceOneWay == null ? null : priceOneWay,
+        "priceTowWay": priceTowWay == null ? null : priceTowWay,
+        "id": id == null ? null : id,
+        "carId": carId == null ? null : carId,
+        "airportId": airportId == null ? null : airportId,
+        "airport": airport == null ? null : airport.toJson(),
+      };
 }

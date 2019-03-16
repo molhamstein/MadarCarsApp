@@ -72,16 +72,21 @@ class _ProfilePageState extends State<ProfilePage> {
           appBloc.saveMyTrips(trips);
           return tripInfoCardList();
         } else if (snapshot.hasError) {
-          return ListTile(
-            title: IconButton(
-              onPressed: () {
-                profileBloc.myTrips();
-              },
-              icon: Icon(Icons.restore),
-            ),
-            subtitle:
-                Text(MadarLocalizations.of(context).trans('connection_error')),
-          );
+          if (appBloc.myTrips != null) {
+            this.trips = appBloc.myTrips;
+            return tripInfoCardList();
+          } else {
+            return ListTile(
+              title: IconButton(
+                onPressed: () {
+                  profileBloc.myTrips();
+                },
+                icon: Icon(Icons.restore),
+              ),
+              subtitle: Text(
+                  MadarLocalizations.of(context).trans('connection_error')),
+            );
+          }
         } else {
           return Center(child: CircularProgressIndicator());
         }
@@ -227,13 +232,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 actions: <Widget>[
                   GestureDetector(
                     onTap: () async {
-                      final imageUrlTemp = await Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => EditProfilePage()));
-                       setState(() {
-                         if(imageUrlTemp != null) {
-                           imageUrl = imageUrlTemp;
-                         }
-                       });
+                      final imageUrlTemp = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => EditProfilePage()));
+                      setState(() {
+                        if (imageUrlTemp != null) {
+                          imageUrl = imageUrlTemp;
+                        }
+                      });
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -245,9 +251,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                     bool s = await Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MySettingsPage()));
-
+                      bool s = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => MySettingsPage()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

@@ -98,19 +98,39 @@ class Trip {
 
   int estimationPrice({bool withSubLocationPrice = false}) {
     int cost = 0;
+    int airportCost = 0;
     if (inCity) {
       withSubLocationPrice
           ? cost += (tripDuration() - subLocationDuration()) * car.pricePerDay
           : cost += tripDuration() * car.pricePerDay;
     }
+
     if (toAirport && !fromAirport) {
-      cost += car.priceOneWay;
+      if (airport != null && car != null) {
+        car.carsAirport.forEach((ap) {
+          if (ap.airportId == airport.id) {
+            cost += ap.priceOneWay;
+          }
+        });
+      }
     }
     if (fromAirport && !toAirport) {
-      cost += car.priceOneWay;
+      if (airport != null && car != null) {
+        car.carsAirport.forEach((ap) {
+          if (ap.airportId == airport.id) {
+            cost += ap.priceOneWay;
+          }
+        });
+      }
     }
     if (fromAirport && toAirport) {
-      cost += car.priceTowWay;
+      if (airport != null && car != null) {
+        car.carsAirport.forEach((ap) {
+          if (ap.airportId == airport.id) {
+            cost += ap.priceTowWay;
+          }
+        });
+      }
     }
 
     tripSubLocations.forEach((location) {

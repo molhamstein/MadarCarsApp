@@ -14,7 +14,6 @@ import 'location.dart';
 import 'Driver.dart';
 import 'package:date_format/date_format.dart';
 
-
 String myTripToJson(List<MyTrip> data) {
   final dyn = new List<dynamic>.from(data.map((x) => x.toJson()));
   return json.encode(dyn);
@@ -31,7 +30,6 @@ class MyTrip {
   String type;
   int cost;
   int costBeforCoupon;
-
   int pricePerDay;
   int priceOneWay;
   int priceTowWay;
@@ -51,8 +49,7 @@ class MyTrip {
   String carId;
   String locationId;
   String driverId;
-  String travelAgencyId;
-  String couponId;
+  dynamic couponId;
   User owner;
   Car car;
   Location location;
@@ -60,6 +57,7 @@ class MyTrip {
   Driver driver;
   Coupon coupon;
   TravelAgency travelAgency;
+  String travelAgencyId;
 
   MyTrip({
     this.status,
@@ -67,7 +65,6 @@ class MyTrip {
     this.type,
     this.cost,
     this.costBeforCoupon,
-
     this.pricePerDay,
     this.priceOneWay,
     this.priceTowWay,
@@ -99,78 +96,78 @@ class MyTrip {
   });
 
   factory MyTrip.fromJson(Map<String, dynamic> json) => new MyTrip(
-    status: json["status"],
-    note: json["note"],
-    type: json["type"],
-    cost: json["cost"],
-    costBeforCoupon: json["costBeforCoupon"],
-
-    pricePerDay: json["pricePerDay"],
-    priceOneWay: json["priceOneWay"],
-    priceTowWay: json["priceTowWay"],
-    daysInCity: json["daysInCity"],
-    fromAirportDate: json["fromAirportDate"],
-    fromAirport: json["fromAirport"],
-    toAirportDate: json["toAirportDate"],
-    toAirport: json["toAirport"],
-    startInCityDate: json["startInCityDate"],
-    endInCityDate: json["endInCityDate"],
-    inCity: json["inCity"],
-    hasOuterBill: json["hasOuterBill"],
-    hasInnerBill: json["hasInnerBill"],
-    createdAt: json["createdAt"],
-    id: json["id"],
-    ownerId: json["ownerId"],
-    carId: json["carId"],
-    locationId: json["locationId"],
-    driverId: json["driverId"],
-    travelAgencyId: json["travelAgencyId"],
-    couponId: json["couponId"],
-    owner: User.fromJson(json["owner"]),
-    car: Car.fromJson(json["car"]),
-    location: Location.fromJson(json["location"]),
-    tripSublocations: new List<dynamic>.from(json["tripSublocations"].map((x) => x)),
-    driver: Driver.fromJson(json["driver"]),
-    coupon: Coupon.fromJson(json["coupon"]),
-    travelAgency: TravelAgency.fromJson(json["travelAgency"]),
-  );
+        status: json["status"],
+        note: json["note"],
+        type: json["type"],
+        cost: json["cost"],
+        costBeforCoupon: json["costBeforCoupon"],
+        pricePerDay: json["pricePerDay"],
+        priceOneWay: json["priceOneWay"],
+        priceTowWay: json["priceTowWay"],
+        daysInCity: json["daysInCity"],
+        fromAirportDate: json["fromAirportDate"],
+        fromAirport: json["fromAirport"],
+        toAirportDate: json["toAirportDate"],
+        toAirport: json["toAirport"],
+        startInCityDate: json["startInCityDate"],
+        endInCityDate: json["endInCityDate"],
+        inCity: json["inCity"],
+        hasOuterBill: json["hasOuterBill"],
+        hasInnerBill: json["hasInnerBill"],
+        createdAt: json["createdAt"],
+        id: json["id"],
+        ownerId: json["ownerId"],
+        carId: json["carId"],
+        locationId: json["locationId"],
+        driverId: json["driverId"],
+        travelAgencyId: json["travelAgencyId"],
+        couponId: json["couponId"],
+        owner: User.fromJson(json["owner"]),
+        car: Car.fromJson(json["car"]),
+        location: Location.fromJson(json["location"]),
+        tripSublocations:
+            new List<dynamic>.from(json["tripSublocations"].map((x) => x)),
+        driver: Driver.fromJson(json["driver"]),
+        coupon: Coupon.fromJson(json["coupon"]),
+        travelAgency: TravelAgency.fromJson(json["travelAgency"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "note": note,
-    "type": type,
-    "cost": cost,
-    "costBeforCoupon": costBeforCoupon,
-
-    "pricePerDay": pricePerDay,
-    "priceOneWay": priceOneWay,
-    "priceTowWay": priceTowWay,
-    "daysInCity": daysInCity,
-    "fromAirportDate": fromAirportDate,
-    "fromAirport": fromAirport,
-    "toAirportDate": toAirportDate,
-    "toAirport": toAirport,
-    "startInCityDate": startInCityDate,
-    "endInCityDate": endInCityDate,
-    "inCity": inCity,
-    "hasOuterBill": hasOuterBill,
-    "hasInnerBill": hasInnerBill,
-    "createdAt": createdAt,
-    "id": id,
-    "ownerId": ownerId,
-    "carId": carId,
-    "locationId": locationId,
-    "driverId": driverId,
-    "travelAgencyId": travelAgencyId,
-    "couponId": couponId,
-    "owner": owner.toJson(),
-    "car": car.toJson(),
-    "location": location.toJson(),
-    "tripSublocations": new List<dynamic>.from(tripSublocations.map((x) => x)),
-    "driver": driver.toJson(),
-    "coupon": coupon.toJson(),
-    "travelAgency": travelAgency.toJson(),
-  };
+        "status": status,
+        "note": note,
+        "type": type,
+        "cost": cost,
+        "costBeforCoupon": costBeforCoupon,
+        "pricePerDay": pricePerDay,
+        "priceOneWay": priceOneWay,
+        "priceTowWay": priceTowWay,
+        "daysInCity": daysInCity,
+        "fromAirportDate": fromAirportDate,
+        "fromAirport": fromAirport,
+        "toAirportDate": toAirportDate,
+        "toAirport": toAirport,
+        "startInCityDate": startInCityDate,
+        "endInCityDate": endInCityDate,
+        "inCity": inCity,
+        "hasOuterBill": hasOuterBill,
+        "hasInnerBill": hasInnerBill,
+        "createdAt": createdAt,
+        "id": id,
+        "ownerId": ownerId,
+        "carId": carId,
+        "locationId": locationId,
+        "driverId": driverId,
+        "travelAgencyId": travelAgencyId,
+        "couponId": couponId,
+        "owner": owner.toJson(),
+        "car": car.toJson(),
+        "location": location.toJson(),
+        "tripSublocations":
+            new List<dynamic>.from(tripSublocations.map((x) => x)),
+        "driver": driver.toJson(),
+        "coupon": coupon.toJson(),
+        "travelAgency": travelAgency.toJson(),
+      };
 
   int totlaDuration() {
     int res = 0;
@@ -181,13 +178,13 @@ class MyTrip {
     return res;
   }
 
-
   String endDate() {
     if (toAirport) {
       return toAirportDate;
     }
     return endInCityDate;
   }
+
   String startDateFromated() {
     return formatDate(DateTime.parse(startDate()), [d, '/', m, '/', yyyy]);
   }
@@ -199,12 +196,9 @@ class MyTrip {
     return true;
   }
 
-
-  bool isActive(){
-    return status != "finished" ;
-   }
-
-
+  bool isActive() {
+    return status != "finished";
+  }
 
   String startDate() {
     if (fromAirport) {
@@ -215,8 +209,8 @@ class MyTrip {
     }
     return toAirportDate;
   }
+
   String endDateFormated() {
     return formatDate(DateTime.parse(endDate()), [d, '/', m, '/', yyyy]);
   }
-
 }
