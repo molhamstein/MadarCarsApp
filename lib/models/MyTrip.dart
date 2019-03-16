@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:madar_booking/models/CouponModel.dart';
+import 'package:madar_booking/models/TravelAgency.dart';
 
 import 'TripsSublocation.dart';
 import 'Car.dart';
@@ -24,8 +26,11 @@ List<MyTrip> myTripFromJson(String str) {
 
 class MyTrip {
   String status;
+  String note;
   String type;
   int cost;
+  int costBeforCoupon;
+
   int pricePerDay;
   int priceOneWay;
   int priceTowWay;
@@ -38,22 +43,29 @@ class MyTrip {
   String endInCityDate;
   bool inCity;
   bool hasOuterBill;
+  bool hasInnerBill;
   String createdAt;
   String id;
   String ownerId;
   String carId;
   String locationId;
   String driverId;
+  String travelAgencyId;
+  String couponId;
   User owner;
   Car car;
   Location location;
   List<TripSublocation> tripSublocations;
   Driver driver;
+  Coupon coupon;
+  TravelAgency travelAgency;
 
   MyTrip({
     this.status,
+    this.note,
     this.type,
     this.cost,
+    this.costBeforCoupon,
     this.pricePerDay,
     this.priceOneWay,
     this.priceTowWay,
@@ -66,23 +78,31 @@ class MyTrip {
     this.endInCityDate,
     this.inCity,
     this.hasOuterBill,
+    this.hasInnerBill,
     this.createdAt,
     this.id,
     this.ownerId,
     this.carId,
     this.locationId,
     this.driverId,
+    this.travelAgencyId,
+    this.couponId,
     this.owner,
     this.car,
     this.location,
     this.tripSublocations,
     this.driver,
+    this.coupon,
+    this.travelAgency,
   });
 
   factory MyTrip.fromJson(Map<String, dynamic> json) => new MyTrip(
         status: json["status"] == null ? null : json["status"],
+        note: json["note"] == null ? null : json["note"],
         type: json["type"] == null ? null : json["type"],
         cost: json["cost"] == null ? null : json["cost"],
+        costBeforCoupon:
+            json["costBeforCoupon"] == null ? null : json["costBeforCoupon"],
         pricePerDay: json["pricePerDay"] == null ? null : json["pricePerDay"],
         priceOneWay: json["priceOneWay"] == null ? null : json["priceOneWay"],
         priceTowWay: json["priceTowWay"] == null ? null : json["priceTowWay"],
@@ -100,12 +120,15 @@ class MyTrip {
         inCity: json["inCity"] == null ? null : json["inCity"],
         hasOuterBill:
             json["hasOuterBill"] == null ? null : json["hasOuterBill"],
+        hasInnerBill:
+            json["hasInnerBill"] == null ? null : json["hasInnerBill"],
         createdAt: json["createdAt"] == null ? null : json["createdAt"],
         id: json["id"] == null ? null : json["id"],
         ownerId: json["ownerId"] == null ? null : json["ownerId"],
         carId: json["carId"] == null ? null : json["carId"],
         locationId: json["locationId"] == null ? null : json["locationId"],
         driverId: json["driverId"] == null ? null : json["driverId"],
+        couponId: json["couponId"],
         owner: json["owner"] == null ? null : User.fromJson(json["owner"]),
         car: json["car"] == null ? null : Car.fromJson(json["car"]),
         location: json["location"] == null
@@ -113,21 +136,21 @@ class MyTrip {
             : Location.fromJson(json["location"]),
         tripSublocations: json["tripSublocations"] == null
             ? null
-            : new List<TripSublocation>.from(json["tripSublocations"]
-                .map((x) => TripSublocation.fromJson(x))),
+            : new List<TripSublocation>.from(
+                json["tripSublocations"].map((x) => x)),
         driver: json["driver"] == null ? null : Driver.fromJson(json["driver"]),
+        coupon: json["coupon"] == null ? null : Coupon.fromJson(json["coupon"]),
+        travelAgency: json["travelAgency"] == null
+            ? null
+            : TravelAgency.fromJson(json["travelAgency"]),
       );
-  bool isActive() {
-    // var date = DateTime.now();
-    // var startDate = DateTime.parse(trip.fromAirportDate);
-    // var endDate = DateTime.parse(trip.endInCityDate);
-    return status != "finished";
-  }
 
   Map<String, dynamic> toJson() => {
         "status": status == null ? null : status,
+        "note": note == null ? null : note,
         "type": type == null ? null : type,
         "cost": cost == null ? null : cost,
+        "costBeforCoupon": costBeforCoupon == null ? null : costBeforCoupon,
         "pricePerDay": pricePerDay == null ? null : pricePerDay,
         "priceOneWay": priceOneWay == null ? null : priceOneWay,
         "priceTowWay": priceTowWay == null ? null : priceTowWay,
@@ -140,19 +163,23 @@ class MyTrip {
         "endInCityDate": endInCityDate == null ? null : endInCityDate,
         "inCity": inCity == null ? null : inCity,
         "hasOuterBill": hasOuterBill == null ? null : hasOuterBill,
+        "hasInnerBill": hasInnerBill == null ? null : hasInnerBill,
         "createdAt": createdAt == null ? null : createdAt,
         "id": id == null ? null : id,
         "ownerId": ownerId == null ? null : ownerId,
         "carId": carId == null ? null : carId,
         "locationId": locationId == null ? null : locationId,
         "driverId": driverId == null ? null : driverId,
+        "couponId": couponId,
         "owner": owner == null ? null : owner.toJson(),
         "car": car == null ? null : car.toJson(),
         "location": location == null ? null : location.toJson(),
         "tripSublocations": tripSublocations == null
             ? null
-            : new List<dynamic>.from(tripSublocations.map((x) => x.toJson())),
+            : new List<TripSublocation>.from(tripSublocations.map((x) => x)),
         "driver": driver == null ? null : driver.toJson(),
+        "coupon": coupon == null ? null : coupon.toJson(),
+        "travelAgency": travelAgency == null ? null : travelAgency.toJson(),
       };
 
   int totlaDuration() {
@@ -180,6 +207,10 @@ class MyTrip {
       return false;
     }
     return true;
+  }
+
+  bool isActive() {
+    return status != "finished";
   }
 
   String startDate() {
