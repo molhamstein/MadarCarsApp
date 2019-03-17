@@ -13,6 +13,9 @@ import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/submitButton.dart';
 
 class SignUp extends StatefulWidget {
+ final String number ;
+  SignUp({Key key , this.number }): super (key : key);
+
   @override
   SignUpState createState() {
     return new SignUpState();
@@ -40,11 +43,15 @@ class SignUpState extends State<SignUp> with UserFeedback {
   AppBloc appBloc;
   AuthBloc bloc;
 
+
   @override
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
     bloc = AuthBloc();
     super.initState();
+    print(widget.number);
+    signupEmailController.text = widget.number;
+
   }
 
   @override
