@@ -119,14 +119,17 @@ class _CheckGsmState extends State<CheckGsm>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                new Text(
-                                  MadarLocalizations.of(context).trans(
-                                      'Your_best_companion_for_a_comfortable_trip_to_turkey'),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontFamily: "WorkSansMedium",
-                                      decoration: TextDecoration.none),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:8.0 , right: 8),
+                                  child: new Text(
+                                    MadarLocalizations.of(context).trans(
+                                        'Your_best_companion_for_a_comfortable_trip_to_turkey'),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                        fontFamily: "WorkSansMedium",
+                                        decoration: TextDecoration.none),maxLines: 2,
+                                  ),
                                 ),
                               ],
                             ),
