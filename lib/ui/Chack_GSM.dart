@@ -188,6 +188,7 @@ class _CheckGsmState extends State<CheckGsm>
                                                             bloc.shouldNavgateToSignUp) {
                                                           print(
                                                               "data is false");
+                                                          print("here we go"+loginEmailController.text);
                                                           bloc.shouldNavgateToSignUp =
                                                               false;
                                                           WidgetsBinding
@@ -199,7 +200,7 @@ class _CheckGsmState extends State<CheckGsm>
                                                                 .push(new MaterialPageRoute(
                                                                     builder:
                                                                         (context) =>
-                                                                            SignUp()));
+                                                                            SignUp(number: loginEmailController.text)));
                                                           });
                                                         }
                                                         return Container();
