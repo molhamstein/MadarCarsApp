@@ -119,19 +119,19 @@ class _CheckGsmState extends State<CheckGsm>
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 32.0, right: 32.0),
-                              child: AutoSizeText(
-                                MadarLocalizations.of(context).trans(
-                                    'Your_best_companion_for_a_comfortable_trip_to_turkey'),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16.0,
-                                    fontFamily: "WorkSansMedium",
-                                    decoration: TextDecoration.none),
-                                // maxLines: 3,
-                                maxFontSize: 16.0,
-                                minFontSize: 16.0,
-                                textAlign: TextAlign.center,
-                              ),
+//                              child: AutoSizeText(
+//                                MadarLocalizations.of(context).trans(
+//                                    'Your_best_companion_for_a_comfortable_trip_to_turkey'),
+//                                style: TextStyle(
+//                                    color: Colors.white,
+//                                    fontSize: 16.0,
+//                                    fontFamily: "WorkSansMedium",
+//                                    decoration: TextDecoration.none),
+//                                // maxLines: 3,
+//                                maxFontSize: 16.0,
+//                                minFontSize: 16.0,
+//                                textAlign: TextAlign.center,
+//                              ),
                             ),
                           ),
                         ],
