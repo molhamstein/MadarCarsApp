@@ -442,13 +442,13 @@ class Network {
     var filter = Map<String, dynamic>();
 
     if (numberOfSeats != null) {
-      filter['numOfSeat'] = numberOfSeats;
+      filter['numOfSeat'] = {'gte': numberOfSeats} ;
     }
     if (type != null && type == 'vip') {
       filter['isVip'] = true;
     }
     if (productionDate != null) {
-      filter['productionDate'] = productionDate;
+      filter['productionDate'] = {'gte': productionDate} ;
     }
 
     var whereClause = '&filter=' + json.encode({'where': filter});
