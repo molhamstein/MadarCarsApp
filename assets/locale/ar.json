@@ -125,5 +125,6 @@
   "airport_step_title": "اي مطار هو مطارك؟",
   "Wrong_Coupon_Code": "رقم قسيمة خاطئ",
   "Check": "اختبار",
-  "choose_AirPort":"اختر مطار"
+  "choose_AirPort": "اختر مطار",
+  "Coupn_not_available": "القسيمة غير صالحة"
 }

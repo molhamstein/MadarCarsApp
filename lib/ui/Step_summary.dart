@@ -362,6 +362,15 @@ class StepSummaryState extends State<StepSummary>
                               StreamBuilder<Coupon>(
                                   stream: planingBloc.couponStream,
                                   builder: (context, snapshot) {
+                  /*                  if (snapshot.hasError) {
+                                      print("Errrrrrrrrrrrrrrror");
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((_) {
+                                        showInSnackBar(
+                                            'Wrong_Coupon_Code', mContext,
+                                            color: Colors.red);
+                                      });
+                                    }*/
                                     return Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10.0, right: 15),
@@ -521,36 +530,36 @@ class StepSummaryState extends State<StepSummary>
                                                           height: 0.5)),
                                                   new Row(
                                                     children: <Widget>[
-                                                      snapshot.data.type == "percentage"  ?
-
-
-                                                      Text(
-                                                          ((snapshot.data.value/100)*planingBloc.trip.estimationPrice())
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 22,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              color: MadarColors
-                                                                  .grey[800])):
-                                                      Text(
-                                                          ((snapshot.data.value))
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 22,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w700,
-                                                              color: MadarColors
-                                                                  .grey[800])),
+                                                      snapshot.data.type ==
+                                                              "percentage"
+                                                          ? Text(
+                                                              ((snapshot.data.value / 100) *
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .estimationPrice())
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: MadarColors.grey[
+                                                                      800]))
+                                                          : Text(((snapshot.data.value)).toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: MadarColors
+                                                                      .grey[800])),
                                                       Padding(
                                                           padding:
                                                               const EdgeInsets
                                                                       .only(
                                                                   bottom: 15.0),
-                                                          child: new Text("\$"))
-                                                              ,
+                                                          child:
+                                                              new Text("\$")),
                                                     ],
                                                   )
                                                 ],
@@ -606,50 +615,53 @@ class StepSummaryState extends State<StepSummary>
                                             ],
                                           ),
                                         );
+                                      } else if (snapshot.hashCode ==
+                                          snapshot.error) {
+                                        print(
+                                            "I'm heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere");
                                       } else
-                                      if(snapshot.hashCode == snapshot.error){
-                                        print("I'm heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere") ;
-                                      }else
-                                      return Column(
-                                        children: <Widget>[
+                                        return Column(
+                                          children: <Widget>[
 //                                            new SizedBox(height: 80,),
-                                          new Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              new Text(
-                                                  MadarLocalizations.of(context)
-                                                      .trans("estim_cost"),
-                                                  style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      height: 0.5)),
-                                              new Row(
-                                                children: <Widget>[
-                                                  new Text(
-                                                      planingBloc.trip
-                                                          .estimationPrice()
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 22,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: MadarColors
-                                                              .grey[800])),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 15.0),
-                                                    child: new Text("\$"),
-                                                  ),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      );
+                                            new Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                new Text(
+                                                    MadarLocalizations.of(
+                                                            context)
+                                                        .trans("estim_cost"),
+                                                    style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        height: 0.5)),
+                                                new Row(
+                                                  children: <Widget>[
+                                                    new Text(
+                                                        planingBloc.trip
+                                                            .estimationPrice()
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 22,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            color: MadarColors
+                                                                .grey[800])),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 15.0),
+                                                      child: new Text("\$"),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        );
                                     }),
                               )
                             ],
