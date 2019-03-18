@@ -1,23 +1,23 @@
 import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:madar_booking/trip_planning/bloc/Summary_bloc.dart';
-
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
+import 'package:madar_booking/car_card_widget.dart';
 import 'package:madar_booking/home_bloc.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/ContactUs.dart';
 import 'package:madar_booking/models/TripModel.dart';
 import 'package:madar_booking/profile_page.dart';
-import 'package:madar_booking/car_card_widget.dart';
 import 'package:madar_booking/review/review_main.dart';
 import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
-import 'package:device_info/device_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   static const String route = 'home_page';
@@ -52,6 +52,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  var num = 0932448931;
+
+  var message = "Hello";
+
   static AppBloc appBloc;
   static HomeBloc homeBloc;
   static final token = appBloc.token;
@@ -70,7 +74,16 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Matrix4 transformation;
   BorderRadius borderRadius;
   FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
+
 //  CouponBloc bloc ;
+
+  whatsAppLunch(var num) async {
+    var whatsappUrl = "whatsapp://send?phone=${num}&text=Hello";
+    await canLaunch(whatsappUrl)
+        ? launch(whatsappUrl)
+        : print(
+            "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+  }
 
   void handelHeaderAnimation() {
     transformation = rotateBy_0;
@@ -142,7 +155,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     homeBloc = HomeBloc(token);
     homeBloc.predifindTrips();
     homeBloc.getCars();
-
+    homeBloc.getContactNum();
+    print(homeBloc.contactNum);
+//    print(homeBloc.contactNumFetcher.stream) ;
 //    bloc.fetchCheckCoupon();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
@@ -586,6 +601,24 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   elevation: 0.0,
                   backgroundColor: Colors.transparent,
                   actions: <Widget>[
+                    StreamBuilder<ContactUs>(
+                        stream: homeBloc.contactNum,
+                        builder: (context, snapshot) {
+                          return InkWell(
+                              onTap: () {
+                                if (snapshot.hasData &&
+                                    snapshot.data.contactUsNumber != "") {
+                                  print(snapshot.data.contactUsNumber);
+                                  whatsAppLunch(snapshot.data.contactUsNumber);
+                                } else
+                                  whatsAppLunch(905306514431);
+                              },
+                              child: Image.asset(
+                                "assets/images/whatsapp.png",
+                                height: 22,
+                                width: 22,
+                              ));
+                        }),
                     IconButton(
                       icon: Icon(Icons.person),
                       onPressed: () {
@@ -606,6 +639,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
     );
   }
+
+//  void whatsAppOpen() async {
+//    await FlutterLaunch.launchWathsApp(phone: "5534992016545", message: "Hello");
+//  }
 
   @override
   void dispose() {

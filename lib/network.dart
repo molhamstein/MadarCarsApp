@@ -8,6 +8,7 @@ import 'package:device_info/device_info.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:madar_booking/models/Car.dart';
+import 'package:madar_booking/models/ContactUs.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/Language.dart';
@@ -61,7 +62,33 @@ class Network {
 
   String checkCoupon = _baseUrl + "coupons/$couponCode/checkCoupon";
 
+  String _contactUsNumber = _baseUrl+"admins/getMetaData";
+
 //  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
+
+  Future<ContactUs> fetchContactUs(String token) async {
+
+    print(token) ;
+    headers['Authorization'] ="e0tl4zZ9EPk:APA91bF1ngC_uz9vv9EEbirUD3Y9H-80yr6cr9TT7vnLQZ5gR4FOBZ5jIbSqt3X9WCI8lYOX5gPypSNi16CcbaEUFqAxO655KKKOY0AI7Ho1VbEfCWrf3yM88vF17LahCO24mnfd8v9j";
+
+//    print("tokeeen is"+token);
+    final response = await http.get(_contactUsNumber,headers: headers);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return ContactUs.fromJson(json.decode(response.body));
+
+    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+      print(response.body);
+      throw 'error_wrong_credentials';
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+
+
+
 
   Future<String> checkNum(String num) async {
     final response =
@@ -524,6 +551,7 @@ class Network {
 
   // get avalible cars in home page
   Future<List<Car>> getAvailableCars(String token) async {
+    print("tokkkkkkkken is " + token);
     headers['Authorization'] = token;
     final response = await http.get(
       this._carsUrL,
