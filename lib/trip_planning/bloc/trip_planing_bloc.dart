@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/Airport.dart';
 import 'package:madar_booking/models/Car.dart';
-import 'package:madar_booking/models/CheckCouponModel.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/Language.dart';
 import 'package:madar_booking/models/TripModel.dart';
@@ -83,7 +82,12 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _languagesController = ReplaySubject<List<Language>>();
   final _languagesIdsController = ReplaySubject<List<String>>();
   final _modalController = PublishSubject<bool>();
+  final _dateController = PublishSubject<bool>();
+  final _startDateController = BehaviorSubject<DateTime>();
+  final _endDateController = BehaviorSubject<DateTime>();
 
+  get startDateStream => _startDateController.stream;
+  get endtDateStream => _endDateController.stream;
   get navigationStream => _navigationController.stream;
 
   get tripController => _tripController.stream;
@@ -103,6 +107,8 @@ class TripPlaningBloc extends BaseBloc with Network {
   get showNoteButton => _noteButtonController.sink.add(true);
 
   get hideNoteButton => _noteButtonController.sink.add(false);
+
+  get dateChangedStream => _dateController.stream;
 
   Stream<Type> get carTypeStream => _carTypeController.stream;
 
@@ -128,46 +134,17 @@ class TripPlaningBloc extends BaseBloc with Network {
   fetchCoupon(String s) {
     fetchCheckCoupon(token, s).then((coupon) {
       _couponsController.sink.add(coupon);
-    }).catchError((e) {});
+      showFeedback = false;
+    }).catchError((e) {
+      _couponsController.sink.addError(e);
+      showFeedback = true;
+      _feedbackController.sink.addError('Coupn_not_available');
+    });
   }
 
   get navBackward {
-// //    if(trip.inCity){
-// //      if(index == 4 ) {index =3 ;done = false;
-// //      pushLoading(false);
-// //      changeButtonText('next'); }
-// //    }
-//     if (!trip.inCity) {
-//       if (index == 4) index = 3;
-//       if (index == 5) index = 4;
-// //      if (index == 4) index = 3;
-//       _navigationController.sink.add(--index);
-//     } else {
-//       _navigationController.sink.add(--index);
-//       if (index == 3) {
-//         done = false;
-//         pushLoading(false);
-//         changeButtonText('next');
-//         hideNoteButton;
-//       }
-//       if (index == 6) {
-//         hideNoteButton;
-//       }
-//     }
-//     if (index == 0 || index == 1 || index == 2) {
-//       done = false;
-//       pushLoading(false);
-//       changeButtonText('next');
-//       hideNoteButton;
-//     }
-//    if(index == 6)
-//      {
-//        hideNoteButton;
-//      }
-
     switch (step) {
       case Steps.chooseCity:
-        // step = Steps.chooseType;
         break;
       case Steps.chooseType:
         step = Steps.chooseCity;
@@ -204,30 +181,6 @@ class TripPlaningBloc extends BaseBloc with Network {
   }
 
   get navForward {
-    // if (index == 6) {
-    //   changeButtonText('done');
-    //   pushLoading(true);
-    //   done = true;
-    // }
-    // if (index == 4) {
-    //   showNoteButton;
-    //   done = true;
-    // }
-    // if (trip.inCity) {
-    //   if (index == 4) {
-    //     pushLoading(false);
-    //     showNoteButton;
-    //     done = false;
-    //     changeButtonText('next');
-    //   }
-    // } else {
-    //   if (index == 3) {
-    //     showNoteButton;
-    //     done = false;
-
-    //     index = 4;
-    //   }
-    // }
     if (!_shouldNav()) return;
     switch (step) {
       case Steps.chooseCity:
@@ -289,10 +242,14 @@ class TripPlaningBloc extends BaseBloc with Network {
         }
         return true;
       case Steps.chooseDate:
-        if (trip.endDate.isBefore(trip.startDate)) {
-          showFeedback = true;
-          _feedbackController.sink.addError('error_end_date_before_start_date');
-          return false;
+        if (trip.inCity || (trip.toAirport && trip.fromAirport)) {
+          if (trip.endDate.isBefore(trip.startDate)) {
+            // endDateChanged(trip.startDate);
+            showFeedback = true;
+            _feedbackController.sink
+                .addError('error_end_date_before_start_date');
+            return false;
+          }
         }
         return true;
       case Steps.chooseCar:
@@ -391,10 +348,20 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   startDateChanged(DateTime startDate) {
     trip.startDate = startDate;
+    // if (trip.endDate.isBefore(trip.startDate)) {
+    //  endDateChanged(trip.startDate);
+    // }
+    //_dateController.sink.add(true);
+    _startDateController.sink.add(startDate);
   }
 
   endDateChanged(endDate) {
     trip.endDate = endDate;
+    // if (trip.endDate.isBefore(trip.startDate)) {
+    //   endDateChanged(trip.startDate);
+    //  }
+    // _dateController.sink.add(true);
+    _endDateController.sink.add(endDate);
   }
 
   cityId(Location location) {
@@ -504,6 +471,8 @@ class TripPlaningBloc extends BaseBloc with Network {
     _modalController.close();
     _productionDateController.close();
     _couponsController.close();
+    _startDateController.close();
+    _endDateController.close();
   }
 
   selectProductionDate(String value) {

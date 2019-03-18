@@ -5,7 +5,6 @@ import 'package:madar_booking/TripTypeTile.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
-import 'package:madar_booking/trip_planning/need_help_page.dart';
 
 class TripTypeStep extends StatefulWidget {
   @override
@@ -104,7 +103,8 @@ class TripTypeStepState extends State<TripTypeStep>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        MadarLocalizations.of(context).trans('trip_planing_question'),
+                        MadarLocalizations.of(context)
+                            .trans('trip_planing_question'),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
@@ -118,7 +118,7 @@ class TripTypeStepState extends State<TripTypeStep>
                           width: 170,
                           text: MadarLocalizations.of(context).trans('call_us'),
                           loading: true,
-                          onPressed: (){
+                          onPressed: () {
                             bloc.submitHelp();
                           },
                         ),
@@ -126,7 +126,6 @@ class TripTypeStepState extends State<TripTypeStep>
                     ],
                   ),
                 ),
-
               ],
             );
           },

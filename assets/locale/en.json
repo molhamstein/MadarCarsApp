@@ -126,6 +126,6 @@
   "airport_step_title": "Which one is your airport?",
   "Wrong_Coupon_Code": "Wrong Coupon Code",
   "Check": "Check",
-  "choose_AirPort":"Choose Airport"
-
+  "choose_AirPort": "Choose Airport",
+  "Coupn_not_available": "Not Valid Coupon"
 }

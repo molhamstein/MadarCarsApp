@@ -92,7 +92,6 @@ class Network {
       return Coupon.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else if (response.statusCode == ErrorCodes.COUPON_NOT_AVAILABILE) {
       print("Coupn_not_available");
-
       throw 'Coupn_not_available';
     } else {
       print(json.decode(response.body));

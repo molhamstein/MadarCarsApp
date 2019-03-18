@@ -1051,17 +1051,23 @@ class StepChooseCarState extends State<StepChooseCar>
                                   ],
                                 ),
                                 DropdownButton<String>(
-                                  items: productionDates
-                                      .map((s) => DropdownMenuItem<String>(
-                                            child: Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    1.5,
-                                                child: Text(s)),
-                                            value: s,
-                                          ))
-                                      .toList(),
+                                  isExpanded: true,
+                                  items: productionDates.map((s) {
+                                    return DropdownMenuItem<String>(
+                                      child: Container(
+                                          color: Colors.white,
+                                          // width: MediaQuery.of(context)
+                                          //         .size
+                                          //         .width /
+                                          //     1.5,
+                                          constraints: BoxConstraints.expand(),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(s),
+                                          )),
+                                      value: s,
+                                    );
+                                  }).toList(),
                                   onChanged: planingBloc.selectProductionDate,
                                   value:
                                       snapshot.hasData ? snapshot.data : null,

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
@@ -115,20 +116,22 @@ class _CheckGsmState extends State<CheckGsm>
                         children: <Widget>[
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                new Text(
-                                  MadarLocalizations.of(context).trans(
-                                      'Your_best_companion_for_a_comfortable_trip_to_turkey'),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      fontFamily: "WorkSansMedium",
-                                      decoration: TextDecoration.none),
-                                ),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 32.0, right: 32.0),
+                              child: AutoSizeText(
+                                MadarLocalizations.of(context).trans(
+                                    'Your_best_companion_for_a_comfortable_trip_to_turkey'),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    fontFamily: "WorkSansMedium",
+                                    decoration: TextDecoration.none),
+                                // maxLines: 3,
+                                maxFontSize: 16.0,
+                                minFontSize: 16.0,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ],
@@ -185,6 +188,9 @@ class _CheckGsmState extends State<CheckGsm>
                                                             bloc.shouldNavgateToSignUp) {
                                                           print(
                                                               "data is false");
+                                                          print("here we go" +
+                                                              loginEmailController
+                                                                  .text);
                                                           bloc.shouldNavgateToSignUp =
                                                               false;
                                                           WidgetsBinding
@@ -194,9 +200,10 @@ class _CheckGsmState extends State<CheckGsm>
                                                             Navigator.of(
                                                                     context)
                                                                 .push(new MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            SignUp()));
+                                                                    builder: (context) =>
+                                                                        SignUp(
+                                                                            number:
+                                                                                loginEmailController.text)));
                                                           });
                                                         }
                                                         return Container();

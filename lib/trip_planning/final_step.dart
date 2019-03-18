@@ -33,12 +33,12 @@ class FinalStep extends StatelessWidget {
                 width: 100,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 60),
-              child: Text(MadarLocalizations.of(context).trans('prices_may_vary'), style: TextStyle(
-                color: Colors.grey[300], fontSize: 12,
-              ),),
-            )
+//            Padding(
+//              padding: const EdgeInsets.only(left: 16, right: 16, top: 60),
+//              child: Text(MadarLocalizations.of(context).trans('prices_may_vary'), style: TextStyle(
+//                color: Colors.grey[300], fontSize: 12,
+//              ),),
+//            )
           ],
         ),
       ),

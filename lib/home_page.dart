@@ -311,7 +311,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0, right: 8),
                     child: Text(
-                      MadarLocalizations.of(context).trans('Recomended_Trips'),
+                      MadarLocalizations.of(context).trans('Recommended_Trips'),
                       style: TextStyle(
                           fontSize: isScreenLongEnough ? 22 : 18,
                           fontWeight: FontWeight.w600),
@@ -415,7 +415,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                     const EdgeInsets.only(left: 8.0, right: 8),
                                 child: Text(
                                   MadarLocalizations.of(context)
-                                      .trans('Recomended_Trips'),
+                                      .trans('Recommended_Trips'),
                                   style: TextStyle(
                                       fontSize: isScreenLongEnough ? 22 : 18,
                                       fontWeight: FontWeight.w600),
