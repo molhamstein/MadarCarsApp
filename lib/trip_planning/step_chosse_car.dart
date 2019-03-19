@@ -77,7 +77,6 @@ var shouldShowProgressBar ;
     _offsetFloat.addListener(() {
       setState(() {});
     });
-
     _controller.forward();
 shouldShowProgressBar = false  ;
     super.initState();
@@ -444,7 +443,7 @@ shouldShowProgressBar = false  ;
                                                   height: 20,
                                                   width: 20,
                                                   child:
-                                                     shouldShowProgressBar ? CircularProgressIndicator(
+                                                     bloc.shouldShowProgressIndecator ? CircularProgressIndicator(
                                                           valueColor:
                                                               AlwaysStoppedAnimation<
                                                                   Color>(
@@ -1342,7 +1341,15 @@ shouldShowProgressBar = false  ;
                           child: InkWell(
                             borderRadius: BorderRadius.circular(25),
                             onTap: () {
-                              shouldShowProgressBar = false;
+//                              shouldShowProgressBar = false;
+                              Navigator.of(context).pop();
+
+                            setState(() {
+                              bloc.shouldShowProgressIndecator = true;
+
+                            });
+
+
                               bloc.trip.car = null;
                               bloc.fetchGetAvailableCars(
                                 langIds: planingBloc.langFiltersIds,
@@ -1353,7 +1360,7 @@ shouldShowProgressBar = false  ;
                                 type: planingBloc.type,
                                 productionDate: planingBloc.productionDate,
                               );
-                              Navigator.of(context).pop();
+
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 3,

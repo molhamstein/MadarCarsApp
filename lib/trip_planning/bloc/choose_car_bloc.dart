@@ -19,6 +19,10 @@ class ChooseCarBloc extends BaseBloc with Network {
 
   ChooseCarBloc(this.trip, this.token);
 
+
+
+var shouldShowProgressIndecator = false ;
+
   final _carsController = BehaviorSubject<List<Car>>();
   final _selectedCarIndexController = BehaviorSubject<int>();
   final _selectedCarController = BehaviorSubject<Car>();
@@ -47,6 +51,7 @@ class ChooseCarBloc extends BaseBloc with Network {
       Type type,
       int numberOfSeats,
       String productionDate}) {
+    shouldShowProgressIndecator = true ;
     fetchAvailableCars(
             token,
             trip,
@@ -57,6 +62,7 @@ class ChooseCarBloc extends BaseBloc with Network {
             productionDate)
         .then((carsList) {
       _carsController.sink.add(carsList);
+      shouldShowProgressIndecator = false;
     }).catchError((e) {
       print(e);
     });
