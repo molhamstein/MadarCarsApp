@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +46,6 @@ class _CheckGsmState extends State<CheckGsm>
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 5));
     animation = Tween(begin: 0, end: 500.0).animate(animationController);
-//    checkNum();
 
     super.initState();
   }
@@ -72,8 +70,7 @@ class _CheckGsmState extends State<CheckGsm>
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 showInSnackBar(snapshot.error.toString(), context,
                     color: Colors.redAccent);
-//                Navigator.of(context).pushReplacement(
-//                    new MaterialPageRoute(builder: (context) => SignUp()));
+
                 bloc.shouldShowFeedBack = false;
               });
             }
@@ -119,18 +116,7 @@ class _CheckGsmState extends State<CheckGsm>
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 32.0, right: 32.0),
-//                              child: AutoSizeText(
-//                                MadarLocalizations.of(context).trans(
-//                                    'Your_best_companion_for_a_comfortable_trip_to_turkey'),
-//                                style: TextStyle(
-//                                    color: Colors.white,
-//                                    fontSize: 16.0,
-//                                    fontFamily: "WorkSansMedium",
-//                                    decoration: TextDecoration.none),
-//                                // maxLines: 3,
-//                                maxFontSize: 16.0,
-//                                minFontSize: 16.0,
-//                                textAlign: TextAlign.center,
+
 //                              ),
                             ),
                           ),
@@ -232,13 +218,6 @@ class _CheckGsmState extends State<CheckGsm>
             );
           }),
     );
-  }
-
-  _navigateToSignUp() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => CheckGsm()));
-    });
   }
 
   Widget checkBtn() {
@@ -393,7 +372,6 @@ class _CheckGsmState extends State<CheckGsm>
     );
   }
 
-//
   Widget isoCodePicker() {
     return CountryCodePicker(
       favorite: ['SA', 'TR', 'KW', 'AE'],

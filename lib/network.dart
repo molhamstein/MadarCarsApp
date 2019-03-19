@@ -57,14 +57,10 @@ class Network {
   final String _firbaseTokens = _baseUrl + 'firbaseTokens';
   final String _updateFirbaseTokens =
       _baseUrl + 'firbaseTokens/updateFirebaseToken';
-  static String couponCode = "Burak";
-  static String M = "";
 
-  String checkCoupon = _baseUrl + "coupons/$couponCode/checkCoupon";
 
   String _contactUsNumber = _baseUrl+"admins/getMetaData";
 
-//  String _checkNumber = "$_baseUrl/users/+966932448931/checkUser";
 
   Future<ContactUs> fetchContactUs(String token) async {
 

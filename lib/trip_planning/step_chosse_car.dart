@@ -55,7 +55,7 @@ class StepChooseCarState extends State<StepChooseCar>
     '2021',
     '2022'
   ];
-
+var shouldShowProgressBar ;
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
@@ -79,7 +79,7 @@ class StepChooseCarState extends State<StepChooseCar>
     });
 
     _controller.forward();
-
+shouldShowProgressBar = false  ;
     super.initState();
   }
 
@@ -115,6 +115,8 @@ class StepChooseCarState extends State<StepChooseCar>
                     } else {
                       bloc.selectCar(carsSnapshot.data[0], 0);
                       planingBloc.tripCar(carsSnapshot.data[0]);
+
+                      ;
                     }
                   }
                   return AnimatedBuilder(
@@ -431,49 +433,70 @@ class StepChooseCarState extends State<StepChooseCar>
                                           : Container(),
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Container(
-                                          height: 30,
-                                          width: 100,
-                                          margin: EdgeInsets.only(
-                                              right: 32, left: 32, top: 40),
-                                          decoration: BoxDecoration(
-                                            color: Colors.black87,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(40)),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.black26,
-                                                blurRadius: 15,
-                                              ),
-                                            ],
-                                          ),
-                                          child: GestureDetector(
-                                            onTap: () => showModal(context),
-                                            child: Center(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Icon(
-                                                    Icons.filter_list,
-                                                    color: Colors.white,
-                                                    size: 18,
-                                                  ),
-                                                  Text(
-                                                    MadarLocalizations.of(
-                                                            context)
-                                                        .trans('filters'),
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 40.0),
+                                              child: Container(
+                                                  height: 20,
+                                                  width: 20,
+                                                  child:
+                                                     shouldShowProgressBar ? CircularProgressIndicator(
+                                                          valueColor:
+                                                              AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                    MadarColors.dark_grey,
+                                                  )) : new Container()),
+                                            ),
+                                            Container(
+                                              height: 30,
+                                              width: 100,
+                                              margin: EdgeInsets.only(
+                                                  right: 32, left: 32, top: 40),
+                                              decoration: BoxDecoration(
+                                                color: Colors.black87,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(40)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black26,
+                                                    blurRadius: 15,
                                                   ),
                                                 ],
                                               ),
+                                              child: GestureDetector(
+                                                onTap: () => showModal(context),
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.filter_list,
+                                                        color: Colors.white,
+                                                        size: 18,
+                                                      ),
+                                                      Text(
+                                                        MadarLocalizations.of(
+                                                                context)
+                                                            .trans('filters'),
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -1319,6 +1342,7 @@ class StepChooseCarState extends State<StepChooseCar>
                           child: InkWell(
                             borderRadius: BorderRadius.circular(25),
                             onTap: () {
+                              shouldShowProgressBar = false;
                               bloc.trip.car = null;
                               bloc.fetchGetAvailableCars(
                                 langIds: planingBloc.langFiltersIds,

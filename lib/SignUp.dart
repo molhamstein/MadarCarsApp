@@ -13,8 +13,9 @@ import 'package:madar_booking/models/UserResponse.dart';
 import 'package:madar_booking/submitButton.dart';
 
 class SignUp extends StatefulWidget {
- final String number ;
-  SignUp({Key key , this.number }): super (key : key);
+  final String number;
+
+  SignUp({Key key, this.number}) : super(key: key);
 
   @override
   SignUpState createState() {
@@ -43,7 +44,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
   AppBloc appBloc;
   AuthBloc bloc;
 
-
   @override
   void initState() {
     appBloc = BlocProvider.of<AppBloc>(context);
@@ -51,7 +51,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
     super.initState();
     print(widget.number);
     signupEmailController.text = widget.number;
-
   }
 
   @override
@@ -209,7 +208,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
                   initialData: CountryCode(code: 'SA', dialCode: '+966'),
                   builder: (context, snapshot) {
                     return
-//
 
                         Localizations(
                       delegates: [
@@ -287,17 +285,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
       onChanged: bloc.changeSignUpIsoCode,
     );
   }
-
-//  Widget isoCodePicker() {
-//    return Padding(
-//        padding:
-//            EdgeInsets.only(top: 6.0, bottom: 20.0, left: 25.0, right: 25.0),
-//        child: CountryCodePicker(
-//          favorite: ['SA', 'TR', 'KW', 'AE'],
-//          initialSelection: 'SA',
-//          onChanged: bloc.changeSignUpIsoCode,
-//        ));
-//  }
 
   Widget signUpBtn() {
     return Container(

@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 //  CouponBloc bloc ;
 
   whatsAppLunch(var num) async {
-    var whatsappUrl = "whatsapp://send?phone=${num}&text=Hello";
+    var whatsappUrl = "whatsapp://send?phone=${num}";
     await canLaunch(whatsappUrl)
         ? launch(whatsappUrl)
         : print(
