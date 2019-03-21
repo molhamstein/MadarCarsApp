@@ -69,7 +69,7 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   final _navigationController = BehaviorSubject<Steps>();
   final _tripController = BehaviorSubject<Trip>();
-  final _estimationCostController = BehaviorSubject<int>();
+  final _estimationCostController = PublishSubject<int>();
   final _mainButtonTextController = BehaviorSubject<String>();
   final _loadingController = BehaviorSubject<bool>();
   final _feedbackController = PublishSubject<String>();
@@ -370,6 +370,7 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   tripCar(Car car) {
     trip.car = car;
+    trip.tripSubLocations.clear();
   }
 
   Function(String, int, int, String) get addSubLocation => trip.addSubLocation;

@@ -55,7 +55,7 @@ class StepChooseCarState extends State<StepChooseCar>
     '2021',
     '2022'
   ];
-var shouldShowProgressBar ;
+  var shouldShowProgressBar;
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
@@ -78,7 +78,7 @@ var shouldShowProgressBar ;
       setState(() {});
     });
     _controller.forward();
-shouldShowProgressBar = false  ;
+    shouldShowProgressBar = false;
     super.initState();
   }
 
@@ -114,8 +114,6 @@ shouldShowProgressBar = false  ;
                     } else {
                       bloc.selectCar(carsSnapshot.data[0], 0);
                       planingBloc.tripCar(carsSnapshot.data[0]);
-
-                      ;
                     }
                   }
                   return AnimatedBuilder(
@@ -125,6 +123,25 @@ shouldShowProgressBar = false  ;
                         offset: _offsetFloat.value,
                         child: Stack(
                           children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(right: 24, left: 24),
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              padding:
+                                  EdgeInsets.only(right: 16, left: 16, top: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    topLeft: Radius.circular(10)),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    blurRadius: 8,
+                                  ),
+                                ],
+                              ),
+                            ),
                             StreamBuilder<Car>(
                                 stream: bloc.selectedCarStream,
                                 builder: (context, carSnapshot) {
@@ -137,18 +154,6 @@ shouldShowProgressBar = false  ;
                                             MediaQuery.of(context).size.width,
                                         padding: EdgeInsets.only(
                                             right: 16, left: 16, top: 16),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(10),
-                                              topLeft: Radius.circular(10)),
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black26,
-                                              blurRadius: 8,
-                                            ),
-                                          ],
-                                        ),
                                         child: carsSnapshot.hasData &&
                                                 carsSnapshot.data.isNotEmpty &&
                                                 carSnapshot.hasData
@@ -197,7 +202,7 @@ shouldShowProgressBar = false  ;
                                                         children: <Widget>[
                                                           Text(
                                                             planingBloc.trip
-                                                                .estimationPrice()
+                                                                .tripCost()
                                                                 .toString(),
                                                             style: TextStyle(
                                                                 color: Colors
@@ -336,166 +341,178 @@ shouldShowProgressBar = false  ;
                                                 ? _empty()
                                                 : _topShimmer(),
                                       ),
-                                      isScreenLongEnough
-                                          ? carsSnapshot.hasData &&
-                                                  carsSnapshot.data.isNotEmpty
-                                              ? Align(
-                                                  alignment: Alignment.center,
-                                                  child: Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            11,
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 60),
-                                                    child:
-                                                        carSnapshot.data != null
-                                                            ? ListView.builder(
-                                                                key:
-                                                                    UniqueKey(),
-                                                                itemBuilder:
-                                                                    (context,
-                                                                        index) {
-                                                                  return Material(
-                                                                    color: Colors
-                                                                        .transparent,
-                                                                    child:
-                                                                        InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        Navigator.of(context)
-                                                                            .push(
-                                                                          MaterialPageRoute(
-                                                                            builder: (context) =>
-                                                                                Gallery(
-                                                                                  images: carSnapshot.data.carMedia,
-                                                                                  initialIndex: index,
-                                                                                ),
-                                                                          ),
-                                                                        );
-                                                                      },
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 32.0),
+                                        child: isScreenLongEnough
+                                            ? carsSnapshot.hasData &&
+                                                    carsSnapshot.data.isNotEmpty
+                                                ? Align(
+                                                    alignment: Alignment.center,
+                                                    child: Container(
+                                                      // images container
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height /
+                                                              11,
+                                                      margin: EdgeInsets.only(
+                                                          bottom: 60),
+                                                      child:
+                                                          carSnapshot.data !=
+                                                                  null
+                                                              ? ListView
+                                                                  .builder(
+                                                                  key:
+                                                                      UniqueKey(),
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          index) {
+                                                                    return Material(
+                                                                      color: Colors
+                                                                          .transparent,
                                                                       child:
-                                                                          Container(
-                                                                        width: MediaQuery.of(context).size.height /
-                                                                            12,
-                                                                        height:
-                                                                            MediaQuery.of(context).size.height /
-                                                                                12,
-                                                                        margin:
-                                                                            EdgeInsets.all(4),
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(4),
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                                blurRadius: 4,
-                                                                                color: Colors.black45)
-                                                                          ],
-                                                                        ),
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          Navigator.of(context)
+                                                                              .push(
+                                                                            MaterialPageRoute(
+                                                                              builder: (context) => Gallery(
+                                                                                    images: carSnapshot.data.carMedia,
+                                                                                    initialIndex: index,
+                                                                                  ),
+                                                                            ),
+                                                                          );
+                                                                        },
                                                                         child:
-                                                                            Hero(
-                                                                          tag: carSnapshot
-                                                                              .data
-                                                                              .carMedia[index]
-                                                                              .id,
+                                                                            Container(
+                                                                          width:
+                                                                              MediaQuery.of(context).size.height / 12,
+                                                                          height:
+                                                                              MediaQuery.of(context).size.height / 12,
+                                                                          margin:
+                                                                              EdgeInsets.all(4),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(4),
+                                                                            boxShadow: [
+                                                                              BoxShadow(blurRadius: 4, color: Colors.black45)
+                                                                            ],
+                                                                          ),
                                                                           child:
-                                                                              FadeInImage(
-                                                                            placeholder:
-                                                                                AssetImage('assets/images/logo.png'),
-                                                                            image:
-                                                                                NetworkImage(carSnapshot.data.carMedia[index].url),
-                                                                            fit:
-                                                                                BoxFit.cover,
+                                                                              Hero(
+                                                                            tag:
+                                                                                carSnapshot.data.carMedia[index].id,
+                                                                            child:
+                                                                                FadeInImage(
+                                                                              placeholder: AssetImage('assets/images/logo.png'),
+                                                                              image: NetworkImage(carSnapshot.data.carMedia[index].url),
+                                                                              fit: BoxFit.cover,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                itemCount:
-                                                                    carSnapshot
-                                                                        .data
-                                                                        .carMedia
-                                                                        .length,
-                                                                scrollDirection:
-                                                                    Axis.horizontal,
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(4),
-                                                              )
-                                                            : Container(),
-                                                  ),
-                                                )
-                                              : Container()
-                                          : Container(),
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 40.0),
-                                              child: Container(
-                                                  height: 20,
-                                                  width: 20,
-                                                  child:
-                                                     bloc.shouldShowProgressIndecator ? CircularProgressIndicator(
-                                                          valueColor:
-                                                              AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                    MadarColors.dark_grey,
-                                                  )) : new Container()),
-                                            ),
-                                            Container(
-                                              height: 30,
-                                              width: 100,
-                                              margin: EdgeInsets.only(
-                                                  right: 32, left: 32, top: 40),
-                                              decoration: BoxDecoration(
-                                                color: Colors.black87,
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(40)),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black26,
-                                                    blurRadius: 15,
-                                                  ),
-                                                ],
+                                                                    );
+                                                                  },
+                                                                  itemCount:
+                                                                      carSnapshot
+                                                                          .data
+                                                                          .carMedia
+                                                                          .length,
+                                                                  scrollDirection:
+                                                                      Axis.horizontal,
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              4),
+                                                                )
+                                                              : Container(),
+                                                    ),
+                                                  )
+                                                : Container()
+                                            : Container(),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 16.0),
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 40.0),
+                                                child: Container(
+                                                    height: 20,
+                                                    width: 20,
+                                                    child: bloc
+                                                            .shouldShowProgressIndecator
+                                                        ? CircularProgressIndicator(
+                                                            valueColor:
+                                                                AlwaysStoppedAnimation<
+                                                                    Color>(
+                                                            MadarColors
+                                                                .dark_grey,
+                                                          ))
+                                                        : new Container()),
                                               ),
-                                              child: GestureDetector(
-                                                onTap: () => showModal(context),
-                                                child: Center(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.filter_list,
-                                                        color: Colors.white,
-                                                        size: 18,
-                                                      ),
-                                                      Text(
-                                                        MadarLocalizations.of(
-                                                                context)
-                                                            .trans('filters'),
-                                                        style: TextStyle(
+                                              Container(
+                                                // color: Colors.red,
+                                                height: 30,
+                                                width: 100,
+                                                margin: EdgeInsets.only(
+                                                    right: 32,
+                                                    left: 32,
+                                                    top: 40),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.black87,
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(40)),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.black26,
+                                                      blurRadius: 15,
+                                                    ),
+                                                  ],
+                                                ),
+                                                child: GestureDetector(
+                                                  onTap: () =>
+                                                      showModal(context),
+                                                  child: Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.filter_list,
                                                           color: Colors.white,
+                                                          size: 18,
                                                         ),
-                                                      ),
-                                                    ],
+                                                        Text(
+                                                          MadarLocalizations.of(
+                                                                  context)
+                                                              .trans('filters'),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
@@ -1344,11 +1361,9 @@ shouldShowProgressBar = false  ;
 //                              shouldShowProgressBar = false;
                               Navigator.of(context).pop();
 
-                            setState(() {
-                              bloc.shouldShowProgressIndecator = true;
-
-                            });
-
+                              setState(() {
+                                bloc.shouldShowProgressIndecator = true;
+                              });
 
                               bloc.trip.car = null;
                               bloc.fetchGetAvailableCars(
@@ -1360,7 +1375,6 @@ shouldShowProgressBar = false  ;
                                 type: planingBloc.type,
                                 productionDate: planingBloc.productionDate,
                               );
-
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width / 3,

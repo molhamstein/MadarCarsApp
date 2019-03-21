@@ -181,12 +181,16 @@ class MyTrip {
       };
 
   int totlaDuration() {
-    int res = 0;
-    tripSublocations.forEach((f) {
-      res += f.duration == 0 ? 1 : f.duration;
-    });
-    res += daysInCity;
-    return res;
+    // int res = 0;
+    // tripSublocations.forEach((f) {
+    //   res += f.duration == 0 ? 1 : f.duration;
+    // });
+    // res += daysInCity;
+
+    DateTime startdate = DateTime.parse(startDate());
+    DateTime enddate = DateTime.parse(endDate());
+    return ((enddate.difference(startdate).inHours / 24).ceil());
+    // return res;
   }
 
   String endDate() {
@@ -223,5 +227,11 @@ class MyTrip {
 
   String endDateFormated() {
     return formatDate(DateTime.parse(endDate()), [d, '/', m, '/', yyyy]);
+  }
+
+  int tripDuration() {
+    DateTime startdate = DateTime.parse(startDate());
+    DateTime enddate = DateTime.parse(endDate());
+    return ((enddate.difference(startdate).inHours / 24).ceil());
   }
 }

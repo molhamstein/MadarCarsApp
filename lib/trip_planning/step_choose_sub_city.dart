@@ -29,6 +29,8 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
 
   @override
   Widget build(BuildContext context) {
+    var estimCost = planingBloc.trip.estimationPrice();
+    print("estim Cost in build $estimCost");
     return Material(
       color: Colors.transparent,
       child: Column(
@@ -76,8 +78,9 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                       children: <Widget>[
                         StreamBuilder<int>(
                             stream: planingBloc.estimationStream,
-                            initialData: planingBloc.trip.estimationPrice(),
+                            initialData: estimCost,
                             builder: (context, snapshot) {
+                              print("estim Cost in stream ${snapshot.data}");
                               return Text(
                                 snapshot.data.toString(),
                                 style: TextStyle(
@@ -111,31 +114,39 @@ class StepChooseSubCityState extends State<StepChooseSubCity> {
                 ),
                 StreamBuilder<List<SubLocationResponse>>(
                   stream: bloc.subLocationsStream,
-                  initialData: [],
+                  // initialData: [],
                   builder: (context, snapshot) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 40.0),
-                      child: Center(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Wrap(
-                                  crossAxisAlignment: WrapCrossAlignment.start,
-                                  spacing: 16,
-                                  runSpacing: 16,
-                                  children: snapshot.data
-                                      .map((subLocationResponse) => SubCityTile(
-                                            onCounterChanged:
-                                                planingBloc.addSubLocation,
-                                            subLocationResponse:
-                                                subLocationResponse,
-                                          ))
-                                      .toList()),
-                            ),
-                          ],
+                    if (snapshot.hasData) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 40.0),
+                        child: Center(
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.start,
+                                    spacing: 16,
+                                    runSpacing: 16,
+                                    children: snapshot.data
+                                        .map((subLocationResponse) =>
+                                            SubCityTile(
+                                              onCounterChanged:
+                                                  planingBloc.addSubLocation,
+                                              subLocationResponse:
+                                                  subLocationResponse,
+                                            ))
+                                        .toList()),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                   },
                 ),
               ],

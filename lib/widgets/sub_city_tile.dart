@@ -10,7 +10,7 @@ import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
 class SubCityTile extends StatefulWidget {
   final SubLocationResponse subLocationResponse;
-  final Function(String, int, int , String) onCounterChanged;
+  final Function(String, int, int, String) onCounterChanged;
 
   const SubCityTile(
       {Key key,
@@ -31,7 +31,8 @@ class SubCityTileState extends State<SubCityTile> {
   @override
   void initState() {
     bloc = BlocProvider.of<TripPlaningBloc>(context);
-    _counter = 0;
+    _counter = bloc.trip
+        .getSubLocationDurationById(widget.subLocationResponse.subLocationId);
     super.initState();
   }
 
@@ -69,7 +70,8 @@ class SubCityTileState extends State<SubCityTile> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    widget.subLocationResponse.subLocation.name(MadarLocalizations.of(context).locale),
+                    widget.subLocationResponse.subLocation
+                        .name(MadarLocalizations.of(context).locale),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -92,9 +94,9 @@ class SubCityTileState extends State<SubCityTile> {
                               widget.onCounterChanged(
                                   widget.subLocationResponse.subLocation.id,
                                   _counter,
-                                  widget.subLocationResponse.cost,widget.subLocationResponse.subLocation.name(  MadarLocalizations.of(
-                                  context)
-                                  .locale));
+                                  widget.subLocationResponse.cost,
+                                  widget.subLocationResponse.subLocation.name(
+                                      MadarLocalizations.of(context).locale));
                               bloc.pushEstimationCost;
                             }
                           });
@@ -139,9 +141,9 @@ class SubCityTileState extends State<SubCityTile> {
                                 widget.onCounterChanged(
                                     widget.subLocationResponse.subLocation.id,
                                     _counter,
-                                    widget.subLocationResponse.cost , widget.subLocationResponse.subLocation.name(  MadarLocalizations.of(
-                                    context)
-                                    .locale));
+                                    widget.subLocationResponse.cost,
+                                    widget.subLocationResponse.subLocation.name(
+                                        MadarLocalizations.of(context).locale));
                                 bloc.pushEstimationCost;
                               }
                             },
@@ -181,7 +183,8 @@ class SubCityTileState extends State<SubCityTile> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 16, height: 0.7),
+                        fontSize: 16,
+                        height: 0.7),
                   ),
                 ],
               ),

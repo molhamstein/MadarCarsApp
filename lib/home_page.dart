@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     myHeight = MediaQuery.of(context).size.height;
     myWidth = MediaQuery.of(context).size.width;
     borderRadius = BorderRadius.circular(0);
-    setState(() {});
+    // setState(() {});
   }
 
   initHeaerAnimation() {
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     borderRadius = BorderRadius.circular(100);
     flag = false;
     open = false;
-    setState(() {});
+    // setState(() {});
   }
 
   prepareAnimation() {
@@ -233,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Container(
       child: AnimatedContainer(
         curve: Curves.easeInOut,
-        duration: Duration(milliseconds: 700),
+        duration: Duration(milliseconds: 1000),
         decoration: BoxDecoration(
           borderRadius: borderRadius,
           gradient: MadarColors.gradiant_decoration,
@@ -294,13 +294,23 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             child: InkWell(
               onTap: () {
                 print('on TAPS = ' + trips[index].toString());
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => TripPlanningPage(
-                          tripModel: trips[index],
+                setState(() {
+                  handelHeaderAnimation();
+                  _controller.reverse().whenComplete(() {
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TripPlanningPage(
+                                tripModel: trips[index],
+                              ),
                         ),
-                  ),
-                );
+                      );
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        open = true;
+                      });
+                    });
+                  });
+                });
               },
               child: TripCard(trips[index]),
             ),
@@ -442,23 +452,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                               //        initialData: temp,
                               stream: homeBloc.predefindTripsStream,
                               builder: (context, snapshot) {
-                                // switch (snapshot.connectionState) {
-                                //   case ConnectionState.none:
-                                //     return ListTile(
-                                //       title: IconButton(
-                                //         onPressed: () {
-                                //           homeBloc.predifindTrips();
-                                //         },
-                                //         icon: Icon(Icons.restore),
-                                //       ),
-                                //       subtitle: Text(MadarLocalizations.of(context)
-                                //           .trans('connection_error')),
-                                //     );
-                                //   case ConnectionState.waiting:
-                                //     return Container(
-                                //         height: 190,
-                                //         child: Center(child: CircularProgressIndicator()));
-                                //   default:
                                 print("gettt trippps");
                                 if (snapshot.hasData) {
                                   print("trips data");

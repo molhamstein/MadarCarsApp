@@ -43,7 +43,7 @@ class HomeBloc extends BaseBloc with Network {
     }).catchError((e) {
       print(e);
       print('No Valid num');
-      contactNumFetcher.sink.addError(e) ;
+      contactNumFetcher.sink.addError(e);
     });
   }
 

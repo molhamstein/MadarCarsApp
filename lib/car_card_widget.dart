@@ -99,8 +99,8 @@ class CarCard extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(car.driver.firstName,
-                                          style: AppTextStyle
-                                              .smallTextStyleBlack),
+                                          style:
+                                              AppTextStyle.smallTextStyleBlack),
                                     )
                                   ],
                                 ),
@@ -110,18 +110,17 @@ class CarCard extends StatelessWidget {
                           Container(
                             decoration: BoxDecoration(color: Colors.white),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8),
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8),
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   RateWidget('${car.rate}'),
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.only(top: 8.0),
+                                    padding: const EdgeInsets.only(top: 8.0),
                                     child: Text(car.productionDate.toString(),
                                         style:
-                                        AppTextStyle.smallTextStyleBlack),
+                                            AppTextStyle.smallTextStyleBlack),
                                   ),
                                 ],
                               ),
@@ -130,7 +129,8 @@ class CarCard extends StatelessWidget {
                           Container(
                             // decoration: BoxDecoration(color: Colors.white),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8, top: 8),
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, right: 8, top: 8),
                               child: Column(
                                 children: <Widget>[
                                   Row(
@@ -138,15 +138,15 @@ class CarCard extends StatelessWidget {
                                       RichText(
                                         text: TextSpan(
                                           text: '${car.pricePerDay}',
-                                          style: AppTextStyle
-                                              .largeTextStyleBlack,
+                                          style:
+                                              AppTextStyle.largeTextStyleBlack,
                                         ),
                                       ),
                                       RichText(
                                         text: TextSpan(
                                           text: '\$',
-                                          style: AppTextStyle
-                                              .smallTextStylegrey,
+                                          style:
+                                              AppTextStyle.smallTextStylegrey,
                                         ),
                                       ),
                                     ],
@@ -154,8 +154,7 @@ class CarCard extends StatelessWidget {
                                   Text(
                                       "/${MadarLocalizations.of(context).trans("day")}",
                                       style: TextStyle(
-                                          fontSize:
-                                              AppFonts.small_font_size,
+                                          fontSize: AppFonts.small_font_size,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.grey.shade600))
                                 ],

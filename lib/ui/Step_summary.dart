@@ -505,6 +505,10 @@ class StepSummaryState extends State<StepSummary>
                                 child: StreamBuilder<Coupon>(
                                     stream: planingBloc.couponStream,
                                     builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        print(
+                                            "I'm heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere");
+                                      } 
                                       if (snapshot.hasData) {
                                         planingBloc.trip.couponId =
                                             snapshot.data.id;
@@ -615,11 +619,7 @@ class StepSummaryState extends State<StepSummary>
                                             ],
                                           ),
                                         );
-                                      } else if (snapshot.hashCode ==
-                                          snapshot.error) {
-                                        print(
-                                            "I'm heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere");
-                                      } else
+                                      } else 
                                         return Column(
                                           children: <Widget>[
 //                                            new SizedBox(height: 80,),

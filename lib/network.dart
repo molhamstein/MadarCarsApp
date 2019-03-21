@@ -58,21 +58,18 @@ class Network {
   final String _updateFirbaseTokens =
       _baseUrl + 'firbaseTokens/updateFirebaseToken';
 
-
-  String _contactUsNumber = _baseUrl+"admins/getMetaData";
-
+  String _contactUsNumber = _baseUrl + "admins/getMetaData";
 
   Future<ContactUs> fetchContactUs(String token) async {
-
-    print(token) ;
-    headers['Authorization'] ="e0tl4zZ9EPk:APA91bF1ngC_uz9vv9EEbirUD3Y9H-80yr6cr9TT7vnLQZ5gR4FOBZ5jIbSqt3X9WCI8lYOX5gPypSNi16CcbaEUFqAxO655KKKOY0AI7Ho1VbEfCWrf3yM88vF17LahCO24mnfd8v9j";
+    print(token);
+    headers['Authorization'] =
+        token; //"e0tl4zZ9EPk:APA91bF1ngC_uz9vv9EEbirUD3Y9H-80yr6cr9TT7vnLQZ5gR4FOBZ5jIbSqt3X9WCI8lYOX5gPypSNi16CcbaEUFqAxO655KKKOY0AI7Ho1VbEfCWrf3yM88vF17LahCO24mnfd8v9j";
 
 //    print("tokeeen is"+token);
-    final response = await http.get(_contactUsNumber,headers: headers);
+    final response = await http.get(_contactUsNumber, headers: headers);
     if (response.statusCode == 200) {
       print(response.body);
       return ContactUs.fromJson(json.decode(response.body));
-
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       print(response.body);
       throw 'error_wrong_credentials';
@@ -81,10 +78,6 @@ class Network {
       throw json.decode(response.body);
     }
   }
-
-
-
-
 
   Future<String> checkNum(String num) async {
     final response =
@@ -438,13 +431,13 @@ class Network {
     var filter = Map<String, dynamic>();
 
     if (numberOfSeats != null) {
-      filter['numOfSeat'] = {'gte': numberOfSeats} ;
+      filter['numOfSeat'] = {'gte': numberOfSeats};
     }
     if (type != null && type == 'vip') {
       filter['isVip'] = true;
     }
     if (productionDate != null) {
-      filter['productionDate'] = {'gte': productionDate} ;
+      filter['productionDate'] = {'gte': productionDate};
     }
 
     var whereClause = '&filter=' + json.encode({'where': filter});

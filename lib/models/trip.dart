@@ -47,7 +47,7 @@ class Trip {
     int allSubLocationDuration = 0;
     tripSubLocations.forEach(
         (subLocation) => allSubLocationDuration += subLocation.duration);
-    if (allSubLocationDuration <= tripDuration()) {
+    if (allSubLocationDuration <= tripTotalDuration()) {
       int index;
       if ((index =
               tripSubLocations.indexWhere((location) => location.id == id)) ==
@@ -64,6 +64,17 @@ class Trip {
         tripSubLocations[index].subLocation.nameEn = subName;
       }
     }
+  }
+
+  int getSubLocationDurationById(String id) {
+    var duration = 0;
+    tripSubLocations.forEach((subLocation) {
+      if (subLocation.id == id) {
+        duration = subLocation.duration;
+      }
+    });
+    print("sublocation $id duration  $duration");
+    return duration;
   }
 
   Map<String, dynamic> get keys {
@@ -98,11 +109,15 @@ class Trip {
 
   int estimationPrice({bool withSubLocationPrice = false}) {
     int cost = 0;
-    int airportCost = 0;
+    var tripduration = tripDuration();
+    var totladuration = tripTotalDuration();
+    withSubLocationPrice = tripSubLocations.length > 0;
+    print(tripduration);
+    print(totladuration);
     if (inCity) {
       withSubLocationPrice
-          ? cost += (tripDuration() - subLocationDuration()) * car.pricePerDay
-          : cost += tripDuration() * car.pricePerDay;
+          ? cost += (tripduration) * car.pricePerDay
+          : cost += totladuration * car.pricePerDay;
     }
 
     if (toAirport && !fromAirport) {
@@ -113,8 +128,7 @@ class Trip {
           }
         });
       }
-    }
-    if (fromAirport && !toAirport) {
+    } else if (fromAirport && !toAirport) {
       if (airport != null && car != null) {
         car.carsAirport.forEach((ap) {
           if (ap.airportId == airport.id) {
@@ -122,8 +136,7 @@ class Trip {
           }
         });
       }
-    }
-    if (fromAirport && toAirport) {
+    } else if (fromAirport && toAirport) {
       if (airport != null && car != null) {
         car.carsAirport.forEach((ap) {
           if (ap.airportId == airport.id) {
@@ -136,10 +149,51 @@ class Trip {
     tripSubLocations.forEach((location) {
       cost += (location.duration * (location.cost == null ? 0 : location.cost));
     });
+    print("sublocations num ${tripSubLocations.length}");
+    print("estim cost function  $cost");
+    return cost;
+  }
+
+  int tripCost() {
+    int cost = 0;
+    var totladuration = tripTotalDuration();
+    if (inCity) {
+      cost += (totladuration) * car.pricePerDay;
+    }
+
+    if (toAirport && !fromAirport) {
+      if (airport != null && car != null) {
+        car.carsAirport.forEach((ap) {
+          if (ap.airportId == airport.id) {
+            cost += ap.priceOneWay;
+          }
+        });
+      }
+    } else if (fromAirport && !toAirport) {
+      if (airport != null && car != null) {
+        car.carsAirport.forEach((ap) {
+          if (ap.airportId == airport.id) {
+            cost += ap.priceOneWay;
+          }
+        });
+      }
+    } else if (fromAirport && toAirport) {
+      if (airport != null && car != null) {
+        car.carsAirport.forEach((ap) {
+          if (ap.airportId == airport.id) {
+            cost += ap.priceTowWay;
+          }
+        });
+      }
+    }
     return cost;
   }
 
   int tripDuration() {
+    return tripTotalDuration() - subLocationDuration();
+  }
+
+  int tripTotalDuration() {
     return ((endDate.difference(startDate).inHours / 24).ceil());
   }
 
@@ -155,6 +209,7 @@ class Trip {
     int allSubLocationDuration = 0;
     tripSubLocations.forEach(
         (subLocation) => allSubLocationDuration += subLocation.duration);
-    return allSubLocationDuration == tripDuration();
+    var tripDur = tripTotalDuration();
+    return allSubLocationDuration >= tripDur;
   }
 }
