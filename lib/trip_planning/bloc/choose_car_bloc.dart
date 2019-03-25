@@ -48,9 +48,9 @@ var shouldShowProgressIndecator = false ;
   fetchGetAvailableCars(
       {List<String> langIds,
       Gender gender,
-      Type type,
-      int numberOfSeats,
-      String productionDate}) {
+        Type type,
+        int numberOfSeats,
+        String productionDate}) {
     shouldShowProgressIndecator = true ;
     fetchAvailableCars(
             token,
