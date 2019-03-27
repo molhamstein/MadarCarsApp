@@ -30,7 +30,7 @@ class Network {
 
   //static final String _baseUrl = 'http://104.217.253.15:3006/api/';
 //  static final String _baseUrl = 'http://192.168.1.6:3000/api/';
-  static final String _baseUrl = 'https://www.jawlatcom.com/api/';
+  static final String _baseUrl = 'https://jawlatcom.com/api/';
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _logoutUrl = _baseUrl + 'users/logOut';
   final String _signUpUrl = _baseUrl + 'users';
