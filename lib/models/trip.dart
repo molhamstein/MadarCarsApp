@@ -1,11 +1,9 @@
-import 'package:madar_booking/DataStore.dart';
+import 'package:madar_booking/models/Airport.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/TripsSublocation.dart';
 import 'package:madar_booking/models/location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Trip {
-
   bool fromAirport;
   bool toAirport;
   bool inCity;
@@ -31,7 +29,6 @@ class Trip {
       this.couponId,
       this.hasManyAirport,
       this.airport});
-
 
   Trip.init() {
     fromAirport = false;
