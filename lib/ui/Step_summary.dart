@@ -23,7 +23,7 @@ class StepSummaryState extends State<StepSummary>
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
 
-  Trip trip;
+  // Trip trip;
 
   @override
   void initState() {
@@ -420,28 +420,7 @@ class StepSummaryState extends State<StepSummary>
                                                                       TextField(
                                                                     controller:
                                                                         _haveCoponController,
-//                                                          onSubmitted: (s) {
-//
-//
-////                                                      if (!snapshot.hasData ||
-////                                                          snapshot.error) {
-////                                                        print(
-////                                                            "Errrrrrrrrrrrrrrror");
-////                                                        WidgetsBinding.instance
-////                                                            .addPostFrameCallback(
-////                                                                (_) {
-////                                                          showInSnackBar(
-////                                                              'Wrong_Coupon_Code',
-////                                                              mContext,
-////                                                              color:
-////                                                                  Colors.red);
-////                                                        });
-////
-//////                                                    SnackBar(content: Text("Error"),backgroundColor: Colors.red,);
-////
-//////  showInSnackBar("Noooo way", context);
-////                                                      }
-//                                                          },
+
                                                                     autofocus:
                                                                         true,
                                                                     decoration:
@@ -538,10 +517,9 @@ class StepSummaryState extends State<StepSummary>
                                                               "percentage"
                                                           ? Text(
                                                               ((snapshot.data.value / 100) *
-                                                                      planingBloc
-                                                                          .trip
-                                                                          .estimationPrice())
-                                                                  .toString(),
+                                                                      planingBloc.trip
+                                                            .estimationPrice())
+                                                            .toString(),
                                                               style: TextStyle(
                                                                   fontSize: 22,
                                                                   fontWeight:
@@ -601,10 +579,19 @@ class StepSummaryState extends State<StepSummary>
                                                                   color: MadarColors
                                                                           .grey[
                                                                       800]))
-                                                          : (trip.estimationPrice() -
+                                                          :new Text(
+                                                              (planingBloc.trip.estimationPrice() -
                                                                   snapshot.data
                                                                       .value)
                                                               .toString(),
+                                                              style: TextStyle(
+                                                                  fontSize: 22,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: MadarColors
+                                                                          .grey[
+                                                                      800])),
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
