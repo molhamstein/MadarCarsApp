@@ -717,7 +717,9 @@ class StepSummaryState extends State<StepSummary>
                                                                             hasFloatingPlaceholder:
                                                                                 true,
                                                                             hintText:
-                                                                               "Card Number",
+                                                                            MadarLocalizations.of(
+                                                                                context)
+                                                                                .trans("Card_Number"),
                                                                             border:
                                                                                 OutlineInputBorder(),
                                                                           ),
@@ -760,7 +762,9 @@ class StepSummaryState extends State<StepSummary>
                                                                             hasFloatingPlaceholder:
                                                                             true,
                                                                             hintText:
-                                                                            "Name of card",
+                                                                            MadarLocalizations.of(
+                                                                                context)
+                                                                                .trans("Name_of_card"),
                                                                             border:
                                                                             OutlineInputBorder(),
                                                                           ),
@@ -807,7 +811,9 @@ class StepSummaryState extends State<StepSummary>
                                                                             hasFloatingPlaceholder:
                                                                             true,
                                                                             hintText:
-                                                                            "Security Code",
+                                                                            MadarLocalizations.of(
+                                                                                context)
+                                                                                .trans("Security_code"),
                                                                             border:
                                                                             OutlineInputBorder(),
                                                                           ),
@@ -816,27 +822,46 @@ class StepSummaryState extends State<StepSummary>
                                                                     ),
 
 
+
                                                                     Padding(
-                                                                      padding: const EdgeInsets.only(left:16.0 , right: 16),
+                                                                      padding: const EdgeInsets.only(left:20.0, right: 20),
                                                                       child: RaisedButton(
-                                                                        child: new Text(MadarLocalizations.of(
-                                                                            context)
-                                                                            .trans(
-                                                                            'Check')),
-                                                                        onPressed:
-                                                                            () {
-                                                                          Navigator.pop(
-                                                                              context);
-//                                                                        planingBloc
-//                                                                            .fetchCoupon(
-//                                                                            _haveCoponController.text);
-//                                                                        print("data is " +
-//                                                                            snapshot
-//                                                                                .data
-//                                                                                .id);
+                                                                        shape: RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                25)),
+                                                                        onPressed: () {
+                                                                          Navigator.pop(context);
                                                                         },
+                                                                        child: new Text("Check",
+                                                                            style: TextStyle(
+                                                                                color: Colors.white,
+                                                                                fontSize: 16,
+                                                                                height: 0.5)),
+                                                                        color: MadarColors.gradientDown,
                                                                       ),
-                                                                    )
+                                                                    ),
+//                                                                    Padding(
+//                                                                      padding: const EdgeInsets.only(left:16.0 , right: 16),
+//                                                                      child: RaisedButton(
+//                                                                        child: new Text(MadarLocalizations.of(
+//                                                                            context)
+//                                                                            .trans(
+//                                                                            'Check')),
+//                                                                        onPressed:
+//                                                                            () {
+//                                                                          Navigator.pop(
+//                                                                              context);
+////                                                                        planingBloc
+////                                                                            .fetchCoupon(
+////                                                                            _haveCoponController.text);
+////                                                                        print("data is " +
+////                                                                            snapshot
+////                                                                                .data
+////                                                                                .id);
+//                                                                        },
+//                                                                      ),
+//                                                                    )
                                                                   ],
                                                                 ),
                                                               ),

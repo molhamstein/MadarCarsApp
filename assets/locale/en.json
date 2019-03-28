@@ -127,5 +127,9 @@
   "Wrong_Coupon_Code": "Wrong Coupon Code",
   "Check": "Check",
   "choose_AirPort": "Choose Airport",
-  "Coupn_not_available": "Not Valid Coupon"
+  "Coupn_not_available": "Not Valid Coupon",
+  "Security_code" :"Security code",
+  "Name_of_card" :"Name of card",
+  "Card_Number" : "Card Number",
+  "Want_to_visit_other_cities_too":"Want to visit other cities too ?"
 }

@@ -126,5 +126,8 @@
   "Wrong_Coupon_Code": "رقم قسيمة خاطئ",
   "Check": "اختبار",
   "choose_AirPort": "اختر مطار",
-  "Coupn_not_available": "القسيمة غير صالحة"
+  "Coupn_not_available": "القسيمة غير صالحة",
+  "Security_code" :"رقم الحماية",
+  "Name_of_card" :"اسم البطاقة",
+  "Card_Number" : "رقم البطاقة"
 }
