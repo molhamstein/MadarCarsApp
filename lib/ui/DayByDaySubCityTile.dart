@@ -9,6 +9,7 @@ import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
 class DayByDaySubCityTile extends StatefulWidget {
+  static String text = "";
   final SubLocationResponse subLocationResponse;
 //  final Function(String, int, int, String) onCounterChanged;
 

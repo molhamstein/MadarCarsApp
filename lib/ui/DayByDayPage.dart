@@ -6,8 +6,7 @@ import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_sub_city_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/ui/DayByDaySubCityTile.dart';
-import 'package:madar_booking/widgets/sub_city_tile.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:madar_booking/ui/dayByDaySubCityList.dart';
 
 class DayByDayPage extends StatefulWidget {
   @override
@@ -26,6 +25,7 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _offsetFloat;
   Animation<Offset> _subCitiesFloat;
 
+  List<SubLocationResponse> subList = [] ;
 
   @override
   void initState() {
@@ -51,16 +51,14 @@ class DayByDayPageState extends State<DayByDayPage>
     _offsetFloat.addListener(() {
       setState(() {});
     });
-    final CurvedAnimation curvedAnimation2 =
-    CurvedAnimation(parent: _subCitiesController, curve: ElasticOutCurve(0.5));
-
+    final CurvedAnimation curvedAnimation2 = CurvedAnimation(
+        parent: _subCitiesController, curve: ElasticOutCurve(0.5));
 
     _subCitiesFloat = Tween<Offset>(begin: Offset(700, 0), end: Offset.zero)
         .animate(curvedAnimation2);
     _subCitiesFloat.addListener(() {
       setState(() {});
     });
-
 
     _controller.forward();
 
@@ -114,11 +112,13 @@ class DayByDayPageState extends State<DayByDayPage>
                               children: <Widget>[
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 8.0),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
                                       child: Text(
                                         MadarLocalizations.of(context)
                                             .trans('estim_cost'),
@@ -130,11 +130,13 @@ class DayByDayPageState extends State<DayByDayPage>
                                     ),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         StreamBuilder<int>(
-                                            stream: planingBloc.estimationStream,
+                                            stream:
+                                                planingBloc.estimationStream,
                                             initialData: estimCost,
                                             builder: (context, snapshot) {
                                               print(
@@ -160,7 +162,17 @@ class DayByDayPageState extends State<DayByDayPage>
                                   ],
                                 ),
 
-                                new Row(children: <Widget>[Column(children: <Widget>[new Text("12/12/2012"),new Text("12/12/2012")],),Column(children: <Widget>[new Text("Istanbul"),Text("5 * 100 -> 5\$")],),new Row(children: <Widget>[Column(children: <Widget>[new Icon(Icons.arrow_drop_up), new Row(children: <Widget>[new Text("5") , new Text("days") ],),  new Icon(Icons.arrow_drop_down)],)],)],),
+                            Container(height: 200,
+                              child: ListView.builder(
+                                  itemCount: subList.length,
+                                  itemBuilder: (context , int index){
+                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
+                                  }),
+                            )
+                            ,
+
+//                            subList.length != 0 ?
+//                            dayByDaySubCityList(subList[0] ,planingBloc.addSubLocation): Container(),
 
 
 //                Padding(
@@ -174,89 +186,133 @@ class DayByDayPageState extends State<DayByDayPage>
 //                        height: 0.8),
 //                  ),
 //                ),
-
                               ],
                             ),
                           ],
                         ),
                       ),
-
-
-                      Container(height: MediaQuery.of(context).size.height - 200,
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.end,mainAxisAlignment: MainAxisAlignment.end,mainAxisSize: MainAxisSize.max,
+                      Container(
+                        height: MediaQuery.of(context).size.height - 200,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
-
-
                             AnimatedBuilder(
                                 animation: _subCitiesFloat,
                                 builder: (context, widget) {
                                   return Transform.translate(
                                     offset: _subCitiesFloat.value,
+                                    child: StreamBuilder<
+                                        List<SubLocationResponse>>(
+                                      stream: bloc.subLocationsStream,
+                                      // initialData: [],
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          return Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40.0, right: 40),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    new Text(
+                                                      MadarLocalizations.of(
+                                                              context)
+                                                          .trans(
+                                                              'Want_to_visit_other_cities_too'),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0, left: 40),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              40,
+                                                      height: 120,
+                                                      child: ListView.builder(
+                                                          scrollDirection: Axis.horizontal,
+                                                          itemCount: snapshot.data.length,
+                                                          itemBuilder:(context , int index){
 
-                              child: StreamBuilder<List<SubLocationResponse>>(
-                                stream: bloc.subLocationsStream,
-                                // initialData: [],
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:40.0 , right: 40),
-                                          child: Row(
-                                            children: <Widget>[
-                                              new Text( MadarLocalizations.of(context)
-                                                  .trans('Want_to_visit_other_cities_too'),style: TextStyle(
-                                                  color: Colors.black87,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700),),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 10.0, left: 40),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(width: MediaQuery.of(context).size.width-40,
-                                                height: 120,
-                                                child: ListView.builder(
-                                                  scrollDirection: Axis.horizontal,
-                                                  itemCount: 1,
-                                                  itemBuilder:
-                                                      (BuildContext context, index) {
-                                                    print(index);
-                                                    return Wrap(
-                                                        crossAxisAlignment:
-                                                        WrapCrossAlignment.start,
-                                                        spacing: 16,
-                                                        runSpacing: 16,
-                                                        children: snapshot.data
-                                                            .map((subLocationResponse) =>
-                                                            DayByDaySubCityTile(
-//                                                        onCounterChanged:
-//                                                            planingBloc
-//                                                                .addSubLocation,
-                                                              subLocationResponse:
-                                                              subLocationResponse,
-                                                            ))
-                                                            .toList());
-                                                  },
+
+
+                                                        return InkWell(onTap: (){
+
+                                                          setState(() {
+                                                            print(snapshot.data[index].subLocation.nameEn);
+                                                            subList.add(snapshot.data[index]);
+                                                            print("here i am"+subList.toString());
+                                                          });
+
+
+
+
+                                                        }, child: Padding(
+                                                          padding: const EdgeInsets.only(left:4.0 , right: 4),
+                                                          child: Wrap(spacing: 16,runSpacing: 16,children: <Widget>[DayByDaySubCityTile(subLocationResponse: snapshot.data[index])]),
+                                                        ));
+
+                                                      }),
+
+
+
+//                                                      child: ListView.builder(
+//                                                        scrollDirection:
+//                                                            Axis.horizontal,
+//                                                        itemCount: 1,
+//                                                        itemBuilder:
+//                                                            (BuildContext
+//                                                                    context,
+//                                                                index) {
+//                                                          return Wrap(
+//                                                              crossAxisAlignment:
+//                                                                  WrapCrossAlignment
+//                                                                      .start,
+//                                                              spacing: 16,
+//                                                              runSpacing: 16,
+//                                                              children: snapshot
+//                                                                  .data
+//                                                                  .map((subLocationResponse) =>
+//                                                                      DayByDaySubCityTile(
+////                                                        onCounterChanged:
+////                                                            planingBloc
+////                                                                .addSubLocation,
+//                                                                        subLocationResponse:
+//                                                                            subLocationResponse,
+//                                                                      ))
+//                                                                  .toList());
+//                                                        },
+//                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ],
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  else {
-                                  return  Container();
-                                  }
-                                },
-                              ),
-                            );}),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                    ),
+                                  );
+                                }),
                           ],
                         ),
-                      ) ],
+                      )
+                    ],
                   ),
                 );
               }),
