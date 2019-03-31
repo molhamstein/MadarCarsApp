@@ -51,6 +51,8 @@ class SignUpState extends State<SignUp> with UserFeedback {
     super.initState();
     print(widget.number);
     signupEmailController.text = widget.number;
+    bloc.changeSignUpPhone(signupEmailController.text);
+
   }
 
   @override
@@ -303,7 +305,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
                 return SubmitButton(
                   text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
-                    bloc.changeLoginPassword(signupEmailController.text);
 
                     if ((!snapshot.hasData || !snapshot.data)) {
                       showInSnackBar('error_provide_valid_info', context,
