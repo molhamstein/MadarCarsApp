@@ -6,7 +6,6 @@ import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_sub_city_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/ui/DayByDaySubCityTile.dart';
-import 'package:madar_booking/ui/dayByDaySubCityList.dart';
 
 class DayByDayPage extends StatefulWidget {
   @override
@@ -25,7 +24,7 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _offsetFloat;
   Animation<Offset> _subCitiesFloat;
 
-  List<SubLocationResponse> subList = [] ;
+  static List<SubLocationResponse> subList = [];
 
   @override
   void initState() {
@@ -162,18 +161,136 @@ class DayByDayPageState extends State<DayByDayPage>
                                   ],
                                 ),
 
-                            Container(height: 200,
-                              child: ListView.builder(
-                                  itemCount: subList.length,
-                                  itemBuilder: (context , int index){
-                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
-                                  }),
-                            )
-                            ,
+                                Container(
+                                  height: 200,
+                                  child: ListView.builder(
+                                      itemCount: subList.length,
+                                      itemBuilder: (context, int index) {
+//                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
+                                        int _counter;
+
+                                        _counter = planingBloc.trip
+                                            .getSubLocationDurationById(
+                                                subList[index].subLocationId);
+                                        int _dateCounter = _counter ;
+                                        DateTime endDate= (planingBloc.trip.startDate) ;
+                                        ;
+                                        return new Row(
+                                          children: <Widget>[
+                                            Column(
+                                              children: <Widget>[
+                                                index == 0 ?
+                                                new Text((planingBloc.trip.startDate).toString()):Text(endDate.add(new Duration(days:_counter +1 )).toString()),
+                                                index == 0 ?
+                                                new Text((endDate.add(new Duration(days:_counter ))  ).toString()):Text("")
+                                        ],
+                                            ),
+                                            SizedBox(
+                                              width: 40,
+                                            ),
+                                            Expanded(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  new Text(
+                                                    subList[index]
+                                                        .subLocation
+                                                        .nameEn,
+                                                    style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                  ),
+                                                  Text((_counter.toString() +
+                                                          "*" +
+                                                          (subList[index].cost)
+                                                              .toString()) +
+                                                      "->" +
+                                                      ((_counter) *
+                                                              subList[index]
+                                                                  .cost)
+                                                          .toString()),
+                                                ],
+                                              ),
+                                            ),
+                                            Column(
+                                              children: <Widget>[
+                                                InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (!planingBloc.trip
+                                                            .isMaxDuration()) {
+                                                          _counter++;
+                                                          planingBloc.addSubLocation(
+                                                              subList[index]
+                                                                  .subLocation
+                                                                  .id,
+                                                              _counter,
+                                                              subList[index]
+                                                                  .cost,
+                                                              subList[index]
+                                                                  .subLocation
+                                                                  .name(MadarLocalizations.of(
+                                                                          context)
+                                                                      .locale));
+                                                          planingBloc
+                                                              .pushEstimationCost;
+                                                        }
+                                                      });
+                                                    },
+                                                    child: new Icon(
+                                                      Icons.arrow_drop_up,
+                                                      size: 40,
+                                                    )),
+                                                new Text(
+                                                  _counter.toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 18,
+                                                      height: 0.5,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                InkWell(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        if (_counter > 0) {
+                                                          _counter--;
+                                                          planingBloc.addSubLocation(
+                                                              subList[index]
+                                                                  .subLocation
+                                                                  .id,
+                                                              _counter,
+                                                              subList[index]
+                                                                  .cost,
+                                                              subList[index]
+                                                                  .subLocation
+                                                                  .name(MadarLocalizations.of(
+                                                                          context)
+                                                                      .locale));
+                                                          planingBloc
+                                                              .pushEstimationCost;
+                                                        }
+                                                      });
+                                                    },
+                                                    child: new Icon(
+                                                      Icons.arrow_drop_down,
+                                                      size: 40,
+                                                    ))
+                                              ],
+                                            ),
+                                            new Text("days")
+                                          ],
+                                        );
+                                      }),
+                                ),
 
 //                            subList.length != 0 ?
 //                            dayByDaySubCityList(subList[0] ,planingBloc.addSubLocation): Container(),
-
 
 //                Padding(
 //                  padding: const EdgeInsets.only(top: 30, right: 32, left: 32),
@@ -243,31 +360,45 @@ class DayByDayPageState extends State<DayByDayPage>
                                                               40,
                                                       height: 120,
                                                       child: ListView.builder(
-                                                          scrollDirection: Axis.horizontal,
-                                                          itemCount: snapshot.data.length,
-                                                          itemBuilder:(context , int index){
-
-
-
-                                                        return InkWell(onTap: (){
-
-                                                          setState(() {
-                                                            print(snapshot.data[index].subLocation.nameEn);
-                                                            subList.add(snapshot.data[index]);
-                                                            print("here i am"+subList.toString());
-                                                          });
-
-
-
-
-                                                        }, child: Padding(
-                                                          padding: const EdgeInsets.only(left:4.0 , right: 4),
-                                                          child: Wrap(spacing: 16,runSpacing: 16,children: <Widget>[DayByDaySubCityTile(subLocationResponse: snapshot.data[index])]),
-                                                        ));
-
-                                                      }),
-
-
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          itemCount: snapshot
+                                                              .data.length,
+                                                          itemBuilder: (context,
+                                                              int index) {
+                                                            return InkWell(
+                                                                onTap: () {
+                                                                  setState(() {
+                                                                    print(snapshot
+                                                                        .data[
+                                                                            index]
+                                                                        .subLocation
+                                                                        .nameEn);
+                                                                    subList.add(
+                                                                        snapshot
+                                                                            .data[index]);
+                                                                    print("here i am" +
+                                                                        subList
+                                                                            .toString());
+                                                                  });
+                                                                },
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
+                                                                          .only(
+                                                                      left: 4.0,
+                                                                      right: 4),
+                                                                  child: Wrap(
+                                                                      spacing:
+                                                                          16,
+                                                                      runSpacing:
+                                                                          16,
+                                                                      children: <Widget>[
+                                                                        DayByDaySubCityTile(
+                                                                            subLocationResponse:
+                                                                                snapshot.data[index])
+                                                                      ]),
+                                                                ));
+                                                          }),
 
 //                                                      child: ListView.builder(
 //                                                        scrollDirection:
