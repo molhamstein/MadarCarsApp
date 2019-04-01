@@ -49,7 +49,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       case Steps.chooseCar:
         return StepChooseCar();
       case Steps.chooseSuplocations:
-        return DayByDayPage();
+        return StepChooseSubCity();
       case Steps.summary:
         return StepSummary();
       case Steps.finalstep:
