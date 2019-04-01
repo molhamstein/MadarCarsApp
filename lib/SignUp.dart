@@ -14,8 +14,9 @@ import 'package:madar_booking/submitButton.dart';
 
 class SignUp extends StatefulWidget {
   final String number;
+  final String code;
 
-  SignUp({Key key, this.number}) : super(key: key);
+  SignUp({Key key, this.number ,this.code}) : super(key: key);
 
   @override
   SignUpState createState() {
@@ -31,16 +32,16 @@ class SignUpState extends State<SignUp> with UserFeedback {
   final FocusNode myFocusNodeName = FocusNode();
 
   final TextEditingController signupEmailController =
-      new TextEditingController();
+  new TextEditingController();
 
   final TextEditingController signupNameController =
-      new TextEditingController();
+  new TextEditingController();
 
   final TextEditingController signupPasswordController =
-      new TextEditingController();
+  new TextEditingController();
 
   final TextEditingController signupConfirmPasswordController =
-      new TextEditingController();
+  new TextEditingController();
   AppBloc appBloc;
   AuthBloc bloc;
 
@@ -49,8 +50,11 @@ class SignUpState extends State<SignUp> with UserFeedback {
     appBloc = BlocProvider.of<AppBloc>(context);
     bloc = AuthBloc();
     super.initState();
+    print(widget.code);
     print(widget.number);
     signupEmailController.text = widget.number;
+    bloc.changeSignUpPhone(signupEmailController.text);
+
   }
 
   @override
@@ -74,8 +78,8 @@ class SignUpState extends State<SignUp> with UserFeedback {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     Navigator.of(context).pushReplacement(new MaterialPageRoute(
                         builder: (context) => HomePage(
-                              afterLogin: true,
-                            )));
+                          afterLogin: true,
+                        )));
                   });
                 }
                 return SingleChildScrollView(
@@ -172,7 +176,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
   Widget nameTextField() {
     return Padding(
       padding:
-          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+      EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
       child: TextField(
         focusNode: myFocusNodeName,
         controller: signupNameController,
@@ -209,31 +213,33 @@ class SignUpState extends State<SignUp> with UserFeedback {
                   builder: (context, snapshot) {
                     return
 
-                        Localizations(
-                      delegates: [
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                      ],
-                      locale: Locale('en', ''),
-                      child: TextField(
-                        focusNode: myFocusNodeEmail,
-                        controller: signupEmailController,
-                        keyboardType: TextInputType.phone,
-                        onChanged: bloc.changeSignUpPhone,
-                        style: TextStyle(
-                            fontFamily: "WorkSansSemiBold",
-                            fontSize: 16.0,
-                            color: Colors.black),
-                        textDirection: TextDirection.ltr,
-                        decoration: InputDecoration(
-                          errorText: MadarLocalizations.of(context)
-                              .trans(phoneSnapshot.error),
-                          errorStyle: TextStyle(height: 0.1),
-                          border: InputBorder.none,
-                          icon: isoCodePicker(),
+                      Localizations(
+                        delegates: [
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalWidgetsLocalizations.delegate,
+                        ],
+                        locale: Locale('en', ''),
+                        child: TextField(
+                          focusNode: myFocusNodeEmail,
+                          controller: signupEmailController,
+
+                          keyboardType: TextInputType.phone,
+                          onChanged: bloc.changeSignUpPhone,
+
+                          style: TextStyle(
+                              fontFamily: "WorkSansSemiBold",
+                              fontSize: 16.0,
+                              color: Colors.black),
+                          textDirection: TextDirection.ltr,
+                          decoration: InputDecoration(
+                            errorText: MadarLocalizations.of(context)
+                                .trans(phoneSnapshot.error),
+                            errorStyle: TextStyle(height: 0.1),
+                            border: InputBorder.none,
+                            icon: isoCodePicker(),
+                          ),
                         ),
-                      ),
-                    );
+                      );
                   }));
         });
   }
@@ -244,11 +250,12 @@ class SignUpState extends State<SignUp> with UserFeedback {
       builder: (context, snapshot) {
         return Padding(
           padding:
-              EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+          EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
           child: TextField(
             focusNode: myFocusNodePassword,
             controller: signupPasswordController,
             obscureText: snapshot.data ?? true,
+
             onChanged: bloc.changeSignUpPassword,
             style: TextStyle(
                 fontFamily: "WorkSansSemiBold",
@@ -262,7 +269,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
               ),
               hintText: MadarLocalizations.of(context).trans('password'),
               hintStyle:
-                  TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
+              TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 16.0),
               suffixIcon: GestureDetector(
                 onTap: () => bloc.pushObscureSignUpPassword,
                 child: Icon(
@@ -281,7 +288,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
   Widget isoCodePicker() {
     return CountryCodePicker(
       favorite: ['SA', 'TR', 'KW', 'AE'],
-      initialSelection: 'SA',
+      initialSelection: widget.code,
       onChanged: bloc.changeSignUpIsoCode,
     );
   }
@@ -300,6 +307,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
                 return SubmitButton(
                   text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
+
                     if ((!snapshot.hasData || !snapshot.data)) {
                       showInSnackBar('error_provide_valid_info', context,
                           color: Colors.redAccent);
