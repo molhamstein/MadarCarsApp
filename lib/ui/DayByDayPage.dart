@@ -25,6 +25,10 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _subCitiesFloat;
 
   static List<SubLocationResponse> subList = [];
+  DateTime date;
+  DateTime startMore;
+  DateTime _endDate;
+  DateTime ss;
 
   @override
   void initState() {
@@ -66,6 +70,7 @@ class DayByDayPageState extends State<DayByDayPage>
     });
 
     bloc.pushSubLocations;
+    date = (planingBloc.trip.startDate);
 
     super.initState();
   }
@@ -172,22 +177,156 @@ class DayByDayPageState extends State<DayByDayPage>
                                         _counter = planingBloc.trip
                                             .getSubLocationDurationById(
                                                 subList[index].subLocationId);
-                                        int _dateCounter = _counter ;
-                                        DateTime endDate= (planingBloc.trip.startDate) ;
-                                        ;
+//                                        _counter =planingBloc.trip.tripSubLocations.isNotEmpty  ? (planingBloc.trip.tripSubLocations[index].duration) : 0 ;
+
+//                                        if (!planingBloc
+//                                            .trip.tripSubLocations.isEmpty) {
+//                                          if (planingBloc
+//                                                  .trip
+//                                                  .tripSubLocations[index]
+//                                                  .duration !=
+//                                              null) {
+//                                            _counter = planingBloc
+//                                                .trip
+//                                                .tripSubLocations[index]
+//                                                .duration;
+//                                          }
+//                                        } else
+//                                          _counter = 0;
+
+                                        if (index == 0) {
+                                          _endDate = date.add(
+                                              new Duration(days: _counter));
+                                          print("end is" + _endDate.toString());
+                                          print("start more : " +
+                                              startMore.toString());
+                                        } else {
+                                          print("end is" + _endDate.toString());
+                                          startMore = _endDate
+                                              .add(new Duration(days: 1));
+                                          ss = startMore.add(
+                                              new Duration(days: _counter));
+                                          _endDate = ss;
+                                          print("start more : " +
+                                              startMore.toString());
+                                        }
+
                                         return new Row(
                                           children: <Widget>[
-                                            Column(
+                                            Row(
                                               children: <Widget>[
-                                                index == 0 ?
-                                                new Text((planingBloc.trip.startDate).toString()):Text(endDate.add(new Duration(days:_counter +1 )).toString()),
-                                                index == 0 ?
-                                                new Text((endDate.add(new Duration(days:_counter ))  ).toString()):Text("")
-                                        ],
+                                                Column(
+                                                  children: <Widget>[
+                                                    index == 0
+                                                        ? new Text((date)
+                                                            .toString()
+                                                            .split(" ")[0]
+                                                            .replaceAll("-", "/"))
+                                                        : Text(startMore
+                                                            .toString()
+                                                            .split(" ")[0]
+                                                            .replaceAll("-", "/")),
+                                                    index == 0
+                                                        ?
+//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
+                                                        new Text(_endDate
+                                                            .toString()
+                                                            .split(" ")[0]
+                                                            .replaceAll("-", "/"))
+                                                        : Text(ss
+                                                            .toString()
+                                                            .split(" ")[0]
+                                                            .replaceAll("-", "/"))
+                                                  ],
+                                                ),
+                                                Column(
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0, right: 8),
+                                                      child: Container(
+                                                        width: 15,
+                                                        height: 15,
+                                                        decoration: BoxDecoration(
+                                                          color: Colors
+                                                              .yellow.shade800,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              12.5),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsetsDirectional.only(
+                                                          start: 10.0, end: 8.0),
+                                                      child: Container(
+                                                        height: 10,
+                                                        width: 1.0,
+                                                        color: Colors.grey.shade900,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5,),
+                                                    Padding(
+                                                      padding: const EdgeInsetsDirectional.only(
+                                                          start: 10.0, end: 8.0),
+                                                      child: Container(
+                                                        height: 10,
+                                                        width: 1.0,
+                                                        color: Colors.grey.shade900,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5,),
+                                                    Padding(
+                                                      padding: const EdgeInsetsDirectional.only(
+                                                          start: 10.0, end: 8.0),
+                                                      child: Container(
+                                                        height: 10,
+                                                        width: 1.0,
+                                                        color: Colors.grey.shade900,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5,),
+
+                                                    Padding(
+                                                      padding: const EdgeInsetsDirectional.only(
+                                                          start: 10.0, end: 8.0),
+                                                      child: Container(
+                                                        height: 10,
+                                                        width: 1.0,
+                                                        color: Colors.grey.shade900,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5,),  Padding(
+                                                      padding: const EdgeInsetsDirectional.only(
+                                                          start: 10.0, end: 8.0),
+                                                      child: Container(
+                                                        height: 10,
+                                                        width: 1.0,
+                                                        color: Colors.grey.shade900,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5,),  Padding(
+                                                      padding: const EdgeInsetsDirectional.only(
+                                                          start: 10.0, end: 8.0),
+                                                      child: Container(
+                                                        height: 10,
+                                                        width: 1.0,
+                                                        color: Colors.grey.shade900,
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 5,),
+
+
+
+                                                  ],
+                                                ), ],
                                             ),
-                                            SizedBox(
-                                              width: 40,
-                                            ),
+
+
+//                                            SizedBox(
+//                                              width: 40,
+//                                            ),
                                             Expanded(
                                               child: Column(
                                                 mainAxisAlignment:
@@ -280,7 +419,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     child: new Icon(
                                                       Icons.arrow_drop_down,
                                                       size: 40,
-                                                    ))
+                                                    )
+                                                )
                                               ],
                                             ),
                                             new Text("days")
@@ -374,12 +514,17 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                             index]
                                                                         .subLocation
                                                                         .nameEn);
-                                                                    subList.add(
-                                                                        snapshot
-                                                                            .data[index]);
-                                                                    print("here i am" +
-                                                                        subList
-                                                                            .toString());
+
+                                                                    if (!planingBloc
+                                                                        .trip
+                                                                        .isMaxDuration()) {
+                                                                      subList.add(
+                                                                          snapshot
+                                                                              .data[index]);
+                                                                    } else
+                                                                      print("here i am" +
+                                                                          subList
+                                                                              .toString());
                                                                   });
                                                                 },
                                                                 child: Padding(
