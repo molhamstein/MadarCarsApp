@@ -63,8 +63,10 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
             appBloc.saveUser(snapshot.data.user);
             appBloc.saveToken(snapshot.data.token);
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.of(context).pushReplacement(
-                  new MaterialPageRoute(builder: (context) => HomePage(afterLogin: true,)));
+              Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                  builder: (context) => HomePage(
+                        afterLogin: true,
+                      )));
             });
           }
           return Container(
@@ -147,40 +149,40 @@ class SignUpWidgetState extends State<SignUpWidget> with UserFeedback {
 
   Widget phoneTextField() {
     return StreamBuilder<String>(
-      stream: bloc.phoneSignUpStream,
-      builder: (context, phoneSnapshot) {
-        return Padding(
-          padding:
-              EdgeInsets.only(top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
-          child: StreamBuilder<CountryCode>(
-              stream: bloc.countryCodeChangeStream,
-              initialData: CountryCode(code: 'SA', dialCode: '+966'),
-              builder: (context, snapshot) {
-                return TextField(
-                  focusNode: myFocusNodeEmail,
-                  controller: signupEmailController,
-                  keyboardType: TextInputType.phone,
-                  onChanged: bloc.changeSignUpPhone,
-                  style: TextStyle(
-                      fontFamily: "WorkSansSemiBold",
-                      fontSize: 16.0,
-                      color: Colors.black),
-                  textDirection: TextDirection.ltr,
-                  decoration: InputDecoration(
-                    errorText: MadarLocalizations.of(context).trans(phoneSnapshot.error),
-                    errorStyle: TextStyle(height: 0.1),
-                    prefixText: snapshot.data.dialCode,
-                    border: InputBorder.none,
-                    icon: Icon(
-                      FontAwesomeIcons.mobile,
-                      color: Colors.black,
+        stream: bloc.phoneSignUpStream,
+        builder: (context, phoneSnapshot) {
+          return Padding(
+            padding: EdgeInsets.only(
+                top: 20.0, bottom: 20.0, left: 25.0, right: 25.0),
+            child: StreamBuilder<CountryCode>(
+                stream: bloc.countryCodeChangeStream,
+                initialData: CountryCode(code: 'SA', dialCode: '+966'),
+                builder: (context, snapshot) {
+                  return TextField(
+                    focusNode: myFocusNodeEmail,
+                    controller: signupEmailController,
+                    keyboardType: TextInputType.phone,
+                    onChanged: bloc.changeSignUpPhone,
+                    style: TextStyle(
+                        fontFamily: "WorkSansSemiBold",
+                        fontSize: 16.0,
+                        color: Colors.black),
+                    textDirection: TextDirection.ltr,
+                    decoration: InputDecoration(
+                      errorText: MadarLocalizations.of(context)
+                          .trans(phoneSnapshot.error),
+                      errorStyle: TextStyle(height: 0.1),
+                      prefixText: snapshot.data.dialCode,
+                      border: InputBorder.none,
+                      icon: Icon(
+                        FontAwesomeIcons.mobile,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                );
-              }),
-        );
-      }
-    );
+                  );
+                }),
+          );
+        });
   }
 
   Widget passwordTextField() {

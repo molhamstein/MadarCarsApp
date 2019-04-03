@@ -16,7 +16,7 @@ class SignUp extends StatefulWidget {
   final String number;
   final String code;
 
-  SignUp({Key key, this.number ,this.code}) : super(key: key);
+  SignUp({Key key, this.number, this.code}) : super(key: key);
 
   @override
   SignUpState createState() {
@@ -54,7 +54,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
     print(widget.number);
     signupEmailController.text = widget.number;
     bloc.changeSignUpPhone(signupEmailController.text);
-
   }
 
   @override
@@ -211,35 +210,30 @@ class SignUpState extends State<SignUp> with UserFeedback {
                   stream: bloc.countryCodeChangeStream,
                   initialData: CountryCode(code: 'SA', dialCode: '+966'),
                   builder: (context, snapshot) {
-                    return
-
-                        Localizations(
-                      delegates: [
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                      ],
-                      locale: Locale('en', ''),
-                      child: TextField(
-                        focusNode: myFocusNodeEmail,
-                        controller: signupEmailController,
-
-                        keyboardType: TextInputType.phone,
-                        onChanged: bloc.changeSignUpPhone,
-
-                        style: TextStyle(
-                            fontFamily: "WorkSansSemiBold",
-                            fontSize: 16.0,
-                            color: Colors.black),
-                        textDirection: TextDirection.ltr,
-                        decoration: InputDecoration(
-                          errorText: MadarLocalizations.of(context)
-                              .trans(phoneSnapshot.error),
-                          errorStyle: TextStyle(height: 0.1),
-                          border: InputBorder.none,
-                          icon: isoCodePicker(),
-                        ),
-                      ),
-                    );
+                    return Localizations(
+                        delegates: [
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalWidgetsLocalizations.delegate,
+                        ],
+                        locale: Locale('en', ''),
+                        child: TextField(
+                          focusNode: myFocusNodeEmail,
+                          controller: signupEmailController,
+                          keyboardType: TextInputType.phone,
+                          onChanged: bloc.changeSignUpPhone,
+                          style: TextStyle(
+                              fontFamily: "WorkSansSemiBold",
+                              fontSize: 16.0,
+                              color: Colors.black),
+                          textDirection: TextDirection.ltr,
+                          decoration: InputDecoration(
+                            errorText: MadarLocalizations.of(context)
+                                .trans(phoneSnapshot.error),
+                            errorStyle: TextStyle(height: 0.1),
+                            border: InputBorder.none,
+                            icon: isoCodePicker(),
+                          ),
+                        ));
                   }));
         });
   }
@@ -255,7 +249,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
             focusNode: myFocusNodePassword,
             controller: signupPasswordController,
             obscureText: snapshot.data ?? true,
-
             onChanged: bloc.changeSignUpPassword,
             style: TextStyle(
                 fontFamily: "WorkSansSemiBold",
@@ -307,7 +300,6 @@ class SignUpState extends State<SignUp> with UserFeedback {
                 return SubmitButton(
                   text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
-
                     if ((!snapshot.hasData || !snapshot.data)) {
                       showInSnackBar('error_provide_valid_info', context,
                           color: Colors.redAccent);

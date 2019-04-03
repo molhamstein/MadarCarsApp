@@ -66,6 +66,34 @@ class Trip {
     }
   }
 
+// new function for add day by day sublocations
+  addSubLocations(String id, int duration, int cost, String subName, int idx) {
+    // int allSubLocationDuration = 0;
+    // tripSubLocations.forEach(
+    //     (subLocation) => allSubLocationDuration += subLocation.duration);
+    // if (allSubLocationDuration <= tripTotalDuration()) {
+    //   int index;
+    //   if ((index =
+    //           tripSubLocations.indexWhere((location) => location.id == id)) ==
+    //       -1) {
+    tripSubLocations.add(TripSublocation(
+        id: id,
+        duration: duration,
+        cost: cost,
+        subLocation: SubLocation(nameTr: subName)));
+    //   } else {
+    //     tripSubLocations[index].id = id;
+    //     tripSubLocations[index].duration = duration;
+    //     tripSubLocations[index].cost = cost;
+    //     tripSubLocations[index].subLocation.nameEn = subName;
+    //   }
+    // }
+  }
+
+  editSubLocation(int duration, int index) {
+    tripSubLocations[index].duration = duration;
+  }
+
   int getSubLocationDurationById(String id) {
     var duration = 0;
     tripSubLocations.forEach((subLocation) {
