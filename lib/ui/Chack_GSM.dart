@@ -62,8 +62,8 @@ class _CheckGsmState extends State<CheckGsm>
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pushReplacement(new MaterialPageRoute(
                     builder: (context) => HomePage(
-                          afterLogin: true,
-                        )));
+                      afterLogin: true,
+                    )));
               });
             }
             if (snapshot.hasError && bloc.shouldShowFeedBack) {
@@ -144,7 +144,7 @@ class _CheckGsmState extends State<CheckGsm>
                                             color: Colors.white,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                              BorderRadius.circular(8.0),
                                             ),
                                             child: Container(
                                               width: 300,
@@ -159,7 +159,7 @@ class _CheckGsmState extends State<CheckGsm>
                                                   ),
                                                   StreamBuilder<bool>(
                                                       stream:
-                                                          bloc.checkNumStream,
+                                                      bloc.checkNumStream,
                                                       builder:
                                                           (context, snapshot) {
                                                         if (snapshot.hasData &&
@@ -179,14 +179,14 @@ class _CheckGsmState extends State<CheckGsm>
                                                               loginEmailController
                                                                   .text);
                                                           bloc.shouldNavgateToSignUp =
-                                                              false;
+                                                          false;
                                                           WidgetsBinding
                                                               .instance
                                                               .addPostFrameCallback(
                                                                   (_) {
-                                                            Navigator.of(
+                                                                Navigator.of(
                                                                     context)
-                                                                .push(new MaterialPageRoute(
+                                                                    .push(new MaterialPageRoute(
                                                                     builder: (context) =>
                                                                         SignUp(
                                                                             number:
@@ -332,7 +332,7 @@ class _CheckGsmState extends State<CheckGsm>
       builder: (context, snapshot) {
         return Padding(
           padding:
-              EdgeInsets.only(top: 20.0, bottom: 8.0, left: 25.0, right: 25.0),
+          EdgeInsets.only(top: 20.0, bottom: 8.0, left: 25.0, right: 25.0),
           child: Container(
             height: 60,
             child: Localizations(
@@ -357,13 +357,13 @@ class _CheckGsmState extends State<CheckGsm>
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   errorText:
-                      MadarLocalizations.of(context).trans(snapshot.error),
+                  MadarLocalizations.of(context).trans(snapshot.error),
                   errorStyle: TextStyle(height: 0.1, fontSize: 12),
                   icon: isoCodePicker(),
                   hintText:
-                      MadarLocalizations.of(context).trans('phone_number'),
+                  MadarLocalizations.of(context).trans('phone_number'),
                   hintStyle:
-                      TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
+                  TextStyle(fontFamily: "WorkSansSemiBold", fontSize: 17.0),
                 ),
               ),
             ),

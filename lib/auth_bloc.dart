@@ -72,8 +72,6 @@ class AuthBloc extends BaseBloc with Validators, Network {
   Stream<CountryCode> get countryCodeChangeStream =>
       _isoCodeSignUpController.stream;
 
-
-
   Stream<String> get phoneSignUpStream =>
       _phoneSignUpController.stream.transform(validatePhone);
 
@@ -157,7 +155,6 @@ class AuthBloc extends BaseBloc with Validators, Network {
 //  }
 
   submitLogin() {
-
     final validPhoneNumber = _phoneLoginController.value;
     final validPassword = _passwordLoginController.value;
     final validIsoCode = _isoCodeSignUpController.value;
@@ -186,16 +183,15 @@ class AuthBloc extends BaseBloc with Validators, Network {
 
   get checkNumStream => _checkNumController.stream;
 
-
   final getCountryCode = BehaviorSubject<String>();
 
-get countryCode => getCountryCode.stream;
+  get countryCode => getCountryCode.stream;
 
   fetchCheckNum() {
     final validPhoneNumber = _phoneLoginController.value;
     final validIsoCode = _isoCodeSignUpController.value;
     getCountryCode.sink.add(validIsoCode.code);
-    print("on check"+getCountryCode.value);
+    print("on check" + getCountryCode.value);
     startLoading;
     checkNum(validIsoCode.dialCode + validPhoneNumber).then((result) {
       if (result == "true") {
