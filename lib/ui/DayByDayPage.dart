@@ -24,7 +24,7 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _offsetFloat;
   Animation<Offset> _subCitiesFloat;
 
-  static List<SubLocationResponse> subList = [];
+  List<SubLocationResponse> subList = [];
   DateTime date;
   DateTime startMore;
   DateTime _endDate;
@@ -221,108 +221,149 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         ? new Text((date)
                                                             .toString()
                                                             .split(" ")[0]
-                                                            .replaceAll("-", "/"))
+                                                            .replaceAll(
+                                                                "-", "/"))
                                                         : Text(startMore
                                                             .toString()
                                                             .split(" ")[0]
-                                                            .replaceAll("-", "/")),
+                                                            .replaceAll(
+                                                                "-", "/")),
                                                     index == 0
                                                         ?
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
                                                         new Text(_endDate
                                                             .toString()
                                                             .split(" ")[0]
-                                                            .replaceAll("-", "/"))
+                                                            .replaceAll(
+                                                                "-", "/"))
                                                         : Text(ss
                                                             .toString()
                                                             .split(" ")[0]
-                                                            .replaceAll("-", "/"))
+                                                            .replaceAll(
+                                                                "-", "/"))
                                                   ],
                                                 ),
                                                 Column(
                                                   children: <Widget>[
                                                     Padding(
                                                       padding:
-                                                      const EdgeInsets.only(
-                                                          left: 8.0, right: 8),
+                                                          const EdgeInsets.only(
+                                                              left: 8.0,
+                                                              right: 8),
                                                       child: Container(
                                                         width: 15,
                                                         height: 15,
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: Colors
                                                               .yellow.shade800,
                                                           borderRadius:
-                                                          BorderRadius.circular(
-                                                              12.5),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      12.5),
                                                         ),
                                                       ),
                                                     ),
                                                     Padding(
-                                                      padding: const EdgeInsetsDirectional.only(
-                                                          start: 10.0, end: 8.0),
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .only(
+                                                              start: 10.0,
+                                                              end: 8.0),
                                                       child: Container(
                                                         height: 10,
                                                         width: 1.0,
-                                                        color: Colors.grey.shade900,
+                                                        color: Colors
+                                                            .grey.shade900,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 5,),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Padding(
-                                                      padding: const EdgeInsetsDirectional.only(
-                                                          start: 10.0, end: 8.0),
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .only(
+                                                              start: 10.0,
+                                                              end: 8.0),
                                                       child: Container(
                                                         height: 10,
                                                         width: 1.0,
-                                                        color: Colors.grey.shade900,
+                                                        color: Colors
+                                                            .grey.shade900,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 5,),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Padding(
-                                                      padding: const EdgeInsetsDirectional.only(
-                                                          start: 10.0, end: 8.0),
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .only(
+                                                              start: 10.0,
+                                                              end: 8.0),
                                                       child: Container(
                                                         height: 10,
                                                         width: 1.0,
-                                                        color: Colors.grey.shade900,
+                                                        color: Colors
+                                                            .grey.shade900,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 5,),
-
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                     Padding(
-                                                      padding: const EdgeInsetsDirectional.only(
-                                                          start: 10.0, end: 8.0),
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .only(
+                                                              start: 10.0,
+                                                              end: 8.0),
                                                       child: Container(
                                                         height: 10,
                                                         width: 1.0,
-                                                        color: Colors.grey.shade900,
+                                                        color: Colors
+                                                            .grey.shade900,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 5,),  Padding(
-                                                      padding: const EdgeInsetsDirectional.only(
-                                                          start: 10.0, end: 8.0),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .only(
+                                                              start: 10.0,
+                                                              end: 8.0),
                                                       child: Container(
                                                         height: 10,
                                                         width: 1.0,
-                                                        color: Colors.grey.shade900,
+                                                        color: Colors
+                                                            .grey.shade900,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 5,),  Padding(
-                                                      padding: const EdgeInsetsDirectional.only(
-                                                          start: 10.0, end: 8.0),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                                  .only(
+                                                              start: 10.0,
+                                                              end: 8.0),
                                                       child: Container(
                                                         height: 10,
                                                         width: 1.0,
-                                                        color: Colors.grey.shade900,
+                                                        color: Colors
+                                                            .grey.shade900,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 5,),
-
-
-
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
                                                   ],
-                                                ), ],
+                                                ),
+                                              ],
                                             ),
-
 
 //                                            SizedBox(
 //                                              width: 40,
@@ -364,18 +405,10 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         if (!planingBloc.trip
                                                             .isMaxDuration()) {
                                                           _counter++;
-                                                          planingBloc.addSubLocation(
-                                                              subList[index]
-                                                                  .subLocation
-                                                                  .id,
-                                                              _counter,
-                                                              subList[index]
-                                                                  .cost,
-                                                              subList[index]
-                                                                  .subLocation
-                                                                  .name(MadarLocalizations.of(
-                                                                          context)
-                                                                      .locale));
+                                                          planingBloc
+                                                              .editSubLocation(
+                                                                  _counter,
+                                                                  index);
                                                           planingBloc
                                                               .pushEstimationCost;
                                                         }
@@ -397,20 +430,12 @@ class DayByDayPageState extends State<DayByDayPage>
                                                 InkWell(
                                                     onTap: () {
                                                       setState(() {
-                                                        if (_counter > 0) {
+                                                        if (_counter > 1) {
                                                           _counter--;
-                                                          planingBloc.addSubLocation(
-                                                              subList[index]
-                                                                  .subLocation
-                                                                  .id,
-                                                              _counter,
-                                                              subList[index]
-                                                                  .cost,
-                                                              subList[index]
-                                                                  .subLocation
-                                                                  .name(MadarLocalizations.of(
-                                                                          context)
-                                                                      .locale));
+                                                          planingBloc
+                                                              .editSubLocation(
+                                                                  _counter,
+                                                                  index);
                                                           planingBloc
                                                               .pushEstimationCost;
                                                         }
@@ -419,8 +444,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     child: new Icon(
                                                       Icons.arrow_drop_down,
                                                       size: 40,
-                                                    )
-                                                )
+                                                    ))
                                               ],
                                             ),
                                             new Text("days")
@@ -518,9 +542,25 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                     if (!planingBloc
                                                                         .trip
                                                                         .isMaxDuration()) {
+                                                                      //String id, int duration, int cost, String subName, int idx
                                                                       subList.add(
                                                                           snapshot
                                                                               .data[index]);
+                                                                      planingBloc.addSubLocations(
+                                                                          snapshot
+                                                                              .data[
+                                                                                  index]
+                                                                              .subLocationId,
+                                                                          1,
+                                                                          snapshot
+                                                                              .data[
+                                                                                  index]
+                                                                              .cost,
+                                                                          snapshot
+                                                                              .data[index]
+                                                                              .subLocation
+                                                                              .name(MadarLocalizations.of(context).locale),
+                                                                          0);
                                                                     } else
                                                                       print("here i am" +
                                                                           subList

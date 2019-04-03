@@ -14,7 +14,7 @@ String subLocationResponseToJson(SubLocationResponse data) {
   return json.encode(dyn);
 }
 
-class   SubLocationResponse {
+class SubLocationResponse {
   int cost;
   String id;
   String carId;
@@ -29,19 +29,20 @@ class   SubLocationResponse {
     this.subLocation,
   });
 
-  factory SubLocationResponse.fromJson(Map<String, dynamic> json) => new SubLocationResponse(
-    cost: json["cost"],
-    id: json["id"],
-    carId: json["carId"],
-    subLocationId: json["subLocationId"],
-    subLocation: SubLocation.fromJson(json["subLocation"]),
-  );
+  factory SubLocationResponse.fromJson(Map<String, dynamic> json) =>
+      new SubLocationResponse(
+        cost: json["cost"],
+        id: json["id"],
+        carId: json["carId"],
+        subLocationId: json["subLocationId"],
+        subLocation: SubLocation.fromJson(json["subLocation"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "cost": cost,
-    "id": id,
-    "carId": carId,
-    "subLocationId": subLocationId,
-    "subLocation": subLocation.toJson(),
-  };
+        "cost": cost,
+        "id": id,
+        "carId": carId,
+        "subLocationId": subLocationId,
+        "subLocation": subLocation.toJson(),
+      };
 }

@@ -374,6 +374,10 @@ class TripPlaningBloc extends BaseBloc with Network {
   }
 
   Function(String, int, int, String) get addSubLocation => trip.addSubLocation;
+  // new function for add day by day sublocations
+  Function(String, int, int, String, int) get addSubLocations =>
+      trip.addSubLocations;
+  Function(int, int) get editSubLocation => trip.editSubLocation;
 
   get pushEstimationCost => _estimationCostController.sink
       .add(trip.estimationPrice(withSubLocationPrice: true));
