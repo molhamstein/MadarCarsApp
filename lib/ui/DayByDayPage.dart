@@ -239,13 +239,16 @@ class DayByDayPageState extends State<DayByDayPage>
                                                             .replaceAll("-", "/"))
                                                   ],
                                                 ),
+
+
+
                                                 Column(
                                                   children: <Widget>[
                                                     Padding(
                                                       padding:
                                                       const EdgeInsets.only(
                                                           left: 8.0, right: 8),
-                                                      child: Container(
+                                                      child: Container(margin: EdgeInsets.only(top:00),
                                                         width: 15,
                                                         height: 15,
                                                         decoration: BoxDecoration(
@@ -297,16 +300,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         color: Colors.grey.shade900,
                                                       ),
                                                     ),
-                                                    SizedBox(height: 5,),  Padding(
-                                                      padding: const EdgeInsetsDirectional.only(
-                                                          start: 10.0, end: 8.0),
-                                                      child: Container(
-                                                        height: 10,
-                                                        width: 1.0,
-                                                        color: Colors.grey.shade900,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 5,),  Padding(
+                                                    SizedBox(height: 5,),
+Padding(
                                                       padding: const EdgeInsetsDirectional.only(
                                                           start: 10.0, end: 8.0),
                                                       child: Container(
