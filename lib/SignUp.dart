@@ -14,8 +14,9 @@ import 'package:madar_booking/submitButton.dart';
 
 class SignUp extends StatefulWidget {
   final String number;
+  final String code;
 
-  SignUp({Key key, this.number}) : super(key: key);
+  SignUp({Key key, this.number ,this.code}) : super(key: key);
 
   @override
   SignUpState createState() {
@@ -49,8 +50,11 @@ class SignUpState extends State<SignUp> with UserFeedback {
     appBloc = BlocProvider.of<AppBloc>(context);
     bloc = AuthBloc();
     super.initState();
+    print(widget.code);
     print(widget.number);
     signupEmailController.text = widget.number;
+    bloc.changeSignUpPhone(signupEmailController.text);
+
   }
 
   @override
@@ -218,8 +222,10 @@ class SignUpState extends State<SignUp> with UserFeedback {
                       child: TextField(
                         focusNode: myFocusNodeEmail,
                         controller: signupEmailController,
+
                         keyboardType: TextInputType.phone,
                         onChanged: bloc.changeSignUpPhone,
+
                         style: TextStyle(
                             fontFamily: "WorkSansSemiBold",
                             fontSize: 16.0,
@@ -249,6 +255,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
             focusNode: myFocusNodePassword,
             controller: signupPasswordController,
             obscureText: snapshot.data ?? true,
+
             onChanged: bloc.changeSignUpPassword,
             style: TextStyle(
                 fontFamily: "WorkSansSemiBold",
@@ -281,7 +288,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
   Widget isoCodePicker() {
     return CountryCodePicker(
       favorite: ['SA', 'TR', 'KW', 'AE'],
-      initialSelection: 'SA',
+      initialSelection: widget.code,
       onChanged: bloc.changeSignUpIsoCode,
     );
   }
@@ -300,6 +307,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
                 return SubmitButton(
                   text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
+
                     if ((!snapshot.hasData || !snapshot.data)) {
                       showInSnackBar('error_provide_valid_info', context,
                           color: Colors.redAccent);

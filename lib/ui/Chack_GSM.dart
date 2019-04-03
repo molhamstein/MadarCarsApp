@@ -172,6 +172,7 @@ class _CheckGsmState extends State<CheckGsm>
                                                             snapshot.data ==
                                                                 false &&
                                                             bloc.shouldNavgateToSignUp) {
+                                                          print("check gsm"+bloc.getCountryCode.value);
                                                           print(
                                                               "data is false");
                                                           print("here we go" +
@@ -189,7 +190,7 @@ class _CheckGsmState extends State<CheckGsm>
                                                                     builder: (context) =>
                                                                         SignUp(
                                                                             number:
-                                                                                loginEmailController.text)));
+                                                                                loginEmailController.text ,code: bloc.getCountryCode.value,)));
                                                           });
                                                         }
                                                         return Container();

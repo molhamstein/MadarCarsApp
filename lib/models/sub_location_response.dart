@@ -14,7 +14,7 @@ String subLocationResponseToJson(SubLocationResponse data) {
   return json.encode(dyn);
 }
 
-class SubLocationResponse {
+class   SubLocationResponse {
   int cost;
   String id;
   String carId;

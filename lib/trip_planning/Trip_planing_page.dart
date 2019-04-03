@@ -16,6 +16,7 @@ import 'package:madar_booking/trip_planning/step_choose_date_page.dart';
 import 'package:madar_booking/trip_planning/step_choose_sub_city.dart';
 import 'package:madar_booking/trip_planning/step_chosse_car.dart';
 import 'package:madar_booking/trip_planning/step_trip_type.dart';
+import 'package:madar_booking/ui/DayByDayPage.dart';
 import 'package:madar_booking/ui/Step_summary.dart';
 
 class TripPlanningPage extends StatefulWidget {
@@ -48,7 +49,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
       case Steps.chooseCar:
         return StepChooseCar();
       case Steps.chooseSuplocations:
-        return StepChooseSubCity();
+        return DayByDayPage();
       case Steps.summary:
         return StepSummary();
       case Steps.finalstep:
