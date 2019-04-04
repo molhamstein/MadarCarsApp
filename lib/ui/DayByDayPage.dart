@@ -29,6 +29,8 @@ class DayByDayPageState extends State<DayByDayPage>
   DateTime startMore;
   DateTime _endDate;
   DateTime ss;
+  int _counter;
+
 
   @override
   void initState() {
@@ -666,7 +668,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                       SliverList(
                                         delegate: SliverChildBuilderDelegate(
                                           (context, index) {
-                                            int _counter;
 
                                             print("here is i'" +
                                                 planingBloc
@@ -933,6 +934,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                       index);
                                                               planingBloc
                                                                   .pushEstimationCost;
+                                                              setState(){}
                                                             }
                                                           });
                                                         },
@@ -1362,6 +1364,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                               .subLocation
                                                                               .name(MadarLocalizations.of(context).locale),
                                                                           0);
+                                                                      planingBloc.pushEstimationCost;
                                                                     } else
                                                                       print(
                                                                           "here i am");
