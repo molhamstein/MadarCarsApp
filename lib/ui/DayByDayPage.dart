@@ -25,12 +25,13 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _subCitiesFloat;
 
 //  List<SubLocationResponse> subList = [];
+  DateTime cityDate ;
+  DateTime cityEndDate ;
   DateTime date;
   DateTime startMore;
   DateTime _endDate;
   DateTime ss;
   int _counter;
-
 
   @override
   void initState() {
@@ -178,184 +179,66 @@ class DayByDayPageState extends State<DayByDayPage>
                                       SliverList(
                                         delegate: SliverChildBuilderDelegate(
                                           (context, index) {
-                                            return Container(
-                                              child: new Row(
-                                                children: <Widget>[
-                                                  Row(
-                                                    children: <Widget>[
-                                                      Column(
-                                                        children: <Widget>[
-                                                          new Text((date)
-                                                              .toString()
-                                                              .split(" ")[0]
-                                                              .replaceAll(
-                                                                  "-", "/")),
+                                            if (planingBloc.trip.fromAirport ==
+                                                true) {
+                                              return Container(
+                                                child: new Row(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Column(
+                                                          children: <Widget>[
+                                                            new Text((date)
+                                                                .toString()
+                                                                .split(" ")[0]
+                                                                .replaceAll(
+                                                                    "-", "/")),
 
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
 //                                                  new Text(_endDate
 //                                                      .toString()
 //                                                      .split(" ")[0]
 //                                                      .replaceAll("-", "/"))
-                                                        ],
-                                                      ),
-                                                      Column(
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 8.0,
-                                                                    right: 8),
-                                                            child: Container(
-                                                              width: 15,
-                                                              height: 15,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .yellow
-                                                                    .shade800,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12.5),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                          ],
+                                                        ),
+                                                        citiesDashedLine()
+                                                      ],
+                                                    ),
 
 //                                            SizedBox(
 //                                              width: 40,
 //                                            ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        new Text(
-                                                          planingBloc
-                                                              .trip.airport
-                                                              .name(MadarLocalizations
-                                                                      .of(context)
-                                                                  .locale),
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .black87,
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                        ),
+                                                    Expanded(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          new Text(
+                                                            planingBloc
+                                                                .trip.airport
+                                                                .name(MadarLocalizations.of(
+                                                                        context)
+                                                                    .locale),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black87,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                          ),
 //                                                Text(((planingBloc.trip
 //                                                    .tripCost())
 //                                                    .toString()))
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
+                                                    Column(
+                                                      children: <Widget>[
 //                InkWell(
 //                onTap: () {
 //                setState(() {
@@ -408,12 +291,15 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                                size: 40,
 //                                              )
 // )
-                                                    ],
-                                                  ),
+                                                      ],
+                                                    ),
 //                                          new Text("days")
-                                                ],
-                                              ),
-                                            );
+                                                  ],
+                                                ),
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
                                           },
                                           childCount: 1,
                                         ),
@@ -421,6 +307,9 @@ class DayByDayPageState extends State<DayByDayPage>
                                       SliverList(
                                         delegate: SliverChildBuilderDelegate(
                                           (context, index) {
+                                            cityEndDate = date.add(new Duration(days:   planingBloc.trip
+                                                .tripDuration())) ;
+
                                             return Container(
                                               child: new Row(
                                                 children: <Widget>[
@@ -435,134 +324,14 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                   "-", "/")),
 
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
-                                                          new Text(_endDate
+                                                          new Text(cityEndDate
                                                               .toString()
                                                               .split(" ")[0]
                                                               .replaceAll(
                                                                   "-", "/"))
                                                         ],
                                                       ),
-                                                      Column(
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 8.0,
-                                                                    right: 8),
-                                                            child: Container(
-                                                              width: 15,
-                                                              height: 15,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .yellow
-                                                                    .shade800,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12.5),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                        ],
-                                                      ),
+                                                      citiesDashedLine()
                                                     ],
                                                   ),
 
@@ -668,7 +437,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                       SliverList(
                                         delegate: SliverChildBuilderDelegate(
                                           (context, index) {
-
                                             print("here is i'" +
                                                 planingBloc
                                                     .trip
@@ -676,11 +444,11 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     .id);
 
                                             _counter = planingBloc.trip
-                                                .getSubLocationDurationById(
+                                                .getSubLocationDurationByNewId(
                                                     planingBloc
                                                         .trip
                                                         .tripSubLocations[index]
-                                                        .id);
+                                                        .id ,index);
 //                                        _counter =planingBloc.trip.tripSubLocations.isNotEmpty  ? (planingBloc.trip.tripSubLocations[index].duration) : 0 ;
 
 //                                        if (!planingBloc
@@ -699,7 +467,9 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                          _counter = 0;
 
                                             if (index == 0) {
-                                              _endDate = date.add(
+
+
+                                              _endDate = cityEndDate.add(
                                                   new Duration(days: _counter));
                                               print("end is" +
                                                   _endDate.toString());
@@ -724,7 +494,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     Column(
                                                       children: <Widget>[
                                                         index == 0
-                                                            ? new Text((date)
+                                                            ? new Text((cityEndDate.add(new Duration(days: 1)))
                                                                 .toString()
                                                                 .split(" ")[0]
                                                                 .replaceAll(
@@ -749,127 +519,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                     "-", "/"))
                                                       ],
                                                     ),
-                                                    Column(
-                                                      children: <Widget>[
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 8.0,
-                                                                  right: 8),
-                                                          child: Container(
-                                                            width: 15,
-                                                            height: 15,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Colors
-                                                                  .yellow
-                                                                  .shade800,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12.5),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .only(
-                                                                  start: 10.0,
-                                                                  end: 8.0),
-                                                          child: Container(
-                                                            height: 10,
-                                                            width: 1.0,
-                                                            color: Colors
-                                                                .grey.shade900,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .only(
-                                                                  start: 10.0,
-                                                                  end: 8.0),
-                                                          child: Container(
-                                                            height: 10,
-                                                            width: 1.0,
-                                                            color: Colors
-                                                                .grey.shade900,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .only(
-                                                                  start: 10.0,
-                                                                  end: 8.0),
-                                                          child: Container(
-                                                            height: 10,
-                                                            width: 1.0,
-                                                            color: Colors
-                                                                .grey.shade900,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .only(
-                                                                  start: 10.0,
-                                                                  end: 8.0),
-                                                          child: Container(
-                                                            height: 10,
-                                                            width: 1.0,
-                                                            color: Colors
-                                                                .grey.shade900,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .only(
-                                                                  start: 10.0,
-                                                                  end: 8.0),
-                                                          child: Container(
-                                                            height: 10,
-                                                            width: 1.0,
-                                                            color: Colors
-                                                                .grey.shade900,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                      .only(
-                                                                  start: 10.0,
-                                                                  end: 8.0),
-                                                          child: Container(
-                                                            height: 10,
-                                                            width: 1.0,
-                                                            color: Colors
-                                                                .grey.shade900,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    citiesDashedLine()
                                                   ],
                                                 ),
 
@@ -934,7 +584,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                       index);
                                                               planingBloc
                                                                   .pushEstimationCost;
-                                                              setState(){}
                                                             }
                                                           });
                                                         },
@@ -982,242 +631,73 @@ class DayByDayPageState extends State<DayByDayPage>
                                       SliverList(
                                         delegate: SliverChildBuilderDelegate(
                                           (context, index) {
-                                            return Container(
-                                              child: new Row(
-                                                children: <Widget>[
-                                                  Row(
-                                                    children: <Widget>[
-                                                      Column(
-                                                        children: <Widget>[
-                                                          new Text((date)
-                                                              .toString()
-                                                              .split(" ")[0]
-                                                              .replaceAll(
-                                                                  "-", "/")),
+                                            if (planingBloc.trip.toAirport ==
+                                                true) {
+                                              return Container(
+                                                child: new Row(
+                                                  children: <Widget>[
+                                                    Row(
+                                                      children: <Widget>[
+                                                        Column(
+                                                          children: <Widget>[
+                                                            new Text((_endDate.add(
+                                                                    new Duration(
+                                                                        days:
+                                                                            1)))
+                                                                .toString()
+                                                                .split(" ")[0]
+                                                                .replaceAll(
+                                                                    "-", "/")),
 
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
 //                                                  new Text(_endDate
 //                                                      .toString()
 //                                                      .split(" ")[0]
 //                                                      .replaceAll("-", "/"))
-                                                        ],
-                                                      ),
-                                                      Column(
-                                                        children: <Widget>[
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 8.0,
-                                                                    right: 8),
-                                                            child: Container(
-                                                              width: 15,
-                                                              height: 15,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .yellow
-                                                                    .shade800,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12.5),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsetsDirectional
-                                                                        .only(
-                                                                    start: 10.0,
-                                                                    end: 8.0),
-                                                            child: Container(
-                                                              height: 10,
-                                                              width: 1.0,
-                                                              color: Colors.grey
-                                                                  .shade900,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                          ],
+                                                        ),
+                                                        citiesDashedLine()
+                                                      ],
+                                                    ),
 
 //                                            SizedBox(
 //                                              width: 40,
 //                                            ),
-                                                  Expanded(
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        new Text(
-                                                          planingBloc
-                                                              .trip.airport
-                                                              .name(MadarLocalizations
-                                                                      .of(context)
-                                                                  .locale),
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .black87,
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700),
-                                                        ),
+                                                    Expanded(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          new Text(
+                                                            planingBloc
+                                                                .trip.airport
+                                                                .name(MadarLocalizations.of(
+                                                                        context)
+                                                                    .locale),
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black87,
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700),
+                                                          ),
 //                                                Text(((planingBloc.trip
 //                                                    .tripCost())
 //                                                    .toString()))
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Column(
-                                                    children: <Widget>[
-//                InkWell(
-//                onTap: () {
-//                setState(() {
-//                if (!planingBloc.trip
-//                    .isMaxDuration()) {
-//                _counter++;
-//                planingBloc
-//                    .editSubLocation(
-//                _counter,
-//                index);
-//                planingBloc
-//                    .pushEstimationCost;
-//                }
-//                });
-//                },
-//                child:
-//                                              new Icon(
-//                                                Icons.arrow_drop_up,
-//                                                size: 40,
-//                                              )
-//// ),
-//                                              , new Text(
-//                                                planingBloc.trip
-//                                                    .tripDuration()
-//                                                    .toString(),
-//                                                style: TextStyle(
-//                                                    color: Colors.black87,
-//                                                    fontSize: 18,
-//                                                    height: 0.5,
-//                                                    fontWeight:
-//                                                    FontWeight.w600),
-//                                              ),
-//                InkWell(
-//                onTap: () {
-//                setState(() {
-//                if (_counter > 1) {
-//                _counter--;
-//                planingBloc
-//                    .editSubLocation(
-//                _counter,
-//                index);
-//                planingBloc
-//                    .pushEstimationCost;
-//                }
-//                });
-//                },
-//                child:
-//                                              new Icon(
-//                                                Icons.arrow_drop_down,
-//                                                size: 40,
-//                                              )
-// )
-                                                    ],
-                                                  ),
-//                                          new Text("days")
-                                                ],
-                                              ),
-                                            );
+                                                  ],
+                                                ),
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
                                           },
                                           childCount: 1,
                                         ),
@@ -1226,35 +706,35 @@ class DayByDayPageState extends State<DayByDayPage>
                                   ),
                                 ),
 
-                                Container(
-                                  height: 200,
-                                  child: ListView(
-                                    physics: ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    children: <Widget>[
-                                      Column(
-                                        children: <Widget>[
-//                                          Container(
-//                                            height: (planingBloc
-//                                                        .trip
-//                                                        .tripSubLocations
-//                                                        .length *
-//                                                    100)
-//                                                .toDouble(),
-//                                            child: ListView.builder(
-//                                                itemCount: planingBloc.trip
-//                                                    .tripSubLocations.length,
-//                                                itemBuilder:
-//                                                    (context, int index) {
-////                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
-//
-//                                                }),
-//                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
+//                                Container(
+//                                  height: 200,
+//                                  child: ListView(
+//                                    physics: ClampingScrollPhysics(),
+//                                    shrinkWrap: true,
+//                                    children: <Widget>[
+//                                      Column(
+//                                        children: <Widget>[
+////                                          Container(
+////                                            height: (planingBloc
+////                                                        .trip
+////                                                        .tripSubLocations
+////                                                        .length *
+////                                                    100)
+////                                                .toDouble(),
+////                                            child: ListView.builder(
+////                                                itemCount: planingBloc.trip
+////                                                    .tripSubLocations.length,
+////                                                itemBuilder:
+////                                                    (context, int index) {
+//////                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
+////
+////                                                }),
+////                                          ),
+//                                        ],
+//                                      ),
+//                                    ],
+//                                  ),
+//                                ),
 
 //                            subList.length != 0 ?
 //                            dayByDaySubCityList(subList[0] ,planingBloc.addSubLocation): Container(),
@@ -1364,7 +844,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                               .subLocation
                                                                               .name(MadarLocalizations.of(context).locale),
                                                                           0);
-                                                                      planingBloc.pushEstimationCost;
+                                                                      planingBloc
+                                                                          .pushEstimationCost;
                                                                     } else
                                                                       print(
                                                                           "here i am");
@@ -1463,4 +944,88 @@ class DayByDayPageState extends State<DayByDayPage>
 //      ),
 //    );
 //  }
+}
+
+Widget citiesDashedLine() {
+  return Column(
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        child: Container(
+          width: 15,
+          height: 15,
+          decoration: BoxDecoration(
+            color: Colors.yellow.shade800,
+            borderRadius: BorderRadius.circular(12.5),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 1.0,
+          color: Colors.grey.shade900,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 1.0,
+          color: Colors.grey.shade900,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 1.0,
+          color: Colors.grey.shade900,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 1.0,
+          color: Colors.grey.shade900,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 1.0,
+          color: Colors.grey.shade900,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 1.0,
+          color: Colors.grey.shade900,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+    ],
+  );
 }

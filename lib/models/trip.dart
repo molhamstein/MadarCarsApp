@@ -94,6 +94,23 @@ class Trip {
     tripSubLocations[index].duration = duration;
   }
 
+
+  int getSubLocationDurationByNewId(String id ,int index ) {
+    print(id);
+    var duration = 0;
+
+    for(int i=0 ; i <= tripSubLocations.length ; i++)
+      {
+        if(tripSubLocations[index].id == id){
+          print("i'm in");
+          duration = tripSubLocations[index].duration;
+        }
+      }
+    print("sublocation $id duration  $duration");
+    return duration;
+  }
+
+
   int getSubLocationDurationById(String id) {
     print(id);
     var duration = 0;
