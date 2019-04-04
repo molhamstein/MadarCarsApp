@@ -95,6 +95,7 @@ class Trip {
   }
 
   int getSubLocationDurationById(String id) {
+    print(id);
     var duration = 0;
     tripSubLocations.forEach((subLocation) {
       if (subLocation.id == id) {

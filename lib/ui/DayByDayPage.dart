@@ -24,7 +24,7 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _offsetFloat;
   Animation<Offset> _subCitiesFloat;
 
-  List<SubLocationResponse> subList = [];
+//  List<SubLocationResponse> subList = [];
   DateTime date;
   DateTime startMore;
   DateTime _endDate;
@@ -78,6 +78,9 @@ class DayByDayPageState extends State<DayByDayPage>
   @override
   Widget build(BuildContext context) {
     var estimCost = planingBloc.trip.estimationPrice();
+    final _itemExtent = 56.0;
+    final generatedList = List.generate(10, (index) => 'Item $index');
+
     print("estim Cost in build $estimCost");
     return Material(
       color: Colors.transparent,
@@ -168,15 +171,515 @@ class DayByDayPageState extends State<DayByDayPage>
 
                                 Container(
                                   height: 200,
-                                  child: ListView.builder(
-                                      itemCount: subList.length,
-                                      itemBuilder: (context, int index) {
-//                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
-                                        int _counter;
+                                  child: CustomScrollView(
+                                    slivers: <Widget>[
+                                      SliverList(
+                                        delegate: SliverChildBuilderDelegate(
+                                          (context, index) {
+                                            return Container(
+                                              child: new Row(
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Column(
+                                                        children: <Widget>[
+                                                          new Text((date)
+                                                              .toString()
+                                                              .split(" ")[0]
+                                                              .replaceAll(
+                                                                  "-", "/")),
 
-                                        _counter = planingBloc.trip
-                                            .getSubLocationDurationById(
-                                                subList[index].subLocationId);
+//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
+//                                                  new Text(_endDate
+//                                                      .toString()
+//                                                      .split(" ")[0]
+//                                                      .replaceAll("-", "/"))
+                                                        ],
+                                                      ),
+                                                      Column(
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0,
+                                                                    right: 8),
+                                                            child: Container(
+                                                              width: 15,
+                                                              height: 15,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .yellow
+                                                                    .shade800,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            12.5),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+
+//                                            SizedBox(
+//                                              width: 40,
+//                                            ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        new Text(
+                                                          planingBloc
+                                                              .trip.airport
+                                                              .name(MadarLocalizations
+                                                                      .of(context)
+                                                                  .locale),
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+//                                                Text(((planingBloc.trip
+//                                                    .tripCost())
+//                                                    .toString()))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+//                InkWell(
+//                onTap: () {
+//                setState(() {
+//                if (!planingBloc.trip
+//                    .isMaxDuration()) {
+//                _counter++;
+//                planingBloc
+//                    .editSubLocation(
+//                _counter,
+//                index);
+//                planingBloc
+//                    .pushEstimationCost;
+//                }
+//                });
+//                },
+//                child:
+//                                              new Icon(
+//                                                Icons.arrow_drop_up,
+//                                                size: 40,
+//                                              )
+//// ),
+//                                              , new Text(
+//                                                planingBloc.trip
+//                                                    .tripDuration()
+//                                                    .toString(),
+//                                                style: TextStyle(
+//                                                    color: Colors.black87,
+//                                                    fontSize: 18,
+//                                                    height: 0.5,
+//                                                    fontWeight:
+//                                                    FontWeight.w600),
+//                                              ),
+//                InkWell(
+//                onTap: () {
+//                setState(() {
+//                if (_counter > 1) {
+//                _counter--;
+//                planingBloc
+//                    .editSubLocation(
+//                _counter,
+//                index);
+//                planingBloc
+//                    .pushEstimationCost;
+//                }
+//                });
+//                },
+//                child:
+//                                              new Icon(
+//                                                Icons.arrow_drop_down,
+//                                                size: 40,
+//                                              )
+// )
+                                                    ],
+                                                  ),
+//                                          new Text("days")
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          childCount: 1,
+                                        ),
+                                      ),
+                                      SliverList(
+                                        delegate: SliverChildBuilderDelegate(
+                                          (context, index) {
+                                            return Container(
+                                              child: new Row(
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Column(
+                                                        children: <Widget>[
+                                                          new Text((date)
+                                                              .toString()
+                                                              .split(" ")[0]
+                                                              .replaceAll(
+                                                                  "-", "/")),
+
+//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
+                                                          new Text(_endDate
+                                                              .toString()
+                                                              .split(" ")[0]
+                                                              .replaceAll(
+                                                                  "-", "/"))
+                                                        ],
+                                                      ),
+                                                      Column(
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0,
+                                                                    right: 8),
+                                                            child: Container(
+                                                              width: 15,
+                                                              height: 15,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .yellow
+                                                                    .shade800,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            12.5),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+
+//                                            SizedBox(
+//                                              width: 40,
+//                                            ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        new Text(
+                                                          planingBloc
+                                                              .trip.location
+                                                              .name(MadarLocalizations
+                                                                      .of(context)
+                                                                  .locale),
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+                                                        Text(((planingBloc.trip
+                                                                .tripCost())
+                                                            .toString()))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+//                InkWell(
+//                onTap: () {
+//                setState(() {
+//                if (!planingBloc.trip
+//                    .isMaxDuration()) {
+//                _counter++;
+//                planingBloc
+//                    .editSubLocation(
+//                _counter,
+//                index);
+//                planingBloc
+//                    .pushEstimationCost;
+//                }
+//                });
+//                },
+//                child:
+                                                      new Icon(
+                                                        Icons.arrow_drop_up,
+                                                        size: 40,
+                                                      )
+// ),
+                                                          ,
+                                                      new Text(
+                                                        planingBloc.trip
+                                                            .tripDuration()
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black87,
+                                                            fontSize: 18,
+                                                            height: 0.5,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+//                InkWell(
+//                onTap: () {
+//                setState(() {
+//                if (_counter > 1) {
+//                _counter--;
+//                planingBloc
+//                    .editSubLocation(
+//                _counter,
+//                index);
+//                planingBloc
+//                    .pushEstimationCost;
+//                }
+//                });
+//                },
+//                child:
+                                                      new Icon(
+                                                        Icons.arrow_drop_down,
+                                                        size: 40,
+                                                      )
+// )
+                                                    ],
+                                                  ),
+                                                  new Text("days")
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          childCount: 1,
+                                        ),
+                                      ),
+                                      SliverList(
+                                        delegate: SliverChildBuilderDelegate(
+                                          (context, index) {
+                                            int _counter;
+
+                                            print("here is i'" +
+                                                planingBloc
+                                                    .trip
+                                                    .tripSubLocations[index]
+                                                    .id);
+
+                                            _counter = planingBloc.trip
+                                                .getSubLocationDurationById(
+                                                    planingBloc
+                                                        .trip
+                                                        .tripSubLocations[index]
+                                                        .id);
 //                                        _counter =planingBloc.trip.tripSubLocations.isNotEmpty  ? (planingBloc.trip.tripSubLocations[index].duration) : 0 ;
 
 //                                        if (!planingBloc
@@ -194,266 +697,561 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                        } else
 //                                          _counter = 0;
 
-                                        if (index == 0) {
-                                          _endDate = date.add(
-                                              new Duration(days: _counter));
-                                          print("end is" + _endDate.toString());
-                                          print("start more : " +
-                                              startMore.toString());
-                                        } else {
-                                          print("end is" + _endDate.toString());
-                                          startMore = _endDate
-                                              .add(new Duration(days: 1));
-                                          ss = startMore.add(
-                                              new Duration(days: _counter));
-                                          _endDate = ss;
-                                          print("start more : " +
-                                              startMore.toString());
-                                        }
+                                            if (index == 0) {
+                                              _endDate = date.add(
+                                                  new Duration(days: _counter));
+                                              print("end is" +
+                                                  _endDate.toString());
+                                              print("start more : " +
+                                                  startMore.toString());
+                                            } else {
+                                              print("end is" +
+                                                  _endDate.toString());
+                                              startMore = _endDate
+                                                  .add(new Duration(days: 1));
+                                              ss = startMore.add(
+                                                  new Duration(days: _counter));
+                                              _endDate = ss;
+                                              print("start more : " +
+                                                  startMore.toString());
+                                            }
 
-                                        return new Row(
-                                          children: <Widget>[
-                                            Row(
+                                            return new Row(
                                               children: <Widget>[
-                                                Column(
+                                                Row(
                                                   children: <Widget>[
-                                                    index == 0
-                                                        ? new Text((date)
-                                                            .toString()
-                                                            .split(" ")[0]
-                                                            .replaceAll(
-                                                                "-", "/"))
-                                                        : Text(startMore
-                                                            .toString()
-                                                            .split(" ")[0]
-                                                            .replaceAll(
-                                                                "-", "/")),
-                                                    index == 0
-                                                        ?
+                                                    Column(
+                                                      children: <Widget>[
+                                                        index == 0
+                                                            ? new Text((date)
+                                                                .toString()
+                                                                .split(" ")[0]
+                                                                .replaceAll(
+                                                                    "-", "/"))
+                                                            : Text(startMore
+                                                                .toString()
+                                                                .split(" ")[0]
+                                                                .replaceAll(
+                                                                    "-", "/")),
+                                                        index == 0
+                                                            ?
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
-                                                        new Text(_endDate
-                                                            .toString()
-                                                            .split(" ")[0]
-                                                            .replaceAll(
-                                                                "-", "/"))
-                                                        : Text(ss
-                                                            .toString()
-                                                            .split(" ")[0]
-                                                            .replaceAll(
-                                                                "-", "/"))
-                                                  ],
-                                                ),
-
-
-
-                                                Column(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 8.0,
-                                                              right: 8),
-                                                      child: Container(
-                                                        width: 15,
-                                                        height: 15,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors
-                                                              .yellow.shade800,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      12.5),
+                                                            new Text(_endDate
+                                                                .toString()
+                                                                .split(" ")[0]
+                                                                .replaceAll(
+                                                                    "-", "/"))
+                                                            : Text(ss
+                                                                .toString()
+                                                                .split(" ")[0]
+                                                                .replaceAll(
+                                                                    "-", "/"))
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 8.0,
+                                                                  right: 8),
+                                                          child: Container(
+                                                            width: 15,
+                                                            height: 15,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Colors
+                                                                  .yellow
+                                                                  .shade800,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12.5),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                                  .only(
-                                                              start: 10.0,
-                                                              end: 8.0),
-                                                      child: Container(
-                                                        height: 10,
-                                                        width: 1.0,
-                                                        color: Colors
-                                                            .grey.shade900,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                                  .only(
-                                                              start: 10.0,
-                                                              end: 8.0),
-                                                      child: Container(
-                                                        height: 10,
-                                                        width: 1.0,
-                                                        color: Colors
-                                                            .grey.shade900,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                                  .only(
-                                                              start: 10.0,
-                                                              end: 8.0),
-                                                      child: Container(
-                                                        height: 10,
-                                                        width: 1.0,
-                                                        color: Colors
-                                                            .grey.shade900,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                                  .only(
-                                                              start: 10.0,
-                                                              end: 8.0),
-                                                      child: Container(
-                                                        height: 10,
-                                                        width: 1.0,
-                                                        color: Colors
-                                                            .grey.shade900,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                                  .only(
-                                                              start: 10.0,
-                                                              end: 8.0),
-                                                      child: Container(
-                                                        height: 10,
-                                                        width: 1.0,
-                                                        color: Colors
-                                                            .grey.shade900,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                                  .only(
-                                                              start: 10.0,
-                                                              end: 8.0),
-                                                      child: Container(
-                                                        height: 10,
-                                                        width: 1.0,
-                                                        color: Colors
-                                                            .grey.shade900,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                      .only(
+                                                                  start: 10.0,
+                                                                  end: 8.0),
+                                                          child: Container(
+                                                            height: 10,
+                                                            width: 1.0,
+                                                            color: Colors
+                                                                .grey.shade900,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                      .only(
+                                                                  start: 10.0,
+                                                                  end: 8.0),
+                                                          child: Container(
+                                                            height: 10,
+                                                            width: 1.0,
+                                                            color: Colors
+                                                                .grey.shade900,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                      .only(
+                                                                  start: 10.0,
+                                                                  end: 8.0),
+                                                          child: Container(
+                                                            height: 10,
+                                                            width: 1.0,
+                                                            color: Colors
+                                                                .grey.shade900,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                      .only(
+                                                                  start: 10.0,
+                                                                  end: 8.0),
+                                                          child: Container(
+                                                            height: 10,
+                                                            width: 1.0,
+                                                            color: Colors
+                                                                .grey.shade900,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                      .only(
+                                                                  start: 10.0,
+                                                                  end: 8.0),
+                                                          child: Container(
+                                                            height: 10,
+                                                            width: 1.0,
+                                                            color: Colors
+                                                                .grey.shade900,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                      .only(
+                                                                  start: 10.0,
+                                                                  end: 8.0),
+                                                          child: Container(
+                                                            height: 10,
+                                                            width: 1.0,
+                                                            color: Colors
+                                                                .grey.shade900,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
-                                              ],
-                                            ),
 
 //                                            SizedBox(
 //                                              width: 40,
 //                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  new Text(
-                                                    subList[index]
-                                                        .subLocation
-                                                        .nameEn,
-                                                    style: TextStyle(
-                                                        color: Colors.black87,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w700),
+                                                Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      new Text(
+                                                        planingBloc
+                                                            .trip
+                                                            .tripSubLocations[
+                                                                index]
+                                                            .subLocation
+                                                            .nameTr,
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.black87,
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                      ),
+                                                      Text((_counter
+                                                                  .toString() +
+                                                              "*" +
+                                                              (planingBloc
+                                                                      .trip
+                                                                      .tripSubLocations[
+                                                                          index]
+                                                                      .cost)
+                                                                  .toString()) +
+                                                          "->" +
+                                                          ((_counter) *
+                                                                  planingBloc
+                                                                      .trip
+                                                                      .tripSubLocations[
+                                                                          index]
+                                                                      .cost)
+                                                              .toString()),
+                                                    ],
                                                   ),
-                                                  Text((_counter.toString() +
-                                                          "*" +
-                                                          (subList[index].cost)
-                                                              .toString()) +
-                                                      "->" +
-                                                      ((_counter) *
-                                                              subList[index]
-                                                                  .cost)
-                                                          .toString()),
+                                                ),
+                                                Column(
+                                                  children: <Widget>[
+                                                    InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            if (!planingBloc
+                                                                .trip
+                                                                .isMaxDuration()) {
+                                                              _counter++;
+                                                              planingBloc
+                                                                  .editSubLocation(
+                                                                      _counter,
+                                                                      index);
+                                                              planingBloc
+                                                                  .pushEstimationCost;
+                                                            }
+                                                          });
+                                                        },
+                                                        child: new Icon(
+                                                          Icons.arrow_drop_up,
+                                                          size: 40,
+                                                        )),
+                                                    new Text(
+                                                      _counter.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 18,
+                                                          height: 0.5,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                    InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            if (_counter > 1) {
+                                                              _counter--;
+                                                              planingBloc
+                                                                  .editSubLocation(
+                                                                      _counter,
+                                                                      index);
+                                                              planingBloc
+                                                                  .pushEstimationCost;
+                                                            }
+                                                          });
+                                                        },
+                                                        child: new Icon(
+                                                          Icons.arrow_drop_down,
+                                                          size: 40,
+                                                        ))
+                                                  ],
+                                                ),
+                                                new Text("days")
+                                              ],
+                                            );
+                                          },
+                                          childCount: planingBloc
+                                              .trip.tripSubLocations.length,
+                                        ),
+                                      ),
+                                      SliverList(
+                                        delegate: SliverChildBuilderDelegate(
+                                          (context, index) {
+                                            return Container(
+                                              child: new Row(
+                                                children: <Widget>[
+                                                  Row(
+                                                    children: <Widget>[
+                                                      Column(
+                                                        children: <Widget>[
+                                                          new Text((date)
+                                                              .toString()
+                                                              .split(" ")[0]
+                                                              .replaceAll(
+                                                                  "-", "/")),
+
+//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
+//                                                  new Text(_endDate
+//                                                      .toString()
+//                                                      .split(" ")[0]
+//                                                      .replaceAll("-", "/"))
+                                                        ],
+                                                      ),
+                                                      Column(
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0,
+                                                                    right: 8),
+                                                            child: Container(
+                                                              width: 15,
+                                                              height: 15,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Colors
+                                                                    .yellow
+                                                                    .shade800,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            12.5),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                        .only(
+                                                                    start: 10.0,
+                                                                    end: 8.0),
+                                                            child: Container(
+                                                              height: 10,
+                                                              width: 1.0,
+                                                              color: Colors.grey
+                                                                  .shade900,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+
+//                                            SizedBox(
+//                                              width: 40,
+//                                            ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        new Text(
+                                                          planingBloc
+                                                              .trip.airport
+                                                              .name(MadarLocalizations
+                                                                      .of(context)
+                                                                  .locale),
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black87,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700),
+                                                        ),
+//                                                Text(((planingBloc.trip
+//                                                    .tripCost())
+//                                                    .toString()))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    children: <Widget>[
+//                InkWell(
+//                onTap: () {
+//                setState(() {
+//                if (!planingBloc.trip
+//                    .isMaxDuration()) {
+//                _counter++;
+//                planingBloc
+//                    .editSubLocation(
+//                _counter,
+//                index);
+//                planingBloc
+//                    .pushEstimationCost;
+//                }
+//                });
+//                },
+//                child:
+//                                              new Icon(
+//                                                Icons.arrow_drop_up,
+//                                                size: 40,
+//                                              )
+//// ),
+//                                              , new Text(
+//                                                planingBloc.trip
+//                                                    .tripDuration()
+//                                                    .toString(),
+//                                                style: TextStyle(
+//                                                    color: Colors.black87,
+//                                                    fontSize: 18,
+//                                                    height: 0.5,
+//                                                    fontWeight:
+//                                                    FontWeight.w600),
+//                                              ),
+//                InkWell(
+//                onTap: () {
+//                setState(() {
+//                if (_counter > 1) {
+//                _counter--;
+//                planingBloc
+//                    .editSubLocation(
+//                _counter,
+//                index);
+//                planingBloc
+//                    .pushEstimationCost;
+//                }
+//                });
+//                },
+//                child:
+//                                              new Icon(
+//                                                Icons.arrow_drop_down,
+//                                                size: 40,
+//                                              )
+// )
+                                                    ],
+                                                  ),
+//                                          new Text("days")
                                                 ],
                                               ),
-                                            ),
-                                            Column(
-                                              children: <Widget>[
-                                                InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        if (!planingBloc.trip
-                                                            .isMaxDuration()) {
-                                                          _counter++;
-                                                          planingBloc
-                                                              .editSubLocation(
-                                                                  _counter,
-                                                                  index);
-                                                          planingBloc
-                                                              .pushEstimationCost;
-                                                        }
-                                                      });
-                                                    },
-                                                    child: new Icon(
-                                                      Icons.arrow_drop_up,
-                                                      size: 40,
-                                                    )),
-                                                new Text(
-                                                  _counter.toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 18,
-                                                      height: 0.5,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        if (_counter > 1) {
-                                                          _counter--;
-                                                          planingBloc
-                                                              .editSubLocation(
-                                                                  _counter,
-                                                                  index);
-                                                          planingBloc
-                                                              .pushEstimationCost;
-                                                        }
-                                                      });
-                                                    },
-                                                    child: new Icon(
-                                                      Icons.arrow_drop_down,
-                                                      size: 40,
-                                                    ))
-                                              ],
-                                            ),
-                                            new Text("days")
-                                          ],
-                                        );
-                                      }),
+                                            );
+                                          },
+                                          childCount: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                Container(
+                                  height: 200,
+                                  child: ListView(
+                                    physics: ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    children: <Widget>[
+                                      Column(
+                                        children: <Widget>[
+//                                          Container(
+//                                            height: (planingBloc
+//                                                        .trip
+//                                                        .tripSubLocations
+//                                                        .length *
+//                                                    100)
+//                                                .toDouble(),
+//                                            child: ListView.builder(
+//                                                itemCount: planingBloc.trip
+//                                                    .tripSubLocations.length,
+//                                                itemBuilder:
+//                                                    (context, int index) {
+////                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
+//
+//                                                }),
+//                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
 
 //                            subList.length != 0 ?
@@ -546,9 +1344,9 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                         .trip
                                                                         .isMaxDuration()) {
                                                                       //String id, int duration, int cost, String subName, int idx
-                                                                      subList.add(
-                                                                          snapshot
-                                                                              .data[index]);
+//                                                                      subList.add(
+//                                                                          snapshot
+//                                                                              .data[index]);
                                                                       planingBloc.addSubLocations(
                                                                           snapshot
                                                                               .data[
@@ -565,9 +1363,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                               .name(MadarLocalizations.of(context).locale),
                                                                           0);
                                                                     } else
-                                                                      print("here i am" +
-                                                                          subList
-                                                                              .toString());
+                                                                      print(
+                                                                          "here i am");
                                                                   });
                                                                 },
                                                                 child: Padding(
