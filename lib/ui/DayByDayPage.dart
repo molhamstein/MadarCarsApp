@@ -31,7 +31,7 @@ class DayByDayPageState extends State<DayByDayPage>
   DateTime startMore;
   DateTime _endDate;
   DateTime ss;
-  int _counter;
+  List<int> _counter =new List();
 
   @override
   void initState() {
@@ -173,7 +173,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                 ),
 
                                 Container(
-                                  height: 200,
+                                  height: MediaQuery.of(context).size.height/3,
                                   child: CustomScrollView(
                                     slivers: <Widget>[
                                       SliverList(
@@ -362,7 +362,11 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                       .w700),
                                                         ),
                                                         Text(((planingBloc.trip
-                                                                .tripCost())
+                                                               .car.pricePerDay.toString() + "*"+   planingBloc.trip
+                                                            .tripDuration()
+                                                            .toString() + "->" +(planingBloc.trip
+                                                            .car.pricePerDay *  planingBloc.trip
+                                                            .tripDuration()).toString())
                                                             .toString()))
                                                       ],
                                                     ),
@@ -426,7 +430,17 @@ class DayByDayPageState extends State<DayByDayPage>
 // )
                                                     ],
                                                   ),
-                                                  new Text("days")
+                                                  Text(
+                                                    MadarLocalizations.of(
+                                                        context)
+                                                        .trans(
+                                                        'day'),
+                                                    style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                        FontWeight.w700),
+                                                  ),
                                                 ],
                                               ),
                                             );
@@ -443,48 +457,39 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     .tripSubLocations[index]
                                                     .id);
 
-                                            _counter = planingBloc.trip
+                                            _counter.insert(index, ( planingBloc.trip
                                                 .getSubLocationDurationByNewId(
-                                                    planingBloc
-                                                        .trip
-                                                        .tripSubLocations[index]
-                                                        .id ,index);
-//                                        _counter =planingBloc.trip.tripSubLocations.isNotEmpty  ? (planingBloc.trip.tripSubLocations[index].duration) : 0 ;
+                                                planingBloc
+                                                    .trip
+                                                    .tripSubLocations[index]
+                                                    .id ,index)));
 
-//                                        if (!planingBloc
-//                                            .trip.tripSubLocations.isEmpty) {
-//                                          if (planingBloc
-//                                                  .trip
-//                                                  .tripSubLocations[index]
-//                                                  .duration !=
-//                                              null) {
-//                                            _counter = planingBloc
-//                                                .trip
-//                                                .tripSubLocations[index]
-//                                                .duration;
-//                                          }
-//                                        } else
-//                                          _counter = 0;
 
                                             if (index == 0) {
 
-
                                               _endDate = cityEndDate.add(
-                                                  new Duration(days: _counter));
-                                              print("end is" +
-                                                  _endDate.toString());
-                                              print("start more : " +
-                                                  startMore.toString());
+                                                  new Duration(days: _counter[index]));
+//                                              print("end is" +
+//                                                  _endDate.toString());
+//                                              print("start more : " +
+//                                                  startMore.toString());
                                             } else {
-                                              print("end is" +
-                                                  _endDate.toString());
-                                              startMore = _endDate
-                                                  .add(new Duration(days: 1));
+//                                              print("end is" +
+//                                                  _endDate.toString());
+
+                                            if(_counter[index -1] == 0)
+                                             { startMore = _endDate
+                                                  ;}
+                                            else
+                                             { startMore = _endDate
+                                                  .add(new Duration(days: 1));}
+
+
                                               ss = startMore.add(
-                                                  new Duration(days: _counter));
+                                                  new Duration(days: _counter[index]));
                                               _endDate = ss;
-                                              print("start more : " +
-                                                  startMore.toString());
+//                                              print("start more : " +
+//                                                  startMore.toString());
                                             }
 
                                             return new Row(
@@ -494,11 +499,16 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     Column(
                                                       children: <Widget>[
                                                         index == 0
-                                                            ? new Text((cityEndDate.add(new Duration(days: 1)))
+                                                            ? new Text(planingBloc.trip
+                                                            .tripDuration() != 0 ?(cityEndDate.add(new Duration(days: 1)))
                                                                 .toString()
                                                                 .split(" ")[0]
                                                                 .replaceAll(
-                                                                    "-", "/"))
+                                                                    "-", "/"):(date)
+                                                            .toString()
+                                                            .split(" ")[0]
+                                                            .replaceAll(
+                                                            "-", "/") )
                                                             : Text(startMore
                                                                 .toString()
                                                                 .split(" ")[0]
@@ -549,7 +559,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                 FontWeight
                                                                     .w700),
                                                       ),
-                                                      Text((_counter
+                                                      Text((_counter[index]
                                                                   .toString() +
                                                               "*" +
                                                               (planingBloc
@@ -559,7 +569,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                       .cost)
                                                                   .toString()) +
                                                           "->" +
-                                                          ((_counter) *
+                                                          ((_counter[index]) *
                                                                   planingBloc
                                                                       .trip
                                                                       .tripSubLocations[
@@ -577,10 +587,10 @@ class DayByDayPageState extends State<DayByDayPage>
                                                             if (!planingBloc
                                                                 .trip
                                                                 .isMaxDuration()) {
-                                                              _counter++;
+                                                            _counter[index]++;
                                                               planingBloc
                                                                   .editSubLocation(
-                                                                      _counter,
+                                                                      _counter[index],
                                                                       index);
                                                               planingBloc
                                                                   .pushEstimationCost;
@@ -592,7 +602,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                           size: 40,
                                                         )),
                                                     new Text(
-                                                      _counter.toString(),
+                                                      _counter[index].toString(),
                                                       style: TextStyle(
                                                           color: Colors.black87,
                                                           fontSize: 18,
@@ -603,11 +613,11 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     InkWell(
                                                         onTap: () {
                                                           setState(() {
-                                                            if (_counter > 1) {
-                                                              _counter--;
+                                                            if (_counter[index] > 0) {
+                                                              _counter[index]--;
                                                               planingBloc
                                                                   .editSubLocation(
-                                                                      _counter,
+                                                                      _counter[index],
                                                                       index);
                                                               planingBloc
                                                                   .pushEstimationCost;
@@ -620,7 +630,17 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         ))
                                                   ],
                                                 ),
-                                                new Text("days")
+                                                 Text(
+                                                  MadarLocalizations.of(
+                                                      context)
+                                                      .trans(
+                                                      'day'),
+                                                  style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                      FontWeight.w700),
+                                                ),
                                               ],
                                             );
                                           },
@@ -640,14 +660,18 @@ class DayByDayPageState extends State<DayByDayPage>
                                                       children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
-                                                            new Text((_endDate.add(
+                                                            new Text( _endDate != null ? (_endDate.add(
                                                                     new Duration(
                                                                         days:
                                                                             1)))
                                                                 .toString()
                                                                 .split(" ")[0]
                                                                 .replaceAll(
-                                                                    "-", "/")),
+                                                                    "-", "/"):cityEndDate.add(new Duration(
+                                                                days:
+                                                                1)).toString().split(" ")[0]
+                                                                .replaceAll(
+                                                                "-", "/")) ,
 
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
 //                                                  new Text(_endDate

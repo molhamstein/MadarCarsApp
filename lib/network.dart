@@ -312,14 +312,17 @@ class Network {
     headers['Authorization'] = token;
 
     final response = await http.get(_locations, headers: headers);
-    print("locaaations");
 
     print(response.body);
     print(_locations);
     if (response.statusCode == 200) {
+      print("locaaationsss :" +response.body);
+
       return LocationsResponse.fromJson(json.decode(response.body));
+      print("locaaationsss :" +response.body);
+
     } else {
-      print(response.body);
+      print("locations is : "+response.body);
       throw json.decode(response.body);
     }
   }

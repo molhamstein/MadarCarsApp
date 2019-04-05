@@ -129,5 +129,6 @@
   "Coupn_not_available": "القسيمة غير صالحة",
   "Security_code" :"رقم الحماية",
   "Name_of_card" :"اسم البطاقة",
-  "Card_Number" : "رقم البطاقة"
+  "Card_Number" : "رقم البطاقة",
+  "Want_to_visit_other_cities_too" :"هل تريد زيارة مدن اخرى"
 }

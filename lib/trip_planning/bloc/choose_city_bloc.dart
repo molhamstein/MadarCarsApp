@@ -23,8 +23,10 @@ class ChooseCityBloc extends BaseBloc with Network {
   }
 
   _fetchLocations() {
+
     fetchLocations(token).then((locationsResponse) {
-      print(locationsResponse.locations);
+      print("subLocations after parse"+locationsResponse.locations[0].subLocations[1].nameEn);
+
       _locationsController.sink.add(locationsResponse.locations);
     }).catchError((e) {
       print(e);

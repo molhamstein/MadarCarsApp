@@ -91,21 +91,23 @@ class Trip {
   }
 
   editSubLocation(int duration, int index) {
+    print("theeeeeeeeeeee index is :"+index.toString());
     tripSubLocations[index].duration = duration;
   }
 
 
   int getSubLocationDurationByNewId(String id ,int index ) {
     print(id);
+    print(index);
     var duration = 0;
-
-    for(int i=0 ; i <= tripSubLocations.length ; i++)
-      {
-        if(tripSubLocations[index].id == id){
-          print("i'm in");
-          duration = tripSubLocations[index].duration;
-        }
-      }
+//    for(int i=0 ; i <= tripSubLocations.length ; i++)
+//      {
+//        if(  tripSubLocations[index].id == id){
+//          print("index isssssssssssssssssss :"+index.toString() + "id is :"+id);
+//          duration = tripSubLocations[index].duration;
+//        }
+//      }
+    duration = tripSubLocations[index].duration;
     print("sublocation $id duration  $duration");
     return duration;
   }
