@@ -45,8 +45,8 @@ class DayByDaySubCityTileState extends State<DayByDaySubCityTile> {
       height: tileSize,
       width: tileSize,
       decoration: BoxDecoration(
-        gradient: MadarColors.gradiant_decoration,
-        image: DecorationImage(
+          gradient: MadarColors.gradiantFromColors(widget.subLocationResponse.subLocation.color1, widget.subLocationResponse.subLocation.color2)
+          ,image: DecorationImage(
           image: NetworkImage(widget.subLocationResponse.subLocation.media.url),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
