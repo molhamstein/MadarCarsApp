@@ -79,10 +79,17 @@ class DayByDayPageState extends State<DayByDayPage>
     date = (planingBloc.trip.startDate);
 
 
-//    print("aa is : "+ChooseCityStep.subLocation[0].nameEn );
 
     if(ChooseCityStep.subLocation != null){
-    planingBloc.addSubLocations(ChooseCityStep.subLocation[0].id , 1 , 1 , ChooseCityStep.subLocation[0].nameEn ,0);}
+      print("aa is : "+ChooseCityStep.name );
+
+      for(int i = 0; i < planingBloc.trip.car.carSublocations.length ; i++ ){
+        if(planingBloc.trip.car.carSublocations[i].subLocation.id  == ChooseCityStep.subLocation[0].id){
+          print("cost is :"+planingBloc.trip.car.carSublocations[i].cost.toString() );
+          planingBloc.addSubLocations(ChooseCityStep.subLocation[0].id , 1 , planingBloc.trip.car.carSublocations[i].cost , ChooseCityStep.name ,0);}
+      }
+    }
+
 
 
     super.initState();
@@ -90,6 +97,7 @@ class DayByDayPageState extends State<DayByDayPage>
 
   @override
   Widget build(BuildContext context) {
+
 
     var estimCost = planingBloc.trip.estimationPrice();
     final _itemExtent = 56.0;
@@ -372,14 +380,26 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                   FontWeight
                                                                       .w700),
                                                         ),
-                                                        Text(((planingBloc.trip
-                                                               .car.pricePerDay.toString() + "*"+   planingBloc.trip
-                                                            .tripDuration()
-                                                            .toString() + " " +(planingBloc.trip
-                                                            .car.pricePerDay *  planingBloc.trip
-                                                            .tripDuration()).toString())
-                                                            .toString()))
-                                                      ],
+
+
+                                                        Row(
+                                                          children: <Widget>[
+                                                            Text(planingBloc.trip
+                                                                .tripDuration()
+                                                                .toString()),
+
+                                                            Text("*"),
+
+                                                            Text(planingBloc.trip
+                                                                   .car.pricePerDay.toString()),
+                                                            Text("  "),
+                                                            Text((planingBloc.trip
+                                                                .car.pricePerDay *  planingBloc.trip
+                                                                .tripDuration()).toString()  , style: TextStyle(fontWeight: FontWeight.bold),),Text( "\$",style: TextStyle(fontWeight: FontWeight.bold),)
+                                                          ],
+                                                        )
+                                                            ,
+                                                                  ],
                                                     ),
                                                   ),
                                                   Column(
@@ -400,24 +420,27 @@ class DayByDayPageState extends State<DayByDayPage>
 //                });
 //                },
 //                child:
-                                                      new Icon(
-                                                        Icons.arrow_drop_up,
-                                                        size: 40,
-                                                      )
+//                                                      new Icon(
+//                                                        Icons.arrow_drop_up,
+//                                                        size: 40,
+//                                                      )
 // ),
-                                                          ,
-                                                      new Text(
-                                                        planingBloc.trip
-                                                            .tripDuration()
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black87,
-                                                            fontSize: 18,
-                                                            height: 0.5,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
+//                                                          ,
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left:15.0, right: 15),
+                                                        child: new Text(
+                                                          planingBloc.trip
+                                                              .tripDuration()
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black87,
+                                                              fontSize: 18,
+                                                              height: 0.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
                                                       ),
 //                InkWell(
 //                onTap: () {
@@ -434,10 +457,10 @@ class DayByDayPageState extends State<DayByDayPage>
 //                });
 //                },
 //                child:
-                                                      new Icon(
-                                                        Icons.arrow_drop_down,
-                                                        size: 40,
-                                                      )
+//                                                      new Icon(
+//                                                        Icons.arrow_drop_down,
+//                                                        size: 40,
+//                                                      )
 // )
                                                     ],
                                                   ),
@@ -570,23 +593,35 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                 FontWeight
                                                                     .w700),
                                                       ),
-                                                      Text((_counter[index]
-                                                                  .toString() +
-                                                              "*" +
-                                                              (planingBloc
-                                                                      .trip
-                                                                      .tripSubLocations[
-                                                                          index]
-                                                                      .cost)
-                                                                  .toString()) +
-                                                          " " +
-                                                          ((_counter[index]) *
-                                                                  planingBloc
-                                                                      .trip
-                                                                      .tripSubLocations[
-                                                                          index]
-                                                                      .cost)
+                                                      Row(
+                                                        children: <Widget>[
+
+                                                          Text(_counter[index]
                                                               .toString()),
+                                                          Text("*"),
+
+
+                                                          Text( (
+
+                                                                  (planingBloc
+                                                                          .trip
+                                                                          .tripSubLocations[
+                                                                              index]
+                                                                          .cost)
+                                                                      .toString())
+
+                                                              ),
+                                                          Text("  "),
+                                                          Text(((_counter[index]) *
+                                                              planingBloc
+                                                                  .trip
+
+                                                                  .tripSubLocations[
+                                                              index]
+                                                                  .cost)
+                                                              .toString() ,style: TextStyle(fontWeight: FontWeight.bold),),Text( "\$",style: TextStyle(fontWeight: FontWeight.bold) )],
+                                                      ),
+
                                                     ],
                                                   ),
                                                 ),
@@ -982,6 +1017,7 @@ class DayByDayPageState extends State<DayByDayPage>
 }
 
 Widget citiesDashedLine() {
+//  return Container();
   return Column(
     children: <Widget>[
       Padding(
@@ -999,8 +1035,8 @@ Widget citiesDashedLine() {
         padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
         child: Container(
           height: 10,
-          width: 1.0,
-          color: Colors.grey.shade900,
+          width: 2.0,
+          color: Colors.yellow.shade800,
         ),
       ),
       SizedBox(
@@ -1010,8 +1046,8 @@ Widget citiesDashedLine() {
         padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
         child: Container(
           height: 10,
-          width: 1.0,
-          color: Colors.grey.shade900,
+          width: 2.0,
+          color: Colors.yellow.shade800,
         ),
       ),
       SizedBox(
@@ -1021,8 +1057,8 @@ Widget citiesDashedLine() {
         padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
         child: Container(
           height: 10,
-          width: 1.0,
-          color: Colors.grey.shade900,
+          width: 2.0,
+          color: Colors.yellow.shade800,
         ),
       ),
       SizedBox(
@@ -1032,8 +1068,8 @@ Widget citiesDashedLine() {
         padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
         child: Container(
           height: 10,
-          width: 1.0,
-          color: Colors.grey.shade900,
+          width: 2.0,
+          color: Colors.yellow.shade800,
         ),
       ),
       SizedBox(
@@ -1043,8 +1079,8 @@ Widget citiesDashedLine() {
         padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
         child: Container(
           height: 10,
-          width: 1.0,
-          color: Colors.grey.shade900,
+          width: 2.0,
+          color: Colors.yellow.shade800,
         ),
       ),
       SizedBox(
@@ -1054,8 +1090,8 @@ Widget citiesDashedLine() {
         padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
         child: Container(
           height: 10,
-          width: 1.0,
-          color: Colors.grey.shade900,
+          width: 2.0,
+          color: Colors.yellow.shade800,
         ),
       ),
       SizedBox(

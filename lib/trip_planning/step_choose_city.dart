@@ -11,6 +11,7 @@ import 'package:shimmer/shimmer.dart';
 
 class ChooseCityStep extends StatefulWidget {
   static List<Location> subLocation  ;
+  static String name  ;
 
 
   @override
@@ -318,6 +319,8 @@ class ChooseCityStepState extends State<ChooseCityStep>
                       }
                     }
 //                    planingBloc.addSubLocations(location.id, 1, 55, location.nameTr,0 );
+                    ChooseCityStep.name =location.name((MadarLocalizations.of(context).locale));
+                    print( "aa is" +ChooseCityStep.name);
                     ChooseCityStep.subLocation =[location];
 
 

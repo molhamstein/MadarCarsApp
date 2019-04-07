@@ -198,7 +198,7 @@ class Trip {
       cost += (location.duration * (location.cost == null ? 0 : location.cost));
     });
     print("sublocations num ${tripSubLocations.length}");
-    print("estim cost function  $cost");
+    print("subbbbb estim cost function  $cost");
     return cost;
   }
 
