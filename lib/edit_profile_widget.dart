@@ -86,6 +86,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
       path.canonicalize(file.path),
       quality: 25,
       rotate: 0,
+
     );
     return result;
   }

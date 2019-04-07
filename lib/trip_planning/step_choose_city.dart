@@ -10,6 +10,9 @@ import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChooseCityStep extends StatefulWidget {
+  static List<Location> subLocation  ;
+
+
   @override
   ChooseCityStepState createState() {
     return new ChooseCityStepState();
@@ -160,26 +163,32 @@ class ChooseCityStepState extends State<ChooseCityStep>
                                                       fontWeight:
                                                           FontWeight.w700),
                                                 ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 16.0),
-                                                  child: Text(
-                                                    snapshot.data.description(
-                                                        MadarLocalizations.of(
-                                                                context)
-                                                            .locale),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 5,
-                                                    style: TextStyle(
-                                                        color: Colors.black54,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        height: .8),
-                                                  ),
-                                                ),
+                                                snapshot.data.descriptionEn !=
+                                                        null
+                                                    ? Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 16.0),
+                                                        child: Text(
+                                                          snapshot.data.description(
+                                                              MadarLocalizations
+                                                                      .of(context)
+                                                                  .locale),
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          maxLines: 5,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black54,
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w700,
+                                                              height: .8),
+                                                        ),
+                                                      )
+                                                    : Container(),
                                               ],
                                             );
                                           })
@@ -300,7 +309,22 @@ class ChooseCityStepState extends State<ChooseCityStep>
                 onTap: (location) {
                   s = true;
                   bloc.selectLocation(location, index);
-                  planingBloc.cityId(location);
+
+                  if (location.locationId != null) {
+                    print("location is null : false false");
+                    for (int i = 0; i < locationsSnapshot.data.length; i++) {
+                      if (location.locationId == locationsSnapshot.data[i].id) {
+                        planingBloc.cityId(locationsSnapshot.data[i]);
+                      }
+                    }
+//                    planingBloc.addSubLocations(location.id, 1, 55, location.nameTr,0 );
+                    ChooseCityStep.subLocation =[location];
+
+
+                  } else if (location.locationId == null) {
+                    planingBloc.cityId(location);
+                    print("location is null : true  true");
+                  }
                 },
               );
             },

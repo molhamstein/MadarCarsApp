@@ -5,6 +5,7 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_sub_city_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
+import 'package:madar_booking/trip_planning/step_choose_city.dart';
 import 'package:madar_booking/ui/DayByDaySubCityTile.dart';
 
 class DayByDayPage extends StatefulWidget {
@@ -43,6 +44,8 @@ class DayByDayPageState extends State<DayByDayPage>
       duration: const Duration(seconds: 2),
     );
 
+
+
     _subCitiesController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 4000),
@@ -75,11 +78,19 @@ class DayByDayPageState extends State<DayByDayPage>
     bloc.pushSubLocations;
     date = (planingBloc.trip.startDate);
 
+
+//    print("aa is : "+ChooseCityStep.subLocation[0].nameEn );
+
+    if(ChooseCityStep.subLocation != null){
+    planingBloc.addSubLocations(ChooseCityStep.subLocation[0].id , 1 , 1 , ChooseCityStep.subLocation[0].nameEn ,0);}
+
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     var estimCost = planingBloc.trip.estimationPrice();
     final _itemExtent = 56.0;
     final generatedList = List.generate(10, (index) => 'Item $index');
@@ -173,7 +184,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                 ),
 
                                 Container(
-                                  height: MediaQuery.of(context).size.height/3,
+                                  height: MediaQuery.of(context).size.height/2.5,
                                   child: CustomScrollView(
                                     slivers: <Widget>[
                                       SliverList(
@@ -364,7 +375,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         Text(((planingBloc.trip
                                                                .car.pricePerDay.toString() + "*"+   planingBloc.trip
                                                             .tripDuration()
-                                                            .toString() + "->" +(planingBloc.trip
+                                                            .toString() + " " +(planingBloc.trip
                                                             .car.pricePerDay *  planingBloc.trip
                                                             .tripDuration()).toString())
                                                             .toString()))
@@ -568,7 +579,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                           index]
                                                                       .cost)
                                                                   .toString()) +
-                                                          "->" +
+                                                          " " +
                                                           ((_counter[index]) *
                                                                   planingBloc
                                                                       .trip

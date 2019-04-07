@@ -364,8 +364,18 @@ class TripPlaningBloc extends BaseBloc with Network {
     _endDateController.sink.add(endDate);
   }
 
-  cityId(Location location) {
-    trip.location = location;
+  cityId(Location location){
+    if(location.locationId == null){
+      trip.location = location;
+    print("location is null : true true ")
+      ;}
+//      else if(location.locationId != null)
+//        {
+//          print ("location is null : false false");
+//
+//
+//        }
+
   }
 
   tripCar(Car car) {
