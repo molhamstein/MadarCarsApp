@@ -201,8 +201,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                             if (planingBloc.trip.fromAirport ==
                                                 true) {
                                               return Container(
-                                                child: new Row(
-                                                  children: <Widget>[
+                                                child: new Row(    children: <Widget>[
                                                     Row(
                                                       children: <Widget>[
                                                         Column(
@@ -330,9 +329,9 @@ class DayByDayPageState extends State<DayByDayPage>
                                                 .tripDuration())) ;
 
                                             return Container(
-                                              child: new Row(
+                                              child: new Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
                                                 children: <Widget>[
-                                                  Row(
+                                                  Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Column(
                                                         children: <Widget>[
@@ -426,21 +425,25 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                                      )
 // ),
 //                                                          ,
-                                                      Padding(
-                                                        padding: const EdgeInsets.only(left:15.0, right: 15),
-                                                        child: new Text(
-                                                          planingBloc.trip
-                                                              .tripDuration()
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black87,
-                                                              fontSize: 18,
-                                                              height: 0.5,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
+                                                      Row(
+                                                        children: <Widget>[
+                                                          Padding(
+                                                            padding: const EdgeInsets.only(left:15.0, right: 15 , top: 20),
+                                                            child: new Text(
+                                                              planingBloc.trip
+                                                                  .tripDuration()
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  color:
+                                                                      Colors.black87,
+                                                                  fontSize: 18,
+                                                                  height: 0.5,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
 //                InkWell(
 //                onTap: () {
@@ -464,16 +467,19 @@ class DayByDayPageState extends State<DayByDayPage>
 // )
                                                     ],
                                                   ),
-                                                  Text(
-                                                    MadarLocalizations.of(
-                                                        context)
-                                                        .trans(
-                                                        'day'),
-                                                    style: TextStyle(
-                                                        color: Colors.black87,
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                        FontWeight.w700),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top:8.0),
+                                                    child: Text(
+                                                      MadarLocalizations.of(
+                                                          context)
+                                                          .trans(
+                                                          'day'),
+                                                      style: TextStyle(
+                                                          color: Colors.black87,
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                          FontWeight.w700),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -526,9 +532,9 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                                  startMore.toString());
                                             }
 
-                                            return new Row(
+                                            return new Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Row(
+                                                Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
                                                   children: <Widget>[
                                                     Column(
                                                       children: <Widget>[
@@ -676,17 +682,20 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         ))
                                                   ],
                                                 ),
-                                                 Text(
-                                                  MadarLocalizations.of(
-                                                      context)
-                                                      .trans(
-                                                      'day'),
-                                                  style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                      FontWeight.w700),
+                                                 Padding(
+                                                   padding: const EdgeInsets.only(top:20.0),
+                                                   child: Text(
+                                                    MadarLocalizations.of(
+                                                        context)
+                                                        .trans(
+                                                        'day'),
+                                                    style: TextStyle(
+                                                        color: Colors.black87,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                        FontWeight.w700),
                                                 ),
+                                                 ),
                                               ],
                                             );
                                           },
@@ -700,10 +709,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                             if (planingBloc.trip.toAirport ==
                                                 true) {
                                               return Container(
-                                                child: new Row(
-                                                  children: <Widget>[
-                                                    Row(
-                                                      children: <Widget>[
+                                                child: new Row(     children: <Widget>[
+                                                    Row( children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
                                                             new Text( _endDate != null ? (_endDate.add(
@@ -1086,17 +1093,7 @@ Widget citiesDashedLine() {
       SizedBox(
         height: 5,
       ),
-      Padding(
-        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
-        child: Container(
-          height: 10,
-          width: 2.0,
-          color: Colors.yellow.shade800,
-        ),
-      ),
-      SizedBox(
-        height: 5,
-      ),
+
     ],
   );
 }
