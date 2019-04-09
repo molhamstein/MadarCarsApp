@@ -131,5 +131,8 @@
   "Security_code" :"Security code",
   "Name_of_card" :"Name of card",
   "Card_Number" : "Card Number",
-  "Want_to_visit_other_cities_too":"Want to visit other cities too ?"
+  "Want_to_visit_other_cities_too":"Want to visit other cities too ?",
+  "two_way":"Two Ways",
+  "going_oneWay":"One Way",
+  "backing_oneWay":"One Way"
 }

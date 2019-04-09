@@ -26,13 +26,16 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _subCitiesFloat;
 
 //  List<SubLocationResponse> subList = [];
-  DateTime cityDate ;
-  DateTime cityEndDate ;
+  DateTime cityDate;
+
+  DateTime cityEndDate;
+
   DateTime date;
   DateTime startMore;
   DateTime _endDate;
   DateTime ss;
-  List<int> _counter =new List();
+  List<int> _counter = new List();
+  String airportCost;
 
   @override
   void initState() {
@@ -43,8 +46,6 @@ class DayByDayPageState extends State<DayByDayPage>
       vsync: this,
       duration: const Duration(seconds: 2),
     );
-
-
 
     _subCitiesController = AnimationController(
       vsync: this,
@@ -78,27 +79,67 @@ class DayByDayPageState extends State<DayByDayPage>
     bloc.pushSubLocations;
     date = (planingBloc.trip.startDate);
 
-
-
-    if(ChooseCityStep.subLocation != null){
-      print("aa is : "+ChooseCityStep.name );
-
-      for(int i = 0; i < planingBloc.trip.car.carSublocations.length ; i++ ){
-        if(planingBloc.trip.car.carSublocations[i].subLocation.id  == ChooseCityStep.subLocation[0].id){
-          print("cost is :"+planingBloc.trip.car.carSublocations[i].cost.toString() );
-          planingBloc.addSubLocations(ChooseCityStep.subLocation[0].id , 1 , planingBloc.trip.car.carSublocations[i].cost , ChooseCityStep.name ,0);}
-      }
+    if (planingBloc.trip.fromAirport == true &&
+        planingBloc.trip.toAirport == false) {
+      planingBloc.trip.car.carsAirport.forEach((ap) {
+        if (ap.airportId != null) {
+          if (ap.airportId == planingBloc.trip.airport.id) {
+            print("airport one way is 1  " + ap.priceOneWay.toString());
+            airportCost = ap.priceOneWay.toString();
+          }
+        }
+      });
+    }
+    if (planingBloc.trip.fromAirport == false &&
+        planingBloc.trip.toAirport == true) {
+      planingBloc.trip.car.carsAirport.forEach((ap) {
+        if (ap.airportId != null) {
+          if (ap.airportId == planingBloc.trip.airport.id) {
+            print("airport one way is 1  " + ap.priceOneWay.toString());
+            airportCost = ap.priceOneWay.toString();
+          }
+        }
+      });
+    }
+    if (planingBloc.trip.fromAirport == true && planingBloc.trip.toAirport) {
+      planingBloc.trip.car.carsAirport.forEach((ap) {
+        if (ap.airportId != null) {
+          if (ap.airportId == planingBloc.trip.airport.id) {
+            print("airport one way is 2  " + ap.priceTowWay.toString());
+            airportCost = ap.priceTowWay.toString();
+          }
+        }
+      });
     }
 
+//    print(" planingBloc.trip.car.carsAirport.length" + planingBloc.trip.car.carsAirport.length.toString());
+//    print(" planingBloc.trip.airport.id" + planingBloc.trip.airport.id);
+// if (  planingBloc.trip.car.carsAirport.length!= null && planingBloc.trip.airport.id != null) {
+//
+// }
 
+    if (ChooseCityStep.subLocation != null) {
+      print("aa is : " + ChooseCityStep.name);
+      for (int i = 0; i < planingBloc.trip.car.carSublocations.length; i++) {
+        if (planingBloc.trip.car.carSublocations[i].subLocation.id ==
+            ChooseCityStep.subLocation[0].id) {
+          print("cost is :" +
+              planingBloc.trip.car.carSublocations[i].cost.toString());
+          planingBloc.addSubLocations(
+              ChooseCityStep.subLocation[0].id,
+              1,
+              planingBloc.trip.car.carSublocations[i].cost,
+              ChooseCityStep.name,
+              0);
+        }
+      }
+    }
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     var estimCost = planingBloc.trip.estimationPrice();
     final _itemExtent = 56.0;
     final generatedList = List.generate(10, (index) => 'Item $index');
@@ -192,7 +233,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                 ),
 
                                 Container(
-                                  height: MediaQuery.of(context).size.height/2.5,
+                                  height:
+                                      MediaQuery.of(context).size.height / 2.5,
                                   child: CustomScrollView(
                                     slivers: <Widget>[
                                       SliverList(
@@ -201,8 +243,9 @@ class DayByDayPageState extends State<DayByDayPage>
                                             if (planingBloc.trip.fromAirport ==
                                                 true) {
                                               return Container(
-                                                child: new Row(    children: <Widget>[
-                                                    Row(
+                                                child: new Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
                                                       children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
@@ -219,7 +262,7 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                                      .replaceAll("-", "/"))
                                                           ],
                                                         ),
-                                                        citiesDashedLine()
+                                                        airportsDashedLine()
                                                       ],
                                                     ),
 
@@ -249,9 +292,55 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                     FontWeight
                                                                         .w700),
                                                           ),
-//                                                Text(((planingBloc.trip
-//                                                    .tripCost())
-//                                                    .toString()))
+                                                          Row(
+                                                            children: <Widget>[
+                                                              Text(
+                                                                airportCost,
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              new Text(
+                                                                "\$",
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                              new Text("  "),
+                                                              planingBloc.trip
+                                                                          .fromAirport &&
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .toAirport
+                                                                  ? Text(
+                                                                      MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              'two_way'),
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w700),
+                                                                    )
+                                                                  : Text(
+                                                                      MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              'going_oneWay'),
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w700))
+                                                            ],
+                                                          )
                                                         ],
                                                       ),
                                                     ),
@@ -325,13 +414,23 @@ class DayByDayPageState extends State<DayByDayPage>
                                       SliverList(
                                         delegate: SliverChildBuilderDelegate(
                                           (context, index) {
-                                            cityEndDate = date.add(new Duration(days:   planingBloc.trip
-                                                .tripDuration())) ;
+                                            cityEndDate = date.add(new Duration(
+                                                days: planingBloc.trip
+                                                    .tripDuration()));
 
                                             return Container(
-                                              child: new Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+                                              child: new Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: <Widget>[
-                                                  Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Column(
                                                         children: <Widget>[
@@ -379,26 +478,43 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                   FontWeight
                                                                       .w700),
                                                         ),
-
-
                                                         Row(
                                                           children: <Widget>[
-                                                            Text(planingBloc.trip
+                                                            Text(planingBloc
+                                                                .trip
                                                                 .tripDuration()
                                                                 .toString()),
-
                                                             Text("*"),
-
-                                                            Text(planingBloc.trip
-                                                                   .car.pricePerDay.toString()),
+                                                            Text(planingBloc
+                                                                .trip
+                                                                .car
+                                                                .pricePerDay
+                                                                .toString()),
                                                             Text("  "),
-                                                            Text((planingBloc.trip
-                                                                .car.pricePerDay *  planingBloc.trip
-                                                                .tripDuration()).toString()  , style: TextStyle(fontWeight: FontWeight.bold),),Text( "\$",style: TextStyle(fontWeight: FontWeight.bold),)
+                                                            Text(
+                                                              (planingBloc
+                                                                          .trip
+                                                                          .car
+                                                                          .pricePerDay *
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .tripDuration())
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                            Text(
+                                                              "\$",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            )
                                                           ],
-                                                        )
-                                                            ,
-                                                                  ],
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                   Column(
@@ -428,14 +544,19 @@ class DayByDayPageState extends State<DayByDayPage>
                                                       Row(
                                                         children: <Widget>[
                                                           Padding(
-                                                            padding: const EdgeInsets.only(left:15.0, right: 15 , top: 20),
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 15.0,
+                                                                    right: 15,
+                                                                    top: 20),
                                                             child: new Text(
                                                               planingBloc.trip
                                                                   .tripDuration()
                                                                   .toString(),
                                                               style: TextStyle(
-                                                                  color:
-                                                                      Colors.black87,
+                                                                  color: Colors
+                                                                      .black87,
                                                                   fontSize: 18,
                                                                   height: 0.5,
                                                                   fontWeight:
@@ -468,17 +589,18 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     ],
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(top:8.0),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
                                                     child: Text(
                                                       MadarLocalizations.of(
-                                                          context)
-                                                          .trans(
-                                                          'day'),
+                                                              context)
+                                                          .trans('day'),
                                                       style: TextStyle(
                                                           color: Colors.black87,
                                                           fontSize: 18,
                                                           fontWeight:
-                                                          FontWeight.w700),
+                                                              FontWeight.w700),
                                                     ),
                                                   ),
                                                 ],
@@ -497,18 +619,21 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     .tripSubLocations[index]
                                                     .id);
 
-                                            _counter.insert(index, ( planingBloc.trip
-                                                .getSubLocationDurationByNewId(
-                                                planingBloc
-                                                    .trip
-                                                    .tripSubLocations[index]
-                                                    .id ,index)));
-
+                                            _counter.insert(
+                                                index,
+                                                (planingBloc.trip
+                                                    .getSubLocationDurationByNewId(
+                                                        planingBloc
+                                                            .trip
+                                                            .tripSubLocations[
+                                                                index]
+                                                            .id,
+                                                        index)));
 
                                             if (index == 0) {
-
                                               _endDate = cityEndDate.add(
-                                                  new Duration(days: _counter[index]));
+                                                  new Duration(
+                                                      days: _counter[index]));
 //                                              print("end is" +
 //                                                  _endDate.toString());
 //                                              print("start more : " +
@@ -517,38 +642,53 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                              print("end is" +
 //                                                  _endDate.toString());
 
-                                            if(_counter[index -1] == 0)
-                                             { startMore = _endDate
-                                                  ;}
-                                            else
-                                             { startMore = _endDate
-                                                  .add(new Duration(days: 1));}
+                                              if (_counter[index - 1] == 0) {
+                                                startMore = _endDate;
+                                              } else {
+                                                startMore = _endDate
+                                                    .add(new Duration(days: 1));
+                                              }
 
-
-                                              ss = startMore.add(
-                                                  new Duration(days: _counter[index]));
+                                              ss = startMore.add(new Duration(
+                                                  days: _counter[index]));
                                               _endDate = ss;
 //                                              print("start more : " +
 //                                                  startMore.toString());
                                             }
 
-                                            return new Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                                            return new Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+                                                Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
                                                   children: <Widget>[
                                                     Column(
                                                       children: <Widget>[
                                                         index == 0
-                                                            ? new Text(planingBloc.trip
-                                                            .tripDuration() != 0 ?(cityEndDate.add(new Duration(days: 1)))
-                                                                .toString()
-                                                                .split(" ")[0]
-                                                                .replaceAll(
-                                                                    "-", "/"):(date)
-                                                            .toString()
-                                                            .split(" ")[0]
-                                                            .replaceAll(
-                                                            "-", "/") )
+                                                            ? new Text(planingBloc
+                                                                        .trip
+                                                                        .tripDuration() !=
+                                                                    0
+                                                                ? (cityEndDate.add(new Duration(days: 1)))
+                                                                    .toString()
+                                                                    .split(
+                                                                        " ")[0]
+                                                                    .replaceAll(
+                                                                        "-",
+                                                                        "/")
+                                                                : (date)
+                                                                    .toString()
+                                                                    .split(
+                                                                        " ")[0]
+                                                                    .replaceAll(
+                                                                        "-",
+                                                                        "/"))
                                                             : Text(startMore
                                                                 .toString()
                                                                 .split(" ")[0]
@@ -601,33 +741,36 @@ class DayByDayPageState extends State<DayByDayPage>
                                                       ),
                                                       Row(
                                                         children: <Widget>[
-
                                                           Text(_counter[index]
                                                               .toString()),
                                                           Text("*"),
-
-
-                                                          Text( (
-
-                                                                  (planingBloc
-                                                                          .trip
-                                                                          .tripSubLocations[
-                                                                              index]
-                                                                          .cost)
-                                                                      .toString())
-
-                                                              ),
-                                                          Text("  "),
-                                                          Text(((_counter[index]) *
-                                                              planingBloc
+                                                          Text(((planingBloc
                                                                   .trip
-
                                                                   .tripSubLocations[
-                                                              index]
+                                                                      index]
                                                                   .cost)
-                                                              .toString() ,style: TextStyle(fontWeight: FontWeight.bold),),Text( "\$",style: TextStyle(fontWeight: FontWeight.bold) )],
+                                                              .toString())),
+                                                          Text("  "),
+                                                          Text(
+                                                            ((_counter[index]) *
+                                                                    planingBloc
+                                                                        .trip
+                                                                        .tripSubLocations[
+                                                                            index]
+                                                                        .cost)
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text("\$",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold))
+                                                        ],
                                                       ),
-
                                                     ],
                                                   ),
                                                 ),
@@ -639,10 +782,11 @@ class DayByDayPageState extends State<DayByDayPage>
                                                             if (!planingBloc
                                                                 .trip
                                                                 .isMaxDuration()) {
-                                                            _counter[index]++;
+                                                              _counter[index]++;
                                                               planingBloc
                                                                   .editSubLocation(
-                                                                      _counter[index],
+                                                                      _counter[
+                                                                          index],
                                                                       index);
                                                               planingBloc
                                                                   .pushEstimationCost;
@@ -654,7 +798,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                                           size: 40,
                                                         )),
                                                     new Text(
-                                                      _counter[index].toString(),
+                                                      _counter[index]
+                                                          .toString(),
                                                       style: TextStyle(
                                                           color: Colors.black87,
                                                           fontSize: 18,
@@ -665,11 +810,14 @@ class DayByDayPageState extends State<DayByDayPage>
                                                     InkWell(
                                                         onTap: () {
                                                           setState(() {
-                                                            if (_counter[index] > 0) {
+                                                            if (_counter[
+                                                                    index] >
+                                                                0) {
                                                               _counter[index]--;
                                                               planingBloc
                                                                   .editSubLocation(
-                                                                      _counter[index],
+                                                                      _counter[
+                                                                          index],
                                                                       index);
                                                               planingBloc
                                                                   .pushEstimationCost;
@@ -682,20 +830,21 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         ))
                                                   ],
                                                 ),
-                                                 Padding(
-                                                   padding: const EdgeInsets.only(top:20.0),
-                                                   child: Text(
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 20.0),
+                                                  child: Text(
                                                     MadarLocalizations.of(
-                                                        context)
-                                                        .trans(
-                                                        'day'),
+                                                            context)
+                                                        .trans('day'),
                                                     style: TextStyle(
                                                         color: Colors.black87,
                                                         fontSize: 18,
                                                         fontWeight:
-                                                        FontWeight.w700),
+                                                            FontWeight.w700),
+                                                  ),
                                                 ),
-                                                 ),
                                               ],
                                             );
                                           },
@@ -709,22 +858,34 @@ class DayByDayPageState extends State<DayByDayPage>
                                             if (planingBloc.trip.toAirport ==
                                                 true) {
                                               return Container(
-                                                child: new Row(     children: <Widget>[
-                                                    Row( children: <Widget>[
+                                                child: new Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
-                                                            new Text( _endDate != null ? (_endDate.add(
-                                                                    new Duration(
+                                                            new Text(_endDate !=
+                                                                    null
+                                                                ? (_endDate.add(
+                                                                        new Duration(
+                                                                            days:
+                                                                                1)))
+                                                                    .toString()
+                                                                    .split(
+                                                                        " ")[0]
+                                                                    .replaceAll(
+                                                                        "-",
+                                                                        "/")
+                                                                : cityEndDate
+                                                                    .add(new Duration(
                                                                         days:
-                                                                            1)))
-                                                                .toString()
-                                                                .split(" ")[0]
-                                                                .replaceAll(
-                                                                    "-", "/"):cityEndDate.add(new Duration(
-                                                                days:
-                                                                1)).toString().split(" ")[0]
-                                                                .replaceAll(
-                                                                "-", "/")) ,
+                                                                            1))
+                                                                    .toString()
+                                                                    .split(
+                                                                        " ")[0]
+                                                                    .replaceAll(
+                                                                        "-",
+                                                                        "/")),
 
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
 //                                                  new Text(_endDate
@@ -733,7 +894,7 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                                      .replaceAll("-", "/"))
                                                           ],
                                                         ),
-                                                        citiesDashedLine()
+                                                        airportsDashedLine()
                                                       ],
                                                     ),
 
@@ -763,6 +924,63 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                     FontWeight
                                                                         .w700),
                                                           ),
+                                                          new Row(
+                                                            children: <Widget>[
+                                                              (!(planingBloc
+                                                                          .trip
+                                                                          .fromAirport &&
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .toAirport))
+                                                                  ? Text(
+                                                                      airportCost,
+                                                                      style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    )
+                                                                  : Text(""),
+                                                              (!(planingBloc
+                                                                          .trip
+                                                                          .fromAirport &&
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .toAirport))
+                                                                  ? new Text(
+                                                                      "\$",
+                                                                      style: TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    )
+                                                                  : Text(""),
+                                                              (!(planingBloc
+                                                                          .trip
+                                                                          .fromAirport &&
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .toAirport))
+                                                                  ? new Text(
+                                                                      "  ")
+                                                                  : Text(""),
+                                                              (planingBloc.trip
+                                                                          .fromAirport &&
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .toAirport
+                                                                  ? Text("")
+                                                                  : Text(
+                                                                      MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              'backing_oneWay'),
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black87,
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w700)))
+                                                            ],
+                                                          )
 //                                                Text(((planingBloc.trip
 //                                                    .tripCost())
 //                                                    .toString()))
@@ -1023,6 +1241,73 @@ class DayByDayPageState extends State<DayByDayPage>
 //  }
 }
 
+
+Widget airportsDashedLine(){
+  return Column(
+    children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8),
+        child: Container(
+          width: 15,
+          height: 15,
+          decoration: BoxDecoration(
+            color: Colors.yellow.shade800,
+            borderRadius: BorderRadius.circular(12.5),
+          ),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 2.0,
+          color: Colors.yellow.shade800,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 2.0,
+          color: Colors.yellow.shade800,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 2.0,
+          color: Colors.yellow.shade800,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+
+
+      Padding(
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
+        child: Container(
+          height: 10,
+          width: 2.0,
+          color: Colors.yellow.shade800,
+        ),
+      ),
+      SizedBox(
+        height: 5,
+      ),
+
+
+    ],
+  );
+}
+
 Widget citiesDashedLine() {
 //  return Container();
   return Column(
@@ -1093,7 +1378,6 @@ Widget citiesDashedLine() {
       SizedBox(
         height: 5,
       ),
-
     ],
   );
 }

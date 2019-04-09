@@ -130,5 +130,9 @@
   "Security_code" :"رقم الحماية",
   "Name_of_card" :"اسم البطاقة",
   "Card_Number" : "رقم البطاقة",
-  "Want_to_visit_other_cities_too" :"هل تريد زيارة مدن اخرى"
+  "Want_to_visit_other_cities_too" :"هل تريد زيارة مدن اخرى",
+  "two_way":"ذهاب وإياب",
+  "going_oneWay":"ذهاب",
+  "backing_oneWay":"إياب"
+
 }

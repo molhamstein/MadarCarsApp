@@ -226,6 +226,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
 
+    _firebaseMessaging.subscribeToTopic('allUsers');
+
+
     super.initState();
   }
 
@@ -607,9 +610,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                                   whatsAppLunch(905306514431);
                               },
                               child: Image.asset(
-                                "assets/images/whatsapp.png",
-                                height: 22,
-                                width: 22,
+                                "assets/images/ic_whatsapp.png",
+                                height: 27,
+                                width: 27,
                               ));
                         }),
                     IconButton(
