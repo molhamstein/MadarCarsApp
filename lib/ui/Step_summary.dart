@@ -6,7 +6,6 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/CouponModel.dart';
-import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
@@ -55,7 +54,6 @@ class StepSummaryState extends State<StepSummary>
     TextEditingController _cardNumController = new TextEditingController();
     TextEditingController _cardNameController = new TextEditingController();
     TextEditingController _securityCodeController = new TextEditingController();
-
 
     List<String> startDate = planingBloc.trip.startDate.toString().split(" ");
     String sDate = startDate[0].replaceAll("-", "/");
@@ -286,7 +284,7 @@ class StepSummaryState extends State<StepSummary>
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 250.0),
+                          padding: const EdgeInsets.only(top: 220.0),
                           child: Column(
                             children: <Widget>[
                               Padding(
@@ -294,40 +292,49 @@ class StepSummaryState extends State<StepSummary>
                                     left: 35.0, right: 35),
                                 child: Column(
                                   children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        new Text(
-                                            MadarLocalizations.of(context)
-                                                .trans("Airport_Pick_up"),
-                                            style: TextStyle(
-                                                color: Colors.grey[800],
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700,
-                                                height: 0.5)),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Container(
-                                        width: (MediaQuery.of(context)
-                                                .size
-                                                .width) -
-                                            32,
-                                        alignment: Alignment.center,
-                                        height: 1.0,
-                                        decoration: BoxDecoration(
-                                            color: Colors.black,
-                                            borderRadius:
-                                                BorderRadius.circular(14.0)),
-                                      ),
-                                    ),
+//                                    Row(
+//                                      children: <Widget>[
+//                                        new Text(
+//                                            MadarLocalizations.of(context)
+//                                                .trans("Airport_Pick_up"),
+//                                            style: TextStyle(
+//                                                color: Colors.grey[800],
+//                                                fontSize: 18,
+//                                                fontWeight: FontWeight.w700,
+//                                                height: 0.5)),
+//                                      ],
+//                                    ),
+//                                    Padding(
+//                                      padding: const EdgeInsets.only(top: 8.0),
+//                                      child: Container(
+//                                        width: (MediaQuery.of(context)
+//                                                .size
+//                                                .width) -
+//                                            32,
+//                                        alignment: Alignment.center,
+//                                        height: 1.0,
+//                                        decoration: BoxDecoration(
+//                                            color: Colors.black,
+//                                            borderRadius:
+//                                                BorderRadius.circular(14.0)),
+//                                      ),
+//                                    ),
 /////////////////////
+
+
                                     Container(
                                       // height: 100,
                                       child: Padding(
                                         padding: const EdgeInsets.all(20.0),
                                         child: Column(
                                           children: <Widget>[
+
+                                            planingBloc.trip.fromAirport?
+                                            airportsRow(planingBloc.trip.airport
+                                                .name(MadarLocalizations.of(
+                                                        context)
+                                                    .locale)): Container(),
+
                                             citiesListRow(
                                                 planingBloc.trip.location.name(
                                                     MadarLocalizations.of(
@@ -354,6 +361,11 @@ class StepSummaryState extends State<StepSummary>
                                                           .subLocation.nameTr,
                                                       '${location.duration}');
                                                 }),
+                                            planingBloc.trip.toAirport?
+                                            airportsRow(planingBloc.trip.airport
+                                                .name(MadarLocalizations.of(
+                                                context)
+                                                .locale)): Container(),
                                           ],
                                         ),
                                       ),
@@ -422,7 +434,6 @@ class StepSummaryState extends State<StepSummary>
                                                                       TextField(
                                                                     controller:
                                                                         _haveCoponController,
-
                                                                     autofocus:
                                                                         true,
                                                                     decoration:
@@ -519,9 +530,10 @@ class StepSummaryState extends State<StepSummary>
                                                               "percentage"
                                                           ? Text(
                                                               ((snapshot.data.value / 100) *
-                                                                      planingBloc.trip
-                                                            .estimationPrice())
-                                                            .toString(),
+                                                                      planingBloc
+                                                                          .trip
+                                                                          .estimationPrice())
+                                                                  .toString(),
                                                               style: TextStyle(
                                                                   fontSize: 22,
                                                                   fontWeight:
@@ -568,32 +580,26 @@ class StepSummaryState extends State<StepSummary>
                                                       snapshot.data.type ==
                                                               "percentage"
                                                           ? new Text(
-                                                              (planingBloc.trip
-                                                                      .estimationPriceWithPercentageDiscount(snapshot
-                                                                          .data
-                                                                          .value))
+                                                              (planingBloc.trip.estimationPriceWithPercentageDiscount(snapshot.data.value))
                                                                   .toString(),
                                                               style: TextStyle(
                                                                   fontSize: 22,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w700,
-                                                                  color: MadarColors
-                                                                          .grey[
+                                                                  color: MadarColors.grey[
                                                                       800]))
-                                                          :new Text(
+                                                          : new Text(
                                                               (planingBloc.trip.estimationPrice() -
-                                                                  snapshot.data
-                                                                      .value)
-                                                              .toString(),
+                                                                      snapshot
+                                                                          .data
+                                                                          .value)
+                                                                  .toString(),
                                                               style: TextStyle(
                                                                   fontSize: 22,
                                                                   fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                  color: MadarColors
-                                                                          .grey[
-                                                                      800])),
+                                                                      FontWeight.w700,
+                                                                  color: MadarColors.grey[800])),
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
@@ -887,6 +893,30 @@ class StepSummaryState extends State<StepSummary>
   }
 
 //
+  Widget airportsRow(String airport) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Theme.of(context).dividerColor),
+        ),
+      ),
+      height: 60,
+      child: InkWell(
+        onTap: () {
+          print("pressed");
+        },
+        child: Row(
+          children: <Widget>[
+            Text(
+              airport,
+              style: AppTextStyle.meduimTextStyleBlack,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget citiesListRow(String city, String days) {
     return Container(
       decoration: BoxDecoration(
