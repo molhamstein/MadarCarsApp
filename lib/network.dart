@@ -496,15 +496,19 @@ class Network {
   Future<String> postTrip(Trip trip, String token, String userId) async {
     headers['Authorization'] = token;
 //    headers.remove('Content-Type');
+    print( trip.startDate.toUtc().toString());
+    print( trip.startDate.toString());
+
+
     final Map<String, dynamic> body = {
       "locationId": trip.location.id,
       "fromAirport": trip.fromAirport,
       "toAirport": trip.toAirport,
       "inCity": trip.inCity,
-      "fromAirportDate": trip.startDate.toString(),
-      "toAirportDate": trip.endDate.toString(),
-      "startInCityDate": trip.startDate.toString(),
-      "endInCityDate": trip.endDate.toString(),
+      "fromAirportDate": trip.startDate.toUtc().toString(),
+      "toAirportDate": trip.endDate.toUtc().toString(),
+      "startInCityDate": trip.startDate.toUtc().toString(),
+      "endInCityDate": trip.endDate.toUtc().toString(),
       "driverId": trip.car.driverId,
       "pricePerDay": trip.car.pricePerDay,
       "priceOneWay": trip.car.priceOneWay,

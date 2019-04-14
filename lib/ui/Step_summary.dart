@@ -8,6 +8,7 @@ import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
+import 'package:madar_booking/ui/DayByDayPage.dart';
 
 class StepSummary extends StatefulWidget {
   @override
@@ -61,6 +62,7 @@ class StepSummaryState extends State<StepSummary>
     List<String> endDate = planingBloc.trip.endDate.toString().split(" ");
     String eDate = endDate[0].replaceAll("-", "/");
     print(endDate);
+
 
     final TextStyle infoLabelStyle = TextStyle(
         color: Colors.grey[700],
@@ -150,7 +152,10 @@ class StepSummaryState extends State<StepSummary>
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 8.0, right: 8),
-                                          child: new Column(
+                                          child:
+
+                                          planingBloc.trip.inCity == true ?
+                                          new Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: <Widget>[
@@ -169,8 +174,10 @@ class StepSummaryState extends State<StepSummary>
                                                           height: 0.5)),
                                                 ],
                                               ),
+
+
                                               Text(
-                                                eDate,
+                                                DayByDayPageState.endDate.toString().split(" ")[0].replaceAll("-", "/") ,
                                                 style: TextStyle(
                                                     color:
                                                         MadarColors.dark_grey,
@@ -178,7 +185,7 @@ class StepSummaryState extends State<StepSummary>
                                                         FontWeight.w700),
                                               )
                                             ],
-                                          ),
+                                          ) :Container(),
                                         )
                                       ],
                                     ),

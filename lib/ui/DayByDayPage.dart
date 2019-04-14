@@ -32,7 +32,7 @@ class DayByDayPageState extends State<DayByDayPage>
 
   DateTime date;
   DateTime startMore;
-  DateTime _endDate;
+  static DateTime endDate;
   DateTime ss;
   List<int> _counter = new List();
   String airportCost;
@@ -118,22 +118,28 @@ class DayByDayPageState extends State<DayByDayPage>
 //
 // }
 
-    if (ChooseCityStep.subLocation != null) {
-      print("aa is : " + ChooseCityStep.name);
-      for (int i = 0; i < planingBloc.trip.car.carSublocations.length; i++) {
-        if (planingBloc.trip.car.carSublocations[i].subLocation.id ==
-            ChooseCityStep.subLocation[0].id) {
-          print("cost is :" +
-              planingBloc.trip.car.carSublocations[i].cost.toString());
-          planingBloc.addSubLocations(
-              ChooseCityStep.subLocation[0].id,
-              1,
-              planingBloc.trip.car.carSublocations[i].cost,
-              ChooseCityStep.name,
-              0);
+    if(planingBloc.trip.tripSubLocations.length == 0){
+      if (ChooseCityStep.subLocation != null) {
+        print("aa is : " + ChooseCityStep.name);
+        for (int i = 0; i < planingBloc.trip.car.carSublocations.length; i++) {
+          if (planingBloc.trip.car.carSublocations[i].subLocation.id ==
+              ChooseCityStep.subLocation[0].id) {
+            print("cost is :" +
+                planingBloc.trip.car.carSublocations[i].cost.toString());
+            planingBloc.addSubLocations(
+                ChooseCityStep.subLocation[0].id,
+                planingBloc.trip
+                    .tripDuration(),
+                planingBloc.trip.car.carSublocations[i].cost,
+                ChooseCityStep.name,
+                0);
+          }
         }
       }
     }
+
+
+
 
     super.initState();
   }
@@ -631,7 +637,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         index)));
 
                                             if (index == 0) {
-                                              _endDate = cityEndDate.add(
+                                              endDate = cityEndDate.add(
                                                   new Duration(
                                                       days: _counter[index]));
 //                                              print("end is" +
@@ -642,16 +648,18 @@ class DayByDayPageState extends State<DayByDayPage>
 //                                              print("end is" +
 //                                                  _endDate.toString());
 
-                                              if (_counter[index - 1] == 0) {
-                                                startMore = _endDate;
+                                              if (_counter[index ] == 0) {
+                                                startMore = endDate;
                                               } else {
-                                                startMore = _endDate
+                                                startMore = endDate
                                                     .add(new Duration(days: 1));
                                               }
 
                                               ss = startMore.add(new Duration(
                                                   days: _counter[index]));
-                                              _endDate = ss;
+                                              endDate = ss;
+
+                                              print("sss is  : " +ss.toString());
 //                                              print("start more : " +
 //                                                  startMore.toString());
                                             }
@@ -697,7 +705,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                         index == 0
                                                             ?
 //                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
-                                                            new Text(_endDate
+                                                            new Text(endDate
                                                                 .toString()
                                                                 .split(" ")[0]
                                                                 .replaceAll(
@@ -864,12 +872,9 @@ class DayByDayPageState extends State<DayByDayPage>
                                                       children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
-                                                            new Text(_endDate !=
+                                                            new Text(endDate !=
                                                                     null
-                                                                ? (_endDate.add(
-                                                                        new Duration(
-                                                                            days:
-                                                                                1)))
+                                                                ? (endDate)
                                                                     .toString()
                                                                     .split(
                                                                         " ")[0]
