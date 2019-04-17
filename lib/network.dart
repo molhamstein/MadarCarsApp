@@ -60,13 +60,16 @@ class Network {
 
   String _contactUsNumber = _baseUrl + "admins/getMetaData";
 
-  Future<ContactUs> fetchContactUs(String token) async {
-    print(token);
-    headers['Authorization'] =
-        token; //"e0tl4zZ9EPk:APA91bF1ngC_uz9vv9EEbirUD3Y9H-80yr6cr9TT7vnLQZ5gR4FOBZ5jIbSqt3X9WCI8lYOX5gPypSNi16CcbaEUFqAxO655KKKOY0AI7Ho1VbEfCWrf3yM88vF17LahCO24mnfd8v9j";
+  Future<ContactUs> fetchContactUs() async {
+//    print(headers) ;
+//    print(_contactUsNumber);
+
+//    print(token);
+//    headers['Authorization'] ="";
+//        token; //"e0tl4zZ9EPk:APA91bF1ngC_uz9vv9EEbirUD3Y9H-80yr6cr9TT7vnLQZ5gR4FOBZ5jIbSqt3X9WCI8lYOX5gPypSNi16CcbaEUFqAxO655KKKOY0AI7Ho1VbEfCWrf3yM88vF17LahCO24mnfd8v9j";
 
 //    print("tokeeen is"+token);
-    final response = await http.get(_contactUsNumber, headers: headers);
+    final response = await http.get(_contactUsNumber);
     if (response.statusCode == 200) {
       print(response.body);
       return ContactUs.fromJson(json.decode(response.body));
