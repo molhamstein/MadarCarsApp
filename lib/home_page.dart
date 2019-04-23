@@ -19,6 +19,7 @@ import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -85,8 +86,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     var whatsappUrl = "whatsapp://send?phone=${num}";
     await canLaunch(whatsappUrl)
         ? launch(whatsappUrl)
-        : print(
-            "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+        : print("Whatapp is not istalled");
   }
 
   void handelHeaderAnimation() {
