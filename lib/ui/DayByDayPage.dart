@@ -240,7 +240,7 @@ class DayByDayPageState extends State<DayByDayPage>
 
                                 Container(
                                   height:
-                                      MediaQuery.of(context).size.height / 2.5,
+                                      MediaQuery.of(context).size.height / 3.1,
                                   child: CustomScrollView(
                                     slivers: <Widget>[
                                       SliverList(
@@ -1056,7 +1056,7 @@ class DayByDayPageState extends State<DayByDayPage>
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height - 200,
+                        height: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height  /3.6),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.end,

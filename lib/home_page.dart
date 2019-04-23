@@ -89,6 +89,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
   }
 
+
+
   void handelHeaderAnimation() {
     transformation = rotateBy_0;
     myHeight = MediaQuery.of(context).size.height;

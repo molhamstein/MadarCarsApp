@@ -325,6 +325,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
 
 
                   } else if (location.locationId == null) {
+                    ChooseCityStep.subLocation = null ;
                     planingBloc.cityId(location);
                     print("location is null : true  true");
                   }
