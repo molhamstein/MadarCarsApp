@@ -89,6 +89,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         : print("Whatapp is not istalled");
   }
 
+
+
   void handelHeaderAnimation() {
     transformation = rotateBy_0;
     myHeight = MediaQuery.of(context).size.height;
