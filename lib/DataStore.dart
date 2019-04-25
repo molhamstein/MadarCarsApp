@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/models/TripModel.dart';
-import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,33 +48,35 @@ class DataStore {
     _prefs.setString("user", userToJson(user));
   }
 
-
   //////////////////////
-  saveStartDate(var date){
-     date = _prefs.setString("startDate", date);
-  }
- saveEndDate(var date){
-     date = _prefs.setString("EndDate", date);
-  }
-  saveEstimCost(var estim)
-  {
-    estim =_prefs.setInt("Estim", estim);
+  saveStartDate(var date) {
+    date = _prefs.setString("startDate", date);
   }
 
-  saveCarName(var carName){
-     _prefs.setString("CarName", carName);
+  saveEndDate(var date) {
+    date = _prefs.setString("EndDate", date);
   }
 
-  getCarName(){
+  saveEstimCost(var estim) {
+    estim = _prefs.setInt("Estim", estim);
+  }
+
+  saveCarName(var carName) {
+    _prefs.setString("CarName", carName);
+  }
+
+  getCarName() {
     var carName = _prefs.getString("CarName");
     print(carName);
     return carName;
   }
-  saveCarPrice(var carPrice){
+
+  saveCarPrice(var carPrice) {
     carPrice = _prefs.setString("CarPrice", carPrice);
   }
 
-  saveAirportPickUp(){}
+  saveAirportPickUp() {}
+
 //////////////////////
 
   setUserToken(String accessToken) {
@@ -100,8 +99,6 @@ class DataStore {
     return t;
   }
 
-
-
   myTripList(List<MyTrip> trips) {
     _prefs.setString("myTips", myTripToJson(trips));
   }
@@ -116,12 +113,12 @@ class DataStore {
     _prefs.setString("ourCars", carToJson(cars));
   }
 
-
-
   String get userImage => _prefs.getString('user_image');
+
   String get userISOCode => me.isoCode;
 
   User get me => getUser();
+
   String get userToken => _prefs.getString('access_token');
 
   bool get isUserLoggedIn => _prefs.getString('access_token') != null;

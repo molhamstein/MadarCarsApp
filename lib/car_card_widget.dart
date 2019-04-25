@@ -5,6 +5,7 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/rate_widget.dart';
+
 import 'madar_fonts.dart';
 
 class CarCard extends StatelessWidget {

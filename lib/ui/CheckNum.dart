@@ -9,13 +9,14 @@ class check extends StatefulWidget {
 class _checkState extends State<check> {
   TextEditingController _controller = new TextEditingController();
   TripPlaningBloc bloc;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         child: TextField(
           controller: _controller,
-          onSubmitted: (s){
+          onSubmitted: (s) {
             bloc.checkNum(s);
           },
         ),

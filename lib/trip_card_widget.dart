@@ -2,12 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/madar_fonts.dart';
 import 'package:madar_booking/models/TripModel.dart';
+
 import 'app_text_style.dart';
 
 class TripCard extends StatelessWidget {
   final TripModel trip;
+
   TripCard(this.trip);
 
   @override

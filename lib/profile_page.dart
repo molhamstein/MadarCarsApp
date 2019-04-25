@@ -8,10 +8,10 @@ import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/profile_bloc.dart';
 import 'package:madar_booking/profile_header.dart';
 import 'package:madar_booking/settings_page.dart';
+
+import 'models/MyTrip.dart';
 import 'my_flutter_app_icons.dart';
 import 'widgets/my_trip_card.dart';
-import 'models/MyTrip.dart';
-import 'package:flutter_advanced_networkimage/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, this.title}) : super(key: key);
@@ -29,6 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String imageUrl;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
+
   @override
   initState() {
     appBloc = BlocProvider.of<AppBloc>(context);

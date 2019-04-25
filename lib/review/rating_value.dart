@@ -6,7 +6,8 @@ class RatingValue extends StatefulWidget {
   final int value;
   final bool selected;
 
-  const RatingValue({Key key, this.onTap, this.value, this.selected}) : super(key: key);
+  const RatingValue({Key key, this.onTap, this.value, this.selected})
+      : super(key: key);
 
   @override
   RatingValueState createState() {
@@ -28,9 +29,7 @@ class RatingValueState extends State<RatingValue>
     opacity = Tween<double>(begin: 0.0, end: 1.0).animate(controller);
 
     controller.addListener(() {
-      setState(() {
-
-      });
+      setState(() {});
     });
 
     super.initState();
@@ -38,8 +37,10 @@ class RatingValueState extends State<RatingValue>
 
   @override
   Widget build(BuildContext context) {
-    if (widget.selected) controller.forward();
-    else controller.reverse();
+    if (widget.selected)
+      controller.forward();
+    else
+      controller.reverse();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -60,11 +61,14 @@ class RatingValueState extends State<RatingValue>
             ),
           ),
         ),
-        FadeTransition(opacity: opacity, child: Icon(
-          FontAwesomeIcons.solidCircle,
-          color: Colors.white,
-          size: 12,
-        ),)
+        FadeTransition(
+          opacity: opacity,
+          child: Icon(
+            FontAwesomeIcons.solidCircle,
+            color: Colors.white,
+            size: 12,
+          ),
+        )
       ],
     );
   }

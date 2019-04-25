@@ -5,6 +5,7 @@ class AnimatedHeader extends StatefulWidget {
   final bool isAnimate;
 
   AnimatedHeader({this.isAnimate});
+
   @override
   AnimatedHeaderState createState() {
     return new AnimatedHeaderState();

@@ -25,7 +25,6 @@ class DayByDayPageState extends State<DayByDayPage>
   Animation<Offset> _offsetFloat;
   Animation<Offset> _subCitiesFloat;
 
-//  List<SubLocationResponse> subList = [];
   DateTime cityDate;
 
   DateTime cityEndDate;
@@ -112,13 +111,7 @@ class DayByDayPageState extends State<DayByDayPage>
       });
     }
 
-//    print(" planingBloc.trip.car.carsAirport.length" + planingBloc.trip.car.carsAirport.length.toString());
-//    print(" planingBloc.trip.airport.id" + planingBloc.trip.airport.id);
-// if (  planingBloc.trip.car.carsAirport.length!= null && planingBloc.trip.airport.id != null) {
-//
-// }
-
-    if(planingBloc.trip.tripSubLocations.length == 0){
+    if (planingBloc.trip.tripSubLocations.length == 0) {
       if (ChooseCityStep.subLocation != null) {
         print("aa is : " + ChooseCityStep.name);
         for (int i = 0; i < planingBloc.trip.car.carSublocations.length; i++) {
@@ -128,8 +121,7 @@ class DayByDayPageState extends State<DayByDayPage>
                 planingBloc.trip.car.carSublocations[i].cost.toString());
             planingBloc.addSubLocations(
                 ChooseCityStep.subLocation[0].id,
-                planingBloc.trip
-                    .tripDuration(),
+                planingBloc.trip.tripDuration(),
                 planingBloc.trip.car.carSublocations[i].cost,
                 ChooseCityStep.name,
                 0);
@@ -137,9 +129,6 @@ class DayByDayPageState extends State<DayByDayPage>
         }
       }
     }
-
-
-
 
     super.initState();
   }
@@ -237,7 +226,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                     ),
                                   ],
                                 ),
-
                                 Container(
                                   height:
                                       MediaQuery.of(context).size.height / 3.1,
@@ -249,9 +237,19 @@ class DayByDayPageState extends State<DayByDayPage>
                                             if (planingBloc.trip.fromAirport ==
                                                 true) {
                                               return Container(
-                                                child: new Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                                                child: new Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: <Widget>[
-                                                    Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
@@ -260,21 +258,11 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                 .split(" ")[0]
                                                                 .replaceAll(
                                                                     "-", "/")),
-
-//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
-//                                                  new Text(_endDate
-//                                                      .toString()
-//                                                      .split(" ")[0]
-//                                                      .replaceAll("-", "/"))
                                                           ],
                                                         ),
                                                         airportsDashedLine()
                                                       ],
                                                     ),
-
-//                                            SizedBox(
-//                                              width: 40,
-//                                            ),
                                                     Expanded(
                                                       child: Column(
                                                         mainAxisAlignment:
@@ -351,62 +339,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                                       ),
                                                     ),
                                                     Column(
-                                                      children: <Widget>[
-//                InkWell(
-//                onTap: () {
-//                setState(() {
-//                if (!planingBloc.trip
-//                    .isMaxDuration()) {
-//                _counter++;
-//                planingBloc
-//                    .editSubLocation(
-//                _counter,
-//                index);
-//                planingBloc
-//                    .pushEstimationCost;
-//                }
-//                });
-//                },
-//                child:
-//                                              new Icon(
-//                                                Icons.arrow_drop_up,
-//                                                size: 40,
-//                                              )
-//// ),
-//                                              , new Text(
-//                                                planingBloc.trip
-//                                                    .tripDuration()
-//                                                    .toString(),
-//                                                style: TextStyle(
-//                                                    color: Colors.black87,
-//                                                    fontSize: 18,
-//                                                    height: 0.5,
-//                                                    fontWeight:
-//                                                    FontWeight.w600),
-//                                              ),
-//                InkWell(
-//                onTap: () {
-//                setState(() {
-//                if (_counter > 1) {
-//                _counter--;
-//                planingBloc
-//                    .editSubLocation(
-//                _counter,
-//                index);
-//                planingBloc
-//                    .pushEstimationCost;
-//                }
-//                });
-//                },
-//                child:
-//                                              new Icon(
-//                                                Icons.arrow_drop_down,
-//                                                size: 40,
-//                                              )
-// )
-                                                      ],
+                                                      children: <Widget>[],
                                                     ),
-//                                          new Text("days")
                                                   ],
                                                 ),
                                               );
@@ -445,8 +379,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                               .split(" ")[0]
                                                               .replaceAll(
                                                                   "-", "/")),
-
-//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
                                                           new Text(cityEndDate
                                                               .toString()
                                                               .split(" ")[0]
@@ -457,10 +389,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                       citiesDashedLine()
                                                     ],
                                                   ),
-
-//                                            SizedBox(
-//                                              width: 40,
-//                                            ),
                                                   Expanded(
                                                     child: Column(
                                                       mainAxisAlignment:
@@ -525,28 +453,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                   ),
                                                   Column(
                                                     children: <Widget>[
-//                InkWell(
-//                onTap: () {
-//                setState(() {
-//                if (!planingBloc.trip
-//                    .isMaxDuration()) {
-//                _counter++;
-//                planingBloc
-//                    .editSubLocation(
-//                _counter,
-//                index);
-//                planingBloc
-//                    .pushEstimationCost;
-//                }
-//                });
-//                },
-//                child:
-//                                                      new Icon(
-//                                                        Icons.arrow_drop_up,
-//                                                        size: 40,
-//                                                      )
-// ),
-//                                                          ,
                                                       Row(
                                                         children: <Widget>[
                                                           Padding(
@@ -572,26 +478,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                           ),
                                                         ],
                                                       ),
-//                InkWell(
-//                onTap: () {
-//                setState(() {
-//                if (_counter > 1) {
-//                _counter--;
-//                planingBloc
-//                    .editSubLocation(
-//                _counter,
-//                index);
-//                planingBloc
-//                    .pushEstimationCost;
-//                }
-//                });
-//                },
-//                child:
-//                                                      new Icon(
-//                                                        Icons.arrow_drop_down,
-//                                                        size: 40,
-//                                                      )
-// )
                                                     ],
                                                   ),
                                                   Padding(
@@ -640,15 +526,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                               endDate = cityEndDate.add(
                                                   new Duration(
                                                       days: _counter[index]));
-//                                              print("end is" +
-//                                                  _endDate.toString());
-//                                              print("start more : " +
-//                                                  startMore.toString());
                                             } else {
-//                                              print("end is" +
-//                                                  _endDate.toString());
-
-                                              if (_counter[index ] == 0) {
+                                              if (_counter[index] == 0) {
                                                 startMore = endDate;
                                               } else {
                                                 startMore = endDate
@@ -659,9 +538,9 @@ class DayByDayPageState extends State<DayByDayPage>
                                                   days: _counter[index]));
                                               endDate = ss;
 
-                                              print("sss is  : " +ss.toString());
-//                                              print("start more : " +
-//                                                  startMore.toString());
+                                              print(
+                                                  "sss is  : " + ss.toString());
+//
                                             }
 
                                             return new Row(
@@ -703,9 +582,7 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                 .replaceAll(
                                                                     "-", "/")),
                                                         index == 0
-                                                            ?
-//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
-                                                            new Text(endDate
+                                                            ? new Text(endDate
                                                                 .toString()
                                                                 .split(" ")[0]
                                                                 .replaceAll(
@@ -866,9 +743,19 @@ class DayByDayPageState extends State<DayByDayPage>
                                             if (planingBloc.trip.toAirport ==
                                                 true) {
                                               return Container(
-                                                child: new Row(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+                                                child: new Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
                                                   children: <Widget>[
-                                                    Row(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: <Widget>[
                                                         Column(
                                                           children: <Widget>[
@@ -891,12 +778,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                     .replaceAll(
                                                                         "-",
                                                                         "/")),
-
-//                                                new Text((date.add(new Duration(days:_counter ))  ).toString()):Text("")
-//                                                  new Text(_endDate
-//                                                      .toString()
-//                                                      .split(" ")[0]
-//                                                      .replaceAll("-", "/"))
                                                           ],
                                                         ),
                                                         airportsDashedLine()
@@ -986,9 +867,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                               FontWeight.w700)))
                                                             ],
                                                           )
-//                                                Text(((planingBloc.trip
-//                                                    .tripCost())
-//                                                    .toString()))
                                                         ],
                                                       ),
                                                     ),
@@ -1005,58 +883,14 @@ class DayByDayPageState extends State<DayByDayPage>
                                     ],
                                   ),
                                 ),
-
-//                                Container(
-//                                  height: 200,
-//                                  child: ListView(
-//                                    physics: ClampingScrollPhysics(),
-//                                    shrinkWrap: true,
-//                                    children: <Widget>[
-//                                      Column(
-//                                        children: <Widget>[
-////                                          Container(
-////                                            height: (planingBloc
-////                                                        .trip
-////                                                        .tripSubLocations
-////                                                        .length *
-////                                                    100)
-////                                                .toDouble(),
-////                                            child: ListView.builder(
-////                                                itemCount: planingBloc.trip
-////                                                    .tripSubLocations.length,
-////                                                itemBuilder:
-////                                                    (context, int index) {
-//////                                    return  dayByDaySubCityList(subList[index] ,planingBloc.addSubLocation) ;
-////
-////                                                }),
-////                                          ),
-//                                        ],
-//                                      ),
-//                                    ],
-//                                  ),
-//                                ),
-
-//                            subList.length != 0 ?
-//                            dayByDaySubCityList(subList[0] ,planingBloc.addSubLocation): Container(),
-
-//                Padding(
-//                  padding: const EdgeInsets.only(top: 30, right: 32, left: 32),
-//                  child: Text(
-//                    MadarLocalizations.of(context).trans('step_five_title'),
-//                    style: TextStyle(
-//                        color: Colors.grey[700],
-//                        fontSize: 18,
-//                        fontWeight: FontWeight.w600,
-//                        height: 0.8),
-//                  ),
-//                ),
                               ],
                             ),
                           ],
                         ),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height  /3.6),
+                        height: MediaQuery.of(context).size.height -
+                            (MediaQuery.of(context).size.height / 3.6),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -1168,34 +1002,6 @@ class DayByDayPageState extends State<DayByDayPage>
                                                                       ]),
                                                                 ));
                                                           }),
-
-//                                                      child: ListView.builder(
-//                                                        scrollDirection:
-//                                                            Axis.horizontal,
-//                                                        itemCount: 1,
-//                                                        itemBuilder:
-//                                                            (BuildContext
-//                                                                    context,
-//                                                                index) {
-//                                                          return Wrap(
-//                                                              crossAxisAlignment:
-//                                                                  WrapCrossAlignment
-//                                                                      .start,
-//                                                              spacing: 16,
-//                                                              runSpacing: 16,
-//                                                              children: snapshot
-//                                                                  .data
-//                                                                  .map((subLocationResponse) =>
-//                                                                      DayByDaySubCityTile(
-////                                                        onCounterChanged:
-////                                                            planingBloc
-////                                                                .addSubLocation,
-//                                                                        subLocationResponse:
-//                                                                            subLocationResponse,
-//                                                                      ))
-//                                                                  .toList());
-//                                                        },
-//                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -1246,8 +1052,7 @@ class DayByDayPageState extends State<DayByDayPage>
 //  }
 }
 
-
-Widget airportsDashedLine(){
+Widget airportsDashedLine() {
   return Column(
     children: <Widget>[
       Padding(
@@ -1294,8 +1099,6 @@ Widget airportsDashedLine(){
       SizedBox(
         height: 5,
       ),
-
-
       Padding(
         padding: const EdgeInsetsDirectional.only(start: 10.0, end: 8.0),
         child: Container(
@@ -1307,8 +1110,6 @@ Widget airportsDashedLine(){
       SizedBox(
         height: 5,
       ),
-
-
     ],
   );
 }

@@ -24,6 +24,7 @@ enum Steps {
 
 class TripPlaningBloc extends BaseBloc with Network {
   Trip trip;
+
   // int index;
   Steps step;
   bool done;
@@ -87,7 +88,9 @@ class TripPlaningBloc extends BaseBloc with Network {
   final _endDateController = BehaviorSubject<DateTime>();
 
   get startDateStream => _startDateController.stream;
+
   get endtDateStream => _endDateController.stream;
+
   get navigationStream => _navigationController.stream;
 
   get tripController => _tripController.stream;
@@ -119,6 +122,7 @@ class TripPlaningBloc extends BaseBloc with Network {
   get showFiltersStream => _modalController.stream;
 
   get showModal => _modalController.sink.add(true);
+
   get hideModal => _modalController.sink.add(false);
 
   get productionDateStream => _productionDateController.stream;
@@ -303,17 +307,17 @@ class TripPlaningBloc extends BaseBloc with Network {
         done = false;
         pushLoading(false);
         changeButtonText('next');
-        showNoteButton;
+        hideNoteButton;
         break;
       case Steps.chooseSuplocations:
         done = false;
         pushLoading(false);
         changeButtonText('next');
-        showNoteButton;
+        hideNoteButton;
         break;
       case Steps.summary:
-        changeButtonText('done');
-        pushLoading(true);
+        changeButtonText('pay_now');
+        pushLoading(false);
         done = true;
         showNoteButton;
         break;
@@ -364,18 +368,17 @@ class TripPlaningBloc extends BaseBloc with Network {
     _endDateController.sink.add(endDate);
   }
 
-  cityId(Location location){
-    if(location.locationId == null){
+  cityId(Location location) {
+    if (location.locationId == null) {
       trip.location = location;
-    print("location is null : true true ")
-      ;}
+      print("location is null : true true ");
+    }
 //      else if(location.locationId != null)
 //        {
 //          print ("location is null : false false");
 //
 //
 //        }
-
   }
 
   tripCar(Car car) {
@@ -384,9 +387,11 @@ class TripPlaningBloc extends BaseBloc with Network {
   }
 
   Function(String, int, int, String) get addSubLocation => trip.addSubLocation;
+
   // new function for add day by day sublocations
   Function(String, int, int, String, int) get addSubLocations =>
       trip.addSubLocations;
+
   Function(int, int) get editSubLocation => trip.editSubLocation;
 
   get pushEstimationCost => _estimationCostController.sink

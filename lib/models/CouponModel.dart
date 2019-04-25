@@ -26,30 +26,30 @@ class Coupon {
   });
 
   factory Coupon.fromJson(Map<String, dynamic> json) => new Coupon(
-    code: json["code"],
-    from: json["from"],
-    to: json["to"],
-    status: json["status"],
-    numberOfUses: json["numberOfUses"],
-    numberOfUsed: json["numberOfUsed"],
-    value: json["value"],
-    type: json["type"],
-    createdAt: json["createdAt"],
-    id: json["id"],
-    travelAgencyId: json["travelAgencyId"],
-  );
+        code: json["code"],
+        from: json["from"],
+        to: json["to"],
+        status: json["status"],
+        numberOfUses: json["numberOfUses"],
+        numberOfUsed: json["numberOfUsed"],
+        value: json["value"],
+        type: json["type"],
+        createdAt: json["createdAt"],
+        id: json["id"],
+        travelAgencyId: json["travelAgencyId"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "code": code,
-    "from": from,
-    "to": to,
-    "status": status,
-    "numberOfUses": numberOfUses,
-    "numberOfUsed": numberOfUsed,
-    "value": value,
-    "type": type,
-    "createdAt": createdAt,
-    "id": id,
-    "travelAgencyId": travelAgencyId,
-  };
+        "code": code,
+        "from": from,
+        "to": to,
+        "status": status,
+        "numberOfUses": numberOfUses,
+        "numberOfUsed": numberOfUsed,
+        "value": value,
+        "type": type,
+        "createdAt": createdAt,
+        "id": id,
+        "travelAgencyId": travelAgencyId,
+      };
 }

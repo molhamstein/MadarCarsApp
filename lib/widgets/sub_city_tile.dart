@@ -3,8 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/models/Car.dart';
-import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
@@ -13,14 +11,11 @@ class SubCityTile extends StatefulWidget {
 
   final Function(String, int, int, String) onCounterChanged;
 
-
-
-  const SubCityTile(
-      {Key key,
-      @required this.subLocationResponse,
-      @required this.onCounterChanged,
-     })
-      : super(key: key);
+  const SubCityTile({
+    Key key,
+    @required this.subLocationResponse,
+    @required this.onCounterChanged,
+  }) : super(key: key);
 
   @override
   SubCityTileState createState() {
@@ -43,14 +38,18 @@ class SubCityTileState extends State<SubCityTile> {
   @override
   Widget build(BuildContext context) {
     final tileSize = MediaQuery.of(context).size.width / 2.8;
-    return InkWell( onTap: (){print(widget.subLocationResponse.subLocation.nameEn);},
+    return InkWell(
+      onTap: () {
+        print(widget.subLocationResponse.subLocation.nameEn);
+      },
       child: Container(
         height: tileSize,
         width: tileSize,
         decoration: BoxDecoration(
           gradient: MadarColors.gradiant_decoration,
           image: DecorationImage(
-            image: NetworkImage(widget.subLocationResponse.subLocation.media.url),
+            image:
+                NetworkImage(widget.subLocationResponse.subLocation.media.url),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
                 Colors.white.withOpacity(0.15), BlendMode.dstATop),
@@ -130,8 +129,8 @@ class SubCityTileState extends State<SubCityTile> {
                                   const EdgeInsets.only(left: 4.0, bottom: 10),
                               child: Text(
                                 MadarLocalizations.of(context).trans('days'),
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 12),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
                               ),
                             )
                           ],
@@ -147,8 +146,9 @@ class SubCityTileState extends State<SubCityTile> {
                                       widget.subLocationResponse.subLocation.id,
                                       _counter,
                                       widget.subLocationResponse.cost,
-                                      widget.subLocationResponse.subLocation.name(
-                                          MadarLocalizations.of(context).locale));
+                                      widget.subLocationResponse.subLocation
+                                          .name(MadarLocalizations.of(context)
+                                              .locale));
                                   bloc.pushEstimationCost;
                                 }
                               },

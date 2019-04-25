@@ -7,10 +7,12 @@ import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/Invoice.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/profile_bloc.dart';
+
 import 'madar_fonts.dart';
 
 class InvoicePage extends StatefulWidget {
   final MyTrip trip;
+
   InvoicePage({Key key, this.title, this.trip}) : super(key: key);
   final String title;
 
@@ -23,6 +25,7 @@ class _InvoicePageState extends State<InvoicePage> {
   static AppBloc appBloc;
   static final token = appBloc.token;
   final MyTrip trip;
+
   _InvoicePageState(this.trip);
 
   @override

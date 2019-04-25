@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 
@@ -147,14 +146,15 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
           height: height,
           width: width,
           child: Center(
-            child: width > 80 ? Text(
-              MadarLocalizations.of(context).trans('add_note'),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-
-              ),
-            ) : Container(),
+            child: width > 80
+                ? Text(
+                    MadarLocalizations.of(context).trans('done'),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  )
+                : Container(),
           ),
         ),
       ),

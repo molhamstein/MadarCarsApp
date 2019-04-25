@@ -70,26 +70,26 @@ class SubmitButtonState extends State<SubmitButton>
       ),
       child: buttonSqueezeAnimation.value > widget.height
           ? MaterialButton(
-        highlightColor: Colors.transparent,
-        splashColor: Colors.redAccent[100],
-        disabledColor: Colors.grey,
-        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              vertical: 10.0),
-          child: Text(
-            widget.text,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22.0,
-                fontWeight: FontWeight.w500, height: 0.8),
-          ),
-        ),
-        onPressed: () {
-          widget.onPressed();
-          _loginButtonController.forward();
-        },
-      )
+              highlightColor: Colors.transparent,
+              splashColor: Colors.redAccent[100],
+              disabledColor: Colors.grey,
+              //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Text(
+                  widget.text,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.w500,
+                      height: 0.8),
+                ),
+              ),
+              onPressed: () {
+                widget.onPressed();
+                _loginButtonController.forward();
+              },
+            )
           : loading(),
     );
   }
@@ -100,5 +100,4 @@ class SubmitButtonState extends State<SubmitButton>
     }
     return CircularProgressIndicator();
   }
-
 }

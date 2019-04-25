@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/car_card_widget.dart';
@@ -18,8 +19,6 @@ import 'package:madar_booking/review/review_main.dart';
 import 'package:madar_booking/trip_card_widget.dart';
 import 'package:madar_booking/trip_planning/Trip_planing_page.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 
 class HomePage extends StatefulWidget {
   static const String route = 'home_page';
@@ -76,8 +75,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Matrix4 transformation;
   BorderRadius borderRadius;
   FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin  =new FlutterLocalNotificationsPlugin() ;
-
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      new FlutterLocalNotificationsPlugin();
 
 //  CouponBloc bloc ;
 
@@ -88,8 +87,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         : print(
             "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
   }
-
-
 
   void handelHeaderAnimation() {
     transformation = rotateBy_0;
@@ -154,12 +151,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _controller.forward();
   }
 
-  var map= {} ;
-  var title  = "";
-  var body = {} ;
+  var map = {};
+
+  var title = "";
+  var body = {};
+
   var myToken = "";
-
-
 
   @override
   initState() {
@@ -173,18 +170,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 //    print(homeBloc.contactNumFetcher.stream) ;
 //    bloc.fetchCheckCoupon();
 
-
     var android = new AndroidInitializationSettings('mipmap/ic_launcher');
     var ios = new IOSInitializationSettings();
-    var platform =new InitializationSettings(android, ios);
+    var platform = new InitializationSettings(android, ios);
     flutterLocalNotificationsPlugin.initialize(platform);
-
-
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
         print('on message $message');
-        map =message ;
+        map = message;
         showNotification(message);
 
 //        print("datais " );
@@ -254,17 +248,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
     _firebaseMessaging.subscribeToTopic('allUsers');
 
-
     super.initState();
   }
+
   showNotification(Map<String, dynamic> msg) async {
-    var android = new AndroidNotificationDetails("1", "Channel Name", "Channel description");
+    var android = new AndroidNotificationDetails(
+        "1", "Channel Name", "Channel description");
     var ios = new IOSNotificationDetails();
     var platform = new NotificationDetails(android, ios);
-print(msg['notification']['body']);
-    await flutterLocalNotificationsPlugin.show(0, (msg['notification']['title']),(msg['notification']['body']), platform);
+    print(msg['notification']['body']);
+    await flutterLocalNotificationsPlugin.show(
+        0,
+        (msg['notification']['title']),
+        (msg['notification']['body']),
+        platform);
   }
-
 
   _animatedHeader() {
     return Container(
@@ -760,6 +758,4 @@ class AvailbleCarState extends State<AvailbleCar> {
           }
         });
   }
-
 }
-

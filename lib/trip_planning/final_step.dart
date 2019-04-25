@@ -18,10 +18,9 @@ class FinalStep extends StatelessWidget {
                 MadarLocalizations.of(context)
                     .trans('trip_created_successfully'),
                 style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700
-                ),
+                    color: Colors.black87,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700),
                 textAlign: TextAlign.center,
               ),
             ),

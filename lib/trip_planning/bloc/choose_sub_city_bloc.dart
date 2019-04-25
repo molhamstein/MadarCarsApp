@@ -1,5 +1,4 @@
 import 'package:madar_booking/bloc_provider.dart';
-import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/models/trip.dart';
 import 'package:madar_booking/network.dart';

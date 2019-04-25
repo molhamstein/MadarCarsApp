@@ -10,6 +10,7 @@ class DatePicker extends StatefulWidget {
   final bool withTimePicker;
   final String title;
   final bool endOfDay;
+
 //  static String Summarydate = "";
 
   const DatePicker({
@@ -44,7 +45,6 @@ class DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-
 //    DatePicker.Summarydate =_selectedDate.toString();
     return Directionality(
       textDirection: ui.TextDirection.ltr,
@@ -139,8 +139,8 @@ class DatePickerState extends State<DatePicker> {
     if (time != null && time != _selectedTime) timeChanged = true;
 
     if (dateChanged || timeChanged) {
-
-      DateTime selectedDate = DateTime(date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
+      DateTime selectedDate =
+          DateTime(date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
       if (dateChanged && timeChanged) {
         selectedDate = DateTime(date.year, date.month, date.day, time.hour);
       }

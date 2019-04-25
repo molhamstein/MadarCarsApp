@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:io' show Platform;
+
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
@@ -12,11 +16,8 @@ import 'package:madar_booking/feedback.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/user.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart' as path;
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EditProfileWidget extends StatefulWidget {
@@ -50,12 +51,16 @@ class EditProfileWidgetState extends State<EditProfileWidget>
   String userId;
   String token;
   final _imageController = BehaviorSubject<File>();
+
   Function(File) get insertuserImage => _imageController.sink.add;
+
   Stream<String> get userImageStream =>
       _imageController.stream.transform(commpressImage);
+
   // Stream<String> get nameSignUpStream => _nameSignUpController.stream.transform(validateName);
   File _image;
   String lastSelectedValue;
+
   void showDemoActionSheet({BuildContext context, Widget child}) {
     showCupertinoModalPopup<String>(
       context: context,
@@ -86,7 +91,6 @@ class EditProfileWidgetState extends State<EditProfileWidget>
       path.canonicalize(file.path),
       quality: 25,
       rotate: 0,
-
     );
     return result;
   }
@@ -321,7 +325,7 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                 return MainButton(
                   text: MadarLocalizations.of(context).trans("update"),
                   onPressed: () {
-                   if (_image != null) {
+                    if (_image != null) {
                       bloc.submitUpdateUserWithImage(_image, token, userId);
                     } else {
                       bloc.submitUpdateUser(userId, token, '');
@@ -356,12 +360,11 @@ class EditProfileWidgetState extends State<EditProfileWidget>
                     showInSnackBar('success_message', context);
                   });
                   Future.delayed(const Duration(milliseconds: 1000), () {
-                  SharedPreferences.getInstance().then((prefs) {
-                    print('from prefs = ' + prefs.get('user_image'));
-                    Navigator.pop(context, prefs.get('user_image'));
+                    SharedPreferences.getInstance().then((prefs) {
+                      print('from prefs = ' + prefs.get('user_image'));
+                      Navigator.pop(context, prefs.get('user_image'));
+                    });
                   });
-                  });
-
                 }
                 return Container(
                   constraints: BoxConstraints.expand(),

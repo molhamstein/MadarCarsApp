@@ -3,14 +3,16 @@
 //     final myTrip = myTripFromJson(jsonString);
 
 import 'dart:convert';
+
+import 'package:date_format/date_format.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/models/TravelAgency.dart';
-import 'TripsSublocation.dart';
+
 import 'Car.dart';
-import 'user.dart';
-import 'location.dart';
 import 'Driver.dart';
-import 'package:date_format/date_format.dart';
+import 'TripsSublocation.dart';
+import 'location.dart';
+import 'user.dart';
 
 String myTripToJson(List<MyTrip> data) {
   final dyn = new List<dynamic>.from(data.map((x) => x.toJson()));

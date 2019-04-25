@@ -73,7 +73,8 @@ class LoadingButtonSmallState extends State<LoadingButtonSmall>
                 style: TextStyle(
                     color: MadarColors.gradientDown,
                     fontSize: 12.0,
-                fontWeight: FontWeight.w700, height: 0.5),
+                    fontWeight: FontWeight.w700,
+                    height: 0.5),
               ),
               onPressed: () {
                 widget.onPressed();
@@ -90,5 +91,4 @@ class LoadingButtonSmallState extends State<LoadingButtonSmall>
     }
     return CircularProgressIndicator();
   }
-
 }

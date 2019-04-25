@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/app_text_style.dart';
@@ -8,23 +9,29 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
+
 import 'madar_colors.dart';
 
 class TripInfoPage extends StatefulWidget {
   final MyTrip trip;
+
   TripInfoPage(this.trip);
+
   @override
   TripInfoPageState createState() => TripInfoPageState(trip);
 }
 
 class TripInfoPageState extends State<TripInfoPage> {
   final MyTrip trip;
+
   TripInfoPageState(this.trip);
+
   // animated widget height
   double containerWidgetHeight = 200;
   var languages = ["Turkish", "English", "Arabic"];
   var cities = ["Istanbul", "Bursa", "Ankara"];
   var days = ["2 days", "1 day", "1 day"];
+
 // timer for animated widget
   var timeout = const Duration(seconds: 3);
   var ms = const Duration(milliseconds: 1);
@@ -313,7 +320,8 @@ class TripInfoPageState extends State<TripInfoPage> {
                                         ),
                                       ),
                                       Expanded(
-                                        child: Container( //TODO : edit trip button
+                                        child:
+                                            Container(//TODO : edit trip button
 //                                          alignment: Alignment(0, -0.5),
 //                                          child: trip.isActive()
 //                                              ? IconButton(
@@ -324,7 +332,7 @@ class TripInfoPageState extends State<TripInfoPage> {
 //                                                      MyFlutterApp.edit_trip),
 //                                                )
 //                                              : null,
-                                        ),
+                                                ),
                                       ),
                                     ],
                                   ),

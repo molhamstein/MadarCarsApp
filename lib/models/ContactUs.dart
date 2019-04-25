@@ -1,9 +1,7 @@
 class ContactUs {
   String _contactUsNum;
 
-
   ContactUs(this._contactUsNum);
-
 
   String get contactUsNumber => _contactUsNum;
 

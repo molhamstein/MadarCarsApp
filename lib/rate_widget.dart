@@ -5,6 +5,7 @@ class RateWidget extends StatelessWidget {
   final String rate;
 
   RateWidget(this.rate);
+
   @override
   Widget build(BuildContext context) {
     return Container(

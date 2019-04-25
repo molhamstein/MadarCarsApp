@@ -319,13 +319,12 @@ class Network {
     print(response.body);
     print(_locations);
     if (response.statusCode == 200) {
-      print("locaaationsss :" +response.body);
+      print("locaaationsss :" + response.body);
 
       return LocationsResponse.fromJson(json.decode(response.body));
-      print("locaaationsss :" +response.body);
-
+      print("locaaationsss :" + response.body);
     } else {
-      print("locations is : "+response.body);
+      print("locations is : " + response.body);
       throw json.decode(response.body);
     }
   }
@@ -499,9 +498,8 @@ class Network {
   Future<String> postTrip(Trip trip, String token, String userId) async {
     headers['Authorization'] = token;
 //    headers.remove('Content-Type');
-    print( trip.startDate.toUtc().toString());
-    print( trip.startDate.toString());
-
+    print(trip.startDate.toUtc().toString());
+    print(trip.startDate.toString());
 
     final Map<String, dynamic> body = {
       "locationId": trip.location.id,
