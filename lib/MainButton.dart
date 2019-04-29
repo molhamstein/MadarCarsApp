@@ -148,7 +148,9 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
           child: Center(
             child: width > 80
                 ? Text(
-                    MadarLocalizations.of(context).trans('done'),
+
+              //Todo done
+                    MadarLocalizations.of(context).trans('add_note'),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,

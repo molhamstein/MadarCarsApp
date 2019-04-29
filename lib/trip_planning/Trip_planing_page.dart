@@ -196,320 +196,326 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                         if (bloc.step == Steps.finalstep) {
                                           Navigator.of(context).pop();
                                         } else if (bloc.done) {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) {
-                                              return Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 16),
-                                                color: Colors.white,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 20.0),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left: 8.0,
-                                                                      right: 8),
-                                                              child: TextField(
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    _cardNumController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          10.0),
-                                                                  hasFloatingPlaceholder:
-                                                                      true,
-                                                                  hintText: MadarLocalizations.of(
-                                                                          context)
-                                                                      .trans(
-                                                                          "Card_Number"),
-                                                                  border:
-                                                                      OutlineInputBorder(),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 16,
-                                                                bottom: 16),
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Container(
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            8.0,
-                                                                        right:
-                                                                            8),
-                                                                child:
-                                                                    TextField(
-                                                                  controller:
-                                                                      _cardNameController,
+//                                          showModalBottomSheet(
+//                                            context: context,
+//                                            builder: (context) {
+//                                              return Container(
+//                                                padding:
+//                                                    EdgeInsets.only(top: 16),
+//                                                color: Colors.white,
+//                                                width: MediaQuery.of(context)
+//                                                    .size
+//                                                    .width,
+//                                                child: Padding(
+//                                                  padding:
+//                                                      const EdgeInsets.only(
+//                                                          bottom: 20.0),
+//                                                  child: Column(
+//                                                    mainAxisSize:
+//                                                        MainAxisSize.min,
+//                                                    children: <Widget>[
+//                                                      Row(
+//                                                        children: <Widget>[
+//                                                          Container(
+//                                                            width:
+//                                                                MediaQuery.of(
+//                                                                        context)
+//                                                                    .size
+//                                                                    .width,
+//                                                            child: Padding(
+//                                                              padding:
+//                                                                  const EdgeInsets
+//                                                                          .only(
+//                                                                      left: 8.0,
+//                                                                      right: 8),
+//                                                              child: TextField(
+//                                                                keyboardType:
+//                                                                    TextInputType
+//                                                                        .number,
+//                                                                controller:
+//                                                                    _cardNumController,
+//                                                                decoration:
+//                                                                    InputDecoration(
+//                                                                  contentPadding:
+//                                                                      const EdgeInsets
+//                                                                              .all(
+//                                                                          10.0),
+//                                                                  hasFloatingPlaceholder:
+//                                                                      true,
+//                                                                  hintText: MadarLocalizations.of(
+//                                                                          context)
+//                                                                      .trans(
+//                                                                          "Card_Number"),
+//                                                                  border:
+//                                                                      OutlineInputBorder(),
+//                                                                ),
+//                                                              ),
+//                                                            ),
+//                                                          ),
+//                                                        ],
+//                                                      ),
+//                                                      Padding(
+//                                                        padding:
+//                                                            EdgeInsets.only(
+//                                                                top: 16,
+//                                                                bottom: 16),
+//                                                        child: Row(
+//                                                          children: <Widget>[
+//                                                            Container(
+//                                                              width:
+//                                                                  MediaQuery.of(
+//                                                                          context)
+//                                                                      .size
+//                                                                      .width,
+//                                                              child: Padding(
+//                                                                padding:
+//                                                                    const EdgeInsets
+//                                                                            .only(
+//                                                                        left:
+//                                                                            8.0,
+//                                                                        right:
+//                                                                            8),
+//                                                                child:
+//                                                                    TextField(
+//                                                                  controller:
+//                                                                      _cardNameController,
+////
 //
-
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    contentPadding:
-                                                                        const EdgeInsets.all(
-                                                                            10.0),
-                                                                    hasFloatingPlaceholder:
-                                                                        true,
-                                                                    hintText: MadarLocalizations.of(
-                                                                            context)
-                                                                        .trans(
-                                                                            "Name_of_card"),
-                                                                    border:
-                                                                        OutlineInputBorder(),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        children: <Widget>[
+//                                                                  decoration:
+//                                                                      InputDecoration(
+//                                                                    contentPadding:
+//                                                                        const EdgeInsets.all(
+//                                                                            10.0),
+//                                                                    hasFloatingPlaceholder:
+//                                                                        true,
+//                                                                    hintText: MadarLocalizations.of(
+//                                                                            context)
+//                                                                        .trans(
+//                                                                            "Name_of_card"),
+//                                                                    border:
+//                                                                        OutlineInputBorder(),
+//                                                                  ),
+//                                                                ),
+//                                                              ),
+//                                                            ),
+//                                                          ],
+//                                                        ),
+//                                                      ),
+//                                                      Row(
+//                                                        children: <Widget>[
+////
 //
-
-                                                          Container(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left: 8.0,
-                                                                      right: 8),
-                                                              child:
-                                                                  ExpirationFormField(
-                                                                controller:
-                                                                    _dateController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          10.0),
-                                                                  hasFloatingPlaceholder:
-                                                                      true,
-//                                                                        labelText: "Card Expiration",
-                                                                  hintText:
-                                                                      "MM/YY",
-                                                                  border:
-                                                                      OutlineInputBorder(),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-
+//                                                          Container(
+//                                                            width: MediaQuery.of(
+//                                                                        context)
+//                                                                    .size
+//                                                                    .width /
+//                                                                2,
+//                                                            child: Padding(
+//                                                              padding:
+//                                                                  const EdgeInsets
+//                                                                          .only(
+//                                                                      left: 8.0,
+//                                                                      right: 8),
+//                                                              child:
+//                                                                  ExpirationFormField(
+//                                                                controller:
+//                                                                    _dateController,
+//                                                                decoration:
+//                                                                    InputDecoration(
+//                                                                  contentPadding:
+//                                                                      const EdgeInsets
+//                                                                              .all(
+//                                                                          10.0),
+//                                                                  hasFloatingPlaceholder:
+//                                                                      true,
+////                                                                        labelText: "Card Expiration",
+//                                                                  hintText:
+//                                                                      "MM/YY",
+//                                                                  border:
+//                                                                      OutlineInputBorder(),
+//                                                                ),
+//                                                              ),
+//                                                            ),
+//                                                          ),
 //
-
-                                                          Container(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left: 8.0,
-                                                                      right: 8),
-                                                              child:
-                                                                  CVVFormField(
-                                                                inputFormatters: [
-                                                                  LengthLimitingTextInputFormatter(
-                                                                      4),
-                                                                ],
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  hintText:
-                                                                      "CVV",
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          10.0),
-                                                                  border:
-                                                                      OutlineInputBorder(),
-                                                                ),
-                                                                controller:
-                                                                    _securityCodeController,
-                                                              ),
-                                                            ),
-                                                          ),
-
+////
 //
-                                                        ],
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 16.0),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: <Widget>[
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          20.0,
-                                                                      right:
-                                                                          20),
-                                                              child:
-                                                                  RaisedButton(
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            25)),
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: new Text(
-                                                                    "Cancle",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            16,
-                                                                        height:
-                                                                            0.5)),
-                                                                color: MadarColors
-                                                                    .dark_grey,
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          20.0,
-                                                                      right:
-                                                                          20),
-                                                              child:
-                                                                  RaisedButton(
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            25)),
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: new Text(
-                                                                    "Check",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            16,
-                                                                        height:
-                                                                            0.5)),
-                                                                color: MadarColors
-                                                                    .gradientDown,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
+//                                                          Container(
+//                                                            width: MediaQuery.of(
+//                                                                        context)
+//                                                                    .size
+//                                                                    .width /
+//                                                                2,
+//                                                            child: Padding(
+//                                                              padding:
+//                                                                  const EdgeInsets
+//                                                                          .only(
+//                                                                      left: 8.0,
+//                                                                      right: 8),
+//                                                              child:
+//                                                                  CVVFormField(
+//                                                                inputFormatters: [
+//                                                                  LengthLimitingTextInputFormatter(
+//                                                                      4),
+//                                                                ],
+//                                                                decoration:
+//                                                                    InputDecoration(
+//                                                                  hintText:
+//                                                                      "CVV",
+//                                                                  contentPadding:
+//                                                                      const EdgeInsets
+//                                                                              .all(
+//                                                                          10.0),
+//                                                                  border:
+//                                                                      OutlineInputBorder(),
+//                                                                ),
+//                                                                controller:
+//                                                                    _securityCodeController,
+//                                                              ),
+//                                                            ),
+//                                                          ),
+//
+////
+//                                                        ],
+//                                                      ),
+//                                                      Padding(
+//                                                        padding:
+//                                                            const EdgeInsets
+//                                                                    .only(
+//                                                                top: 16.0),
+//                                                        child: Row(
+//                                                          mainAxisAlignment:
+//                                                              MainAxisAlignment
+//                                                                  .spaceEvenly,
+//                                                          children: <Widget>[
+//                                                            Padding(
+//                                                              padding:
+//                                                                  const EdgeInsets
+//                                                                          .only(
+//                                                                      left:
+//                                                                          20.0,
+//                                                                      right:
+//                                                                          20),
+//                                                              child:
+//                                                                  RaisedButton(
+//                                                                shape: RoundedRectangleBorder(
+//                                                                    borderRadius:
+//                                                                        BorderRadius.circular(
+//                                                                            25)),
+//                                                                onPressed: () {
+//                                                                  Navigator.pop(
+//                                                                      context);
+//                                                                },
+//                                                                child: new Text(
+//                                                                    "Cancle",
+//                                                                    style: TextStyle(
+//                                                                        color: Colors
+//                                                                            .white,
+//                                                                        fontSize:
+//                                                                            16,
+//                                                                        height:
+//                                                                            0.5)),
+//                                                                color: MadarColors
+//                                                                    .dark_grey,
+//                                                              ),
+//                                                            ),
+//                                                            Padding(
+//                                                              padding:
+//                                                                  const EdgeInsets
+//                                                                          .only(
+//                                                                      left:
+//                                                                          20.0,
+//                                                                      right:
+//                                                                          20),
+//                                                              child:
+//                                                                  RaisedButton(
+//                                                                shape: RoundedRectangleBorder(
+//                                                                    borderRadius:
+//                                                                        BorderRadius.circular(
+//                                                                            25)),
+//                                                                onPressed: () {
+//                                                                  Navigator.pop(
+//                                                                      context);
+//                                                                },
+//                                                                child: new Text(
+//                                                                    "Check",
+//                                                                    style: TextStyle(
+//                                                                        color: Colors
+//                                                                            .white,
+//                                                                        fontSize:
+//                                                                            16,
+//                                                                        height:
+//                                                                            0.5)),
+//                                                                color: MadarColors
+//                                                                    .gradientDown,
+//                                                              ),
+//                                                            ),
+//                                                          ],
+//                                                        ),
+//                                                      ),
+//                                                    ],
+//                                                  ),
+//                                                ),
+//                                              );
+//                                            },
+//                                          );
+
+
+                                          bloc.submitTrip()
+;
                                         } else
                                           bloc.navForward;
                                       },
                                       onMiniBtnPressed: () =>
-//                                        showModalBottomSheet(
-//                                          context: context,
-//                                          builder: (context) {
-//                                            return Container(
-//                                              padding: EdgeInsets.all(16),
-//                                              color: Colors.white,
-//                                              width: MediaQuery.of(context)
-//                                                  .size
-//                                                  .width,
-//                                              child: Column(
-//                                                children: <Widget>[
-//                                                  Padding(
-//                                                    padding: EdgeInsets.only(
-//                                                        bottom: MediaQuery.of(
-//                                                                context)
-//                                                            .viewInsets
-//                                                            .bottom),
-//                                                    child: TextField(
-//                                                      controller:
-//                                                          _noteController,
-//                                                      onSubmitted: (s) {
-//                                                        bloc.trip.note = s;
-//                                                        Navigator.pop(context);
-//                                                      },
-//                                                      autofocus: true,
-//                                                      decoration:
-//                                                          InputDecoration(
-//                                                        hasFloatingPlaceholder:
-//                                                            true,
-//                                                        hintText:
-//                                                            MadarLocalizations
-//                                                                    .of(context)
-//                                                                .trans(
-//                                                                    'your_note'),
-//                                                        border:
-//                                                            OutlineInputBorder(),
-//                                                      ),
-//                                                    ),
-//                                                  ),
-//                                                ],
-//                                              ),
-//                                            );
-//                                          },
-//                                        ),
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return Container(
+                                              padding: EdgeInsets.all(16),
+                                              color: Colors.white,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: MediaQuery.of(
+                                                                context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                    child: TextField(
+                                                      controller:
+                                                          _noteController,
+                                                      onSubmitted: (s) {
+                                                        bloc.trip.note = s;
+                                                        Navigator.pop(context);
+                                                      },
+                                                      autofocus: true,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        hasFloatingPlaceholder:
+                                                            true,
+                                                        hintText:
+                                                            MadarLocalizations
+                                                                    .of(context)
+                                                                .trans(
+                                                                    'your_note'),
+                                                        border:
+                                                            OutlineInputBorder(),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
 
-                                          bloc.submitTrip()),
+//                                          bloc.submitTrip()
+
+                                  ),
                                 );
                               });
                         },

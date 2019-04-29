@@ -307,17 +307,17 @@ class TripPlaningBloc extends BaseBloc with Network {
         done = false;
         pushLoading(false);
         changeButtonText('next');
-        hideNoteButton;
+        showNoteButton;
         break;
       case Steps.chooseSuplocations:
         done = false;
         pushLoading(false);
         changeButtonText('next');
-        hideNoteButton;
+        showNoteButton;
         break;
       case Steps.summary:
-        changeButtonText('pay_now');
-        pushLoading(false);
+        changeButtonText('done');
+        pushLoading(true);
         done = true;
         showNoteButton;
         break;
@@ -329,6 +329,62 @@ class TripPlaningBloc extends BaseBloc with Network {
       default:
     }
   }
+
+
+//  setState() {
+//    done = false;
+//    showFeedback = false;
+//    switch (step) {
+//      case Steps.chooseCity:
+//        done = false;
+//        pushLoading(false);
+//        changeButtonText('next');
+//        hideNoteButton;
+//        break;
+//      case Steps.chooseType:
+//        done = false;
+//        pushLoading(false);
+//        changeButtonText('next');
+//        hideNoteButton;
+//        break;
+//      case Steps.chooseAirports:
+//        done = false;
+//        pushLoading(false);
+//        changeButtonText('next');
+//        hideNoteButton;
+//        break;
+//      case Steps.chooseDate:
+//        done = false;
+//        pushLoading(false);
+//        changeButtonText('next');
+//        hideNoteButton;
+//        break;
+//      case Steps.chooseCar:
+//        done = false;
+//        pushLoading(false);
+//        changeButtonText('next');
+//        hideNoteButton;
+//        break;
+//      case Steps.chooseSuplocations:
+//        done = false;
+//        pushLoading(false);
+//        changeButtonText('next');
+//        hideNoteButton;
+//        break;
+//      case Steps.summary:
+//        changeButtonText('pay_now');
+//        pushLoading(false);
+//        done = true;
+//        showNoteButton;
+//        break;
+//      case Steps.finalstep:
+//        changeButtonText('done');
+//        pushLoading(false);
+//        hideNoteButton;
+//        break;
+//      default:
+//    }
+//  }
 
 //       case Steps.chooseCity:
 //       case Steps.chooseType:
