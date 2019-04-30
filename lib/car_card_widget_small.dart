@@ -5,7 +5,6 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/Car.dart';
 import 'package:madar_booking/rate_widget.dart';
-import 'madar_fonts.dart';
 
 class CarCardSmall extends StatelessWidget {
   final Car car;
@@ -151,19 +150,20 @@ class CarCardSmall extends StatelessWidget {
                       ),
                     )
                   : Container(),
-
               Align(
                 alignment: Alignment.topLeft,
-                child: car.isVip ? Container(
-                  width: width,
-                  height: height,
-                  alignment: Alignment.topLeft,
-                  child: Image.asset(
-                    'assets/images/vip.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                ) : Container(),
+                child: car.isVip
+                    ? Container(
+                        width: width,
+                        height: height,
+                        alignment: Alignment.topLeft,
+                        child: Image.asset(
+                          'assets/images/vip.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                      )
+                    : Container(),
               ),
             ],
           )),

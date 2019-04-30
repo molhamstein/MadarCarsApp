@@ -10,9 +10,9 @@ import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChooseCityStep extends StatefulWidget {
-  static List<Location> subLocation  ;
-  static String name  ;
+  static List<Location> subLocation;
 
+  static String name;
 
   @override
   ChooseCityStepState createState() {
@@ -319,13 +319,12 @@ class ChooseCityStepState extends State<ChooseCityStep>
                       }
                     }
 //                    planingBloc.addSubLocations(location.id, 1, 55, location.nameTr,0 );
-                    ChooseCityStep.name =location.name((MadarLocalizations.of(context).locale));
-                    print( "aa is" +ChooseCityStep.name);
-                    ChooseCityStep.subLocation =[location];
-
-
+                    ChooseCityStep.name =
+                        location.name((MadarLocalizations.of(context).locale));
+                    print("aa is" + ChooseCityStep.name);
+                    ChooseCityStep.subLocation = [location];
                   } else if (location.locationId == null) {
-                    ChooseCityStep.subLocation = null ;
+                    ChooseCityStep.subLocation = null;
                     planingBloc.cityId(location);
                     print("location is null : true  true");
                   }

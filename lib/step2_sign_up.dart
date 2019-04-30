@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/MainButton.dart';
@@ -9,9 +10,8 @@ import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/UserResponse.dart';
-import 'package:madar_booking/models/user.dart';
+
 import 'feedback.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 
 class Step2SignUp extends StatefulWidget {
   @override
@@ -45,8 +45,10 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
               BlocProvider.of<AppBloc>(context).saveUser(snapshot.data.user);
               BlocProvider.of<AppBloc>(context).saveToken(snapshot.data.token);
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.of(context).pushReplacement(
-                    new MaterialPageRoute(builder: (context) => HomePage(afterLogin: true,)));
+                Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                    builder: (context) => HomePage(
+                          afterLogin: true,
+                        )));
               });
             }
 
@@ -211,4 +213,3 @@ class Step2SignUpState extends State<Step2SignUp> with UserFeedback {
   }
 }
 //////////////////////////
-

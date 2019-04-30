@@ -4,9 +4,10 @@
 
 import 'dart:convert';
 import 'dart:ui';
+
+import 'TripsSublocation.dart';
 import 'location.dart';
 import 'media.dart';
-import 'TripsSublocation.dart';
 
 List<TripModel> tripFromJson(String str) {
   final jsonData = json.decode(str);
@@ -38,7 +39,6 @@ class TripModel {
   Location location;
   List<dynamic> predefinedTripsMedia;
   List<TripSublocation> predefinedTripsSublocations;
-
 
   TripModel({
     this.createdAt,
@@ -145,6 +145,4 @@ class TripModel {
   String toString() {
     return 'TripModel{titleAr: $titleAr, locationId: $locationId, predefinedTripsMedias: $predefinedTripsMedias, location: $location, predefinedTripsSublocations: $predefinedTripsSublocations}';
   }
-
-
 }

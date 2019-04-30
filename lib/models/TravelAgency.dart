@@ -1,4 +1,3 @@
-
 import 'package:madar_booking/models/Country.dart';
 import 'package:madar_booking/models/media.dart';
 
@@ -32,32 +31,32 @@ class TravelAgency {
   });
 
   factory TravelAgency.fromJson(Map<String, dynamic> json) => new TravelAgency(
-    nameEn: json["nameEn"],
-    nameAr: json["nameAr"],
-    nameTr: json["nameTr"],
-    phoneNumber: json["phoneNumber"],
-    status: json["status"],
-    createdAt: json["createdAt"],
-    email: json["email"],
-    id: json["id"],
-    isoCode: json["ISOCode"],
-    mediaId: json["mediaId"],
-    country: Country.fromJson(json["country"]),
-    media: Media.fromJson(json["media"]),
-  );
+        nameEn: json["nameEn"],
+        nameAr: json["nameAr"],
+        nameTr: json["nameTr"],
+        phoneNumber: json["phoneNumber"],
+        status: json["status"],
+        createdAt: json["createdAt"],
+        email: json["email"],
+        id: json["id"],
+        isoCode: json["ISOCode"],
+        mediaId: json["mediaId"],
+        country: Country.fromJson(json["country"]),
+        media: Media.fromJson(json["media"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "nameEn": nameEn,
-    "nameAr": nameAr,
-    "nameTr": nameTr,
-    "phoneNumber": phoneNumber,
-    "status": status,
-    "createdAt": createdAt,
-    "email": email,
-    "id": id,
-    "ISOCode": isoCode,
-    "mediaId": mediaId,
-    "country": country.toJson(),
-    "media": media.toJson(),
-  };
+        "nameEn": nameEn,
+        "nameAr": nameAr,
+        "nameTr": nameTr,
+        "phoneNumber": phoneNumber,
+        "status": status,
+        "createdAt": createdAt,
+        "email": email,
+        "id": id,
+        "ISOCode": isoCode,
+        "mediaId": mediaId,
+        "country": country.toJson(),
+        "media": media.toJson(),
+      };
 }

@@ -34,6 +34,7 @@ class HomeBloc extends BaseBloc with Network {
 //  }
 
   final contactNumFetcher = PublishSubject<ContactUs>();
+
   Observable<ContactUs> get contactNum => contactNumFetcher.stream;
 
   getContactNum() {

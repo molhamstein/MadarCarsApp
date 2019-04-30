@@ -56,6 +56,7 @@ class StepChooseCarState extends State<StepChooseCar>
     '2022'
   ];
   var shouldShowProgressBar;
+
   @override
   void initState() {
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);

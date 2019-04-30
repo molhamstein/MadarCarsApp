@@ -63,7 +63,12 @@ class TripTypeTileState extends State<TripTypeTile> {
               children: <Widget>[
                 _checked
                     ? Align(
-                        alignment: MadarLocalizations.of(context).locale.languageCode == 'en' ? Alignment.topRight : Alignment.topLeft,
+                        alignment: MadarLocalizations.of(context)
+                                    .locale
+                                    .languageCode ==
+                                'en'
+                            ? Alignment.topRight
+                            : Alignment.topLeft,
                         child: Icon(
                           FontAwesomeIcons.solidCheckCircle,
                           color: Colors.yellow[700],

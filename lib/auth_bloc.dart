@@ -17,6 +17,7 @@ import 'validator.dart';
 class AuthBloc extends BaseBloc with Validators, Network {
   bool shouldShowFeedBack;
   bool shouldNavgateToSignUp;
+
   AuthBloc(
       {this.shouldShowFeedBack = true, this.shouldNavgateToSignUp = false});
 

@@ -75,14 +75,14 @@ class MainButton2State extends State<MainButton2>
               disabledColor: Colors.grey,
               //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Text(
                   widget.text,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 22.0,
-                  fontWeight: FontWeight.w500, height: 0.8),
+                      fontWeight: FontWeight.w500,
+                      height: 0.8),
                 ),
               ),
               onPressed: () {
@@ -100,5 +100,4 @@ class MainButton2State extends State<MainButton2>
     }
     return CircularProgressIndicator();
   }
-
 }

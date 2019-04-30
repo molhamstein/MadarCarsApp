@@ -2,6 +2,7 @@
 //
 //     final subLocationResponse = subLocationResponseFromJson(jsonString);
 import 'dart:convert';
+
 import 'package:madar_booking/models/Car.dart';
 
 SubLocationResponse subLocationResponseFromJson(String str) {

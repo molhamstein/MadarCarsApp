@@ -1,7 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madar_booking/MainButton.dart';
 import 'package:madar_booking/MainButton2.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
@@ -9,8 +8,8 @@ import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/home_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/UserResponse.dart';
-import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/step2_sign_up.dart';
+
 import 'feedback.dart';
 
 class LoginWidget extends StatefulWidget {

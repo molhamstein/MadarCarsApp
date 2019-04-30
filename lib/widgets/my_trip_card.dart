@@ -9,6 +9,7 @@ import 'package:madar_booking/trip_info_page.dart';
 
 class MyTripCard extends StatefulWidget {
   final MyTrip trip;
+
   MyTripCard(this.trip);
 
   @override

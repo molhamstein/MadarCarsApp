@@ -3,11 +3,11 @@ import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/edit_profile_widget.dart';
+import 'package:madar_booking/feedback.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/profile_bloc.dart';
-import 'package:madar_booking/feedback.dart';
 
 class EditProfilePage extends StatefulWidget {
   EditProfilePage({Key key}) : super(key: key);
@@ -26,6 +26,7 @@ class _EditProfilePageState extends State<EditProfilePage>
   ProfileBloc profileBloc;
   String token;
   String userId;
+
   @override
   void dispose() {
     _pageController?.dispose();

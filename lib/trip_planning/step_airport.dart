@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madar_booking/LoadingButtonSmall.dart';
-import 'package:madar_booking/TripTypeTile.dart';
 import 'package:madar_booking/app_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/trip_planning/bloc/choose_airpory_bloc.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
-import 'package:madar_booking/trip_planning/need_help_page.dart';
 
 class AirportStep extends StatefulWidget {
   @override
@@ -22,6 +19,7 @@ class AirportStepState extends State<AirportStep>
   ChooseAirportBloc airportBloc;
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
+
   @override
   void initState() {
     bloc = BlocProvider.of<TripPlaningBloc>(context);

@@ -2,7 +2,6 @@ import 'package:country_code_picker/country_code.dart';
 import 'package:madar_booking/auth_bloc.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/models/UserResponse.dart';
-import 'package:madar_booking/models/user.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/validator.dart';
 import 'package:rxdart/rxdart.dart';

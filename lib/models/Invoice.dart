@@ -4,6 +4,7 @@
 
 import 'dart:convert';
 import 'dart:ui';
+
 import 'package:madar_booking/models/TripModel.dart';
 
 Invoice invoiceFromJson(String str) {

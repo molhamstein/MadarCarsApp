@@ -18,6 +18,7 @@ class TripTypeStepState extends State<TripTypeStep>
   TripPlaningBloc bloc;
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
+
   @override
   void initState() {
     _controller = AnimationController(

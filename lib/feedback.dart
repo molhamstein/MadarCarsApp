@@ -3,8 +3,8 @@ import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
 
 mixin UserFeedback {
-
-  void showInSnackBar(String value, BuildContext context, {Color color = MadarColors.gradientUp}) {
+  void showInSnackBar(String value, BuildContext context,
+      {Color color = MadarColors.gradientUp}) {
     FocusScope.of(context).requestFocus(new FocusNode());
     Scaffold.of(context)?.removeCurrentSnackBar();
     Scaffold.of(context).showSnackBar(new SnackBar(
@@ -20,5 +20,4 @@ mixin UserFeedback {
       duration: Duration(seconds: 3),
     ));
   }
-
 }

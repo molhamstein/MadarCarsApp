@@ -36,7 +36,7 @@ class SmilePainter extends CustomPainter {
     halfWidth = size.width / 2;
     halfHeight = size.width / 4;
 
-    radius = halfHeight ;
+    radius = halfHeight;
     eyeRadius = radius / 6;
 
     diameter = radius * 2;

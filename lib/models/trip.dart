@@ -91,12 +91,11 @@ class Trip {
   }
 
   editSubLocation(int duration, int index) {
-    print("theeeeeeeeeeee index is :"+index.toString());
+    print("theeeeeeeeeeee index is :" + index.toString());
     tripSubLocations[index].duration = duration;
   }
 
-
-  int getSubLocationDurationByNewId(String id ,int index ) {
+  int getSubLocationDurationByNewId(String id, int index) {
     print(id);
     print(index);
     var duration = 0;
@@ -111,7 +110,6 @@ class Trip {
     print("sublocation $id duration  $duration");
     return duration;
   }
-
 
   int getSubLocationDurationById(String id) {
     print(id);

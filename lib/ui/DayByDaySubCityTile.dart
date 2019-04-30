@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'package:madar_booking/models/Car.dart';
-import 'package:madar_booking/models/location.dart';
 import 'package:madar_booking/models/sub_location_response.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 
 class DayByDaySubCityTile extends StatefulWidget {
   static String text = "";
   final SubLocationResponse subLocationResponse;
+
 //  final Function(String, int, int, String) onCounterChanged;
 
-  const DayByDaySubCityTile(
-      {Key key,
-        @required this.subLocationResponse,
+  const DayByDaySubCityTile({
+    Key key,
+    @required this.subLocationResponse,
 //        @required this.onCounterChanged
-      })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   DayByDaySubCityTileState createState() {
@@ -45,8 +42,10 @@ class DayByDaySubCityTileState extends State<DayByDaySubCityTile> {
       height: tileSize,
       width: tileSize,
       decoration: BoxDecoration(
-          gradient: MadarColors.gradiantFromColors(widget.subLocationResponse.subLocation.color1, widget.subLocationResponse.subLocation.color2)
-          ,image: DecorationImage(
+        gradient: MadarColors.gradiantFromColors(
+            widget.subLocationResponse.subLocation.color1,
+            widget.subLocationResponse.subLocation.color2),
+        image: DecorationImage(
           image: NetworkImage(widget.subLocationResponse.subLocation.media.url),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(

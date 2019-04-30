@@ -3,12 +3,12 @@ import 'dart:async';
 mixin Validators {
   final validatePhone = StreamTransformer<String, String>.fromHandlers(
       handleData: (phoneNumber, sink) {
-    if (phoneNumber.length >= 5 && !phoneNumber.startsWith('0') ) {
+    if (phoneNumber.length >= 5 && !phoneNumber.startsWith('0')) {
       sink.add(phoneNumber);
     } else {
-      if(phoneNumber.length < 5 )
-      sink.addError('error_valid_phone_number');
-      else if(phoneNumber.startsWith('0'))
+      if (phoneNumber.length < 5)
+        sink.addError('error_valid_phone_number');
+      else if (phoneNumber.startsWith('0'))
         sink.addError('error_international_phone_number');
     }
   });
