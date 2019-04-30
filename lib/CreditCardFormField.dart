@@ -43,7 +43,10 @@ class CVVFormField extends StatelessWidget {
       this.validator,
       this.obscureText = false,
       this.enabled = true,
-      this.inputFormatters})
+      this.inputFormatters,
+        this.onSubmit,
+        this.onChanged
+      })
       : super(key: key);
 
   final List<TextInputFormatter> inputFormatters;
@@ -53,19 +56,25 @@ class CVVFormField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final bool obscureText;
   final bool enabled;
+  final Function onSubmit ;
+  final ValueChanged<String> onChanged;
+
+
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextField(
       keyboardType: const TextInputType.numberWithOptions(
         signed: false,
         decimal: false,
       ),
       decoration: this.decoration,
+      onChanged:this.onChanged ,
       controller: this.controller,
-      validator: this.validator,
       obscureText: this.obscureText,
       inputFormatters: this.inputFormatters,
+      onSubmitted: this.onSubmit,
+
     );
   }
 }
@@ -78,6 +87,10 @@ class ExpirationFormField extends StatefulWidget {
     this.decoration,
     this.obscureText = false,
     this.enabled = true,
+  this.onSubmit,
+    this.onChanged
+
+
   }) : super(key: key);
 
   final Key key;
@@ -85,6 +98,9 @@ class ExpirationFormField extends StatefulWidget {
   final InputDecoration decoration;
   final bool obscureText;
   final bool enabled;
+  final Function onSubmit ;
+  final ValueChanged<String> onChanged;
+
 
   @override
   _ExpirationFormFieldState createState() => _ExpirationFormFieldState();
@@ -135,6 +151,8 @@ class _ExpirationFormFieldState extends State<ExpirationFormField> {
       cursorWidth: 0.0,
       obscureText: widget.obscureText,
       enabled: widget.enabled,
+      onSubmitted:widget.onSubmit ,
+
     );
   }
 }

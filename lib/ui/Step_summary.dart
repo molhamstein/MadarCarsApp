@@ -665,15 +665,15 @@ class StepSummaryState extends State<StepSummary>
                                                 )
                                               ],
                                             ),
-//                                            Padding(
-//                                              padding: const EdgeInsets.only(
-//                                                  top: 30.0),
-//                                              child: RaisedButton(
-//                                                shape: RoundedRectangleBorder(
-//                                                    borderRadius:
-//                                                        BorderRadius.circular(
-//                                                            25)),
-//                                                onPressed: () {
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 30.0),
+                                              child: RaisedButton(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25)),
+                                                onPressed: () {
 ////                                                  showModalBottomSheet(
 ////                                                    context: context,
 ////                                                    builder: (context) {
@@ -920,61 +920,63 @@ class StepSummaryState extends State<StepSummary>
 ////                                                      );
 ////                                                    },
 ////                                                  );
-//
-//                                                  showModalBottomSheet(
-//                                                    context: context,
-//                                                    builder: (context) {
-//                                                      return Container(
-//                                                        padding:
-//                                                            EdgeInsets.all(16),
-//                                                        color: Colors.white,
-//                                                        width: MediaQuery.of(
-//                                                                context)
-//                                                            .size
-//                                                            .width,
-//                                                        child: Column(
-//                                                          mainAxisSize:
-//                                                              MainAxisSize.min,
-//                                                          children: <Widget>[
-//                                                            TextField(
-//                                                              controller:
-//                                                                  _noteController,
-//                                                              onSubmitted: (s) {
-//                                                                planingBloc.trip
-//                                                                    .note = s;
-//                                                                Navigator.pop(
-//                                                                    context);
-//                                                              },
-//                                                              autofocus: true,
-//                                                              decoration:
-//                                                                  InputDecoration(
-//                                                                hasFloatingPlaceholder:
-//                                                                    true,
-//                                                                hintText: MadarLocalizations.of(
-//                                                                        context)
-//                                                                    .trans(
-//                                                                        'your_note'),
-//                                                                border:
-//                                                                    OutlineInputBorder(),
-//                                                              ),
-//                                                            ),
-//                                                          ],
-//                                                        ),
-//                                                      );
-//                                                    },
-//                                                  );
-//                                                },
-//                                                child: new Text(
-//                                                    MadarLocalizations.of(
-//                                                            context)
-//                                                        .trans('add_note'),
-//                                                    style: TextStyle(
-//                                                        color: Colors.white,
-//                                                        fontSize: 16,
-//                                                        height: 0.5)),
-//                                                color: MadarColors.gradientDown,
-//                                              ),
-//                                            ),
+
+
+
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return Container(
+                                                        padding:
+                                                            EdgeInsets.all(16),
+                                                        color: Colors.white,
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            TextField(
+                                                              controller:
+                                                                  _noteController,
+                                                              onSubmitted: (s) {
+                                                                planingBloc.trip
+                                                                    .note = s;
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              autofocus: true,
+                                                              decoration:
+                                                                  InputDecoration(
+                                                                hasFloatingPlaceholder:
+                                                                    true,
+                                                                hintText: MadarLocalizations.of(
+                                                                        context)
+                                                                    .trans(
+                                                                        'your_note'),
+                                                                border:
+                                                                    OutlineInputBorder(),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: new Text(
+                                                    MadarLocalizations.of(
+                                                            context)
+                                                        .trans('add_note'),
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 16,
+                                                        height: 0.5)),
+                                                color: MadarColors.gradientDown,
+                                              ),
+                                            ),
                                           ],
                                         );
                                     }),

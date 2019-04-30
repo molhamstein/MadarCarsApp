@@ -275,62 +275,6 @@ class TripPlaningBloc extends BaseBloc with Network {
     }
   }
 
-  setState() {
-    done = false;
-    showFeedback = false;
-    switch (step) {
-      case Steps.chooseCity:
-        done = false;
-        pushLoading(false);
-        changeButtonText('next');
-        hideNoteButton;
-        break;
-      case Steps.chooseType:
-        done = false;
-        pushLoading(false);
-        changeButtonText('next');
-        hideNoteButton;
-        break;
-      case Steps.chooseAirports:
-        done = false;
-        pushLoading(false);
-        changeButtonText('next');
-        hideNoteButton;
-        break;
-      case Steps.chooseDate:
-        done = false;
-        pushLoading(false);
-        changeButtonText('next');
-        hideNoteButton;
-        break;
-      case Steps.chooseCar:
-        done = false;
-        pushLoading(false);
-        changeButtonText('next');
-        showNoteButton;
-        break;
-      case Steps.chooseSuplocations:
-        done = false;
-        pushLoading(false);
-        changeButtonText('next');
-        showNoteButton;
-        break;
-      case Steps.summary:
-        changeButtonText('done');
-        pushLoading(true);
-        done = true;
-        showNoteButton;
-        break;
-      case Steps.finalstep:
-        changeButtonText('done');
-        pushLoading(false);
-        hideNoteButton;
-        break;
-      default:
-    }
-  }
-
-
 //  setState() {
 //    done = false;
 //    showFeedback = false;
@@ -363,17 +307,17 @@ class TripPlaningBloc extends BaseBloc with Network {
 //        done = false;
 //        pushLoading(false);
 //        changeButtonText('next');
-//        hideNoteButton;
+//        showNoteButton;
 //        break;
 //      case Steps.chooseSuplocations:
 //        done = false;
 //        pushLoading(false);
 //        changeButtonText('next');
-//        hideNoteButton;
+//        showNoteButton;
 //        break;
 //      case Steps.summary:
-//        changeButtonText('pay_now');
-//        pushLoading(false);
+//        changeButtonText('done');
+//        pushLoading(true);
 //        done = true;
 //        showNoteButton;
 //        break;
@@ -385,6 +329,62 @@ class TripPlaningBloc extends BaseBloc with Network {
 //      default:
 //    }
 //  }
+
+
+  setState() {
+    done = false;
+    showFeedback = false;
+    switch (step) {
+      case Steps.chooseCity:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseType:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseAirports:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseDate:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseCar:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.chooseSuplocations:
+        done = false;
+        pushLoading(false);
+        changeButtonText('next');
+        hideNoteButton;
+        break;
+      case Steps.summary:
+        changeButtonText('pay_now');
+        pushLoading(false);
+        done = true;
+        showNoteButton;
+        break;
+      case Steps.finalstep:
+        changeButtonText('done');
+        pushLoading(false);
+        hideNoteButton;
+        break;
+      default:
+    }
+  }
 
 //       case Steps.chooseCity:
 //       case Steps.chooseType:
@@ -469,6 +469,12 @@ class TripPlaningBloc extends BaseBloc with Network {
       _feedbackController.sink.add(d);
       navForward;
     }).catchError((e) {
+
+      print("e is : "+ e.toString());
+      if(e.toString() != "error_car_not_available"){
+        print(e['error']['name'].toString());
+
+      }
       _loadingController.sink.add(false);
       Future.delayed(Duration(milliseconds: 10)).then((s) {
         if ((step == Steps.chooseCar && !trip.inCity) ||

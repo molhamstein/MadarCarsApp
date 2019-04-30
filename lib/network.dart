@@ -30,7 +30,8 @@ class Network {
 
   //static final String _baseUrl = 'http://104.217.253.15:3006/api/';
 //  static final String _baseUrl = 'http://192.168.1.6:3000/api/';
-  static final String _baseUrl = 'https://jawlatcom.com/api/';
+//  static final String _baseUrl = 'https://jawlatcom.com/api/';
+  static final String _baseUrl = "http://192.168.1.4:3000/api/";
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _logoutUrl = _baseUrl + 'users/logOut';
   final String _signUpUrl = _baseUrl + 'users';
@@ -40,6 +41,8 @@ class Network {
       'locations?filter[include]=subLocations&filter[include]=airports&filter[where][status]=active';
   final String _avaiableCars = _baseUrl + 'cars/getAvailable';
   final String _carSubLocations = _baseUrl + 'carSublocations?filter=';
+
+//  final String trip = "http://192.168.1.4:3000" + 'trips';
   final String _trip = _baseUrl + 'trips';
   final String _languages = _baseUrl + 'languages';
 
@@ -59,16 +62,24 @@ class Network {
       _baseUrl + 'firbaseTokens/updateFirebaseToken';
 
   String _contactUsNumber = _baseUrl + "admins/getMetaData";
+  String _addPayment =
+      "https://104.248.192.42:3000/explorer/#!/trip/trip_addPayment";
+
+  Future<ContactUs> addPayment() async {
+    final response = await http.get(_addPayment);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return ContactUs.fromJson(json.decode(response.body));
+    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+      print(response.body);
+      throw 'error_wrong_credentials';
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
 
   Future<ContactUs> fetchContactUs() async {
-//    print(headers) ;
-//    print(_contactUsNumber);
-
-//    print(token);
-//    headers['Authorization'] ="";
-//        token; //"e0tl4zZ9EPk:APA91bF1ngC_uz9vv9EEbirUD3Y9H-80yr6cr9TT7vnLQZ5gR4FOBZ5jIbSqt3X9WCI8lYOX5gPypSNi16CcbaEUFqAxO655KKKOY0AI7Ho1VbEfCWrf3yM88vF17LahCO24mnfd8v9j";
-
-//    print("tokeeen is"+token);
     final response = await http.get(_contactUsNumber);
     if (response.statusCode == 200) {
       print(response.body);
@@ -530,21 +541,31 @@ class Network {
       "hasOuterBill": "false",
       "status": "pending",
       "ownerId": userId,
+      "withPayment": true,
+      "paymentData": {
+        "cardHolderName": trip.cardHolderName,
+        "cardNumber": trip.cardNumber,
+        "expireMonth": trip.expireMonth,
+        "expireYear": trip.expireYear,
+        "cvc": trip.cvc
+      }
     };
-
     print(json.encode(body));
-
     final response =
         await http.post(_trip, headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       print(json.decode(response.body));
       return 'trip_added_successfully';
     } else if (response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
+//      print(response.body);
       throw 'error_car_not_available';
     } else {
+//      print(response.body);
       throw json.decode(response.body);
     }
   }
+
+  
 
   // get avalible cars in home page
   Future<List<Car>> getAvailableCars(String token) async {
