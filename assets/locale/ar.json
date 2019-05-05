@@ -134,6 +134,7 @@
   "two_way":"ذهاب وإياب",
   "going_oneWay":"ذهاب",
   "backing_oneWay":"إياب",
-  "pay_now":"ادفع الآن"
+  "pay_now":"ادفع الآن",
+  "PAYMENT_INFO_IS_WRONG" : "خطأ في معلومات الدفع"
 
 }

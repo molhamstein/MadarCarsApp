@@ -31,7 +31,7 @@ class Network {
   //static final String _baseUrl = 'http://104.217.253.15:3006/api/';
 //  static final String _baseUrl = 'http://192.168.1.6:3000/api/';
 //  static final String _baseUrl = 'https://jawlatcom.com/api/';
-  static final String _baseUrl = "http://192.168.1.4:3000/api/";
+  static final String _baseUrl = "http://192.168.1.3:3000/api/";
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _logoutUrl = _baseUrl + 'users/logOut';
   final String _signUpUrl = _baseUrl + 'users';
@@ -63,21 +63,60 @@ class Network {
 
   String _contactUsNumber = _baseUrl + "admins/getMetaData";
   String _addPayment =
-      "https://104.248.192.42:3000/explorer/#!/trip/trip_addPayment";
+      _baseUrl+"trip/trip_addPayment";
 
-  Future<ContactUs> addPayment() async {
-    final response = await http.get(_addPayment);
+  Future<String> addPayment(Trip trip ,String token) async {
+    print(trip.toString());
+
+    var body = json.encode({
+      'price': trip.estimationPrice(),
+      'cardHolderName': trip.cardHolderName /*"John Doe"*/,
+      'cardNumber': double.parse( trip.cardNumber)/*4054180000000007*/,
+      'expireMonth': double.parse(trip.expireMonth) /*12*/,
+      'expireYear':double.parse( trip.expireYear) /*20*/,
+      'cvc': trip.cvc /*"123"*/
+    }) ;
+
+    final response = await http.post(_baseUrl+"trips/${trip.tripId}/addPayment",
+        body: body,
+        headers: headers);
+    print(json.encode(body));
     if (response.statusCode == 200) {
-      print(response.body);
-      return ContactUs.fromJson(json.decode(response.body));
+      print((json.decode(response.body)));
+
+      return 'error_wrong_credentials';
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       print(response.body);
       throw 'error_wrong_credentials';
     } else {
       print(response.body);
       throw json.decode(response.body);
-    }
-  }
+    }}
+//  Future<String> addPayment(tripId, price, cardHolderName, cardNumber,
+//      expireMonth, expireYear, cvc) async {
+//    final response = await http.post(_addPayment,
+//        body: json.encode({
+//          'tripId': tripId,
+//          'price': price,
+//          'cardHolderName': cardHolderName,
+//          'cardNumber': cardNumber,
+//          'expireMonth': expireMonth,
+//          'expireYear': expireYear,
+//          'cvc': cvc
+//        }),
+//        headers: headers);
+//    if (response.statusCode == 200) {
+//      print((json.decode(response.body)));
+//
+//      return 'error_wrong_credentials';
+//    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
+//      print(response.body);
+//      throw 'error_wrong_credentials';
+//    } else {
+//      print(response.body);
+//      throw json.decode(response.body);
+//    }
+//  }
 
   Future<ContactUs> fetchContactUs() async {
     final response = await http.get(_contactUsNumber);
@@ -102,7 +141,11 @@ class Network {
       return (response.body);
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       throw 'error_wrong_credentials';
-    } else {
+    }
+    else if (response.statusCode == ErrorCodes.PAYMENT_INFO_IS_WRONG){
+      throw 'PAYMENT_INFO_IS_WRONG';
+    }
+    else {
       print(response.body);
       throw json.decode(response.body);
     }
@@ -565,8 +608,6 @@ class Network {
     }
   }
 
-
-
   // get avalible cars in home page
   Future<List<Car>> getAvailableCars(String token) async {
     print("tokkkkkkkken is " + token);
@@ -726,4 +767,5 @@ mixin ErrorCodes {
   static const int PHONENUMBER_OR_USERNAME_IS_USED = 451;
   static const int CAR_NOT_AVAILABLE = 457;
   static const int COUPON_NOT_AVAILABILE = 462;
+  static const int PAYMENT_INFO_IS_WRONG = 463;
 }

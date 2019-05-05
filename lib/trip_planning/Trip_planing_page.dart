@@ -505,9 +505,17 @@ print("card holder Name is : "+s);},
                                                                         BorderRadius.circular(
                                                                             25)),
                                                                 onPressed: () {
-//                                                                  Navigator.pop(
-//                                                                      context);
-                                                                  bloc.submitTrip();
+//
+                                                                  print("trip id is :"+  bloc.trip.tripId.toString());
+                                                                  if(bloc.trip.tripId == null  ){
+                                                                    Navigator.pop(context) ;
+
+                                                                  {bloc.submitTrip();}
+                                                                 }
+                                                                  else {
+                                                                    Navigator.pop(context) ;
+                                                                    bloc.addPaymentForTrip(bloc.trip );
+                                                                  }
 
                                                                 },
                                                                 child: new Text(

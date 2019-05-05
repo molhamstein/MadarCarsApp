@@ -21,6 +21,9 @@ class Trip {
   String expireMonth;
   String expireYear;
   String cvc ;
+  String tripId;
+
+
 
   List<TripSublocation> tripSubLocations;
 
@@ -39,7 +42,8 @@ class Trip {
       this.cardNumber,
       this.expireMonth,
       this.expireYear,
-      this.cvc});
+      this.cvc
+      ,this.tripId});
 
   Trip.init() {
     fromAirport = false;

@@ -135,6 +135,31 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get couponStream => _couponsController.stream;
 
+
+
+
+
+//  addPaymentForTrip(String tripId ,double price , String cardHolderName ,double cardNumber , double expireMonth , double expireYear , cvc){
+//    addPayment(tripId , price , cardHolderName , cardNumber, expireMonth , expireYear , cvc).then((data){
+//      print(data);
+//    }).catchError((e){
+//      print(e);
+//    });
+//  }
+   addPaymentForTrip(Trip trip ){
+    addPayment(trip , token).then((data){
+      print(data);
+      navForward;
+
+    }).catchError((e){
+      print(e);
+      showFeedback = true;
+      _feedbackController.addError("PAYMENT_INFO_IS_WRONG");
+
+    });
+  }
+
+
   fetchCoupon(String s) {
     fetchCheckCoupon(token, s).then((coupon) {
       _couponsController.sink.add(coupon);
@@ -472,7 +497,9 @@ class TripPlaningBloc extends BaseBloc with Network {
 
       print("e is : "+ e.toString());
       if(e.toString() != "error_car_not_available"){
-        print(e['error']['name'].toString());
+        print(e['error']['details'].toString());
+        trip.tripId = e['error']['details'];
+        print(trip.tripId);
 
       }
       _loadingController.sink.add(false);
