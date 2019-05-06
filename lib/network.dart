@@ -30,8 +30,8 @@ class Network {
 
   //static final String _baseUrl = 'http://104.217.253.15:3006/api/';
 //  static final String _baseUrl = 'http://192.168.1.6:3000/api/';
-//  static final String _baseUrl = 'https://jawlatcom.com/api/';
-  static final String _baseUrl = "http://192.168.1.3:3000/api/";
+  static final String _baseUrl = 'https://jawlatcom.com/api/';
+//  static final String _baseUrl = "http://192.168.1.3:3000/api/";
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _logoutUrl = _baseUrl + 'users/logOut';
   final String _signUpUrl = _baseUrl + 'users';
@@ -77,6 +77,14 @@ class Network {
       'cvc': trip.cvc /*"123"*/
     }) ;
 
+
+//    static const int PAYMENT_INFO_IS_WRONG = 463;
+//    static const int CARD_NUMBER_IS_INVALID = 464;
+//    static const int EXPIRE_DATE_IS_INVALID = 465;
+//    static const int CVC_IS_INVALID = 466;
+//    static const int DOMESTIC_CARDS = 467;
+//    static const int PRICE_INFORMATION = 468;
+
     final response = await http.post(_baseUrl+"trips/${trip.tripId}/addPayment",
         body: body,
         headers: headers);
@@ -84,39 +92,29 @@ class Network {
     if (response.statusCode == 200) {
       print((json.decode(response.body)));
 
-      return 'error_wrong_credentials';
+      return "Payed Successfully" ;
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       print(response.body);
       throw 'error_wrong_credentials';
-    } else {
+    }
+    else if (response.statusCode == ErrorCodes.PAYMENT_INFO_IS_WRONG){
+      throw 'PAYMENT_INFO_IS_WRONG' ;
+    } else if (response.statusCode == ErrorCodes.CARD_NUMBER_IS_INVALID){
+      throw 'CARD_NUMBER_IS_INVALID' ;
+    } else if (response.statusCode == ErrorCodes.EXPIRE_DATE_IS_INVALID){
+      throw 'EXPIRE_DATE_IS_INVALID' ;
+    } else if (response.statusCode == ErrorCodes.CVC_IS_INVALID){
+      throw 'CVC_IS_INVALID' ;
+    } else if (response.statusCode == ErrorCodes.DOMESTIC_CARDS){
+      throw 'DOMESTIC_CARDS' ;
+    }else if (response.statusCode == ErrorCodes.PRICE_INFORMATION){
+      throw 'PRICE_INFORMATION' ;
+    }
+
+    else {
       print(response.body);
       throw json.decode(response.body);
     }}
-//  Future<String> addPayment(tripId, price, cardHolderName, cardNumber,
-//      expireMonth, expireYear, cvc) async {
-//    final response = await http.post(_addPayment,
-//        body: json.encode({
-//          'tripId': tripId,
-//          'price': price,
-//          'cardHolderName': cardHolderName,
-//          'cardNumber': cardNumber,
-//          'expireMonth': expireMonth,
-//          'expireYear': expireYear,
-//          'cvc': cvc
-//        }),
-//        headers: headers);
-//    if (response.statusCode == 200) {
-//      print((json.decode(response.body)));
-//
-//      return 'error_wrong_credentials';
-//    } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
-//      print(response.body);
-//      throw 'error_wrong_credentials';
-//    } else {
-//      print(response.body);
-//      throw json.decode(response.body);
-//    }
-//  }
 
   Future<ContactUs> fetchContactUs() async {
     final response = await http.get(_contactUsNumber);
@@ -584,7 +582,7 @@ class Network {
       "hasOuterBill": "false",
       "status": "pending",
       "ownerId": userId,
-      "withPayment": true,
+      "withPayment": trip.withPayment,
       "paymentData": {
         "cardHolderName": trip.cardHolderName,
         "cardNumber": trip.cardNumber,
@@ -602,7 +600,9 @@ class Network {
     } else if (response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
 //      print(response.body);
       throw 'error_car_not_available';
-    } else {
+    }
+
+    else {
 //      print(response.body);
       throw json.decode(response.body);
     }
@@ -768,4 +768,9 @@ mixin ErrorCodes {
   static const int CAR_NOT_AVAILABLE = 457;
   static const int COUPON_NOT_AVAILABILE = 462;
   static const int PAYMENT_INFO_IS_WRONG = 463;
+  static const int CARD_NUMBER_IS_INVALID = 464;
+  static const int EXPIRE_DATE_IS_INVALID = 465;
+  static const int CVC_IS_INVALID = 466;
+  static const int DOMESTIC_CARDS = 467;
+  static const int PRICE_INFORMATION = 468;
 }

@@ -135,10 +135,6 @@ class TripPlaningBloc extends BaseBloc with Network {
 
   get couponStream => _couponsController.stream;
 
-
-
-
-
 //  addPaymentForTrip(String tripId ,double price , String cardHolderName ,double cardNumber , double expireMonth , double expireYear , cvc){
 //    addPayment(tripId , price , cardHolderName , cardNumber, expireMonth , expireYear , cvc).then((data){
 //      print(data);
@@ -146,19 +142,24 @@ class TripPlaningBloc extends BaseBloc with Network {
 //      print(e);
 //    });
 //  }
-   addPaymentForTrip(Trip trip ){
-    addPayment(trip , token).then((data){
-      print(data);
-      navForward;
-
-    }).catchError((e){
-      print(e);
-      showFeedback = true;
-      _feedbackController.addError("PAYMENT_INFO_IS_WRONG");
-
-    });
+  addPaymentForTrip(Trip trip) {
+    showFeedback = true;
+    if (trip.cardNumber == null ||
+        trip.cardHolderName == null ||
+        trip.expireYear == null ||
+        trip.expireMonth == null ||
+        trip.cvc == null) {
+      _feedbackController.sink.addError('error_fill_missing');
+    } else
+      addPayment(trip, token).then((data) {
+        print(data);
+        navForward;
+      }).catchError((e) {
+        print("eeeeeeeeeeeeeeeeeeeeeeeeee" + e.toString());
+        showFeedback = true;
+        _feedbackController.addError(e.toString());
+      });
   }
-
 
   fetchCoupon(String s) {
     fetchCheckCoupon(token, s).then((coupon) {
@@ -355,7 +356,6 @@ class TripPlaningBloc extends BaseBloc with Network {
 //    }
 //  }
 
-
   setState() {
     done = false;
     showFeedback = false;
@@ -494,19 +494,22 @@ class TripPlaningBloc extends BaseBloc with Network {
       _feedbackController.sink.add(d);
       navForward;
     }).catchError((e) {
-
-      print("e is : "+ e.toString());
-      if(e.toString() != "error_car_not_available"){
+      print("e is : " + e.toString());
+      if (e.toString() != "error_car_not_available") {
         print(e['error']['details'].toString());
         trip.tripId = e['error']['details'];
         print(trip.tripId);
-
       }
+
       _loadingController.sink.add(false);
       Future.delayed(Duration(milliseconds: 10)).then((s) {
         if ((step == Steps.chooseCar && !trip.inCity) ||
             step == Steps.chooseSuplocations) _loadingController.sink.add(true);
       });
+      if(e.toString() != "error_car_not_available"){
+        _feedbackController.addError('YOUR_TRIP_HAS_BEEN_ADDED_BUT_PAYMENT_INFO_IS_WRONG');
+
+      }else
       _feedbackController.addError(e.toString());
     });
   }

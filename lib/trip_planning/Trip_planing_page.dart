@@ -183,87 +183,38 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                               stream: bloc.noteButtonStream,
                               builder: (context, noteSnapshot) {
                                 return Hero(
-                                  tag: 'tripButton',
-                                  child: MainButton(
-                                      width: isScreenLongEnough ? 150 : 120,
-                                      height: isScreenLongEnough ? 50 : 40,
-                                      miniButton: noteSnapshot.hasData &&
-                                          noteSnapshot.data,
-                                      text: MadarLocalizations.of(context)
-                                          .trans(snapshot.data),
-                                      loading: loadingSnapshot.data,
-                                      onPressed: () {
-                                        if (bloc.step == Steps.finalstep) {
-                                          Navigator.of(context).pop();
-                                        } else if (bloc.done) {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) {
-                                              return Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 16),
-                                                color: Colors.white,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                child: Padding(
+                                    tag: 'tripButton',
+                                    child: MainButton(
+                                        width: isScreenLongEnough ? 150 : 120,
+                                        height: isScreenLongEnough ? 50 : 40,
+                                        miniButton: noteSnapshot.hasData &&
+                                            noteSnapshot.data,
+                                        text: MadarLocalizations.of(context)
+                                            .trans(snapshot.data),
+                                        loading: loadingSnapshot.data,
+                                        onPressed: () {
+                                          if (bloc.step == Steps.finalstep) {
+                                            Navigator.of(context).pop();
+                                          } else if (bloc.done) {
+                                            showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return Container(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 20.0),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Container(
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left: 8.0,
-                                                                      right: 8),
-                                                              child: TextField(
-                                                                keyboardType:
-                                                                    TextInputType
-                                                                        .number,
-                                                                controller:
-                                                                    _cardNumController,
-                                                                onChanged: (s){  bloc.trip.cardNumber = s ;
-                                                                print("card number is : "+s);},
-
-
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          10.0),
-                                                                  hasFloatingPlaceholder:
-                                                                      true,
-                                                                  hintText: MadarLocalizations.of(
-                                                                          context)
-                                                                      .trans(
-                                                                          "Card_Number"),
-                                                                  border:
-                                                                      OutlineInputBorder(),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                top: 16,
-                                                                bottom: 16),
-                                                        child: Row(
+                                                      EdgeInsets.only(top: 16),
+                                                  color: Colors.white,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 20.0),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Row(
                                                           children: <Widget>[
                                                             Container(
                                                               width:
@@ -281,12 +232,19 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                                                             8),
                                                                 child:
                                                                     TextField(
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .number,
                                                                   controller:
-                                                                      _cardNameController,
-onChanged: (s){ bloc.trip.cardHolderName = s ;
-print("card holder Name is : "+s);},
-//
-
+                                                                      _cardNumController,
+                                                                  onChanged:
+                                                                      (s) {
+                                                                    bloc.trip
+                                                                        .cardNumber = s;
+                                                                    print(
+                                                                        "card number is : " +
+                                                                            s);
+                                                                  },
                                                                   decoration:
                                                                       InputDecoration(
                                                                     contentPadding:
@@ -297,7 +255,7 @@ print("card holder Name is : "+s);},
                                                                     hintText: MadarLocalizations.of(
                                                                             context)
                                                                         .trans(
-                                                                            "Name_of_card"),
+                                                                            "Card_Number"),
                                                                     border:
                                                                         OutlineInputBorder(),
                                                                   ),
@@ -306,248 +264,365 @@ print("card holder Name is : "+s);},
                                                             ),
                                                           ],
                                                         ),
-                                                      ),
-                                                      Row(
-                                                        children: <Widget>[
-//
-
-                                                          Container(
-                                                            width: MediaQuery.of(
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  top: 16,
+                                                                  bottom: 16),
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Container(
+                                                                width: MediaQuery.of(
                                                                         context)
                                                                     .size
-                                                                    .width /
-                                                                2,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
+                                                                    .width,
+                                                                child: Padding(
+                                                                  padding: const EdgeInsets
                                                                           .only(
                                                                       left: 8.0,
                                                                       right: 8),
-                                                              child:
-                                                                    ExpirationFormField(
+                                                                  child:
+                                                                      TextField(
+                                                                    controller:
+                                                                        _cardNameController,
+                                                                    onChanged:
+                                                                        (s) {
+                                                                      bloc.trip
+                                                                          .cardHolderName = s;
+                                                                      print(
+                                                                          "card holder Name is : " +
+                                                                              s);
+                                                                    },
+//
 
-
-
-//onChanged: (value) {
-//    setState(() {
-//    value = value.replaceAll(RegExp(r"\D"), "");
-//    switch (value.length) {
-//    case 0:
-////    _dateController.text = "MM/YY";
-//    _dateController.selection = TextSelection.collapsed(offset: 0);
-//    print("I'm in case 0 ");
-//
-//    break;
-//    case 1:
-////    _dateController.text = "${value}M/YY";
-//    _dateController.selection = TextSelection.collapsed(offset: 1);
-//    print("I'm in case 1 ");
-//
-//    break;
-//    case 2:
-////    _dateController.text = "$value/YY";
-//    _dateController.selection = TextSelection.collapsed(offset: 2);
-//    print("I'm in case 2  ");
-//
-//    break;
-//    case 3:
-////    _dateController.text =
-////    "${value.substring(0, 2)}/${value.substring(2)}Y";
-//    _dateController.selection = TextSelection.collapsed(offset: 4);
-//    print("I'm in case 3 ");
-//
-//    break;
-//    case 4:
-////    _dateController.text =
-////    "${value.substring(0, 2)}/${value.substring(2, 4)}";
-//    _dateController.selection = TextSelection.collapsed(offset: 5);
-//    print("I'm in case 4 ");
-//
-//    break;
-//    }
-//    if (value.length > 4) {
-////    _dateController.text =
-////    "${value.substring(0, 2)}/${value.substring(2, 4)}";
-//    _dateController.selection = TextSelection.collapsed(offset: 5);
-//    print("I'm in if >  4 ");
-//
-//    }
-//
-//    });
-//
-//
-//    print("I'm below ");
-//    bloc.trip.expireMonth = _dateController.text.split("/")[0];
-//    bloc.trip.expireYear ="20" + _dateController.text.split("/")[1];
-//},
-
-                                                                    onSubmit: (s){
-                                                                      bloc.trip.expireMonth = _dateController.text.split("/")[0];
-    bloc.trip.expireYear ="20" + _dateController.text.split("/")[1];
-                                                                    print("on submit is : "+s);},
-                                                                controller:
-                                                                    _dateController,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          10.0),
-                                                                  hasFloatingPlaceholder:
-                                                                      true,
-//                                                                        labelText: "Card Expiration",
-                                                                  hintText:
-                                                                      "MM/YY",
-                                                                  border:
-                                                                      OutlineInputBorder(),
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      contentPadding:
+                                                                          const EdgeInsets.all(
+                                                                              10.0),
+                                                                      hasFloatingPlaceholder:
+                                                                          true,
+                                                                      hintText: MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              "Name_of_card"),
+                                                                      border:
+                                                                          OutlineInputBorder(),
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
+                                                            ],
                                                           ),
-
-//
-
-                                                          Container(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2,
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left: 8.0,
-                                                                      right: 8),
-                                                              child:
-                                                                  CVVFormField(
-                                                                    onChanged: (s){
-                                                                      bloc.trip.cvc = s ;
-                                                                      print(s);},
-                                                                    onSubmit: (s){print(s);},
-                                                                inputFormatters: [
-                                                                  LengthLimitingTextInputFormatter(
-                                                                      4),
-                                                                ],
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  hintText:
-                                                                      "CVV",
-                                                                  contentPadding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          10.0),
-                                                                  border:
-                                                                      OutlineInputBorder(),
-                                                                ),
-                                                                controller:
-                                                                    _securityCodeController,
-                                                              ),
-                                                            ),
-                                                          ),
-
-//
-                                                        ],
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                top: 16.0),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
+                                                        ),
+                                                        Row(
                                                           children: <Widget>[
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          20.0,
-                                                                      right:
-                                                                          20),
-                                                              child:
-                                                                  RaisedButton(
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            25)),
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                },
-                                                                child: new Text(
-                                                                    "Cancle",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            16,
-                                                                        height:
-                                                                            0.5)),
-                                                                color: MadarColors
-                                                                    .dark_grey,
-                                                              ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          20.0,
-                                                                      right:
-                                                                          20),
-                                                              child:
-                                                                  RaisedButton(
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            25)),
-                                                                onPressed: () {
 //
-                                                                  print("trip id is :"+  bloc.trip.tripId.toString());
-                                                                  if(bloc.trip.tripId == null  ){
-                                                                    Navigator.pop(context) ;
 
-                                                                  {bloc.submitTrip();}
-                                                                 }
-                                                                  else {
-                                                                    Navigator.pop(context) ;
-                                                                    bloc.addPaymentForTrip(bloc.trip );
-                                                                  }
+                                                            Container(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0,
+                                                                        right:
+                                                                            8),
+                                                                child:
+                                                                    ExpirationFormField(
+                                                                      
+                                                                      onChanged: (value) {
+                                                setState(() {
+                                                value = value.replaceAll(RegExp(r"\D"), "");
+                                                switch (value.length) {
+                                                case 0:
+//                                                print(value);
+                                                _dateController.text = "MM/YY";
+                                                _dateController.selection = TextSelection.collapsed(offset: 0);
+                                                break;
+                                                case 1:
+//                                                print(value);
 
-                                                                },
-                                                                child: new Text(
-                                                                    "Check",
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            16,
-                                                                        height:
-                                                                            0.5)),
-                                                                color: MadarColors
-                                                                    .gradientDown,
+                                                _dateController.text = "${value}M/YY";
+                                                _dateController.selection = TextSelection.collapsed(offset: 1);
+                                                break;
+                                                case 2:
+//                                                print(value);
+
+                                                _dateController.text = "$value/YY";
+                                                _dateController.selection = TextSelection.collapsed(offset: 2);
+                                                break;
+                                                case 3:
+//                                                print(value);
+
+                                                _dateController.text =
+                                                "${value.substring(0, 2)}/${value.substring(2)}Y";
+                                                _dateController.selection = TextSelection.collapsed(offset: 4);
+                                                break;
+                                                case 4:
+//                                                  print(value);
+
+
+                                                _dateController.text =
+                                                "${value.substring(0, 2)}/${value.substring(2, 4)}";
+                                                _dateController.selection = TextSelection.collapsed(offset: 5);
+
+                                                break;
+                                                }
+                                                if (value.length > 4) {
+                                                _dateController.text =
+                                                "${value.substring(0, 2)}/${value.substring(2, 4)}";
+                                                _dateController.selection = TextSelection.collapsed(offset: 5);
+                                                }
+                                                });
+                                                print("value is " + value);
+                                                bloc.trip
+                                                    .expireMonth =
+                                                value
+
+                                                    .substring(0,2);
+                                                bloc.trip.expireYear = "20" +
+                                                    value
+
+                                                        .substring(2,4);
+                                                print(
+                                                    "on changed is : " +
+                                                        value);
+                                                },
+
+                                                                  onSubmit:
+                                                                      (s) {
+                                                                    bloc.trip
+                                                                            .expireMonth =
+                                                                        _dateController
+                                                                            .text
+                                                                            .split("/")[0];
+                                                                    bloc.trip.expireYear = "20" +
+                                                                        _dateController
+                                                                            .text
+                                                                            .split("/")[1];
+                                                                    print(
+                                                                        "on submit is : " +
+                                                                            s);
+                                                                  },
+                                                                  controller:
+                                                                      _dateController,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    contentPadding:
+                                                                        const EdgeInsets.all(
+                                                                            10.0),
+                                                                    hasFloatingPlaceholder:
+                                                                        true,
+//                                                                        labelText: "Card Expiration",
+                                                                    hintText:
+                                                                        "MM/YY",
+                                                                    border:
+                                                                        OutlineInputBorder(),
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
+
+//
+
+                                                            Container(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  2,
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            8.0,
+                                                                        right:
+                                                                            8),
+                                                                child:
+                                                                    CVVFormField(
+                                                                  onChanged:
+                                                                      (s) {
+                                                                    bloc.trip
+                                                                        .cvc = s;
+                                                                    print(s);
+                                                                  },
+                                                                  onSubmit:
+                                                                      (s) {
+                                                                    print(s);
+                                                                  },
+                                                                  inputFormatters: [
+                                                                    LengthLimitingTextInputFormatter(
+                                                                        4),
+                                                                  ],
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    hintText:
+                                                                        "CVV",
+                                                                    contentPadding:
+                                                                        const EdgeInsets.all(
+                                                                            10.0),
+                                                                    border:
+                                                                        OutlineInputBorder(),
+                                                                  ),
+                                                                  controller:
+                                                                      _securityCodeController,
+                                                                ),
+                                                              ),
+                                                            ),
+
+//
                                                           ],
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 16.0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: <Widget>[
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            20.0,
+                                                                        right:
+                                                                            20),
+                                                                child:
+                                                                    RaisedButton(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              25)),
+                                                                  onPressed:
+                                                                      () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: new Text(
+                                                                      MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              "Cancel"),
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              16,
+                                                                          height:
+                                                                              0.5)),
+                                                                  color: MadarColors
+                                                                      .dark_grey,
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            20.0,
+                                                                        right:
+                                                                            20),
+                                                                child:
+                                                                    RaisedButton(
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              25)),
+                                                                  onPressed:
+                                                                      () {
+//
 
+                                                                    if (bloc.trip.cardNumber == null ||
+                                                                        bloc.trip.cardHolderName ==
+                                                                            null ||
+                                                                        bloc.trip.expireYear ==
+                                                                            null ||
+                                                                        bloc.trip.expireMonth ==
+                                                                            null ||
+                                                                        bloc.trip.cvc ==
+                                                                            null) {
+                                                                      Navigator.pop(
+                                                                          context);
+
+                                                                      showInSnackBar(
+                                                                          'error_fill_missing',
+                                                                          scaffoldContext,
+                                                                          color:
+                                                                              Colors.redAccent);
+                                                                    } else {
+                                                                      print("trip id is :" +
+                                                                          bloc.trip
+                                                                              .tripId
+                                                                              .toString());
+                                                                      if (bloc.trip
+                                                                              .tripId ==
+                                                                          null) {
+                                                                        Navigator.pop(
+                                                                            context);
+
+                                                                        {
+                                                                          bloc.trip.withPayment =
+                                                                              true;
+                                                                          bloc.submitTrip();
+                                                                        }
+                                                                      } else {
+                                                                        Navigator.pop(
+                                                                            context);
+                                                                        bloc.addPaymentForTrip(
+                                                                            bloc.trip);
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  child: new Text(
+                                                                      MadarLocalizations.of(
+                                                                              context)
+                                                                          .trans(
+                                                                              "Check"),
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              16,
+                                                                          height:
+                                                                              0.5)),
+                                                                  color: MadarColors
+                                                                      .gradientDown,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
 
 //                                          bloc.submitTrip();
 
-                                        } else
-                                          bloc.navForward;
-                                      },
-                                      onMiniBtnPressed: () =>
+                                          } else
+                                            bloc.navForward;
+                                        },
+                                        onMiniBtnPressed: () {
+                                          if (bloc.trip.tripId == null) {
+                                            bloc.trip.withPayment = false;
+                                            bloc.submitTrip();
+                                          } else {
+                                            bloc.navForward;
+                                          }
+                                        }
 //                                        showModalBottomSheet(
 //                                          context: context,
 //                                          builder: (context) {
@@ -593,10 +668,7 @@ print("card holder Name is : "+s);},
 //                                          },
 //                                        ),
 
-                                          bloc.submitTrip()
-
-                                  ),
-                                );
+                                        ));
                               });
                         },
                       ),

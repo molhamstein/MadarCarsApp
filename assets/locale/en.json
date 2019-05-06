@@ -121,11 +121,12 @@
   "Airport_Pick_up": "Airport Pick-up",
   "Have_a_Coupon_Code": "Have a Coupon Code ?",
   "Discount": "Discount",
-  "Book_Now": "Book_Now",
+  "Book_Now": "Book Now",
   "Enter_Your_Coupon": "Enter Your Coupon",
   "airport_step_title": "Which one is your airport?",
   "Wrong_Coupon_Code": "Wrong Coupon Code",
   "Check": "Check",
+  "Cancel": "Cancel",
   "choose_AirPort": "Choose Airport",
   "Coupn_not_available": "Not Valid Coupon",
   "Security_code" :"Security code",
@@ -135,7 +136,14 @@
   "two_way":"Two Ways",
   "going_oneWay":"One Way",
   "backing_oneWay":"One Way",
-  "pay_now":"Pay Now",
-  "PAYMENT_INFO_IS_WRONG" : "Payment info is wrong"
+  "pay_now":"Book & Pay",
+  "PAYMENT_INFO_IS_WRONG" : "Invalid card info",
+  "CARD_NUMBER_IS_INVALID" : "Invalid card number",
+  "EXPIRE_DATE_IS_INVALID" : "Invalid expire date",
+  "CVC_IS_INVALID" : "Invalid CVC",
+  "DOMESTIC_CARDS" : "This card is not valid for paying in USD" ,
+  "PRICE_INFORMATION" : "The Cost is more than 50000$",
+  "YOUR_TRIP_HAS_BEEN_ADDED_BUT_PAYMENT_INFO_IS_WRONG" : "Trip successfully booked but your payment info is invalid"
+
 
 }

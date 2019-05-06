@@ -150,7 +150,7 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
                 ? Text(
 
               //Todo done
-                    MadarLocalizations.of(context).trans('done'),
+                    MadarLocalizations.of(context).trans('Book_Now'),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
