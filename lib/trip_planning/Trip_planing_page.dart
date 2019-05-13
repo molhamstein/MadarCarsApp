@@ -19,6 +19,7 @@ import 'package:madar_booking/trip_planning/step_chosse_car.dart';
 import 'package:madar_booking/trip_planning/step_trip_type.dart';
 import 'package:madar_booking/ui/DayByDayPage.dart';
 import 'package:madar_booking/ui/Step_summary.dart';
+import 'package:madar_booking/widgets/myModalBottomSheet.dart';
 
 class TripPlanningPage extends StatefulWidget {
   final TripModel tripModel;
@@ -196,7 +197,7 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                           if (bloc.step == Steps.finalstep) {
                                             Navigator.of(context).pop();
                                           } else if (bloc.done) {
-                                            showModalBottomSheet(
+                                            showMyModalBottomSheet(
                                               context: context,
                                               builder: (context) {
                                                 return Container(

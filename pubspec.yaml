@@ -22,7 +22,7 @@ dependencies:
   rxdart: ^0.18.0
   cupertino_icons: ^0.1.2
   font_awesome_flutter: ^8.0.1
-  flutter_facebook_login: ^1.1.1
+  flutter_facebook_login: ^2.0.0
   country_code_picker: ^1.1.1
   intl: ^0.15.7
   image_picker: ^0.5.3+1

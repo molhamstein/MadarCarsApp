@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide showModalBottomSheet;
 import 'package:madar_booking/app_text_style.dart';
 import 'package:madar_booking/bloc_provider.dart';
 import 'package:madar_booking/feedback.dart';
@@ -9,6 +9,7 @@ import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
 import 'package:madar_booking/ui/DayByDayPage.dart';
+import 'package:madar_booking/widgets/myModalBottomSheet.dart';
 
 class StepSummary extends StatefulWidget {
   @override
@@ -411,7 +412,7 @@ class StepSummaryState extends State<StepSummary>
                                                 borderRadius:
                                                     BorderRadius.circular(25)),
                                             onPressed: () {
-                                              showModalBottomSheet(
+                                              showMyModalBottomSheet(
                                                 context: context,
                                                 builder: (context) {
                                                   return Container(
@@ -923,7 +924,7 @@ class StepSummaryState extends State<StepSummary>
 
 
 
-                                                  showModalBottomSheet(
+                                                  showMyModalBottomSheet(
                                                     context: context,
                                                     builder: (context) {
                                                       return Container(
