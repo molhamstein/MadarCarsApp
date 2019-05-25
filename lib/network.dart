@@ -78,13 +78,6 @@ class Network {
     }) ;
 
 
-//    static const int PAYMENT_INFO_IS_WRONG = 463;
-//    static const int CARD_NUMBER_IS_INVALID = 464;
-//    static const int EXPIRE_DATE_IS_INVALID = 465;
-//    static const int CVC_IS_INVALID = 466;
-//    static const int DOMESTIC_CARDS = 467;
-//    static const int PRICE_INFORMATION = 468;
-
     final response = await http.post(_baseUrl+"trips/${trip.tripId}/addPayment",
         body: body,
         headers: headers);

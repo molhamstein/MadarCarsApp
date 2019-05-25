@@ -161,6 +161,7 @@ class StepChooseDatePageState extends State<StepChooseDatePage>
             title: MadarLocalizations.of(context).trans('start_date'),
             withTimePicker: fromAirport,
             onDateChanged: (s) {
+              print("start date is : " +  s.toString() );
               bloc.startDateChanged(s);
               setState(() {});
             },
@@ -183,6 +184,7 @@ class StepChooseDatePageState extends State<StepChooseDatePage>
             withTimePicker: toAirport,
             onDateChanged: (e) {
               bloc.endDateChanged(e);
+              print("end date is : " + e.toString());
               setState(() {});
             },
             date: snapshot.data,
