@@ -1,7 +1,8 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:madar_booking/madar_colors.dart';
-import 'dart:ui' as ui;
 
 class DatePicker extends StatefulWidget {
   final double size;
@@ -106,18 +107,27 @@ class DatePickerState extends State<DatePicker> {
             ),
           ),
           widget.withTimePicker
+              ? (_selectedTime != null
               ? Text(
-                  DateFormat('hh:mm a').format(DateTime(
-                      0, 0, 0, _selectedTime.hour, _selectedTime.minute)),
-                  style: TextStyle(
-                      fontSize: widget.size * 0.34,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey[500],
-                      height: 0.5),
-                )
+            DateFormat('hh:mm a').format(DateTime(
+                0, 0, 0, _selectedTime.hour, _selectedTime.minute)),
+            style: TextStyle(
+                fontSize: widget.size * 0.34,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[500],
+                height: 0.5),
+          )
+              : Text(
+            DateFormat('hh:mm a').format(DateTime(0, 0, 0, 0, 0)),
+            style: TextStyle(
+                fontSize: widget.size * 0.34,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey[500],
+                height: 0.5),
+          ))
               : Container(
-                  height: widget.size * 0.34,
-                ),
+            height: widget.size * 0.34,
+          ),
         ],
       ),
     );
@@ -134,22 +144,48 @@ class DatePickerState extends State<DatePicker> {
     if (date != null && date != _selectedDate) dateChanged = true;
 
     TimeOfDay time;
-    if (widget.withTimePicker)
+    if (widget.withTimePicker) {
       time = await showTimePicker(context: context, initialTime: _selectedTime);
-    if (time != null && time != _selectedTime) timeChanged = true;
 
-    if (dateChanged || timeChanged) {
-      DateTime selectedDate =
-          DateTime(date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
-      if (dateChanged && timeChanged) {
-        selectedDate = DateTime(date.year, date.month, date.day, time.hour);
+      if (time != null ) {
+        timeChanged = true;
+
+        if (dateChanged || timeChanged) {
+          DateTime selectedDate = DateTime(
+              date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
+//      print(_selectedTime);
+//      time = await showTimePicker(context: context, initialTime: _selectedTime);
+
+          if (dateChanged && timeChanged) {
+            selectedDate = DateTime(date.year, date.month, date.day, time.hour);
+          }
+
+          setState(() {
+            _selectedDate = date;
+            widget.onDateChanged(selectedDate);
+            _selectedTime = time;
+          });
+        }
       }
+    } else if (!widget.withTimePicker) {
 
-      setState(() {
-        _selectedDate = date;
-        widget.onDateChanged(selectedDate);
-        _selectedTime = time;
-      });
+      if (dateChanged || timeChanged) {
+        DateTime selectedDate = DateTime(
+            date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
+//      print(_selectedTime);
+//      time = await showTimePicker(context: context, initialTime: _selectedTime);
+
+        if (dateChanged && timeChanged) {
+          selectedDate = DateTime(date.year, date.month, date.day, time.hour);
+        }
+
+        setState(() {
+          _selectedDate = date;
+          widget.onDateChanged(selectedDate);
+          _selectedTime = time;
+        });
+      }
     }
+
   }
 }
