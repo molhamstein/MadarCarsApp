@@ -148,6 +148,7 @@ class LandingPageState extends State<LandingPage> {
           color: Colors.white,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
+          child: Center(child: CircularProgressIndicator()),
         );
       },
     );
