@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
@@ -12,8 +14,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 bool isScreenLongEnough;
 
 void main() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  runApp(MyApp(prefs: prefs));
+  // SharedPreferences prefs = await
+  _onTimeOut() {
+    print("Time Out");
+  }
+
+  SharedPreferences.getInstance().then((prefs) {
+    runApp(MyApp(prefs: prefs));
+  }).timeout(Duration(seconds: 1), onTimeout: _onTimeOut);
+  runApp(TestApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -151,6 +160,25 @@ class LandingPageState extends State<LandingPage> {
           child: Center(child: CircularProgressIndicator()),
         );
       },
+    );
+  }
+}
+
+class TestApp extends StatefulWidget {
+  TestApp({Key key}) : super(key: key);
+
+  _TestAppState createState() => _TestAppState();
+}
+
+class _TestAppState extends State<TestApp> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+          child: ListTile(
+        title: CircularProgressIndicator(),
+        subtitle: Text("...."),
+      )),
     );
   }
 }
