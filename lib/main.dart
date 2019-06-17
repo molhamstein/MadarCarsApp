@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter\_localizations/flutter\_localizations.dart';
@@ -19,10 +17,10 @@ void main() async {
     print("Time Out");
   }
 
+  runApp(TestApp());
   SharedPreferences.getInstance().then((prefs) {
     runApp(MyApp(prefs: prefs));
   }).timeout(Duration(seconds: 1), onTimeout: _onTimeOut);
-  runApp(TestApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -173,12 +171,12 @@ class TestApp extends StatefulWidget {
 class _TestAppState extends State<TestApp> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-          child: ListTile(
-        title: CircularProgressIndicator(),
-        subtitle: Text("...."),
-      )),
+    return Material(
+      child: Container(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
     );
   }
 }
