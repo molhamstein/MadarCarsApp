@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 
-class FinalStep extends StatelessWidget {
+
+class FinalStep extends StatefulWidget {
+  @override
+  _FinalStepState createState() => _FinalStepState();
+}
+
+class _FinalStepState extends State<FinalStep> {
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Material(
