@@ -65,6 +65,21 @@ class Network {
   String _addPayment =
       _baseUrl+"trip/trip_addPayment";
 
+
+
+
+
+  Future<LocationsResponse> createPDF(id, String token) async {
+    headers['Authorization'] = token;
+    final response = await http.put("$_trip/$id/createPdf", headers: headers);
+    if (response.statusCode == 200) {
+      return LocationsResponse.fromJson(json.decode(response.body));
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
   Future<String> addPayment(Trip trip ,String token) async {
     print(trip.toString());
 
@@ -149,7 +164,6 @@ class Network {
       "${_baseUrl}coupons/$s/checkCoupon",
       headers: headers,
     );
-
     print(response.body);
     print("CheckCoupon is$response");
     if (response.statusCode == 200) {
