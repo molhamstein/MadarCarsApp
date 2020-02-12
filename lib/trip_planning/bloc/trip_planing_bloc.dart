@@ -142,6 +142,19 @@ class TripPlaningBloc extends BaseBloc with Network {
 //      print(e);
 //    });
 //  }
+
+
+
+  f_createPDF(tripId) {
+    createPDF(tripId, token)
+        .then((value) {
+          print("path ");
+          print(value);
+          trip.pdfPath = value;
+    })
+        .catchError((e) {});
+  }
+
   addPaymentForTrip(Trip trip) {
     showFeedback = true;
     if (trip.cardNumber == null ||
@@ -491,8 +504,11 @@ class TripPlaningBloc extends BaseBloc with Network {
     showFeedback = true;
     postTrip(trip, token, userId).then((d) {
       _loadingController.sink.add(false);
-      _feedbackController.sink.add(d);
+      _feedbackController.sink.add("trip_added_successfully");
       navForward;
+      trip.tripId =d ;
+
+
     }).catchError((e) {
       print("e is : " + e.toString());
       if (e.toString() != "error_car_not_available") {

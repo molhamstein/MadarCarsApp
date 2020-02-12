@@ -69,11 +69,15 @@ class Network {
 
 
 
-  Future<LocationsResponse> createPDF(id, String token) async {
+  Future<String> createPDF(id, String token) async {
     headers['Authorization'] = token;
+    print(id);
+    print(token);
+    print("$_trip/$id/createPdf");
     final response = await http.put("$_trip/$id/createPdf", headers: headers);
     if (response.statusCode == 200) {
-      return LocationsResponse.fromJson(json.decode(response.body));
+      print(response.body);
+      return json.decode(response.body)['pdfPath'];
     } else {
       print(response.body);
       throw json.decode(response.body);
@@ -603,7 +607,11 @@ class Network {
         await http.post(_trip, headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       print(json.decode(response.body));
-      return 'trip_added_successfully';
+      print("//////");
+      print(json.decode(response.body)['id']);
+
+      print("//////");
+      return json.decode(response.body)['id'];
     } else if (response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
 //      print(response.body);
       throw 'error_car_not_available';

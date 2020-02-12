@@ -22,6 +22,7 @@ class Trip {
   String expireYear;
   String cvc ;
   String tripId;
+  String pdfPath ;
 
 
 
@@ -43,7 +44,7 @@ class Trip {
       this.expireMonth,
       this.expireYear,
       this.cvc
-      ,this.tripId});
+      ,this.tripId,this.pdfPath});
 
   Trip.init() {
     fromAirport = false;
