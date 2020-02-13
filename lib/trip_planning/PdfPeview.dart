@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zoom_widget/zoom_widget.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 
 class PdfPreview extends StatefulWidget {
   final String pdfLink;
@@ -111,7 +112,7 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Summary'),
+          title: Text(  MadarLocalizations.of(context).trans('Summary'),),
           actions: <Widget>[
             StreamBuilder<bool>(
                 stream: _showSaving,

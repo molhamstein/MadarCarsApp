@@ -66,3 +66,6 @@ The project uses the **BLOC** pattern.
 6. In your project run 
 
     >`$ pod install`
+ ## internal change
+
+ change compile version of flutter_pdf_renderer to 28
