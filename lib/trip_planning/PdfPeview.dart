@@ -7,15 +7,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdf_renderer/flutter_pdf_renderer.dart';
+import 'package:madar_booking/feedback.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zoom_widget/zoom_widget.dart';
-import 'package:madar_booking/feedback.dart';
 
 class PdfPreview extends StatefulWidget {
- final String pdfLink;
-
+  final String pdfLink;
 
   PdfPreview(this.pdfLink);
 
@@ -34,9 +33,7 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
     super.initState();
     _showLoading.sink.add(false);
     _showSaving.sink.add(false);
-    downloadPdfFile(
-        widget.pdfLink,
-        GetFileType.READ);
+    downloadPdfFile(widget.pdfLink, GetFileType.READ);
   }
 
   static final Random random = Random();
@@ -50,17 +47,12 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
       checkPermission1 = await PermissionHandler()
           .checkPermissionStatus(PermissionGroup.storage);
       if (checkPermission1 == PermissionStatus.granted) {
-        downloadPdfFile(
-            widget.pdfLink,
-            GetFileType.SAVE);
+        downloadPdfFile(widget.pdfLink, GetFileType.SAVE);
       } else {
         showInSnackBar('need_permission', context);
-
       }
     } else {
-      downloadPdfFile(
-          widget.pdfLink,
-          GetFileType.SAVE);
+      downloadPdfFile(widget.pdfLink, GetFileType.SAVE);
     }
   }
 
@@ -88,7 +80,7 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
     try {
       HttpClient client = new HttpClient();
       client.badCertificateCallback =
-      ((X509Certificate cert, String host, int port) => true);
+          ((X509Certificate cert, String host, int port) => true);
       HttpClientRequest request = await client.getUrl(Uri.parse(pdfUrl));
       request.headers.set('content-type', 'application/json');
       HttpClientResponse response = await request.close();
@@ -108,7 +100,7 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
 
   shareFile() async {
     final ByteData bytes =
-    await pdfFile.readAsBytes().then((data) => ByteData.view(data.buffer));
+        await pdfFile.readAsBytes().then((data) => ByteData.view(data.buffer));
     await Share.file(
         'Jawolatcom', 'trip.pdf', bytes.buffer.asUint8List(), 'application/pdf',
         text: 'Jawolatcom');
@@ -164,13 +156,19 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
                       children: <Widget>[
                         (filePath != null)
                             ? Container(
-                          height: MediaQuery.of(context).size.height /1.2,
-                          child: Zoom(initZoom: 0.2,height:  MediaQuery.of(context).size.height * 0.5,width:  MediaQuery.of(context).size.width*0.5,
-                            child: PdfRenderer(
-                              pdfFile: filePath,
-                            ),
-                          ),
-                        )
+                                height:
+                                    MediaQuery.of(context).size.height / 1.2,
+                                child: Zoom(
+                                  initZoom: 0.2,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.5,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.5,
+                                  child: PdfRenderer(
+                                    pdfFile: filePath,
+                                  ),
+                                ),
+                              )
                             : Container(),
                       ],
                     ),
@@ -182,4 +180,5 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
     );
   }
 }
+
 enum GetFileType { READ, SAVE }

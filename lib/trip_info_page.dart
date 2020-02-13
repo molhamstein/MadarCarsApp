@@ -8,15 +8,12 @@ import 'package:madar_booking/invoice_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
-import 'package:madar_booking/rate_widget.dart';
-
-import 'madar_colors.dart';
-import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
-import 'package:madar_booking/trip_planning/PdfPeview.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/profile_bloc.dart';
+import 'package:madar_booking/rate_widget.dart';
+import 'package:madar_booking/trip_planning/PdfPeview.dart';
 
-
+import 'madar_colors.dart';
 
 class TripInfoPage extends StatefulWidget {
   final MyTrip trip;
@@ -59,13 +56,9 @@ class TripInfoPageState extends State<TripInfoPage> with Network {
     setState(() {});
   }
 
-
-
   ProfileBloc profileBloc;
   AppBloc appBloc;
   String token;
-
-
 
   @override
   void initState() {
@@ -352,30 +345,37 @@ class TripInfoPageState extends State<TripInfoPage> with Network {
 //                                              : null,
                                                 ),
                                       ),
-
                                       StreamBuilder<bool>(
-                                          stream: profileBloc.gettingPdfStream,initialData: false,
+                                          stream: profileBloc.gettingPdfStream,
+                                          initialData: false,
                                           builder: (context, snapshot) {
-                                            if(snapshot.data){
-                                              return  CircularProgressIndicator();
+                                            if (snapshot.data) {
+                                              return CircularProgressIndicator();
+                                            } else {
+                                              return InkWell(
+                                                  onTap: () {
+                                                    profileBloc.f_createPDF(
+                                                        trip.id, (val) {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      PdfPreview(
+                                                                          val)));
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(Icons
+                                                        .insert_drive_file),
+                                                  ));
                                             }
-                                            else{
-
-                                             return InkWell(onTap: (){
-                                               profileBloc.f_createPDF(trip.id, (val) {
-                                                 Navigator.of(context).push(
-                                                     MaterialPageRoute(builder: (context) => PdfPreview(val)));
-                                               });
-                                             },child: Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Icon(Icons.insert_drive_file),
-                                              ));
-
-                                            }
-                                          }
-                                      ),
-
-                                      SizedBox(width: 16,)
+                                          }),
+                                      SizedBox(
+                                        width: 16,
+                                      )
                                     ],
                                   ),
                                 ),

@@ -15,16 +15,16 @@ class Trip {
   String couponId;
   Airport airport;
   bool hasManyAirport;
-  bool withPayment ;
+  bool withPayment;
+
   String cardHolderName;
   String cardNumber;
   String expireMonth;
   String expireYear;
-  String cvc ;
+  String cvc;
+
   String tripId;
-  String pdfPath ;
-
-
+  String pdfPath;
 
   List<TripSublocation> tripSubLocations;
 
@@ -43,8 +43,9 @@ class Trip {
       this.cardNumber,
       this.expireMonth,
       this.expireYear,
-      this.cvc
-      ,this.tripId,this.pdfPath});
+      this.cvc,
+      this.tripId,
+      this.pdfPath});
 
   Trip.init() {
     fromAirport = false;

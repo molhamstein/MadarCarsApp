@@ -108,26 +108,26 @@ class DatePickerState extends State<DatePicker> {
           ),
           widget.withTimePicker
               ? (_selectedTime != null
-              ? Text(
-            DateFormat('hh:mm a').format(DateTime(
-                0, 0, 0, _selectedTime.hour, _selectedTime.minute)),
-            style: TextStyle(
-                fontSize: widget.size * 0.34,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[500],
-                height: 0.5),
-          )
-              : Text(
-            DateFormat('hh:mm a').format(DateTime(0, 0, 0, 0, 0)),
-            style: TextStyle(
-                fontSize: widget.size * 0.34,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[500],
-                height: 0.5),
-          ))
+                  ? Text(
+                      DateFormat('hh:mm a').format(DateTime(
+                          0, 0, 0, _selectedTime.hour, _selectedTime.minute)),
+                      style: TextStyle(
+                          fontSize: widget.size * 0.34,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[500],
+                          height: 0.5),
+                    )
+                  : Text(
+                      DateFormat('hh:mm a').format(DateTime(0, 0, 0, 0, 0)),
+                      style: TextStyle(
+                          fontSize: widget.size * 0.34,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[500],
+                          height: 0.5),
+                    ))
               : Container(
-            height: widget.size * 0.34,
-          ),
+                  height: widget.size * 0.34,
+                ),
         ],
       ),
     );
@@ -147,7 +147,7 @@ class DatePickerState extends State<DatePicker> {
     if (widget.withTimePicker) {
       time = await showTimePicker(context: context, initialTime: _selectedTime);
 
-      if (time != null ) {
+      if (time != null) {
         timeChanged = true;
 
         if (dateChanged || timeChanged) {
@@ -168,10 +168,9 @@ class DatePickerState extends State<DatePicker> {
         }
       }
     } else if (!widget.withTimePicker) {
-
       if (dateChanged || timeChanged) {
-        DateTime selectedDate = DateTime(
-            date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
+        DateTime selectedDate =
+            DateTime(date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
 //      print(_selectedTime);
 //      time = await showTimePicker(context: context, initialTime: _selectedTime);
 
@@ -186,6 +185,5 @@ class DatePickerState extends State<DatePicker> {
         });
       }
     }
-
   }
 }

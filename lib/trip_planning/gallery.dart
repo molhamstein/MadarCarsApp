@@ -22,10 +22,10 @@ class Gallery extends StatelessWidget {
 
         pageOptions: images
             .map((image) => PhotoViewGalleryPageOptions(
-            imageProvider: NetworkImage(image.url),
-            heroAttributes: PhotoViewHeroAttributes(tag: image.id),
+                imageProvider: NetworkImage(image.url),
+                heroAttributes: PhotoViewHeroAttributes(tag: image.id),
 //            heroTag: image.id,
-            maxScale: 1.5))
+                maxScale: 1.5))
             .toList(),
         backgroundDecoration: BoxDecoration(color: Colors.black87),
       ),

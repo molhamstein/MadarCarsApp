@@ -37,8 +37,6 @@ class HomeBloc extends BaseBloc with Network {
 
   Observable<ContactUs> get contactNum => contactNumFetcher.stream;
 
-
-
   getContactNum() {
     fetchContactUs().then((response) {
       print(response.contactUsNumber.toString());

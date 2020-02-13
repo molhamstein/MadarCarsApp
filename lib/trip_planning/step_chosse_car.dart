@@ -379,9 +379,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                                               .push(
                                                                             MaterialPageRoute(
                                                                               builder: (context) => Gallery(
-                                                                                    images: carSnapshot.data.carMedia,
-                                                                                    initialIndex: index,
-                                                                                  ),
+                                                                                images: carSnapshot.data.carMedia,
+                                                                                initialIndex: index,
+                                                                              ),
                                                                             ),
                                                                           );
                                                                         },
@@ -891,9 +891,9 @@ class StepChooseCarState extends State<StepChooseCar>
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => Gallery(
-                          images: carSnapshot.data.carMedia,
-                          initialIndex: 0,
-                        ),
+                      images: carSnapshot.data.carMedia,
+                      initialIndex: 0,
+                    ),
                   ),
                 );
             },

@@ -336,66 +336,80 @@ class TripPlanningPageState extends State<TripPlanningPage> with UserFeedback {
                                                                             8),
                                                                 child:
                                                                     ExpirationFormField(
-                                                                      
-                                                                      onChanged: (value) {
-                                                setState(() {
-                                                value = value.replaceAll(RegExp(r"\D"), "");
-                                                switch (value.length) {
-                                                case 0:
+                                                                  onChanged:
+                                                                      (value) {
+                                                                    setState(
+                                                                        () {
+                                                                      value = value.replaceAll(
+                                                                          RegExp(
+                                                                              r"\D"),
+                                                                          "");
+                                                                      switch (value
+                                                                          .length) {
+                                                                        case 0:
 //                                                print(value);
-                                                _dateController.text = "MM/YY";
-                                                _dateController.selection = TextSelection.collapsed(offset: 0);
-                                                break;
-                                                case 1:
-//                                                print(value);
-
-                                                _dateController.text = "${value}M/YY";
-                                                _dateController.selection = TextSelection.collapsed(offset: 1);
-                                                break;
-                                                case 2:
-//                                                print(value);
-
-                                                _dateController.text = "$value/YY";
-                                                _dateController.selection = TextSelection.collapsed(offset: 2);
-                                                break;
-                                                case 3:
+                                                                          _dateController.text =
+                                                                              "MM/YY";
+                                                                          _dateController.selection =
+                                                                              TextSelection.collapsed(offset: 0);
+                                                                          break;
+                                                                        case 1:
 //                                                print(value);
 
-                                                _dateController.text =
-                                                "${value.substring(0, 2)}/${value.substring(2)}Y";
-                                                _dateController.selection = TextSelection.collapsed(offset: 4);
-                                                break;
-                                                case 4:
+                                                                          _dateController.text =
+                                                                              "${value}M/YY";
+                                                                          _dateController.selection =
+                                                                              TextSelection.collapsed(offset: 1);
+                                                                          break;
+                                                                        case 2:
+//                                                print(value);
+
+                                                                          _dateController.text =
+                                                                              "$value/YY";
+                                                                          _dateController.selection =
+                                                                              TextSelection.collapsed(offset: 2);
+                                                                          break;
+                                                                        case 3:
+//                                                print(value);
+
+                                                                          _dateController.text =
+                                                                              "${value.substring(0, 2)}/${value.substring(2)}Y";
+                                                                          _dateController.selection =
+                                                                              TextSelection.collapsed(offset: 4);
+                                                                          break;
+                                                                        case 4:
 //                                                  print(value);
 
+                                                                          _dateController.text =
+                                                                              "${value.substring(0, 2)}/${value.substring(2, 4)}";
+                                                                          _dateController.selection =
+                                                                              TextSelection.collapsed(offset: 5);
 
-                                                _dateController.text =
-                                                "${value.substring(0, 2)}/${value.substring(2, 4)}";
-                                                _dateController.selection = TextSelection.collapsed(offset: 5);
-
-                                                break;
-                                                }
-                                                if (value.length > 4) {
-                                                _dateController.text =
-                                                "${value.substring(0, 2)}/${value.substring(2, 4)}";
-                                                _dateController.selection = TextSelection.collapsed(offset: 5);
-                                                }
-                                                });
-                                                print("value is " + value);
-                                                bloc.trip
-                                                    .expireMonth =
-                                                value
-
-                                                    .substring(0,2);
-                                                bloc.trip.expireYear = "20" +
-                                                    value
-
-                                                        .substring(2,4);
-                                                print(
-                                                    "on changed is : " +
-                                                        value);
-                                                },
-
+                                                                          break;
+                                                                      }
+                                                                      if (value
+                                                                              .length >
+                                                                          4) {
+                                                                        _dateController.text =
+                                                                            "${value.substring(0, 2)}/${value.substring(2, 4)}";
+                                                                        _dateController.selection =
+                                                                            TextSelection.collapsed(offset: 5);
+                                                                      }
+                                                                    });
+                                                                    print("value is " +
+                                                                        value);
+                                                                    bloc.trip
+                                                                            .expireMonth =
+                                                                        value.substring(
+                                                                            0,
+                                                                            2);
+                                                                    bloc.trip.expireYear = "20" +
+                                                                        value.substring(
+                                                                            2,
+                                                                            4);
+                                                                    print("on changed is : " +
+                                                                        value);
+                                                                  },
                                                                   onSubmit:
                                                                       (s) {
                                                                     bloc.trip

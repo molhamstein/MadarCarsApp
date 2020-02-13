@@ -4,7 +4,6 @@ import 'package:madar_booking/trip_planning/PdfPeview.dart';
 
 import '../MainButton.dart';
 import '../bloc_provider.dart';
-import '../madar_colors.dart';
 import 'bloc/trip_planing_bloc.dart';
 
 class FinalStep extends StatefulWidget {
@@ -56,30 +55,29 @@ class _FinalStepState extends State<FinalStep> {
               ),
             ),
 
-
-        StreamBuilder<bool>(
-          stream: planingBloc.gettingPdfStream,initialData: false,
-          builder: (context, snapshot) {
-            print(snapshot.data);
-            print("77777777777777777");
-            if(snapshot.data){
-              return  CircularProgressIndicator();
-            }
-            else{
-              return MainButton(margainTop: 0,
-                text: "View trip",
-                onPressed: () {
-                  planingBloc.f_createPDF(planingBloc.trip.tripId, (val) {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => PdfPreview(val)));
-                  });
-                },
-                width: 150,
-                height: 50,
-              );
-            }
-          }
-        ),
+            StreamBuilder<bool>(
+                stream: planingBloc.gettingPdfStream,
+                initialData: false,
+                builder: (context, snapshot) {
+                  print(snapshot.data);
+                  print("77777777777777777");
+                  if (snapshot.data) {
+                    return CircularProgressIndicator();
+                  } else {
+                    return MainButton(
+                      margainTop: 0,
+                      text: "View trip",
+                      onPressed: () {
+                        planingBloc.f_createPDF(planingBloc.trip.tripId, (val) {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PdfPreview(val)));
+                        });
+                      },
+                      width: 150,
+                      height: 50,
+                    );
+                  }
+                }),
 
 //            InkWell(
 //              onTap: () {

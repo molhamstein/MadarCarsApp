@@ -922,8 +922,6 @@ class StepSummaryState extends State<StepSummary>
 ////                                                    },
 ////                                                  );
 
-
-
                                                   showMyModalBottomSheet(
                                                     context: context,
                                                     builder: (context) {

@@ -135,32 +135,20 @@ class DayByDayPageState extends State<DayByDayPage>
 
   @override
   Widget build(BuildContext context) {
-
-    getHeightForList(height){
-      print("height is "+MediaQuery.of(context).size.height.toString());
-      if(height > 670){
-        height= MediaQuery.of(context).size.height/2.7;
-      }
-
-      else if(height > 640){
-        height= MediaQuery.of(context).size.height/2.9;
-
-      }
-      else if(height > 610){
-        height= MediaQuery.of(context).size.height/3.1;
-
-      }
-
-      else if(height > 570){
-        height= MediaQuery.of(context).size.height/3.4;
-
-      }
-      else  if(height > 550){
-        height= MediaQuery.of(context).size.height/3.6;
-
-      }
-      else  if(height > 500){
-        height = MediaQuery.of(context).size.height/4;
+    getHeightForList(height) {
+      print("height is " + MediaQuery.of(context).size.height.toString());
+      if (height > 670) {
+        height = MediaQuery.of(context).size.height / 2.7;
+      } else if (height > 640) {
+        height = MediaQuery.of(context).size.height / 2.9;
+      } else if (height > 610) {
+        height = MediaQuery.of(context).size.height / 3.1;
+      } else if (height > 570) {
+        height = MediaQuery.of(context).size.height / 3.4;
+      } else if (height > 550) {
+        height = MediaQuery.of(context).size.height / 3.6;
+      } else if (height > 500) {
+        height = MediaQuery.of(context).size.height / 4;
       }
 
       return height;
@@ -258,8 +246,8 @@ class DayByDayPageState extends State<DayByDayPage>
                                   ],
                                 ),
                                 Container(
-                                  height:
-                                  getHeightForList(MediaQuery.of(context).size.height),
+                                  height: getHeightForList(
+                                      MediaQuery.of(context).size.height),
                                   child: CustomScrollView(
                                     slivers: <Widget>[
                                       SliverList(

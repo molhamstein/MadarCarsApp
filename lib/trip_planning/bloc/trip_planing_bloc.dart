@@ -144,19 +144,18 @@ class TripPlaningBloc extends BaseBloc with Network {
 //  }
 
   final _gettingPdf = BehaviorSubject<bool>();
- get gettingPdfStream => _gettingPdf.stream ;
 
-  f_createPDF(tripId,onData) {
+  get gettingPdfStream => _gettingPdf.stream;
+
+  f_createPDF(tripId, onData) {
     _gettingPdf.sink.add(true);
-    createPDF(tripId, token)
-        .then((value) {
-          print("path ");
-          print(value);
-          onData(value);
-          trip.pdfPath = value;
-          _gettingPdf.sink.add(false);
-    })
-        .catchError((e) {
+    createPDF(tripId, token).then((value) {
+      print("path ");
+      print(value);
+      onData(value);
+      trip.pdfPath = value;
+      _gettingPdf.sink.add(false);
+    }).catchError((e) {
       _gettingPdf.sink.add(false);
     });
   }
@@ -512,9 +511,7 @@ class TripPlaningBloc extends BaseBloc with Network {
       _loadingController.sink.add(false);
       _feedbackController.sink.add("trip_added_successfully");
       navForward;
-      trip.tripId =d ;
-
-
+      trip.tripId = d;
     }).catchError((e) {
       print("e is : " + e.toString());
       if (e.toString() != "error_car_not_available") {
@@ -528,11 +525,11 @@ class TripPlaningBloc extends BaseBloc with Network {
         if ((step == Steps.chooseCar && !trip.inCity) ||
             step == Steps.chooseSuplocations) _loadingController.sink.add(true);
       });
-      if(e.toString() != "error_car_not_available"){
-        _feedbackController.addError('YOUR_TRIP_HAS_BEEN_ADDED_BUT_PAYMENT_INFO_IS_WRONG');
-
-      }else
-      _feedbackController.addError(e.toString());
+      if (e.toString() != "error_car_not_available") {
+        _feedbackController
+            .addError('YOUR_TRIP_HAS_BEEN_ADDED_BUT_PAYMENT_INFO_IS_WRONG');
+      } else
+        _feedbackController.addError(e.toString());
     });
   }
 

@@ -13,17 +13,18 @@ class MainButton extends StatefulWidget {
   final Function onMiniBtnPressed;
   final double margainTop;
 
-  const MainButton({
-    Key key,
-    this.onPressed,
-    this.text,
-    this.loading = false,
-    this.height = 50,
-    this.width = 150,
-    this.duration,
-    this.miniButton = false,
-    this.onMiniBtnPressed,this.margainTop= 220
-  })  : assert(text != null),
+  const MainButton(
+      {Key key,
+      this.onPressed,
+      this.text,
+      this.loading = false,
+      this.height = 50,
+      this.width = 150,
+      this.duration,
+      this.miniButton = false,
+      this.onMiniBtnPressed,
+      this.margainTop = 220})
+      : assert(text != null),
         super(key: key);
 
   @override
@@ -149,8 +150,7 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
           child: Center(
             child: width > 80
                 ? Text(
-
-              //Todo done
+                    //Todo done
                     MadarLocalizations.of(context).trans('Book_Now'),
                     style: TextStyle(
                       color: Colors.white,
