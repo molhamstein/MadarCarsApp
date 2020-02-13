@@ -11,6 +11,12 @@ import 'package:madar_booking/my_flutter_app_icons.dart';
 import 'package:madar_booking/rate_widget.dart';
 
 import 'madar_colors.dart';
+import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
+import 'package:madar_booking/trip_planning/PdfPeview.dart';
+import 'package:madar_booking/network.dart';
+import 'package:madar_booking/profile_bloc.dart';
+
+
 
 class TripInfoPage extends StatefulWidget {
   final MyTrip trip;
@@ -21,7 +27,7 @@ class TripInfoPage extends StatefulWidget {
   TripInfoPageState createState() => TripInfoPageState(trip);
 }
 
-class TripInfoPageState extends State<TripInfoPage> {
+class TripInfoPageState extends State<TripInfoPage> with Network {
   final MyTrip trip;
 
   TripInfoPageState(this.trip);
@@ -53,8 +59,20 @@ class TripInfoPageState extends State<TripInfoPage> {
     setState(() {});
   }
 
+
+
+  ProfileBloc profileBloc;
+  AppBloc appBloc;
+  String token;
+
+
+
   @override
   void initState() {
+    appBloc = BlocProvider.of<AppBloc>(context);
+    token = appBloc.token;
+    profileBloc = ProfileBloc(token);
+
     Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         handleTimeout();
@@ -334,6 +352,30 @@ class TripInfoPageState extends State<TripInfoPage> {
 //                                              : null,
                                                 ),
                                       ),
+
+                                      StreamBuilder<bool>(
+                                          stream: profileBloc.gettingPdfStream,initialData: false,
+                                          builder: (context, snapshot) {
+                                            if(snapshot.data){
+                                              return  CircularProgressIndicator();
+                                            }
+                                            else{
+
+                                             return InkWell(onTap: (){
+                                               profileBloc.f_createPDF(trip.id, (val) {
+                                                 Navigator.of(context).push(
+                                                     MaterialPageRoute(builder: (context) => PdfPreview(val)));
+                                               });
+                                             },child: Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Icon(Icons.insert_drive_file),
+                                              ));
+
+                                            }
+                                          }
+                                      ),
+
+                                      SizedBox(width: 16,)
                                     ],
                                   ),
                                 ),

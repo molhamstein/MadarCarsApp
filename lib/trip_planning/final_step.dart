@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/madarLocalizer.dart';
+import 'package:madar_booking/trip_planning/PdfPeview.dart';
 
+import '../MainButton.dart';
 import '../bloc_provider.dart';
 import '../madar_colors.dart';
 import 'bloc/trip_planing_bloc.dart';
-
 
 class FinalStep extends StatefulWidget {
   @override
@@ -12,18 +13,15 @@ class FinalStep extends StatefulWidget {
 }
 
 class _FinalStepState extends State<FinalStep> {
+  TripPlaningBloc planingBloc;
 
-TripPlaningBloc planingBloc ;
-
-
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     planingBloc = BlocProvider.of<TripPlaningBloc>(context);
     print("////////////");
-print(planingBloc.trip.tripId);
-}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +31,9 @@ print(planingBloc.trip.tripId);
       color: Colors.transparent,
       child: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+//          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
+//          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -59,39 +57,63 @@ print(planingBloc.trip.tripId);
             ),
 
 
-            InkWell(
-              onTap: (){
-                
-                planingBloc.f_createPDF(planingBloc.trip.tripId);
-              },
-              child: AnimatedContainer(
-                curve: Curves.ease,
-                margin: EdgeInsets.only(left: 16, right: 16),
-                duration: Duration(milliseconds: 400),
-                decoration: BoxDecoration(
-                  color: MadarColors.gradientDown,
-                  borderRadius: BorderRadius.circular(40),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 10,
-                      color: MadarColors.gradientUp,
-                    ),
-                  ],
-                ),
-//                  width: width,
-                child: Padding(
-                  padding: const EdgeInsets.only(top:8.0,bottom: 8,left: 16,right: 16),
-                  child: Text(
-                    //Todo done
-                    "Open summary",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+        StreamBuilder<bool>(
+          stream: planingBloc.gettingPdfStream,initialData: false,
+          builder: (context, snapshot) {
+            print(snapshot.data);
+            print("77777777777777777");
+            if(snapshot.data){
+              return  CircularProgressIndicator();
+            }
+            else{
+              return MainButton(margainTop: 0,
+                text: "View trip",
+                onPressed: () {
+                  planingBloc.f_createPDF(planingBloc.trip.tripId, (val) {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => PdfPreview(val)));
+                  });
+                },
+                width: 150,
+                height: 50,
+              );
+            }
+          }
+        ),
+
+//            InkWell(
+//              onTap: () {
+//
+//              },
+//              child: AnimatedContainer(
+//                curve: Curves.ease,
+//                margin: EdgeInsets.only(left: 16, right: 16),
+//                duration: Duration(milliseconds: 400),
+//                decoration: BoxDecoration(
+//                  color: MadarColors.gradientDown,
+//                  borderRadius: BorderRadius.circular(40),
+//                  boxShadow: [
+//                    BoxShadow(
+//                      blurRadius: 10,
+//                      color: MadarColors.gradientUp,
+//                    ),
+//                  ],
+//                ),
+////                  width: width,
+//                child: Padding(
+//                  padding: const EdgeInsets.only(
+//                      top: 8.0, bottom: 8, left: 16, right: 16),
+//                  child: Text(
+//                    //Todo done
+//                    "Open summary",
+//                    style: TextStyle(
+//                      color: Colors.white,
+//                      fontSize: 15,
+//                    ),
+//                  ),
+//                ),
+//              ),
+//            ),
 
 //            Padding(
 //              padding: const EdgeInsets.only(left: 16, right: 16, top: 60),

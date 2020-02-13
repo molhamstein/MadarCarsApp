@@ -11,6 +11,7 @@ class MainButton extends StatefulWidget {
   final Duration duration;
   final bool miniButton;
   final Function onMiniBtnPressed;
+  final double margainTop;
 
   const MainButton({
     Key key,
@@ -21,7 +22,7 @@ class MainButton extends StatefulWidget {
     this.width = 150,
     this.duration,
     this.miniButton = false,
-    this.onMiniBtnPressed,
+    this.onMiniBtnPressed,this.margainTop= 220
   })  : assert(text != null),
         super(key: key);
 
@@ -65,7 +66,7 @@ class MainButtonState extends State<MainButton> with TickerProviderStateMixin {
       width = 0;
     }
     return Container(
-      margin: EdgeInsets.only(top: 220.0),
+      margin: EdgeInsets.only(top: widget.margainTop),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,

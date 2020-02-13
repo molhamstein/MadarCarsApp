@@ -143,16 +143,22 @@ class TripPlaningBloc extends BaseBloc with Network {
 //    });
 //  }
 
+  final _gettingPdf = BehaviorSubject<bool>();
+ get gettingPdfStream => _gettingPdf.stream ;
 
-
-  f_createPDF(tripId) {
+  f_createPDF(tripId,onData) {
+    _gettingPdf.sink.add(true);
     createPDF(tripId, token)
         .then((value) {
           print("path ");
           print(value);
+          onData(value);
           trip.pdfPath = value;
+          _gettingPdf.sink.add(false);
     })
-        .catchError((e) {});
+        .catchError((e) {
+      _gettingPdf.sink.add(false);
+    });
   }
 
   addPaymentForTrip(Trip trip) {
