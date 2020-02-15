@@ -93,9 +93,7 @@ class DatePickerState extends State<DatePicker> {
                             height: 0.5),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(
-                          4
-                        ),
+                        padding: EdgeInsets.all(4),
                       ),
                       Text(
                         DateFormat.y().format(_selectedDate),

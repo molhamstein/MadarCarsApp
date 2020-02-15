@@ -270,7 +270,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                                 height: 0.5),
                                                           ),
                                                           Padding(
-                                                            padding: EdgeInsets.all(6),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    6),
                                                           ),
                                                           Text(
                                                             carSnapshot

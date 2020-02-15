@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pdf_renderer/flutter_pdf_renderer.dart';
 import 'package:madar_booking/feedback.dart';
+import 'package:madar_booking/madarLocalizer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zoom_widget/zoom_widget.dart';
-import 'package:madar_booking/madarLocalizer.dart';
 
 class PdfPreview extends StatefulWidget {
   final String pdfLink;
@@ -111,7 +111,9 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(  MadarLocalizations.of(context).trans('Summary'),),
+        title: Text(
+          MadarLocalizations.of(context).trans('Summary'),
+        ),
         actions: <Widget>[
           StreamBuilder<bool>(
               stream: _showSaving,
@@ -156,19 +158,17 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
                     children: <Widget>[
                       (filePath != null)
                           ? Container(
-                        height:
-                        MediaQuery.of(context).size.height / 1.2,
-                        child: Zoom(
-                          initZoom: 0.2,
-                          height:
-                          MediaQuery.of(context).size.height * 0.5,
-                          width:
-                          MediaQuery.of(context).size.width * 0.5,
-                          child: PdfRenderer(
-                            pdfFile: filePath,
-                          ),
-                        ),
-                      )
+                              height: MediaQuery.of(context).size.height / 1.2,
+                              child: Zoom(
+                                initZoom: 0.2,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.5,
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                child: PdfRenderer(
+                                  pdfFile: filePath,
+                                ),
+                              ),
+                            )
                           : Container(),
                     ],
                   ),

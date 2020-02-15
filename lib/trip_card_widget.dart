@@ -43,7 +43,10 @@ class TripCard extends StatelessWidget {
                     flex: 2,
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          left: 8.0, right: 8.0, top: 8.0,),
+                        left: 8.0,
+                        right: 8.0,
+                        top: 8.0,
+                      ),
                       child: AutoSizeText(
                         trip.title(MadarLocalizations.of(context).locale),
                         maxLines: 1,
@@ -105,7 +108,8 @@ class TripCard extends StatelessWidget {
                       // width: 150,
                       child: Text(
                         trip.description(MadarLocalizations.of(context).locale),
-                        style: AppTextStyle.meduimTextStyleWhite,strutStyle: StrutStyle(forceStrutHeight: true),
+                        style: AppTextStyle.meduimTextStyleWhite,
+                        strutStyle: StrutStyle(forceStrutHeight: true),
                         // softWrap: true,
                       ),
                     )

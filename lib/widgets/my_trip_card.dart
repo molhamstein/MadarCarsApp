@@ -25,11 +25,11 @@ class MyTripCardState extends State<MyTripCard> {
         widget.trip.toAirport) {
       return MadarLocalizations.of(context).trans('tow_way_air_port');
     } else if (widget.trip.fromAirport && widget.trip.inCity) {
-      return MadarLocalizations.of(context).trans('from_air_port') ;
+      return MadarLocalizations.of(context).trans('from_air_port');
     } else if (widget.trip.fromAirport && widget.trip.toAirport) {
       return MadarLocalizations.of(context).trans('tow_way_air_port');
     } else if (widget.trip.inCity && widget.trip.toAirport) {
-      return MadarLocalizations.of(context).trans('to_air_port') ;
+      return MadarLocalizations.of(context).trans('to_air_port');
     }
     return '';
   }
@@ -38,21 +38,16 @@ class MyTripCardState extends State<MyTripCard> {
     if (widget.trip.fromAirport &&
         widget.trip.inCity &&
         widget.trip.toAirport) {
-      return
-          MadarLocalizations.of(context).trans('in_city');
+      return MadarLocalizations.of(context).trans('in_city');
     } else if (widget.trip.fromAirport && widget.trip.inCity) {
-      return
-          MadarLocalizations.of(context).trans('in_city');
+      return MadarLocalizations.of(context).trans('in_city');
     } else if (widget.trip.fromAirport && widget.trip.toAirport) {
       return '';
     } else if (widget.trip.inCity && widget.trip.toAirport) {
-      return
-          MadarLocalizations.of(context).trans('in_city');
+      return MadarLocalizations.of(context).trans('in_city');
     }
     return '';
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +115,6 @@ class MyTripCardState extends State<MyTripCard> {
                               maxLines: 2,
                             ),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: AutoSizeText(
@@ -216,9 +210,7 @@ class MyTripCardState extends State<MyTripCard> {
                                                           .smallTextStylegrey,
                                                       maxLines: 2,
                                                     ),
-                                                  )
-
-                                                  ,
+                                                  ),
                                                   Padding(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -230,9 +222,6 @@ class MyTripCardState extends State<MyTripCard> {
                                                       maxLines: 2,
                                                     ),
                                                   )
-
-
-
                                                 ],
                                               ),
                                             ),

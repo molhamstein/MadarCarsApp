@@ -618,10 +618,13 @@ class TripInfoPageState extends State<TripInfoPage> with Network {
                                 Container(
                                   // height: 100,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:20.0,right: 20),
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, right: 20),
                                     child: Column(
                                       children: <Widget>[
-                                        SizedBox(height: 20,),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
                                         citiesListRow(
                                             trip.location.name(
                                                 MadarLocalizations.of(context)

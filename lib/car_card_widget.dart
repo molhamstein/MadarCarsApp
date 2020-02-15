@@ -74,7 +74,7 @@ class CarCard extends StatelessWidget {
                     ),
                     // info container
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
                         // height: 50,
                         child: Row(
@@ -88,23 +88,24 @@ class CarCard extends StatelessWidget {
                                       start: 8.0),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
-
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
                                           car.brand.name(
                                               MadarLocalizations.of(context)
                                                   .locale),
-                                          style: AppTextStyle.smallTextStyleBlack,
+                                          style:
+                                              AppTextStyle.smallTextStyleBlack,
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(car.driver.firstName,
-                                            style:
-                                                AppTextStyle.smallTextStyleBlack),
+                                            style: AppTextStyle
+                                                .smallTextStyleBlack),
                                       )
                                     ],
                                   ),
@@ -142,8 +143,8 @@ class CarCard extends StatelessWidget {
                                         RichText(
                                           text: TextSpan(
                                             text: '${car.pricePerDay}',
-                                            style:
-                                                AppTextStyle.largeTextStyleBlack,
+                                            style: AppTextStyle
+                                                .largeTextStyleBlack,
                                           ),
                                         ),
                                         RichText(

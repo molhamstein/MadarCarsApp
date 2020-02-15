@@ -293,11 +293,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
 //    var result = await facebookLogin
 //        .logInWithReadPermissions(['email', 'public_profile']);
 
-
-    var result = await facebookLogin
-        .logIn(['email', 'public_profile']);
-
-
+    var result = await facebookLogin.logIn(['email', 'public_profile']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
