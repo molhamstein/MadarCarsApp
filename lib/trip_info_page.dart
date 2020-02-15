@@ -262,7 +262,7 @@ class TripInfoPageState extends State<TripInfoPage> with Network {
                                                       ))),
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 4.0),
+                                                    top: 8.0),
                                                 child: Text(
                                                   trip.startDateFromated(),
                                                   style: AppTextStyle
@@ -298,7 +298,7 @@ class TripInfoPageState extends State<TripInfoPage> with Network {
                                                       ))),
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 4.0),
+                                                    top: 8.0),
                                                 child: Text(
                                                   trip.endDateFormated(),
                                                   style: AppTextStyle
@@ -618,9 +618,10 @@ class TripInfoPageState extends State<TripInfoPage> with Network {
                                 Container(
                                   // height: 100,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
+                                    padding: const EdgeInsets.only(left:20.0,right: 20),
                                     child: Column(
                                       children: <Widget>[
+                                        SizedBox(height: 20,),
                                         citiesListRow(
                                             trip.location.name(
                                                 MadarLocalizations.of(context)

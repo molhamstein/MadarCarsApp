@@ -143,7 +143,9 @@
   "DOMESTIC_CARDS" : "هذه البطاقة غير مخولة للدفع بالدولار" ,
   "PRICE_INFORMATION" : "إن المبلغ تجاوز 50000$",
   "YOUR_TRIP_HAS_BEEN_ADDED_BUT_PAYMENT_INFO_IS_WRONG" : "تم حجر الرحلة بنجاح لكن معلومات الدفع خاطئة",
-  "need_permission" : "نحتاج إلى الاذن لتحميل الملف"
+  "need_permission" : "نحتاج إلى الاذن لتحميل الملف",
+  "view_trip":"مراجعة الرحلة"
+
 
 
 }

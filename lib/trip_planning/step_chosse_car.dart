@@ -162,6 +162,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
+                                                  Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                  ),
                                                   Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -265,6 +268,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                                 color: Colors
                                                                     .grey[800],
                                                                 height: 0.5),
+                                                          ),
+                                                          Padding(
+                                                            padding: EdgeInsets.all(6),
                                                           ),
                                                           Text(
                                                             carSnapshot

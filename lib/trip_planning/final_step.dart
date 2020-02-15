@@ -66,7 +66,7 @@ class _FinalStepState extends State<FinalStep> {
                   } else {
                     return MainButton(
                       margainTop: 0,
-                      text: "View trip",
+                      text: MadarLocalizations.of(context).trans('view_trip'),
                       onPressed: () {
                         planingBloc.f_createPDF(planingBloc.trip.tripId, (val) {
                           Navigator.of(context).push(MaterialPageRoute(

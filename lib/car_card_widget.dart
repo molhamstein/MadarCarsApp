@@ -73,96 +73,100 @@ class CarCard extends StatelessWidget {
                       ),
                     ),
                     // info container
-                    Container(
-                      // height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              //  decoration: BoxDecoration(color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        car.brand.name(
-                                            MadarLocalizations.of(context)
-                                                .locale),
-                                        style: AppTextStyle.smallTextStyleBlack,
+                    Padding(
+                      padding: const EdgeInsets.only(top:8.0),
+                      child: Container(
+                        // height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                //  decoration: BoxDecoration(color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          car.brand.name(
+                                              MadarLocalizations.of(context)
+                                                  .locale),
+                                          style: AppTextStyle.smallTextStyleBlack,
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(car.driver.firstName,
+                                            style:
+                                                AppTextStyle.smallTextStyleBlack),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(color: Colors.white),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, right: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    RateWidget('${car.rate}'),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(car.driver.firstName,
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(car.productionDate.toString(),
                                           style:
                                               AppTextStyle.smallTextStyleBlack),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, right: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  RateWidget('${car.rate}'),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text(car.productionDate.toString(),
-                                        style:
-                                            AppTextStyle.smallTextStyleBlack),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            // decoration: BoxDecoration(color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8, top: 8),
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                          text: '${car.pricePerDay}',
-                                          style:
-                                              AppTextStyle.largeTextStyleBlack,
+                            Container(
+                              // decoration: BoxDecoration(color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8, top: 8),
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                            text: '${car.pricePerDay}',
+                                            style:
+                                                AppTextStyle.largeTextStyleBlack,
+                                          ),
                                         ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          text: '\$',
-                                          style:
-                                              AppTextStyle.smallTextStylegrey,
+                                        RichText(
+                                          text: TextSpan(
+                                            text: '\$',
+                                            style:
+                                                AppTextStyle.smallTextStylegrey,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                      "/${MadarLocalizations.of(context).trans("day")}",
-                                      style: TextStyle(
-                                          fontSize: AppFonts.small_font_size,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey.shade600))
-                                ],
+                                      ],
+                                    ),
+                                    Text(
+                                        "/${MadarLocalizations.of(context).trans("day")}",
+                                        style: TextStyle(
+                                            fontSize: AppFonts.small_font_size,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey.shade600))
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],

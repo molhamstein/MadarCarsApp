@@ -288,7 +288,8 @@ class StepSummaryState extends State<StepSummary>
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 500,
+                                    height:  500 +planingBloc.trip
+                                        .tripSubLocations.length *90.0,
                                   ),
                                 ],
                               ),
@@ -975,7 +976,10 @@ class StepSummaryState extends State<StepSummary>
                                                         height: 0.5)),
                                                 color: MadarColors.gradientDown,
                                               ),
+
                                             ),
+
+
                                           ],
                                         );
                                     }),

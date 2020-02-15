@@ -23,22 +23,36 @@ class MyTripCardState extends State<MyTripCard> {
     if (widget.trip.fromAirport &&
         widget.trip.inCity &&
         widget.trip.toAirport) {
-      return MadarLocalizations.of(context).trans('tow_way_air_port') +
-          '\n' +
-          MadarLocalizations.of(context).trans('in_city');
+      return MadarLocalizations.of(context).trans('tow_way_air_port');
     } else if (widget.trip.fromAirport && widget.trip.inCity) {
-      return MadarLocalizations.of(context).trans('from_air_port') +
-          '\n' +
-          MadarLocalizations.of(context).trans('in_city');
+      return MadarLocalizations.of(context).trans('from_air_port') ;
     } else if (widget.trip.fromAirport && widget.trip.toAirport) {
       return MadarLocalizations.of(context).trans('tow_way_air_port');
     } else if (widget.trip.inCity && widget.trip.toAirport) {
-      return MadarLocalizations.of(context).trans('to_air_port') +
-          '\n' +
+      return MadarLocalizations.of(context).trans('to_air_port') ;
+    }
+    return '';
+  }
+
+  String getTripPlace() {
+    if (widget.trip.fromAirport &&
+        widget.trip.inCity &&
+        widget.trip.toAirport) {
+      return
+          MadarLocalizations.of(context).trans('in_city');
+    } else if (widget.trip.fromAirport && widget.trip.inCity) {
+      return
+          MadarLocalizations.of(context).trans('in_city');
+    } else if (widget.trip.fromAirport && widget.trip.toAirport) {
+      return '';
+    } else if (widget.trip.inCity && widget.trip.toAirport) {
+      return
           MadarLocalizations.of(context).trans('in_city');
     }
     return '';
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +115,16 @@ class MyTripCardState extends State<MyTripCard> {
                           Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: AutoSizeText(
-                              "${DateFormat.Md().format(DateTime.parse(widget.trip.startDate()))}\n${DateFormat.y().format(DateTime.parse(widget.trip.startDate()))}",
+                              "${DateFormat.Md().format(DateTime.parse(widget.trip.startDate()))}",
+                              style: AppTextStyle.smallTextStyleBlack,
+                              maxLines: 2,
+                            ),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: AutoSizeText(
+                              "${DateFormat.y().format(DateTime.parse(widget.trip.startDate()))}",
                               style: AppTextStyle.smallTextStyleBlack,
                               maxLines: 2,
                             ),
@@ -194,6 +217,22 @@ class MyTripCardState extends State<MyTripCard> {
                                                       maxLines: 2,
                                                     ),
                                                   )
+
+                                                  ,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 8.0),
+                                                    child: AutoSizeText(
+                                                      getTripPlace(),
+                                                      style: AppTextStyle
+                                                          .smallTextStylegrey,
+                                                      maxLines: 2,
+                                                    ),
+                                                  )
+
+
+
                                                 ],
                                               ),
                                             ),

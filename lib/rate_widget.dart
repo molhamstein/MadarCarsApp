@@ -10,7 +10,7 @@ class RateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 60,
-      padding: EdgeInsets.only(left: 8, right: 8),
+      padding: EdgeInsets.only(left: 8, right: 8,top: 0,bottom: 0),
       decoration: BoxDecoration(
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(15),
@@ -23,7 +23,7 @@ class RateWidget extends StatelessWidget {
           children: <Widget>[
             Text(
               rate,
-              style: TextStyle(fontWeight: FontWeight.w700, height: 0.8),
+              style: TextStyle(fontWeight: FontWeight.w700, ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 4, right: 4),

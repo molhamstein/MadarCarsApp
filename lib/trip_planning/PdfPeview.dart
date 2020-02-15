@@ -109,74 +109,72 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(  MadarLocalizations.of(context).trans('Summary'),),
-          actions: <Widget>[
-            StreamBuilder<bool>(
-                stream: _showSaving,
-                initialData: false,
-                builder: (context, snapshot) {
-                  if (snapshot.data == false) {
-                    return InkWell(
-                      onTap: () async {
-                        checkPermission();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.file_download),
-                      ),
-                    );
-                  } else {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                }),
-            IconButton(
-                icon: Icon(Icons.share),
-                onPressed: () {
-                  shareFile();
-                }),
-            SizedBox(
-              width: 8,
-            )
-          ],
-        ),
-        body: Container(
-          color: Colors.white,
-          height: MediaQuery.of(context).size.height,
-          child: StreamBuilder<bool>(
-              stream: _showLoading,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(  MadarLocalizations.of(context).trans('Summary'),),
+        actions: <Widget>[
+          StreamBuilder<bool>(
+              stream: _showSaving,
               initialData: false,
               builder: (context, snapshot) {
-                if (snapshot.data == true) {
-                  return Center(child: CircularProgressIndicator());
-                } else {
-                  return Center(
-                    child: Column(
-                      children: <Widget>[
-                        (filePath != null)
-                            ? Container(
-                                height:
-                                    MediaQuery.of(context).size.height / 1.2,
-                                child: Zoom(
-                                  initZoom: 0.2,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.5,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
-                                  child: PdfRenderer(
-                                    pdfFile: filePath,
-                                  ),
-                                ),
-                              )
-                            : Container(),
-                      ],
+                if (snapshot.data == false) {
+                  return InkWell(
+                    onTap: () async {
+                      checkPermission();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(Icons.file_download),
                     ),
                   );
+                } else {
+                  return Center(child: CircularProgressIndicator());
                 }
               }),
-        ),
+          IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {
+                shareFile();
+              }),
+          SizedBox(
+            width: 8,
+          )
+        ],
+      ),
+      body: Container(
+        color: Colors.white,
+        height: MediaQuery.of(context).size.height,
+        child: StreamBuilder<bool>(
+            stream: _showLoading,
+            initialData: false,
+            builder: (context, snapshot) {
+              if (snapshot.data == true) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                return Center(
+                  child: Column(
+                    children: <Widget>[
+                      (filePath != null)
+                          ? Container(
+                        height:
+                        MediaQuery.of(context).size.height / 1.2,
+                        child: Zoom(
+                          initZoom: 0.2,
+                          height:
+                          MediaQuery.of(context).size.height * 0.5,
+                          width:
+                          MediaQuery.of(context).size.width * 0.5,
+                          child: PdfRenderer(
+                            pdfFile: filePath,
+                          ),
+                        ),
+                      )
+                          : Container(),
+                    ],
+                  ),
+                );
+              }
+            }),
       ),
     );
   }

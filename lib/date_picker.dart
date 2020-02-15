@@ -61,7 +61,7 @@ class DatePickerState extends State<DatePicker> {
                 height: 0.5),
           ),
           Padding(
-            padding: EdgeInsets.all(4),
+            padding: EdgeInsets.all(12),
           ),
           Material(
             color: Colors.transparent,
@@ -92,6 +92,11 @@ class DatePickerState extends State<DatePicker> {
                             color: Colors.grey[600],
                             height: 0.5),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(
+                          4
+                        ),
+                      ),
                       Text(
                         DateFormat.y().format(_selectedDate),
                         style: TextStyle(
@@ -105,6 +110,9 @@ class DatePickerState extends State<DatePicker> {
                 ],
               ),
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(6),
           ),
           widget.withTimePicker
               ? (_selectedTime != null
