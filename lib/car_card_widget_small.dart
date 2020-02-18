@@ -65,12 +65,12 @@ class CarCardSmall extends StatelessWidget {
                                 children: <Widget>[
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8, bottom: 4, top: 4),
+                                        left: 8.0, right: 8, bottom: 4, top: 8),
                                     child: RateWidget('${car.rate}'),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8, bottom: 4, top: 4),
+                                        left: 8.0, right: 8, bottom: 4, top: 8),
                                     child: Text(
                                       car.brand.name(
                                           MadarLocalizations.of(context)
@@ -80,7 +80,7 @@ class CarCardSmall extends StatelessWidget {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        left: 8.0, right: 8, bottom: 4, top: 4),
+                                        left: 8.0, right: 8, bottom: 4, top: 8),
                                     child: Text(car.driver.firstName,
                                         style:
                                             AppTextStyle.smallTextStyleWhite),
@@ -113,6 +113,9 @@ class CarCardSmall extends StatelessWidget {
                                     ),
                                   ),
                                 ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(3),
                               ),
                               Text(
                                   "/${MadarLocalizations.of(context).trans("day")}",

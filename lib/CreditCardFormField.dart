@@ -44,9 +44,8 @@ class CVVFormField extends StatelessWidget {
       this.obscureText = false,
       this.enabled = true,
       this.inputFormatters,
-        this.onSubmit,
-        this.onChanged
-      })
+      this.onSubmit,
+      this.onChanged})
       : super(key: key);
 
   final List<TextInputFormatter> inputFormatters;
@@ -56,10 +55,9 @@ class CVVFormField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final bool obscureText;
   final bool enabled;
-  final Function onSubmit ;
+  final Function onSubmit;
+
   final ValueChanged<String> onChanged;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,38 +67,35 @@ class CVVFormField extends StatelessWidget {
         decimal: false,
       ),
       decoration: this.decoration,
-      onChanged:this.onChanged ,
+      onChanged: this.onChanged,
       controller: this.controller,
       obscureText: this.obscureText,
       inputFormatters: this.inputFormatters,
       onSubmitted: this.onSubmit,
-
     );
   }
 }
 
 class ExpirationFormField extends StatefulWidget {
   //TODO make controller optional
-  ExpirationFormField({
-    this.key,
-    @required this.controller,
-    this.decoration,
-    this.obscureText = false,
-    this.enabled = true,
-  this.onSubmit,
-    this.onChanged
-
-
-  }) : super(key: key);
+  ExpirationFormField(
+      {this.key,
+      @required this.controller,
+      this.decoration,
+      this.obscureText = false,
+      this.enabled = true,
+      this.onSubmit,
+      this.onChanged})
+      : super(key: key);
 
   final Key key;
   final TextEditingController controller;
   final InputDecoration decoration;
   final bool obscureText;
   final bool enabled;
-  final Function onSubmit ;
-  final ValueChanged<String> onChanged;
+  final Function onSubmit;
 
+  final ValueChanged<String> onChanged;
 
   @override
   _ExpirationFormFieldState createState() => _ExpirationFormFieldState();
@@ -118,8 +113,7 @@ class _ExpirationFormFieldState extends State<ExpirationFormField> {
       cursorWidth: 0.0,
       obscureText: widget.obscureText,
       enabled: widget.enabled,
-      onSubmitted:widget.onSubmit ,
-
+      onSubmitted: widget.onSubmit,
     );
   }
 }

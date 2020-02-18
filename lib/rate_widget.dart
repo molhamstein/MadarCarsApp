@@ -23,7 +23,9 @@ class RateWidget extends StatelessWidget {
           children: <Widget>[
             Text(
               rate,
-              style: TextStyle(fontWeight: FontWeight.w700, height: 0.8),
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 4, right: 4),

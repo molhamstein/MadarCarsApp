@@ -31,6 +31,7 @@ class Network {
   //static final String _baseUrl = 'http://104.217.253.15:3006/api/';
 //  static final String _baseUrl = 'http://192.168.1.6:3000/api/';
   static final String _baseUrl = 'https://jawlatcom.com/api/';
+
 //  static final String _baseUrl = "http://192.168.1.3:3000/api/";
   final String _loginUrl = _baseUrl + 'users/login?include=user';
   final String _logoutUrl = _baseUrl + 'users/logOut';
@@ -62,52 +63,64 @@ class Network {
       _baseUrl + 'firbaseTokens/updateFirebaseToken';
 
   String _contactUsNumber = _baseUrl + "admins/getMetaData";
-  String _addPayment =
-      _baseUrl+"trip/trip_addPayment";
+  String _addPayment = _baseUrl + "trip/trip_addPayment";
 
-  Future<String> addPayment(Trip trip ,String token) async {
+  Future<String> createPDF(id, String token) async {
+    headers['Authorization'] = token;
+    print(id);
+    print(token);
+    print("$_trip/$id/createPdf");
+    final response = await http.put("$_trip/$id/createPdf", headers: headers);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return json.decode(response.body)['pdfPath'];
+    } else {
+      print(response.body);
+      throw json.decode(response.body);
+    }
+  }
+
+  Future<String> addPayment(Trip trip, String token) async {
     print(trip.toString());
 
     var body = json.encode({
       'price': trip.estimationPrice(),
       'cardHolderName': trip.cardHolderName /*"John Doe"*/,
-      'cardNumber': double.parse( trip.cardNumber)/*4054180000000007*/,
+      'cardNumber': double.parse(trip.cardNumber) /*4054180000000007*/,
       'expireMonth': double.parse(trip.expireMonth) /*12*/,
-      'expireYear':double.parse( trip.expireYear) /*20*/,
+      'expireYear': double.parse(trip.expireYear) /*20*/,
       'cvc': trip.cvc /*"123"*/
-    }) ;
+    });
 
-
-    final response = await http.post(_baseUrl+"trips/${trip.tripId}/addPayment",
+    final response = await http.post(
+        _baseUrl + "trips/${trip.tripId}/addPayment",
         body: body,
         headers: headers);
     print(json.encode(body));
     if (response.statusCode == 200) {
       print((json.decode(response.body)));
 
-      return "Payed Successfully" ;
+      return "Payed Successfully";
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       print(response.body);
       throw 'error_wrong_credentials';
-    }
-    else if (response.statusCode == ErrorCodes.PAYMENT_INFO_IS_WRONG){
-      throw 'PAYMENT_INFO_IS_WRONG' ;
-    } else if (response.statusCode == ErrorCodes.CARD_NUMBER_IS_INVALID){
-      throw 'CARD_NUMBER_IS_INVALID' ;
-    } else if (response.statusCode == ErrorCodes.EXPIRE_DATE_IS_INVALID){
-      throw 'EXPIRE_DATE_IS_INVALID' ;
-    } else if (response.statusCode == ErrorCodes.CVC_IS_INVALID){
-      throw 'CVC_IS_INVALID' ;
-    } else if (response.statusCode == ErrorCodes.DOMESTIC_CARDS){
-      throw 'DOMESTIC_CARDS' ;
-    }else if (response.statusCode == ErrorCodes.PRICE_INFORMATION){
-      throw 'PRICE_INFORMATION' ;
-    }
-
-    else {
+    } else if (response.statusCode == ErrorCodes.PAYMENT_INFO_IS_WRONG) {
+      throw 'PAYMENT_INFO_IS_WRONG';
+    } else if (response.statusCode == ErrorCodes.CARD_NUMBER_IS_INVALID) {
+      throw 'CARD_NUMBER_IS_INVALID';
+    } else if (response.statusCode == ErrorCodes.EXPIRE_DATE_IS_INVALID) {
+      throw 'EXPIRE_DATE_IS_INVALID';
+    } else if (response.statusCode == ErrorCodes.CVC_IS_INVALID) {
+      throw 'CVC_IS_INVALID';
+    } else if (response.statusCode == ErrorCodes.DOMESTIC_CARDS) {
+      throw 'DOMESTIC_CARDS';
+    } else if (response.statusCode == ErrorCodes.PRICE_INFORMATION) {
+      throw 'PRICE_INFORMATION';
+    } else {
       print(response.body);
       throw json.decode(response.body);
-    }}
+    }
+  }
 
   Future<ContactUs> fetchContactUs() async {
     final response = await http.get(_contactUsNumber);
@@ -132,11 +145,9 @@ class Network {
       return (response.body);
     } else if (response.statusCode == ErrorCodes.LOGIN_FAILED) {
       throw 'error_wrong_credentials';
-    }
-    else if (response.statusCode == ErrorCodes.PAYMENT_INFO_IS_WRONG){
+    } else if (response.statusCode == ErrorCodes.PAYMENT_INFO_IS_WRONG) {
       throw 'PAYMENT_INFO_IS_WRONG';
-    }
-    else {
+    } else {
       print(response.body);
       throw json.decode(response.body);
     }
@@ -589,13 +600,15 @@ class Network {
         await http.post(_trip, headers: headers, body: json.encode(body));
     if (response.statusCode == 200) {
       print(json.decode(response.body));
-      return 'trip_added_successfully';
+      print("//////");
+      print(json.decode(response.body)['id']);
+      print("//////");
+      return json.decode(response.body)['id'];
+//      return 'trip_added_successfully';
     } else if (response.statusCode == ErrorCodes.CAR_NOT_AVAILABLE) {
 //      print(response.body);
       throw 'error_car_not_available';
-    }
-
-    else {
+    } else {
 //      print(response.body);
       throw json.decode(response.body);
     }

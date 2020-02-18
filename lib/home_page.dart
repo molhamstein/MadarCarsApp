@@ -336,8 +336,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => TripPlanningPage(
-                                tripModel: trips[index],
-                              ),
+                            tripModel: trips[index],
+                          ),
                         ),
                       );
                       Future.delayed(const Duration(milliseconds: 300), () {

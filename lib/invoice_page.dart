@@ -117,45 +117,45 @@ class _InvoicePageState extends State<InvoicePage> {
             children: snapshot.data.bills
                 .map(
                   (bill) => TableRow(
-                        children: [
-                          Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                '${bill.titleEn}',
-                                style: TextStyle(
-                                    fontSize: AppFonts.medium_font_size,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                '${bill.pricePerUnit}',
-                                style: TextStyle(
-                                    fontSize: AppFonts.medium_font_size,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                '${bill.quantity}',
-                                style: TextStyle(
-                                    fontSize: AppFonts.medium_font_size,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                          Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                '${bill.totalPrice}',
-                                style: TextStyle(
-                                    fontSize: AppFonts.medium_font_size,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                        ],
-                      ),
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            '${bill.titleEn}',
+                            style: TextStyle(
+                                fontSize: AppFonts.medium_font_size,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            '${bill.pricePerUnit}',
+                            style: TextStyle(
+                                fontSize: AppFonts.medium_font_size,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            '${bill.quantity}',
+                            style: TextStyle(
+                                fontSize: AppFonts.medium_font_size,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            '${bill.totalPrice}',
+                            style: TextStyle(
+                                fontSize: AppFonts.medium_font_size,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ],
+                  ),
                 )
                 .toList(),
           );
@@ -402,73 +402,73 @@ class _InvoicePageState extends State<InvoicePage> {
                                                 children: snapshot.data.bills
                                                     .map(
                                                       (bill) => TableRow(
-                                                            children: [
-                                                              Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 8.0),
-                                                                  child: Text(
-                                                                    '${bill.titleEn}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            AppFonts
-                                                                                .medium_font_size,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  )),
-                                                              Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 8.0),
-                                                                  child: Text(
-                                                                    '${bill.pricePerUnit}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            AppFonts
-                                                                                .medium_font_size,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  )),
-                                                              Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 8.0),
-                                                                  child: Text(
-                                                                    '${bill.quantity}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            AppFonts
-                                                                                .medium_font_size,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  )),
-                                                              Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                              top: 8.0),
-                                                                  child: Text(
-                                                                    '${bill.totalPrice}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            AppFonts
-                                                                                .medium_font_size,
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  )),
-                                                            ],
-                                                          ),
+                                                        children: [
+                                                          Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 8.0),
+                                                              child: Text(
+                                                                '${bill.titleEn}',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        AppFonts
+                                                                            .medium_font_size,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                          Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 8.0),
+                                                              child: Text(
+                                                                '${bill.pricePerUnit}',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        AppFonts
+                                                                            .medium_font_size,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                          Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 8.0),
+                                                              child: Text(
+                                                                '${bill.quantity}',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        AppFonts
+                                                                            .medium_font_size,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                          Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      top: 8.0),
+                                                              child: Text(
+                                                                '${bill.totalPrice}',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        AppFonts
+                                                                            .medium_font_size,
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )),
+                                                        ],
+                                                      ),
                                                     )
                                                     .toList(),
                                               ),

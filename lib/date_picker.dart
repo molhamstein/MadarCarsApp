@@ -47,26 +47,26 @@ class DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
 //    DatePicker.Summarydate =_selectedDate.toString();
-    return Directionality(
-      textDirection: ui.TextDirection.ltr,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            widget.title,
-            style: TextStyle(
-                fontSize: widget.size * 0.42,
-                fontWeight: FontWeight.w700,
-                color: Colors.black87,
-                height: 0.5),
-          ),
-          Padding(
-            padding: EdgeInsets.all(4),
-          ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: _selectDate,
+    return InkWell(
+      onTap: _selectDate,
+      child: Directionality(
+        textDirection: ui.TextDirection.ltr,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              widget.title,
+              style: TextStyle(
+                  fontSize: widget.size * 0.42,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                  height: 0.5),
+            ),
+            Padding(
+              padding: EdgeInsets.all(12),
+            ),
+            Material(
+              color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,6 +92,9 @@ class DatePickerState extends State<DatePicker> {
                             color: Colors.grey[600],
                             height: 0.5),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(4),
+                      ),
                       Text(
                         DateFormat.y().format(_selectedDate),
                         style: TextStyle(
@@ -105,30 +108,33 @@ class DatePickerState extends State<DatePicker> {
                 ],
               ),
             ),
-          ),
-          widget.withTimePicker
-              ? (_selectedTime != null
-              ? Text(
-            DateFormat('hh:mm a').format(DateTime(
-                0, 0, 0, _selectedTime.hour, _selectedTime.minute)),
-            style: TextStyle(
-                fontSize: widget.size * 0.34,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[500],
-                height: 0.5),
-          )
-              : Text(
-            DateFormat('hh:mm a').format(DateTime(0, 0, 0, 0, 0)),
-            style: TextStyle(
-                fontSize: widget.size * 0.34,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey[500],
-                height: 0.5),
-          ))
-              : Container(
-            height: widget.size * 0.34,
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.all(6),
+            ),
+            widget.withTimePicker
+                ? (_selectedTime != null
+                    ? Text(
+                        DateFormat('hh:mm a').format(DateTime(
+                            0, 0, 0, _selectedTime.hour, _selectedTime.minute)),
+                        style: TextStyle(
+                            fontSize: widget.size * 0.34,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[500],
+                            height: 0.5),
+                      )
+                    : Text(
+                        DateFormat('hh:mm a').format(DateTime(0, 0, 0, 0, 0)),
+                        style: TextStyle(
+                            fontSize: widget.size * 0.34,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[500],
+                            height: 0.5),
+                      ))
+                : Container(
+                    height: widget.size * 0.34,
+                  ),
+          ],
+        ),
       ),
     );
   }
@@ -147,7 +153,7 @@ class DatePickerState extends State<DatePicker> {
     if (widget.withTimePicker) {
       time = await showTimePicker(context: context, initialTime: _selectedTime);
 
-      if (time != null ) {
+      if (time != null) {
         timeChanged = true;
 
         if (dateChanged || timeChanged) {
@@ -168,10 +174,9 @@ class DatePickerState extends State<DatePicker> {
         }
       }
     } else if (!widget.withTimePicker) {
-
       if (dateChanged || timeChanged) {
-        DateTime selectedDate = DateTime(
-            date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
+        DateTime selectedDate =
+            DateTime(date.year, date.month, date.day, widget.endOfDay ? 23 : 0);
 //      print(_selectedTime);
 //      time = await showTimePicker(context: context, initialTime: _selectedTime);
 
@@ -186,6 +191,5 @@ class DatePickerState extends State<DatePicker> {
         });
       }
     }
-
   }
 }

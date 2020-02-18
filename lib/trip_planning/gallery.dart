@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:madar_booking/models/media.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 class Gallery extends StatelessWidget {
@@ -17,11 +18,11 @@ class Gallery extends StatelessWidget {
       body: PhotoViewGallery(
         gaplessPlayback: true,
         pageController: pageController,
-        transitionOnUserGestures: true,
         pageOptions: images
             .map((image) => PhotoViewGalleryPageOptions(
                 imageProvider: NetworkImage(image.url),
-                heroTag: image.id,
+                heroAttributes: PhotoViewHeroAttributes(tag: image.id),
+//            heroTag: image.id,
                 maxScale: 1.5))
             .toList(),
         backgroundDecoration: BoxDecoration(color: Colors.black87),

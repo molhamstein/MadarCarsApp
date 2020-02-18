@@ -8,7 +8,9 @@ import 'package:madar_booking/invoice_page.dart';
 import 'package:madar_booking/madarLocalizer.dart';
 import 'package:madar_booking/models/MyTrip.dart';
 import 'package:madar_booking/my_flutter_app_icons.dart';
+import 'package:madar_booking/profile_bloc.dart';
 import 'package:madar_booking/rate_widget.dart';
+import 'package:madar_booking/trip_planning/PdfPeview.dart';
 
 import 'madar_colors.dart';
 
@@ -53,8 +55,16 @@ class TripInfoPageState extends State<TripInfoPage> {
     setState(() {});
   }
 
+  ProfileBloc profileBloc;
+  AppBloc appBloc;
+  String token;
+
   @override
   void initState() {
+    appBloc = BlocProvider.of<AppBloc>(context);
+    token = appBloc.token;
+    profileBloc = ProfileBloc(token);
+
     Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         handleTimeout();
@@ -251,7 +261,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                       ))),
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 4.0),
+                                                    top: 8.0),
                                                 child: Text(
                                                   trip.startDateFromated(),
                                                   style: AppTextStyle
@@ -287,7 +297,7 @@ class TripInfoPageState extends State<TripInfoPage> {
                                                       ))),
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 4.0),
+                                                    top: 8.0),
                                                 child: Text(
                                                   trip.endDateFormated(),
                                                   style: AppTextStyle
@@ -334,6 +344,37 @@ class TripInfoPageState extends State<TripInfoPage> {
 //                                              : null,
                                                 ),
                                       ),
+                                      StreamBuilder<bool>(
+                                          stream: profileBloc.gettingPdfStream,
+                                          initialData: false,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.data) {
+                                              return CircularProgressIndicator();
+                                            } else {
+                                              return InkWell(
+                                                  onTap: () {
+                                                    profileBloc.f_createPDF(
+                                                        trip.id, (val) {
+                                                      Navigator.of(context).push(
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      PdfPreview(
+                                                                          val)));
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Icon(Icons
+                                                        .insert_drive_file),
+                                                  ));
+                                            }
+                                          }),
+                                      SizedBox(
+                                        width: 16,
+                                      )
                                     ],
                                   ),
                                 ),
@@ -576,9 +617,13 @@ class TripInfoPageState extends State<TripInfoPage> {
                                 Container(
                                   // height: 100,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(20.0),
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, right: 20),
                                     child: Column(
                                       children: <Widget>[
+                                        SizedBox(
+                                          height: 20,
+                                        ),
                                         citiesListRow(
                                             trip.location.name(
                                                 MadarLocalizations.of(context)

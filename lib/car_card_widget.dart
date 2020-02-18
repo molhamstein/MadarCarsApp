@@ -17,7 +17,10 @@ class CarCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width / 1.3;
+    final width = MediaQuery
+        .of(context)
+        .size
+        .width / 1.3;
 
     return InkWell(
       onTap: () {
@@ -42,7 +45,7 @@ class CarCard extends StatelessWidget {
                       flex: 2,
                       child: Container(
                         decoration: BoxDecoration(
-                            //     boxShadow: [MadarColors.shadow],
+                          //     boxShadow: [MadarColors.shadow],
                             image: DecorationImage(
                                 image: NetworkImage(car.media.thumb),
                                 fit: BoxFit.cover),
@@ -62,7 +65,9 @@ class CarCard extends StatelessWidget {
                               textColor: Colors.white,
                               child: Text(
                                 car.location.name(
-                                    MadarLocalizations.of(context).locale),
+                                    MadarLocalizations
+                                        .of(context)
+                                        .locale),
                                 style: AppTextStyle.smallTextStyleWhite,
                               ),
                               color: Color.fromARGB(255, 36, 36, 36),
@@ -73,96 +78,103 @@ class CarCard extends StatelessWidget {
                       ),
                     ),
                     // info container
-                    Container(
-                      // height: 50,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              //  decoration: BoxDecoration(color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        car.brand.name(
-                                            MadarLocalizations.of(context)
-                                                .locale),
-                                        style: AppTextStyle.smallTextStyleBlack,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(car.driver.firstName,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        // height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                //  decoration: BoxDecoration(color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          car.brand.name(
+                                              MadarLocalizations
+                                                  .of(context)
+                                                  .locale),
                                           style:
-                                              AppTextStyle.smallTextStyleBlack),
-                                    )
+                                          AppTextStyle.smallTextStyleBlack,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(car.driver.firstName,
+                                            style: AppTextStyle
+                                                .smallTextStyleBlack),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(color: Colors.white),
+                              child: Padding(
+                                padding:
+                                const EdgeInsets.only(left: 8.0, right: 8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    RateWidget('${car.rate}'),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(car.productionDate.toString(),
+                                          style:
+                                          AppTextStyle.smallTextStyleBlack),
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, right: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  RateWidget('${car.rate}'),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text(car.productionDate.toString(),
-                                        style:
-                                            AppTextStyle.smallTextStyleBlack),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            // decoration: BoxDecoration(color: Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8, top: 8),
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      RichText(
-                                        text: TextSpan(
-                                          text: '${car.pricePerDay}',
-                                          style:
-                                              AppTextStyle.largeTextStyleBlack,
+                            Container(
+                              // decoration: BoxDecoration(color: Colors.white),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 8.0, right: 8, top: 8),
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                            text: '${car.pricePerDay}',
+                                            style: AppTextStyle
+                                                .largeTextStyleBlack,
+                                          ),
                                         ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          text: '\$',
-                                          style:
-                                              AppTextStyle.smallTextStylegrey,
+                                        RichText(
+                                          text: TextSpan(
+                                            text: '\$',
+                                            style:
+                                            AppTextStyle.smallTextStylegrey,
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                      "/${MadarLocalizations.of(context).trans("day")}",
-                                      style: TextStyle(
-                                          fontSize: AppFonts.small_font_size,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.grey.shade600))
-                                ],
+                                      ],
+                                    ),
+                                    Text(
+                                        "/${MadarLocalizations.of(context)
+                                            .trans("day")}",
+                                        style: TextStyle(
+                                            fontSize: AppFonts.small_font_size,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.grey.shade600))
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     )
                   ],
@@ -170,24 +182,24 @@ class CarCard extends StatelessWidget {
               ),
               selected
                   ? Container(
-                      padding: EdgeInsets.all(16),
-                      width: width,
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Colors.yellow[700], width: 1),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Icon(
-                              FontAwesomeIcons.solidCheckCircle,
-                              color: Colors.yellow[700],
-                              size: 24,
-                            )),
+                padding: EdgeInsets.all(16),
+                width: width,
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.yellow[700], width: 1),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
                       ),
-                    )
+                      child: Icon(
+                        FontAwesomeIcons.solidCheckCircle,
+                        color: Colors.yellow[700],
+                        size: 24,
+                      )),
+                ),
+              )
                   : Container(),
             ],
           )),

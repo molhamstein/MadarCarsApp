@@ -70,6 +70,22 @@ class ProfileBloc extends BaseBloc with Network {
     _prefs.setString("user", userToJson(user));
   }
 
+  final _gettingPdf = BehaviorSubject<bool>();
+
+  get gettingPdfStream => _gettingPdf.stream;
+
+  f_createPDF(tripId, onData) {
+    _gettingPdf.sink.add(true);
+    createPDF(tripId, token).then((value) {
+      print("path ");
+      print(value);
+      onData(value);
+      _gettingPdf.sink.add(false);
+    }).catchError((e) {
+      _gettingPdf.sink.add(false);
+    });
+  }
+
   @override
   void dispose() {
     _myTripsController.close();

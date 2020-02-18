@@ -162,6 +162,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
+                                                  Padding(
+                                                    padding: EdgeInsets.all(8),
+                                                  ),
                                                   Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
@@ -265,6 +268,11 @@ class StepChooseCarState extends State<StepChooseCar>
                                                                 color: Colors
                                                                     .grey[800],
                                                                 height: 0.5),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    6),
                                                           ),
                                                           Text(
                                                             carSnapshot
@@ -379,9 +387,9 @@ class StepChooseCarState extends State<StepChooseCar>
                                                                               .push(
                                                                             MaterialPageRoute(
                                                                               builder: (context) => Gallery(
-                                                                                    images: carSnapshot.data.carMedia,
-                                                                                    initialIndex: index,
-                                                                                  ),
+                                                                                images: carSnapshot.data.carMedia,
+                                                                                initialIndex: index,
+                                                                              ),
                                                                             ),
                                                                           );
                                                                         },
@@ -891,9 +899,9 @@ class StepChooseCarState extends State<StepChooseCar>
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => Gallery(
-                          images: carSnapshot.data.carMedia,
-                          initialIndex: 0,
-                        ),
+                      images: carSnapshot.data.carMedia,
+                      initialIndex: 0,
+                    ),
                   ),
                 );
             },

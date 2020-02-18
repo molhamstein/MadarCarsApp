@@ -186,7 +186,7 @@ class ChooseCityStepState extends State<ChooseCityStep>
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w700,
-                                                              height: .8),
+                                                              height: 1.2),
                                                         ),
                                                       )
                                                     : Container(),

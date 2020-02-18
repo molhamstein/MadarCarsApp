@@ -104,10 +104,12 @@ class TripCard extends StatelessWidget {
                     Container(
                       // width: 150,
                       child: Text(
-                        trip.description(MadarLocalizations.of(context).locale),
-                        style: AppTextStyle.meduimTextStyleWhite,
-                        // softWrap: true,
-                      ),
+                          trip.description(
+                              MadarLocalizations.of(context).locale),
+                          style: AppTextStyle.meduimTextStyleWhite,
+                          strutStyle: StrutStyle(forceStrutHeight: true)
+                          // softWrap: true,
+                          ),
                     )
                   ],
                 ),

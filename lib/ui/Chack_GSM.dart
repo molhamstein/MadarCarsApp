@@ -381,6 +381,7 @@ class _CheckGsmState extends State<CheckGsm>
       favorite: ['SA', 'TR', 'KW', 'AE'],
       initialSelection: 'SA',
       onChanged: bloc.changeSignUpIsoCode,
+      onInit: bloc.changeSignUpIsoCode,
     );
   }
 }

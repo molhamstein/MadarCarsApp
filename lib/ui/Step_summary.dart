@@ -8,7 +8,6 @@ import 'package:madar_booking/main.dart';
 import 'package:madar_booking/models/CouponModel.dart';
 import 'package:madar_booking/network.dart';
 import 'package:madar_booking/trip_planning/bloc/trip_planing_bloc.dart';
-import 'package:madar_booking/ui/DayByDayPage.dart';
 import 'package:madar_booking/widgets/myModalBottomSheet.dart';
 
 class StepSummary extends StatefulWidget {
@@ -65,7 +64,7 @@ class StepSummaryState extends State<StepSummary>
     print(sDate);
     List<String> endDate = planingBloc.trip.endDate.toString().split(" ");
     String eDate = endDate[0].replaceAll("-", "/");
-    print(endDate);
+    print(eDate);
 
     final TextStyle infoLabelStyle = TextStyle(
         color: Colors.grey[700],
@@ -178,10 +177,7 @@ class StepSummaryState extends State<StepSummary>
                                                       ],
                                                     ),
                                                     Text(
-                                                      DayByDayPageState.endDate
-                                                          .toString()
-                                                          .split(" ")[0]
-                                                          .replaceAll("-", "/"),
+                                                      eDate.toString() ?? "",
                                                       style: TextStyle(
                                                           color: MadarColors
                                                               .dark_grey,
@@ -288,7 +284,10 @@ class StepSummaryState extends State<StepSummary>
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 500,
+                                    height: 500 +
+                                        planingBloc
+                                                .trip.tripSubLocations.length *
+                                            90.0,
                                   ),
                                 ],
                               ),
@@ -921,8 +920,6 @@ class StepSummaryState extends State<StepSummary>
 ////                                                      );
 ////                                                    },
 ////                                                  );
-
-
 
                                                   showMyModalBottomSheet(
                                                     context: context,
