@@ -14,6 +14,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zoom_widget/zoom_widget.dart';
 
+import '../madar_colors.dart';
+
 class PdfPreview extends StatefulWidget {
   final String pdfLink;
 
@@ -26,9 +28,11 @@ class PdfPreview extends StatefulWidget {
 class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
   String filePath;
   File pdfFile;
+  String sharePath ;
   final _showLoading = BehaviorSubject<bool>();
   final _showSaving = BehaviorSubject<bool>();
 
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   initState() {
     super.initState();
@@ -50,7 +54,19 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
       if (checkPermission1 == PermissionStatus.granted) {
         downloadPdfFile(widget.pdfLink, GetFileType.SAVE);
       } else {
-        showInSnackBar('need_permission', context);
+        _scaffoldKey.currentState.showSnackBar(new SnackBar(
+          content: new Text(
+            MadarLocalizations.of(context).trans('need_permission'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontFamily: "WorkSansSemiBold"),
+          ),
+          backgroundColor: MadarColors.gradientUp,
+          duration: Duration(seconds: 3),
+        ));
+
       }
     } else {
       downloadPdfFile(widget.pdfLink, GetFileType.SAVE);
@@ -72,12 +88,26 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
         dirloc = "/sdcard/download/";
       }
     } else {
-      dirloc = (await getApplicationDocumentsDirectory()).path;
+
+      if (fileType == GetFileType.READ) {
+        print("type is read");
+        dirloc = (await getTemporaryDirectory()).path;
+      } else {
+          dirloc = (await getApplicationDocumentsDirectory()).path;
+
+
+
+      }
+//      dirloc = (await getApplicationDocumentsDirectory()).path;
+      print("===================");
+      print(dirloc);
     }
 
     var randid = random.nextInt(10000);
     FileUtils.mkdir([dirloc]);
     File file = new File(dirloc + randid.toString() + ".pdf");
+    print("-----------------");
+    print(file.path);
     try {
       HttpClient client = new HttpClient();
       client.badCertificateCallback =
@@ -86,13 +116,35 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
       request.headers.set('content-type', 'application/json');
       HttpClientResponse response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
-      await file.writeAsBytes(bytes);
+      try{
+        await file.writeAsBytes(bytes);
+
+      }catch(e){
+        print
+          (e);
+
+        _scaffoldKey.currentState.showSnackBar(new SnackBar(
+          content: new Text(
+            MadarLocalizations.of(context).trans('Could_not_download'),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0,
+                fontFamily: "WorkSansSemiBold"),
+          ),
+          backgroundColor: MadarColors.gradientUp,
+          duration: Duration(seconds: 3),
+        ));
+
+
+      };
       _showLoading.sink.add(false);
       _showSaving.sink.add(false);
       setState(() {
         filePath = file.path;
-        pdfFile = file;
-        print(filePath);
+        if(fileType == GetFileType.READ)
+        {pdfFile = file;
+        print(filePath);}
       });
     } catch (e) {
       print(e);
@@ -109,7 +161,7 @@ class _PdfPreviewState extends State<PdfPreview> with UserFeedback {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(key:_scaffoldKey,
       appBar: AppBar(
         title: Text(
           MadarLocalizations.of(context).trans('Summary'),

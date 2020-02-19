@@ -145,7 +145,8 @@
   "PRICE_INFORMATION" : "The Cost is more than 50000$",
   "YOUR_TRIP_HAS_BEEN_ADDED_BUT_PAYMENT_INFO_IS_WRONG" : "Trip successfully booked but your payment info is invalid",
   "need_permission" : "We need your permission in order to download the file",
-  "view_trip":"View trip"
+  "view_trip":"View trip",
+  "Could_not_download" : "Couldn't download the file"
 
 
 }
