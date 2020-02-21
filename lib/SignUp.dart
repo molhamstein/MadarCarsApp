@@ -283,6 +283,7 @@ class SignUpState extends State<SignUp> with UserFeedback {
       favorite: ['SA', 'TR', 'KW', 'AE'],
       initialSelection: widget.code,
       onChanged: bloc.changeSignUpIsoCode,
+      onInit: bloc.changeSignUpIsoCode,
     );
   }
 
@@ -300,6 +301,17 @@ class SignUpState extends State<SignUp> with UserFeedback {
                 return SubmitButton(
                   text: MadarLocalizations.of(context).trans('submit'),
                   onPressed: () {
+                    if(signupNameController.value.text.isEmpty  ||  signupNameController.value.text.replaceAll(" ", "").length < 1){
+                      showInSnackBar('error_provide_valid_name', context,
+                          color: Colors.redAccent);
+                      bloc.shouldShowFeedBack = false;
+                    }
+                    else if (signupPasswordController.value.text.isEmpty  ||  signupPasswordController.value.text.replaceAll(" ", "").length < 1){
+                      showInSnackBar('error_provide_valid_pass', context,
+                          color: Colors.redAccent);
+                      bloc.shouldShowFeedBack = false;
+                    } else
+
                     if ((!snapshot.hasData || !snapshot.data)) {
                       showInSnackBar('error_provide_valid_info', context,
                           color: Colors.redAccent);

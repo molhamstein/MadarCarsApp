@@ -238,6 +238,7 @@ class AuthBloc extends BaseBloc with Validators, Network {
         _submitSignUpController.sink
             .addError("PHONENUMBER_OR_USERNAME_IS_USED");
       } else {
+        print(e);
         _submitSignUpController.sink.addError(e);
       }
       print(e);
