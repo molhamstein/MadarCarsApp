@@ -190,29 +190,45 @@ class Network {
     }
   }
 
-  Future<void> putLogout() async {
+  Future<void> putLogout(token,onData) async {
+
+    headers['Authorization'] = token;
+
+
     final deviceInfo = DeviceInfoPlugin();
     String deviceId;
+    logout(deviceId) async {
+      final body = json.encode({
+        'deviceId': deviceId.toString(),
+      });
+
+      print(_logoutUrl);
+      print(token);
+      print(body);
+
+      final response = await http.put(_logoutUrl, body: body, headers: headers);
+      if (response.statusCode == 200) {
+        onData();
+        return;
+      } else {
+        print(response.body);
+        throw json.decode(response.body);
+      }
+    }
     if (Platform.isAndroid) {
-      deviceInfo.androidInfo.then((info) {
-        deviceId = info.androidId;
+      deviceInfo.androidInfo.then((info) async {
+          deviceId =  info.androidId;
+          logout(deviceId);
       });
     } else {
       deviceInfo.iosInfo.then((info) {
         deviceId = info.identifierForVendor;
+        logout(deviceId);
+
       });
     }
 
-    final body = json.encode({
-      'deviceId': deviceId,
-    });
-    final response = await http.put(_logoutUrl, body: body, headers: headers);
-    if (response.statusCode == 200) {
-      return;
-    } else {
-      print(response.body);
-      throw json.decode(response.body);
-    }
+
   }
 
   Future<User> signUp(String phoneNumber, String userName, String password,

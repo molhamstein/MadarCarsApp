@@ -61,9 +61,12 @@ class AppBloc extends BaseBloc with Network {
   User get me => _dataStore.getUser();
 
   get logout {
-    putLogout();
-    _dataStore.logout;
-    _logOutController.sink.add(true);
+    putLogout(token,(){
+      print("sfsfsdfsfsf");
+
+      _dataStore.logout;
+      _logOutController.sink.add(true);
+    });
   }
 
   get pushStopLoop {
