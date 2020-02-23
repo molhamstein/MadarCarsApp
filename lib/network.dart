@@ -202,9 +202,9 @@ class Network {
         'deviceId': deviceId.toString(),
       });
 
-      print(_logoutUrl);
-      print(token);
-      print(body);
+//      print(_logoutUrl);
+//      print(token);
+//      print(body);
 
       final response = await http.put(_logoutUrl, body: body, headers: headers);
       if (response.statusCode == 200) {
